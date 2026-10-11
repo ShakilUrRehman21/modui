@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Modui — KineticText Typography Styles
+   ========================================================================== */
+
+.kinetic-text-wrapper {
+  display: inline-block;
+  cursor: default;
+  user-select: none;
+  font-family: inherit;
+  line-height: 1.15;
+}
+
+.kinetic-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.kinetic-char {
+  display: inline-block;
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, color;
+}
+
+.kinetic-char--accent {
+  color: var(--accent-primary, #ff5e3a);
+}
+
+.kinetic-space {
+  display: inline-block;
+}

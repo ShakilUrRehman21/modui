@@ -1,0 +1,296 @@
+/* ==========================================================================
+   Modui — Animated Button Component Styles
+   Precision Architectural Styling
+   ========================================================================== */
+
+.modui-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Sizes */
+.modui-btn--sm {
+  height: 32px;
+  padding: 0 0.875rem;
+  font-size: 0.8125rem;
+  letter-spacing: -0.01em;
+}
+
+.modui-btn--md {
+  height: 40px;
+  padding: 0 1.25rem;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+}
+
+.modui-btn--lg {
+  height: 48px;
+  padding: 0 1.625rem;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+}
+
+.modui-btn--full {
+  width: 100%;
+}
+
+/* Disabled & Loading States */
+.modui-btn:disabled,
+.modui-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none !important;
+}
+
+.modui-btn--loading {
+  cursor: wait;
+}
+
+.modui-btn:focus-visible {
+  outline: 1.5px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Variant 1: Shimmer */
+.modui-btn--shimmer {
+  background: #0f0f0f;
+  color: #ffffff;
+  border-color: #0f0f0f;
+}
+
+.modui-btn--shimmer .modui-btn-shimmer-sweep {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.modui-btn--shimmer:hover .modui-btn-shimmer-sweep {
+  animation: modui-shimmer-pass 0.8s var(--ease-out-expo) forwards;
+}
+
+@keyframes modui-shimmer-pass {
+  0% { left: -100%; }
+  100% { left: 160%; }
+}
+
+.modui-btn--shimmer:hover {
+  background: #000000;
+  transform: translateY(-1px);
+}
+
+.modui-btn--shimmer:active {
+  transform: translateY(0);
+}
+
+/* Variant 2: Glow */
+.modui-btn--glow {
+  background: var(--accent-primary);
+  color: #ffffff;
+  border-color: var(--accent-primary);
+  box-shadow: 0 2px 12px rgba(16, 65, 255, 0.25);
+}
+
+.modui-btn--glow:hover {
+  background: var(--accent-primary-hover);
+  box-shadow: 0 4px 18px rgba(16, 65, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Variant 3: Ripple */
+.modui-btn--ripple {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.modui-btn--ripple:hover {
+  background: #f8fafc;
+  border-color: rgba(79, 70, 229, 0.35);
+}
+
+.modui-btn-ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.45) 0%, rgba(79, 70, 229, 0.18) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  animation: modui-ripple-expand 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modui-btn-label,
+.modui-btn-icon-leading,
+.modui-btn-icon-trailing,
+.modui-btn-icon-slide {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes modui-ripple-expand {
+  0% {
+    transform: scale(0);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Variant 4: Magnetic */
+.modui-btn--magnetic {
+  background: #ffffff;
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1), border-color 0.2s ease;
+}
+
+.modui-btn--magnetic:hover {
+  border-color: var(--border-strong);
+}
+
+/* Variant 5: Slide (Clarvos / Arrow Slide) */
+.modui-btn--slide {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #1e293b;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-btn--slide .modui-btn-label {
+  display: inline-block;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-btn--slide .modui-btn-icon-slide {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.25rem;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-btn--slide .modui-btn-slide-arrow {
+  display: inline-block;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.modui-btn--slide:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
+  transform: translateY(-1px);
+}
+
+.modui-btn--slide:hover .modui-btn-label {
+  transform: translateX(-2px);
+}
+
+.modui-btn--slide:hover .modui-btn-icon-slide {
+  transform: translateX(5px);
+}
+
+.modui-btn--slide:active {
+  transform: translateY(0);
+}
+
+/* Variant 6: Gradient Border */
+.modui-btn--gradient-border {
+  background: transparent;
+  color: var(--text-primary);
+  position: relative;
+  z-index: 1;
+  border: none;
+  padding: 1px;
+}
+
+.modui-btn--gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #1041ff, #52525b, #1041ff);
+  background-size: 200% 200%;
+  animation: modui-gradient-shift 3s ease infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes modui-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.modui-btn--gradient-border .modui-btn-inner-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: var(--radius-pill);
+  padding: 0 1.25rem;
+  transition: background var(--transition-fast);
+}
+
+/* Variant 7: Minimal */
+.modui-btn--minimal {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+}
+
+.modui-btn--minimal:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-surface-elevated);
+}
+
+/* Spinner */
+.modui-btn-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: modui-spin 0.65s linear infinite;
+}
+
+@keyframes modui-spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,219 @@
+/* ==========================================================================
+   ModUI — Docs Page Styles
+   ========================================================================== */
+
+.modui-docs-page {
+  padding: 3.5rem 1.5rem 6rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.modui-docs-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 3.5rem;
+  align-items: flex-start;
+}
+
+@media (max-width: 880px) {
+  .modui-docs-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.modui-docs-sidebar {
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: transparent;
+  padding: 0.5rem 0.25rem;
+  border: none;
+  box-shadow: none;
+}
+
+.modui-docs-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  border-left: 2px solid var(--border-default);
+  padding-left: 0.85rem;
+  margin-left: 0.35rem;
+}
+
+.modui-docs-nav-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.modui-docs-nav-item:hover {
+  color: var(--text-primary);
+  background: rgba(15, 23, 42, 0.04);
+}
+
+.modui-docs-nav-item--active {
+  color: var(--accent-primary) !important;
+  background: rgba(79, 70, 229, 0.08) !important;
+  font-weight: 600;
+}
+
+.modui-docs-nav-item--active::before {
+  content: '';
+  position: absolute;
+  left: calc(-0.85rem - 2px);
+  top: 15%;
+  height: 70%;
+  width: 2px;
+  background: var(--accent-primary);
+  border-radius: 2px;
+}
+
+.modui-docs-sidebar-footer {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.modui-docs-explore-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  background: transparent;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.modui-docs-explore-btn:hover {
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.modui-docs-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  padding-bottom: 16rem;
+}
+
+.modui-docs-section {
+  scroll-margin-top: 100px;
+}
+
+.modui-docs-section-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.modui-docs-p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+.modui-docs-p code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  background: var(--bg-surface-elevated);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+}
+
+.modui-docs-list {
+  padding-left: 1.5rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modui-docs-list code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  background: var(--bg-surface-elevated);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  color: var(--text-primary);
+}
+
+.modui-code-container {
+  background: #0F172A;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  margin: 1.25rem 0;
+}
+
+.modui-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94A3B8;
+  letter-spacing: 0.05em;
+}
+
+.modui-docs-copy-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #F8FAFC;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.modui-docs-copy-action:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+}
+
+.modui-code-pre {
+  margin: 0;
+  padding: 1.25rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: #E2E8F0;
+  overflow-x: auto;
+}

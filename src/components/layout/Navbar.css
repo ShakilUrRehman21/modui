@@ -1,0 +1,242 @@
+/* ==========================================================================
+   Modui — Nomu Floating Pill Navbar
+   ========================================================================== */
+
+.nomu-navbar-wrapper {
+  position: sticky;
+  top: 1rem;
+  z-index: 1000;
+  width: 100%;
+  padding: 0 1rem;
+  pointer-events: none;
+}
+
+.nomu-navbar-pill {
+  max-width: 1080px;
+  margin: 0 auto;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0.65rem 0.35rem 1.25rem;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 8px 32px -8px rgba(15, 21, 29, 0.12);
+  pointer-events: auto;
+  transition: all var(--transition-normal);
+}
+
+/* Brand Wordmark */
+.nomu-brand-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nomu-brand-text {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+}
+
+.nomu-brand-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+  display: inline-block;
+  margin-top: -4px;
+}
+
+/* Center Links */
+.nomu-nav-center {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nomu-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.nomu-nav-chevron {
+  opacity: 0.5;
+  transition: transform var(--transition-fast);
+}
+
+.nomu-nav-link:hover {
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+}
+
+.nomu-nav-link:hover .nomu-nav-chevron {
+  transform: translateY(1px);
+}
+
+.nomu-nav-link--active {
+  font-weight: 600;
+  color: var(--accent-primary);
+}
+
+/* Right Actions */
+.nomu-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.nomu-search-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.nomu-search-btn:hover {
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  border-color: var(--border-default);
+}
+
+.nomu-search-kbd {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+.nomu-github-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--border-default);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.nomu-github-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  background: var(--bg-surface-elevated);
+}
+
+/* Primary Coral Pill CTA */
+.nomu-cta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(255, 116, 72, 0.3);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.nomu-cta-pill:hover {
+  background: var(--accent-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(255, 116, 72, 0.45);
+}
+
+.nomu-cta-arrow {
+  transition: transform var(--transition-fast);
+}
+
+.nomu-cta-pill:hover .nomu-cta-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* Mobile Toggle */
+.nomu-mobile-menu-trigger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--text-primary);
+}
+
+/* Mobile Drawer */
+.nomu-mobile-drawer {
+  position: fixed;
+  top: 5rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 999;
+  background: #FFFFFF;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nomu-mobile-link {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.nomu-mobile-link:hover {
+  background: var(--bg-surface-elevated);
+}
+
+.nomu-mobile-drawer-footer {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-default);
+}
+
+@media (max-width: 840px) {
+  .nomu-nav-center {
+    display: none;
+  }
+  .nomu-search-btn {
+    display: none;
+  }
+  .nomu-cta-pill {
+    display: none;
+  }
+  .nomu-mobile-menu-trigger {
+    display: flex;
+  }
+}
