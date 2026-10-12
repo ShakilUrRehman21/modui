@@ -96,8 +96,18 @@
 
 .nomu-featured-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 1.75rem;
+}
+
+@media (max-width: 640px) {
+  .nomu-explorer-wrap {
+    padding: 2.5rem 0 4rem;
+  }
+  .nomu-featured-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
 }
 
 .nomu-featured-card {

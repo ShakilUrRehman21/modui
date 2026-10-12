@@ -82,13 +82,19 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  position: relative;
   background-color: var(--bg-app);
   /* Luminous atmospheric indigo/cyan aura + dynamic cursor spotlight + fine technical grid */
   background-image:
@@ -103,6 +109,9 @@ body {
 
 #root {
   min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
 }

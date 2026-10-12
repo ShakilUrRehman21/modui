@@ -326,12 +326,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
             {/* Real-time Tweak Controls */}
             <div className="nomu-stage-tweak-bar">
-              <div className="nomu-tweak-group" style={{ flex: 1, minWidth: '240px' }}>
+              <div className="nomu-tweak-group nomu-tweak-group-grow">
                 <span className="nomu-tweak-label">Kinetic String:</span>
                 <input
                   type="text"
                   className="nomu-tweak-input"
-                  style={{ width: '100%', maxWidth: '340px' }}
                   value={stageKineticText}
                   onChange={(e) => setStageKineticText(e.target.value)}
                   placeholder="Type kinetic text..."

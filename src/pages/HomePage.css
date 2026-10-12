@@ -91,12 +91,14 @@
 /* Big Sculpted Headline */
 .nomu-headline {
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 6.25vw, 5.25rem);
+  font-size: clamp(1.85rem, 6.25vw, 5.25rem);
   font-weight: 800;
-  line-height: 1.06;
+  line-height: 1.08;
   letter-spacing: -0.04em;
   color: var(--text-primary);
   margin-bottom: 1.35rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .nomu-headline-line {
@@ -110,9 +112,8 @@
   color: var(--accent-primary);
   letter-spacing: -0.01em;
   font-size: 1.08em;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline;
+  word-break: break-word;
 }
 
 .nomu-cursor-caret {
@@ -665,6 +666,8 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.75rem;
   margin-top: 2.5rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .nomu-featured-card {
@@ -677,6 +680,9 @@
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
   cursor: pointer;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .nomu-featured-card:hover {
@@ -775,24 +781,31 @@
 
 .nomu-sandbox-grid {
   display: grid;
-  grid-template-columns: 1.05fr 1.15fr;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr);
   gap: 3.5rem;
   align-items: flex-start;
+  width: 100%;
+  min-width: 0;
 }
 
 .nomu-sandbox-left {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 .nomu-sandbox-title {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 3.8vw, 3.25rem);
+  font-size: clamp(1.75rem, 4.5vw, 3.25rem);
   font-weight: 800;
   letter-spacing: -0.035em;
   color: var(--text-primary);
-  line-height: 1.12;
+  line-height: 1.15;
   margin-bottom: 1.25rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .nomu-sandbox-desc {
@@ -973,6 +986,8 @@
 /* Right Column: Console Terminal Box */
 .nomu-sandbox-right {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .nomu-eng-bullet {
@@ -982,17 +997,15 @@
   line-height: 1;
 }
 
-/* Right Column: Console Terminal Box */
-.nomu-sandbox-right {
-  width: 100%;
-}
-
 .nomu-sandbox-console-card {
   background: #0F172A;
   border-radius: var(--radius-lg);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .nomu-console-tabs-bar {
@@ -1004,6 +1017,8 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   gap: 0.75rem;
   flex-wrap: wrap;
+  width: 100%;
+  min-width: 0;
 }
 
 .nomu-console-window-dots {
@@ -1035,6 +1050,11 @@
   display: flex;
   align-items: center;
   gap: 0.35rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  min-width: 0;
+  padding-bottom: 2px;
 }
 
 .nomu-console-tab {
@@ -1048,6 +1068,7 @@
   border: 1px solid transparent;
   cursor: pointer;
   transition: all var(--transition-fast);
+  white-space: nowrap;
 }
 
 .nomu-console-tab:hover {
@@ -1075,6 +1096,7 @@
   border: none;
   cursor: pointer;
   transition: all var(--transition-fast);
+  white-space: nowrap;
 }
 
 .nomu-console-copy-btn:hover {
@@ -1095,7 +1117,12 @@
   max-height: 440px;
   overflow-y: auto;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   tab-size: 2;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 @media (max-width: 980px) {
@@ -1106,13 +1133,89 @@
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
+  .nomu-architecture-sandbox-section {
+    padding: 4.5rem 0 5rem;
+  }
 }
 
 @media (max-width: 640px) {
   .nomu-hero-section {
-    padding-top: 3rem;
+    padding: 3rem 1rem 2.5rem;
   }
-  .nomu-featured-grid {
-    grid-template-columns: 1fr;
+  .nomu-hero-cta-row {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.65rem;
+  }
+  .nomu-hero-cta-row .nomu-cta-btn,
+  .nomu-hero-cta-row .nomu-secondary-btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  .nomu-composer-bar {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 2.25rem;
+  }
+  .nomu-workbench-stage-card {
+    border-radius: var(--radius-lg);
+    margin-bottom: 2.5rem;
+  }
+  .nomu-workbench-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+  .nomu-workbench-canvas {
+    padding: 2.25rem 1rem;
+    min-height: 200px;
+  }
+  .nomu-stage-center-box h2 {
+    font-size: clamp(1.2rem, 5vw, 1.85rem) !important;
+  }
+  .nomu-stage-tweak-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+  }
+  .nomu-tweak-group {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .nomu-tweak-input {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .nomu-workbench-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.75rem 1rem;
+  }
+  .nomu-showcase-section {
+    padding: 3.5rem 0 4rem;
+  }
+  .nomu-featured-card {
+    padding: 1.25rem;
+  }
+  .nomu-install-pkg-tabs {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  .nomu-console-tabs-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+  .nomu-console-copy-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .nomu-console-pre {
+    padding: 1rem;
+    font-size: 0.75rem;
   }
 }
