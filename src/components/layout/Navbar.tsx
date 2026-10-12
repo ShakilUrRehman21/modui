@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
+import { trackGithubClick } from '../../lib/analytics';
 
 interface NavbarProps {
   currentPath: string;
@@ -100,6 +101,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               rel="noopener noreferrer"
               className="nomu-github-btn"
               title="GitHub"
+              onClick={() => trackGithubClick({ location: 'navbar' })}
             >
               <span>GitHub</span>
             </a>
@@ -167,6 +169,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="nomu-mobile-link"
+                onClick={() => trackGithubClick({ location: 'drawer' })}
               >
                 <span>GitHub Repository ↗</span>
               </a>

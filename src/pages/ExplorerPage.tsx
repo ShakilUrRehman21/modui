@@ -3,6 +3,7 @@ import { COMPONENT_REGISTRY, COMPONENT_CATEGORIES } from '../registry/components
 import { AnimatedButton } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { KineticText } from '../components/ui/motion/KineticText';
+import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
 interface ExplorerPageProps {
@@ -100,7 +101,10 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
               <div
                 key={comp.id}
                 className="nomu-featured-card"
-                onClick={() => onNavigate(`/components/${comp.slug}`)}
+                onClick={() => {
+                  trackPreviewOpen({ component: comp.slug, mode: 'card_preview' });
+                  onNavigate(`/components/${comp.slug}`);
+                }}
               >
                 <div className="nomu-card-meta-top">
                   <span className="nomu-card-cat-badge">{comp.category}</span>

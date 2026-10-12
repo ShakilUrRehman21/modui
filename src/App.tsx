@@ -6,6 +6,7 @@ import ExplorerPage from './pages/ExplorerPage';
 import ComponentDetailPage from './pages/ComponentDetailPage';
 import DocsPage from './pages/DocsPage';
 import CommandPaletteModal from './components/common/CommandPaletteModal';
+import { Analytics } from '@vercel/analytics/react';
 
 export function App() {
   // Routing state
@@ -103,6 +104,9 @@ export function App() {
         onClose={() => setIsCmdkOpen(false)}
         onNavigate={navigate}
       />
+
+      {/* Vercel Web Analytics */}
+      <Analytics />
     </div>
   );
 }

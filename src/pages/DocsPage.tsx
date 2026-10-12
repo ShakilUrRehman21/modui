@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Badge } from '../components/ui/badge';
+import { trackCopyCode } from '../lib/analytics';
 import './DocsPage.css';
 
 interface DocsPageProps {
@@ -23,6 +24,13 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
     navigator.clipboard.writeText(code);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
+
+    trackCopyCode({
+      component: 'docs',
+      file: id,
+      format: 'snippet',
+      source: 'docs_page',
+    });
   };
 
   const scrollToSection = (id: string) => {

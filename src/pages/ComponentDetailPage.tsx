@@ -4,6 +4,7 @@ import type { ButtonVariant, ButtonSize } from '../components/ui/button';
 import { KineticText } from '../components/ui/motion/KineticText';
 import { Badge } from '../components/ui/badge';
 import { COMPONENT_REGISTRY } from '../registry/components';
+import { trackCopyCode, trackGithubClick, trackPreviewOpen } from '../lib/analytics';
 import './ComponentDetailPage.css';
 
 interface ComponentDetailPageProps {
@@ -51,10 +52,17 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   }
 
   // Copy handler exclusively for inside code tab
-  const handleCopyInsideTab = (text: string, _label: string) => {
+  const handleCopyInsideTab = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     setCopiedKey(selectedFile);
     setTimeout(() => setCopiedKey(null), 2000);
+
+    trackCopyCode({
+      component: component.slug,
+      file: label || getFileLabel(),
+      format: selectedFile === 'css' ? 'css' : selectedFile === 'tsx' ? 'full_component' : 'snippet',
+      source: 'component_detail_tab',
+    });
   };
 
   const getActiveCode = () => {
@@ -102,6 +110,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
             rel="noopener noreferrer"
             className="modui-action-btn-copy"
             title="GitHub Source"
+            onClick={() => trackGithubClick({ location: 'component_header', component: component.slug })}
           >
             <span>GitHub</span>
           </a>

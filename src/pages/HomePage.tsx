@@ -4,6 +4,7 @@ import { AnimatedButton } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { KineticText } from '../components/ui/motion/KineticText';
 import { COMPONENT_REGISTRY } from '../registry/components';
+import { trackCopyCode, trackComponentInstall, trackPreviewOpen } from '../lib/analytics';
 import './HomePage.css';
 
 interface HomePageProps {
@@ -200,10 +201,26 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     }
   };
 
-  const handleBottomCopy = (text: string, _label?: string) => {
+  const handleBottomCopy = (text: string, label?: string) => {
     navigator.clipboard.writeText(text);
     setBottomCopied(true);
     setTimeout(() => setBottomCopied(false), 2000);
+
+    const isCli = label === 'Peer Dependency Command';
+    trackCopyCode({
+      component: isCli ? 'react-peer-dependencies' : 'animated-button',
+      file: label || getBottomCodeLabel(),
+      format: isCli ? 'terminal_command' : 'full_component',
+      source: 'homepage_sandbox',
+    });
+
+    if (isCli) {
+      trackComponentInstall({
+        component: 'react-peer-dependencies',
+        package_manager: pkgManager,
+        method: 'cli',
+      });
+    }
   };
 
   const buttonData = COMPONENT_REGISTRY.find((c) => c.slug === 'animated-button');
@@ -346,6 +363,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     setStageKineticText('Modular UI, crafted with character.');
                     setKineticWaveKey((k) => k + 1);
                     playClickSound(780);
+                    trackPreviewOpen({ component: 'kinetic-text', mode: 'preset', variant: 'default' });
                   }}
                 >
                   Default
@@ -357,6 +375,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     setStageKineticText('Tactile Physics & Fluid Surfaces');
                     setKineticWaveKey((k) => k + 1);
                     playClickSound(840);
+                    trackPreviewOpen({ component: 'kinetic-text', mode: 'preset', variant: 'physics' });
                   }}
                 >
                   Physics
@@ -368,6 +387,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     setStageKineticText('GSAP Character Stagger Wave');
                     setKineticWaveKey((k) => k + 1);
                     playClickSound(920);
+                    trackPreviewOpen({ component: 'kinetic-text', mode: 'preset', variant: 'stagger' });
                   }}
                 >
                   Stagger
@@ -381,6 +401,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   onClick={() => {
                     setKineticWaveKey((k) => k + 1);
                     playClickSound(920);
+                    trackPreviewOpen({ component: 'kinetic-text', mode: 'interactive_stage', variant: 'wave_animation' });
                   }}
                 >
                   <span>Trigger Wave Animation</span>
@@ -396,7 +417,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
               <button
                 className="nomu-inspect-action-btn"
-                onClick={() => onNavigate('/components/kinetic-text')}
+                onClick={() => {
+                  trackPreviewOpen({ component: 'kinetic-text', mode: 'code_tab' });
+                  onNavigate('/components/kinetic-text');
+                }}
               >
                 <span>Inspect Kinetic Text & View Code Tabs</span>
               </button>

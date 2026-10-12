@@ -1,5 +1,6 @@
 import React from 'react';
 import './Footer.css';
+import { trackGithubClick } from '../../lib/analytics';
 
 interface FooterProps {
   onNavigate: (path: string) => void;
@@ -34,6 +35,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             target="_blank"
             rel="noopener noreferrer"
             className="nomu-footer-link"
+            onClick={() => trackGithubClick({ location: 'footer' })}
           >
             <span>GitHub</span>
           </a>
