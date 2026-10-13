@@ -3,23 +3,21 @@
    ========================================================================== */
 
 .modui-docs-page {
-  padding: 3.5rem 1.5rem 6rem;
+  padding-top: 3.5rem;
+  padding-bottom: 6rem;
   max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .modui-docs-grid {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 260px minmax(0, 1fr);
   gap: 3.5rem;
   align-items: flex-start;
-}
-
-@media (max-width: 880px) {
-  .modui-docs-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+  width: 100%;
+  min-width: 0;
 }
 
 .modui-docs-sidebar {
@@ -32,6 +30,7 @@
   padding: 0.5rem 0.25rem;
   border: none;
   box-shadow: none;
+  min-width: 0;
 }
 
 .modui-docs-nav-list {
@@ -41,6 +40,7 @@
   border-left: 2px solid var(--border-default);
   padding-left: 0.85rem;
   margin-left: 0.35rem;
+  min-width: 0;
 }
 
 .modui-docs-nav-item {
@@ -113,10 +113,16 @@
   flex-direction: column;
   gap: 3.5rem;
   padding-bottom: 16rem;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 .modui-docs-section {
   scroll-margin-top: 100px;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 .modui-docs-section-title {
@@ -126,6 +132,7 @@
   color: var(--text-primary);
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
+  word-break: break-word;
 }
 
 .modui-docs-p {
@@ -133,6 +140,8 @@
   color: var(--text-secondary);
   line-height: 1.7;
   margin-bottom: 1.25rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .modui-docs-p code {
@@ -143,6 +152,7 @@
   border-radius: 4px;
   color: var(--text-primary);
   border: 1px solid var(--border-default);
+  word-break: break-word;
 }
 
 .modui-docs-list {
@@ -153,6 +163,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  word-break: break-word;
 }
 
 .modui-docs-list code {
@@ -162,6 +173,7 @@
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
   color: var(--text-primary);
+  word-break: break-word;
 }
 
 .modui-code-container {
@@ -171,6 +183,10 @@
   box-shadow: var(--shadow-md);
   overflow: hidden;
   margin: 1.25rem 0;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .modui-code-header {
@@ -185,6 +201,8 @@
   font-weight: 600;
   color: #94A3B8;
   letter-spacing: 0.05em;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .modui-docs-copy-action {
@@ -201,6 +219,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-fast);
+  white-space: nowrap;
 }
 
 .modui-docs-copy-action:hover {
@@ -216,4 +235,158 @@
   line-height: 1.6;
   color: #E2E8F0;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.modui-code-pre::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ==========================================================================
+   Mobile & Responsive Viewport Rules (< 880px)
+   ========================================================================== */
+
+@media (max-width: 880px) {
+  .modui-docs-page {
+    padding-top: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .modui-docs-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .modui-docs-sidebar {
+    position: sticky;
+    top: 72px;
+    z-index: 30;
+    background: rgba(248, 250, 252, 0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 0.5rem 0;
+    margin: 0;
+    border-bottom: 1px solid var(--border-default);
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .modui-docs-sidebar > .modui-badge,
+  .modui-docs-sidebar-footer {
+    display: none !important;
+  }
+
+  .modui-docs-nav-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.45rem;
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    min-width: 0;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    padding-bottom: 2px;
+  }
+
+  .modui-docs-nav-list::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .modui-docs-nav-item {
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: auto;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-pill);
+    background: #FFFFFF;
+    border: 1px solid var(--border-default);
+    font-size: 0.78rem;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  }
+
+  .modui-docs-nav-item--active {
+    background: var(--accent-primary) !important;
+    color: #FFFFFF !important;
+    border-color: var(--accent-primary) !important;
+    font-weight: 600;
+  }
+
+  .modui-docs-nav-item--active::before {
+    display: none !important;
+  }
+
+  .modui-docs-content {
+    gap: 2.5rem;
+    padding-bottom: 6rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .modui-docs-section {
+    scroll-margin-top: 135px;
+  }
+
+  .modui-docs-section-title {
+    font-size: 1.45rem;
+  }
+
+  .modui-docs-p,
+  .modui-docs-list {
+    font-size: 0.9rem;
+  }
+
+  .modui-code-container {
+    border-radius: var(--radius-sm);
+    margin: 1rem 0;
+  }
+
+  .modui-code-pre {
+    padding: 1rem;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modui-docs-section-title {
+    font-size: 1.3rem;
+  }
+
+  .modui-docs-p,
+  .modui-docs-list {
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  .modui-code-header {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.68rem;
+  }
+
+  .modui-code-pre {
+    padding: 0.85rem;
+    font-size: 0.75rem;
+  }
 }

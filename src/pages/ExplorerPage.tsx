@@ -3,6 +3,7 @@ import { COMPONENT_REGISTRY, COMPONENT_CATEGORIES } from '../registry/components
 import { AnimatedButton } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { KineticText } from '../components/ui/motion/KineticText';
+import { NumberTicker } from '../components/ui/counter';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -141,6 +142,12 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'kinetic-text' && (
                     <div style={{ textAlign: 'center', padding: '0.4rem 0' }}>
                       <KineticText text="Hover over each letter" interactiveWave={true} />
+                    </div>
+                  )}
+
+                  {comp.slug === 'number-ticker' && (
+                    <div style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                      <NumberTicker value={1240} prefix="$" suffix="k" />
                     </div>
                   )}
                 </div>

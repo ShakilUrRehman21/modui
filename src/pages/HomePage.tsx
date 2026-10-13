@@ -3,6 +3,7 @@ import confetti from 'canvas-confetti';
 import { AnimatedButton } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { KineticText } from '../components/ui/motion/KineticText';
+import { NumberTicker } from '../components/ui/counter';
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { trackCopyCode, trackComponentInstall, trackPreviewOpen } from '../lib/analytics';
 import './HomePage.css';
@@ -17,6 +18,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   // Interactive Kinetic Text Studio state
   const [stageKineticText, setStageKineticText] = useState('Modular UI, crafted with character.');
   const [kineticWaveKey, setKineticWaveKey] = useState(0);
+
+  // Number Ticker showcase card state
+  const [cardTickerVal, setCardTickerVal] = useState(1420);
 
   // Audio & Interaction counter
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -549,22 +553,50 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Card 3: Kinetic Typography */}
-            <div className="nomu-featured-card" onClick={() => onNavigate('/components/kinetic-text')}>
+            {/* Card 3: Number Ticker (Rolling Counter) */}
+            <div className="nomu-featured-card" onClick={() => onNavigate('/components/number-ticker')}>
               <div className="nomu-card-meta-top">
                 <span className="nomu-card-cat-badge">Typography & Motion</span>
-                <span className="nomu-card-accent-tag">GSAP Wave</span>
+                <span className="nomu-card-accent-tag">Spring Odometer</span>
               </div>
 
-              <h3 className="nomu-card-title">Kinetic Typography</h3>
+              <h3 className="nomu-card-title">Number Ticker</h3>
               <p className="nomu-card-description">
-                Expressive character-level split text interaction with GSAP wave elevation, magnetic hover deflection, and elastic recovery.
+                Smooth vertical slot-machine rolling number counter with spring physics, individual column staggering, and prefix/suffix formatting.
               </p>
 
               {/* Live rendered preview directly inside card */}
               <div className="nomu-card-preview-stage" onClick={(e) => e.stopPropagation()}>
-                <div style={{ textAlign: 'center', padding: '0.5rem 0' }}>
-                  <KineticText text="Hover over each letter" interactiveWave={true} />
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', width: '100%' }}>
+                  <div style={{ fontSize: '2.1rem', fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--text-primary)' }}>
+                    <NumberTicker value={cardTickerVal} prefix="$" suffix="/mo" duration={1.1} />
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <button
+                      type="button"
+                      className="nomu-pill-toggle"
+                      style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem' }}
+                      onClick={() => setCardTickerVal((v) => v + 100)}
+                    >
+                      +100
+                    </button>
+                    <button
+                      type="button"
+                      className="nomu-pill-toggle"
+                      style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem' }}
+                      onClick={() => setCardTickerVal(1420)}
+                    >
+                      Reset
+                    </button>
+                    <button
+                      type="button"
+                      className="nomu-pill-toggle"
+                      style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem' }}
+                      onClick={() => setCardTickerVal(Math.floor(Math.random() * 8500) + 500)}
+                    >
+                      Random
+                    </button>
+                  </div>
                 </div>
               </div>
 

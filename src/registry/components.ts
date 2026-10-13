@@ -855,4 +855,330 @@ export default KineticText;`,
       'Customizable per-character accent coloring',
     ],
   },
+  {
+    id: 'number-ticker',
+    slug: 'number-ticker',
+    name: 'Number Ticker',
+    description: 'Smooth vertical slot-machine rolling number counter with spring physics, individual column staggering, tabular numerals, and prefix/suffix formatting.',
+    category: 'Typography & Motion',
+    tags: ['counter', 'ticker', 'odometer', 'motion', 'spring', 'typography', 'numbers'],
+    status: 'published',
+    publishedAt: '2026-10-13',
+    updatedAt: '2026-10-13',
+    version: '1.0.0',
+    sourceLocation: 'src/components/ui/counter/NumberTicker.tsx',
+    githubUrl: 'https://github.com/ShakilUrRehman21/modui/blob/main/src/components/ui/counter/NumberTicker.tsx',
+    installSnippet: `// 1. Copy NumberTicker.tsx and NumberTicker.css into your project:
+// components/ui/counter/NumberTicker.tsx
+// components/ui/counter/NumberTicker.css
+
+import { NumberTicker } from './components/ui/counter/NumberTicker';
+
+export default function Example() {
+  return (
+    <div style={{ fontSize: '3rem', fontWeight: 700 }}>
+      <NumberTicker value={1420} prefix="$" suffix="/mo" />
+    </div>
+  );
+}`,
+    codeSnippet: `import { NumberTicker } from './components/ui/counter/NumberTicker';
+
+export function MetricsShowcase() {
+  return (
+    <div className="metrics-grid">
+      <div className="metric-card">
+        <span className="metric-label">Monthly Active Users</span>
+        <NumberTicker
+          value={84250}
+          suffix="+"
+          duration={1.4}
+        />
+      </div>
+
+      <div className="metric-card">
+        <span className="metric-label">Uptime Reliability</span>
+        <NumberTicker
+          value={99.98}
+          decimalPlaces={2}
+          suffix="%"
+          duration={1.2}
+        />
+      </div>
+
+      <div className="metric-card">
+        <span className="metric-label">Annual Recurring Revenue</span>
+        <NumberTicker
+          value={1240}
+          prefix="$"
+          suffix="k"
+          duration={1.5}
+        />
+      </div>
+    </div>
+  );
+}`,
+    rawSourceCode: `import React, { useEffect, useRef, useState, useMemo } from 'react';
+import './NumberTicker.css';
+
+export interface NumberTickerProps extends React.HTMLAttributes<HTMLSpanElement> {
+  value: number;
+  decimalPlaces?: number;
+  prefix?: string;
+  suffix?: string;
+  duration?: number;
+  delay?: number;
+  stagger?: number;
+  className?: string;
+}
+
+const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+interface DigitColumnProps {
+  digit: number;
+  duration: number;
+  delay: number;
+}
+
+const DigitColumn: React.FC<DigitColumnProps> = ({ digit, duration, delay }) => {
+  return (
+    <span className="modui-ticker-column" aria-hidden="true">
+      <span
+        className="modui-ticker-track"
+        style={{
+          transform: \`translateY(-\${digit * 10}%)\`,
+          transitionDuration: \`\${duration}s\`,
+          transitionDelay: \`\${delay}s\`,
+        }}
+      >
+        {DIGITS.map((d) => (
+          <span key={d} className="modui-ticker-digit">
+            {d}
+          </span>
+        ))}
+      </span>
+    </span>
+  );
+};
+
+export const NumberTicker: React.FC<NumberTickerProps> = ({
+  value,
+  decimalPlaces = 0,
+  prefix = '',
+  suffix = '',
+  duration = 1.2,
+  delay = 0,
+  stagger = 0.04,
+  className = '',
+  ...rest
+}) => {
+  const [mounted, setMounted] = useState(false);
+  const prevValueRef = useRef(value);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setMounted(true);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    prevValueRef.current = value;
+  }, [value]);
+
+  const formattedParts = useMemo(() => {
+    const fixed = Math.abs(value).toFixed(decimalPlaces);
+    const [intPart, decPart] = fixed.split('.');
+    const withCommas = intPart.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');
+    return decPart !== undefined ? \`\${withCommas}.\${decPart}\` : withCommas;
+  }, [value, decimalPlaces]);
+
+  const characters = useMemo(() => {
+    return formattedParts.split('');
+  }, [formattedParts]);
+
+  const isNegative = value < 0;
+  const accessibleLabel = \`\${prefix}\${isNegative ? '-' : ''}\${formattedParts}\${suffix}\`;
+
+  return (
+    <span
+      className={\`modui-number-ticker \${className}\`}
+      role="status"
+      aria-live="polite"
+      aria-label={accessibleLabel}
+      {...rest}
+    >
+      <span className="modui-ticker-sr-only">{accessibleLabel}</span>
+      <span className="modui-ticker-display" aria-hidden="true">
+        {prefix && <span className="modui-ticker-affix modui-ticker-prefix">{prefix}</span>}
+        {isNegative && <span className="modui-ticker-symbol">-</span>}
+        
+        {characters.map((char, index) => {
+          const isDigit = /\\d/.test(char);
+          if (!isDigit) {
+            return (
+              <span key={\`sym-\${index}\`} className="modui-ticker-symbol">
+                {char}
+              </span>
+            );
+          }
+
+          const targetDigit = mounted ? parseInt(char, 10) : 0;
+          const colDelay = delay + index * stagger;
+
+          return (
+            <DigitColumn
+              key={\`digit-\${index}-\${characters.length}\`}
+              digit={targetDigit}
+              duration={duration}
+              delay={colDelay}
+            />
+          );
+        })}
+
+        {suffix && <span className="modui-ticker-affix modui-ticker-suffix">{suffix}</span>}
+      </span>
+    </span>
+  );
+};
+
+export default NumberTicker;`,
+    rawCssCode: `/* NumberTicker.css */
+.modui-number-ticker {
+  display: inline-flex;
+  align-items: baseline;
+  position: relative;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: "tnum";
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
+  line-height: 1;
+}
+
+.modui-ticker-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.modui-ticker-display {
+  display: inline-flex;
+  align-items: baseline;
+  user-select: none;
+}
+
+.modui-ticker-column {
+  position: relative;
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: baseline;
+}
+
+.modui-ticker-track {
+  display: flex;
+  flex-direction: column;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.modui-ticker-digit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1em;
+  width: 1ch;
+  line-height: 1;
+  text-align: center;
+}
+
+.modui-ticker-symbol {
+  display: inline-block;
+  line-height: 1;
+  padding: 0 0.05ch;
+}
+
+.modui-ticker-affix {
+  display: inline-block;
+  line-height: 1;
+}
+
+.modui-ticker-prefix {
+  margin-right: 0.15ch;
+}
+
+.modui-ticker-suffix {
+  margin-left: 0.15ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modui-ticker-track {
+    transition-duration: 0.01s !important;
+    transition-delay: 0s !important;
+  }
+}`,
+    propsDoc: [
+      {
+        name: 'value',
+        type: 'number',
+        description: 'Target numerical value to roll to.',
+        required: true,
+      },
+      {
+        name: 'decimalPlaces',
+        type: 'number',
+        defaultValue: '0',
+        description: 'Number of decimal places to format and display.',
+      },
+      {
+        name: 'prefix',
+        type: 'string',
+        defaultValue: "''",
+        description: 'Text or symbol prepended before numbers (e.g. $, +).',
+      },
+      {
+        name: 'suffix',
+        type: 'string',
+        defaultValue: "''",
+        description: 'Text or symbol appended after numbers (e.g. %, k, /mo).',
+      },
+      {
+        name: 'duration',
+        type: 'number',
+        defaultValue: '1.2',
+        description: 'Animation roll duration in seconds.',
+      },
+      {
+        name: 'delay',
+        type: 'number',
+        defaultValue: '0',
+        description: 'Delay in seconds before roll begins.',
+      },
+      {
+        name: 'stagger',
+        type: 'number',
+        defaultValue: '0.04',
+        description: 'Per-digit column stagger interval in seconds.',
+      },
+    ],
+    accessibilityNotes: [
+      'Accessible screen-reader readout container with role="status" and aria-live="polite".',
+      'Visual rolling digits marked with aria-hidden="true" to prevent redundant character readings.',
+      'Respects prefers-reduced-motion media query by disabling animation transitions.',
+      'Strict tabular figures (font-variant-numeric: tabular-nums) eliminate layout shift and horizontal jank.',
+    ],
+    features: [
+      'Individual slot-machine vertical roll strips for every digit 0-9',
+      'Physics-based cubic-bezier(0.16, 1, 0.3, 1) spring deceleration',
+      'Thousands comma separation with fractional precision support',
+      'Zero external runtime dependencies (Pure React 19 + CSS)',
+    ],
+  },
 ];

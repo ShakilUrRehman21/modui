@@ -1,0 +1,92 @@
+/* ==========================================================================
+   ModUI — NumberTicker Styles
+   ========================================================================== */
+
+.modui-number-ticker {
+  display: inline-flex;
+  align-items: baseline;
+  position: relative;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: "tnum";
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
+  line-height: 1;
+}
+
+/* Screen reader announcement container */
+.modui-ticker-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Visual rolling display */
+.modui-ticker-display {
+  display: inline-flex;
+  align-items: baseline;
+  user-select: none;
+}
+
+/* Column viewport window */
+.modui-ticker-column {
+  position: relative;
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: baseline;
+}
+
+/* Rolling vertical strip of digits 0-9 */
+.modui-ticker-track {
+  display: flex;
+  flex-direction: column;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Individual digit cell */
+.modui-ticker-digit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1em;
+  width: 1ch;
+  line-height: 1;
+  text-align: center;
+}
+
+/* Punctuation and symbols (commas, decimals, minus) */
+.modui-ticker-symbol {
+  display: inline-block;
+  line-height: 1;
+  padding: 0 0.05ch;
+}
+
+/* Prefixes and suffixes */
+.modui-ticker-affix {
+  display: inline-block;
+  line-height: 1;
+}
+
+.modui-ticker-prefix {
+  margin-right: 0.15ch;
+}
+
+.modui-ticker-suffix {
+  margin-left: 0.15ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modui-ticker-track {
+    transition-duration: 0.01s !important;
+    transition-delay: 0s !important;
+  }
+}

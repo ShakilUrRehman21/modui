@@ -1055,6 +1055,14 @@
   max-width: 100%;
   min-width: 0;
   padding-bottom: 2px;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.nomu-console-file-tabs::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .nomu-console-tab {
@@ -1123,6 +1131,14 @@
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.nomu-console-pre::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 @media (max-width: 980px) {

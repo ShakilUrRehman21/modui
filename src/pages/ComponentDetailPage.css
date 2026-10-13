@@ -2,8 +2,17 @@
    Modui — Component Detail Page Styles (Nomu Design System)
    ========================================================================== */
 
+.modui-detail-page-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .modui-detail-page {
-  padding: 3rem 0 6rem;
+  padding-top: 3rem;
+  padding-bottom: 6rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .modui-breadcrumb {
@@ -39,18 +48,22 @@
 
 .modui-detail-title {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  font-size: clamp(1.85rem, 5.5vw, 3.25rem);
   font-weight: 800;
   letter-spacing: -0.04em;
   color: var(--text-primary);
   margin-bottom: 0.5rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .modui-detail-desc {
-  font-size: 1.05rem;
+  font-size: clamp(0.92rem, 2.5vw, 1.05rem);
   color: var(--text-secondary);
   max-width: 680px;
   line-height: 1.6;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Top copy actions */
@@ -97,13 +110,49 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  padding: 3.5rem 1.5rem;
   position: relative;
   background-color: #FFFFFF;
   background-image: 
     linear-gradient(to right, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
   background-size: 40px 40px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.modui-detail-ticker-stage {
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.modui-detail-ticker-value {
+  font-size: clamp(1.85rem, 7.5vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+  word-break: break-word;
+  line-height: 1.1;
+}
+
+.modui-detail-kinetic-wrap {
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.modui-detail-kinetic-wrap h2 {
+  font-size: clamp(1.25rem, 4.5vw, 2rem) !important;
+  word-break: break-word;
+  line-height: 1.25;
 }
 
 .modui-controls-panel {
@@ -320,7 +369,16 @@
   line-height: 1.6;
   color: #F1F5F9;
   overflow-x: auto;
+  overflow-y: auto;
   max-height: 580px;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.modui-code-pre::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* Props Table */
@@ -328,9 +386,17 @@
   width: 100%;
   overflow-x: auto;
   margin-bottom: 3rem;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   background: #FFFFFF;
+}
+
+.modui-table-wrap::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .modui-props-table {
@@ -401,4 +467,99 @@
   color: #059669;
   margin-top: 2px;
   flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Mobile Responsive Rules (< 640px)
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .modui-detail-page {
+    padding-top: 1.75rem;
+    padding-bottom: 4rem;
+  }
+
+  .modui-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .modui-studio-workbench {
+    border-radius: var(--radius-lg);
+    margin-bottom: 2rem;
+  }
+
+  .modui-canvas-stage {
+    min-height: 220px;
+    padding: 2.25rem 0.75rem;
+  }
+
+  .modui-controls-panel {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .modui-detail-tabs-bar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    padding-bottom: 2px;
+    gap: 0.5rem;
+  }
+
+  .modui-detail-tabs-bar::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .modui-detail-tab-btn {
+    white-space: nowrap;
+    font-size: 0.8rem;
+    padding: 0.6rem 0.85rem;
+  }
+
+  .modui-code-file-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    padding-bottom: 2px;
+    gap: 0.4rem;
+  }
+
+  .modui-code-file-tabs::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .modui-code-tab-pill {
+    white-space: nowrap;
+    font-size: 0.75rem;
+    padding: 0.45rem 0.8rem;
+  }
+
+  .modui-code-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding: 0.85rem;
+  }
+
+  .modui-btn-copy-action {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .modui-code-pre {
+    padding: 1rem 0.85rem;
+    font-size: 0.75rem;
+  }
 }

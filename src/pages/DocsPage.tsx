@@ -37,7 +37,8 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
     setActiveSection(id);
     const element = document.getElementById(id);
     if (element) {
-      const topOffset = 100;
+      const isMobile = window.innerWidth <= 880;
+      const topOffset = isMobile ? 135 : 100;
       const elementPosition = element.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({
         top: elementPosition - topOffset,
@@ -57,13 +58,16 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
         return;
       }
 
+      const isMobile = window.innerWidth <= 880;
+      const offsetThreshold = isMobile ? 145 : 160;
+
       // Check section bounding rects from bottom to top
       for (let i = NAV_ITEMS.length - 1; i >= 0; i--) {
         const item = NAV_ITEMS[i];
         const el = document.getElementById(item.id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 160) {
+          if (rect.top <= offsetThreshold) {
             setActiveSection(item.id);
             return;
           }
