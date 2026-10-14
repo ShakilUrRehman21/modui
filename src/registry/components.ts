@@ -1,7 +1,8 @@
 export type ComponentCategory =
   | 'Buttons and Actions'
   | 'Status & Indicators'
-  | 'Typography & Motion';
+  | 'Typography & Motion'
+  | '3D & Interactive Showcase';
 
 export type ComponentStatus = 'published' | 'in-progress';
 
@@ -39,6 +40,7 @@ export const COMPONENT_CATEGORIES: ComponentCategory[] = [
   'Buttons and Actions',
   'Status & Indicators',
   'Typography & Motion',
+  '3D & Interactive Showcase',
 ];
 
 export const COMPONENT_REGISTRY: ComponentRegistryItem[] = [
@@ -1179,6 +1181,938 @@ export default NumberTicker;`,
       'Physics-based cubic-bezier(0.16, 1, 0.3, 1) spring deceleration',
       'Thousands comma separation with fractional precision support',
       'Zero external runtime dependencies (Pure React 19 + CSS)',
+    ],
+  },
+  {
+    id: 'cylindrical-carousel',
+    slug: 'cylindrical-carousel',
+    name: 'Cylindrical 3D Carousel',
+    description: '3D cylindrical projection carousel with touch/mouse inertia drag physics, real-time depth-of-field blur, and click-to-focus orientation.',
+    category: '3D & Interactive Showcase',
+    tags: ['carousel', '3d', 'inertia', 'physics', 'perspective', 'depth-of-field', 'slider', 'interactive'],
+    status: 'published',
+    publishedAt: '2026-10-14',
+    updatedAt: '2026-10-14',
+    version: '1.0.0',
+    sourceLocation: 'src/components/ui/carousel/CylindricalCarousel.tsx',
+    githubUrl: 'https://github.com/ShakilUrRehman21/modui/blob/main/src/components/ui/carousel/CylindricalCarousel.tsx',
+    installSnippet: `// 1. Copy CylindricalCarousel.tsx and CylindricalCarousel.css into your project:
+// components/ui/carousel/CylindricalCarousel.tsx
+// components/ui/carousel/CylindricalCarousel.css
+
+// 2. Import and pass an array of items:
+import { CylindricalCarousel } from '@/components/ui/carousel';
+
+const items = [
+  { id: '1', title: 'Spatial Studio', subtitle: 'Hardware module', tag: 'Core', badge: 'v2.1' },
+  { id: '2', title: 'Neural Canvas', subtitle: 'Generative shader', tag: 'WebGL', badge: 'New' },
+  { id: '3', title: 'Haptic Rotary', subtitle: 'Dial encoder', tag: 'Analog' },
+  { id: '4', title: 'Vector Scope', subtitle: 'Waveform telemetry', tag: 'Audio' },
+  { id: '5', title: 'Kinetic Matrix', subtitle: 'Spring geometry', tag: 'Physics' },
+];
+
+export default function Showcase() {
+  return (
+    <CylindricalCarousel
+      items={items}
+      radius={380}
+      cardWidth={230}
+      cardHeight={310}
+      autoplay={false}
+    />
+  );
+}`,
+    codeSnippet: `import React from 'react';
+import { CylindricalCarousel } from '@/components/ui/carousel';
+
+const items = [
+  { id: '1', title: 'Spatial Studio', subtitle: 'Hardware module', tag: 'Core', badge: 'v2.1' },
+  { id: '2', title: 'Neural Canvas', subtitle: 'Generative shader', tag: 'WebGL', badge: 'New' },
+  { id: '3', title: 'Haptic Rotary', subtitle: 'Dial encoder', tag: 'Analog' },
+  { id: '4', title: 'Vector Oscilloscope', subtitle: 'Waveform telemetry', tag: 'Audio' },
+  { id: '5', title: 'Kinetic Matrix', subtitle: 'Spring geometry', tag: 'Physics' },
+  { id: '6', title: 'Quantum Telemetry', subtitle: 'Atomic clock sync', tag: 'Radio', badge: 'Pro' },
+];
+
+export function CarouselDemo() {
+  return (
+    <div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
+      <CylindricalCarousel
+        items={items}
+        radius={360}
+        cardWidth={220}
+        cardHeight={300}
+        snapToNearest={true}
+        showControls={true}
+      />
+    </div>
+  );
+}`,
+    rawSourceCode: `import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import './CylindricalCarousel.css';
+
+export interface CylindricalCarouselItem {
+  id: string | number;
+  title: string;
+  subtitle?: string;
+  tag?: string;
+  badge?: string;
+  image?: string;
+  color?: string;
+  content?: React.ReactNode;
+}
+
+export interface CylindricalCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
+  items: CylindricalCarouselItem[];
+  radius?: number;
+  cardWidth?: number;
+  cardHeight?: number;
+  tiltAngle?: number;
+  perspective?: number;
+  autoplay?: boolean;
+  autoplaySpeed?: number;
+  friction?: number;
+  snapToNearest?: boolean;
+  onActiveChange?: (index: number, item: CylindricalCarouselItem) => void;
+  showControls?: boolean;
+  showIndicators?: boolean;
+  showDragHint?: boolean;
+  className?: string;
+}
+
+export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
+  items,
+  radius = 360,
+  cardWidth = 220,
+  cardHeight = 300,
+  tiltAngle = -4,
+  perspective = 1100,
+  autoplay = false,
+  autoplaySpeed = 8,
+  friction = 0.93,
+  snapToNearest = true,
+  onActiveChange,
+  showControls = true,
+  showIndicators = true,
+  showDragHint = true,
+  className = '',
+  style,
+  ...rest
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cylinderRef = useRef<HTMLDivElement>(null);
+
+  const [containerDim, setContainerDim] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const updateDim = () => {
+      const rect = el.getBoundingClientRect();
+      setContainerDim({ width: rect.width, height: rect.height });
+    };
+
+    updateDim();
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const observer = new ResizeObserver(updateDim);
+      observer.observe(el);
+      return () => observer.disconnect();
+    } else {
+      window.addEventListener('resize', updateDim);
+      return () => window.removeEventListener('resize', updateDim);
+    }
+  }, []);
+
+  const autoScale = useMemo(() => {
+    if (!containerDim.width || !containerDim.height) return 1;
+    const requiredWidth = radius * 2 + cardWidth;
+    const requiredHeight = cardHeight + 40;
+
+    const scaleX = (containerDim.width - 20) / requiredWidth;
+    const scaleY = (containerDim.height - 30) / requiredHeight;
+
+    const fitScale = Math.min(scaleX, scaleY, 1);
+    return Math.max(fitScale, 0.28);
+  }, [containerDim, radius, cardWidth, cardHeight]);
+
+  const [rotation, setRotation] = useState(0);
+  const rotationRef = useRef(0);
+  rotationRef.current = rotation;
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
+
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const lastXRef = useRef(0);
+  const lastTimeRef = useRef(0);
+  const velocityRef = useRef(0);
+  const movedDistanceRef = useRef(0);
+  const rafIdRef = useRef<number | null>(null);
+
+  const isHoveredRef = useRef(false);
+
+  const totalItems = items.length;
+  const angleStep = totalItems > 0 ? 360 / totalItems : 0;
+
+  const normalizeAngle = useCallback((deg: number) => {
+    return ((((deg % 360) + 540) % 360) - 180);
+  }, []);
+
+  const computeActiveIndex = useCallback(
+    (rot: number) => {
+      if (totalItems === 0) return 0;
+      let minDiff = Infinity;
+      let closestIdx = 0;
+
+      for (let i = 0; i < totalItems; i++) {
+        const itemAngle = i * angleStep;
+        const diff = Math.abs(normalizeAngle(itemAngle + rot));
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIdx = i;
+        }
+      }
+      return closestIdx;
+    },
+    [totalItems, angleStep, normalizeAngle]
+  );
+
+  const updateActiveIndex = useCallback(
+    (newIdx: number) => {
+      if (newIdx !== activeIndexRef.current) {
+        activeIndexRef.current = newIdx;
+        setActiveIndex(newIdx);
+        if (items[newIdx]) {
+          onActiveChange?.(newIdx, items[newIdx]);
+        }
+      }
+    },
+    [items, onActiveChange]
+  );
+
+  const snapToIndex = useCallback(
+    (targetIndex: number) => {
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+
+      const targetAngle = -targetIndex * angleStep;
+      const current = rotationRef.current;
+      const diff = normalizeAngle(targetAngle - current);
+      const destination = current + diff;
+
+      const startTime = performance.now();
+      const duration = 500;
+      const startAngle = current;
+
+      const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+      const animateSnap = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeOutCubic(progress);
+        const nextRotation = startAngle + (destination - startAngle) * eased;
+
+        setRotation(nextRotation);
+        rotationRef.current = nextRotation;
+
+        if (progress < 1) {
+          rafIdRef.current = requestAnimationFrame(animateSnap);
+        } else {
+          updateActiveIndex(targetIndex);
+        }
+      };
+
+      rafIdRef.current = requestAnimationFrame(animateSnap);
+    },
+    [angleStep, normalizeAngle, updateActiveIndex]
+  );
+
+  const runInertia = useCallback(() => {
+    if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+
+    const stepInertia = () => {
+      velocityRef.current *= friction;
+
+      if (Math.abs(velocityRef.current) > 0.04) {
+        const nextRot = rotationRef.current + velocityRef.current;
+        setRotation(nextRot);
+        rotationRef.current = nextRot;
+
+        const currentActive = computeActiveIndex(nextRot);
+        updateActiveIndex(currentActive);
+
+        rafIdRef.current = requestAnimationFrame(stepInertia);
+      } else {
+        velocityRef.current = 0;
+        if (snapToNearest) {
+          const nearest = computeActiveIndex(rotationRef.current);
+          snapToIndex(nearest);
+        }
+      }
+    };
+
+    rafIdRef.current = requestAnimationFrame(stepInertia);
+  }, [friction, snapToNearest, computeActiveIndex, updateActiveIndex, snapToIndex]);
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return;
+
+    if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+    isDraggingRef.current = true;
+    startXRef.current = e.clientX;
+    lastXRef.current = e.clientX;
+    lastTimeRef.current = performance.now();
+    velocityRef.current = 0;
+    movedDistanceRef.current = 0;
+
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return;
+
+    const currentX = e.clientX;
+    const now = performance.now();
+    const deltaX = currentX - lastXRef.current;
+    const deltaTime = Math.max(now - lastTimeRef.current, 1);
+
+    movedDistanceRef.current += Math.abs(deltaX);
+
+    const sensitivity = 0.35;
+    const rotDelta = deltaX * sensitivity;
+    const newRot = rotationRef.current + rotDelta;
+
+    setRotation(newRot);
+    rotationRef.current = newRot;
+
+    velocityRef.current = (rotDelta / deltaTime) * 16.6;
+
+    lastXRef.current = currentX;
+    lastTimeRef.current = now;
+
+    const currentActive = computeActiveIndex(newRot);
+    updateActiveIndex(currentActive);
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+
+    try {
+      (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
+    } catch {
+      // Ignored if capture already lost
+    }
+
+    if (Math.abs(velocityRef.current) > 0.08) {
+      runInertia();
+    } else if (snapToNearest) {
+      const nearest = computeActiveIndex(rotationRef.current);
+      snapToIndex(nearest);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prevIdx = (activeIndex - 1 + totalItems) % totalItems;
+      snapToIndex(prevIdx);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      const nextIdx = (activeIndex + 1) % totalItems;
+      snapToIndex(nextIdx);
+    }
+  };
+
+  useEffect(() => {
+    if (!autoplay) return;
+
+    let lastTime = performance.now();
+    let autoplayRaf: number;
+
+    const animateAutoplay = (now: number) => {
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      if (!isDraggingRef.current && !isHoveredRef.current) {
+        const step = autoplaySpeed * delta;
+        const nextRot = rotationRef.current - step;
+        setRotation(nextRot);
+        rotationRef.current = nextRot;
+
+        const currentActive = computeActiveIndex(nextRot);
+        updateActiveIndex(currentActive);
+      }
+
+      autoplayRaf = requestAnimationFrame(animateAutoplay);
+    };
+
+    autoplayRaf = requestAnimationFrame(animateAutoplay);
+
+    return () => cancelAnimationFrame(autoplayRaf);
+  }, [autoplay, autoplaySpeed, computeActiveIndex, updateActiveIndex]);
+
+  useEffect(() => {
+    return () => {
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+    };
+  }, []);
+
+  const halfWidth = cardWidth / 2;
+  const halfHeight = cardHeight / 2;
+
+  const renderedCards = useMemo(() => {
+    return items.map((item, index) => {
+      const itemAngle = index * angleStep;
+      const angleDiff = normalizeAngle(itemAngle + rotation);
+
+      const rad = (angleDiff * Math.PI) / 180;
+      const zFactor = (Math.cos(rad) + 1) / 2;
+
+      const blurPx = (1 - zFactor) * 4.5;
+      const opacity = 0.32 + zFactor * 0.68;
+      const scale = 0.88 + zFactor * 0.12;
+
+      const isCurrentActive = index === activeIndex;
+
+      return {
+        item,
+        index,
+        itemAngle,
+        isCurrentActive,
+        style: {
+          width: \`\${cardWidth}px\`,
+          height: \`\${cardHeight}px\`,
+          marginLeft: \`-\${halfWidth}px\`,
+          marginTop: \`-\${halfHeight}px\`,
+          transform: \`rotateY(\${itemAngle}deg) translateZ(\${radius}px) scale(\${scale})\`,
+          filter: \`blur(\${blurPx.toFixed(1)}px)\`,
+          opacity: opacity.toFixed(2),
+          zIndex: Math.round(zFactor * 100),
+        } as React.CSSProperties,
+      };
+    });
+  }, [items, angleStep, rotation, normalizeAngle, cardWidth, cardHeight, halfWidth, halfHeight, radius, activeIndex]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={\`modui-cylindrical-viewport \${className}\`}
+      style={{
+        perspective: \`\${perspective}px\`,
+        ...style,
+      }}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onMouseEnter={() => {
+        isHoveredRef.current = true;
+      }}
+      onMouseLeave={() => {
+        isHoveredRef.current = false;
+      }}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="3D Cylindrical Carousel"
+      {...rest}
+    >
+      <div
+        ref={cylinderRef}
+        className="modui-cylindrical-ring"
+        style={{
+          transform: \`scale(\${autoScale}) translateZ(-\${radius}px) rotateX(\${tiltAngle}deg) rotateY(\${rotation}deg)\`,
+        }}
+      >
+        {renderedCards.map(({ item, index, isCurrentActive, style: cardStyle }) => (
+          <div
+            key={item.id}
+            className={\`modui-cylindrical-card \${isCurrentActive ? 'modui-cylindrical-card--active' : ''}\`}
+            style={cardStyle}
+            onClick={(e) => {
+              if (movedDistanceRef.current > 6) return;
+              e.stopPropagation();
+              snapToIndex(index);
+            }}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={\`\${item.title} (\${index + 1} of \${totalItems})\`}
+            aria-current={isCurrentActive ? 'true' : undefined}
+          >
+            {(item.badge || item.tag) && (
+              <div className="modui-cylindrical-card-top">
+                {item.badge && <span className="modui-cylindrical-badge">{item.badge}</span>}
+                {item.tag && <span className="modui-cylindrical-tag">{item.tag}</span>}
+              </div>
+            )}
+
+            {item.image ? (
+              <div
+                className="modui-cylindrical-art"
+                style={{ backgroundImage: \`url(\${item.image})\` }}
+              />
+            ) : (
+              <div
+                className="modui-cylindrical-art modui-cylindrical-art--pattern"
+                style={{
+                  background: item.color
+                    ? \`linear-gradient(135deg, \${item.color}15, \${item.color}35)\`
+                    : undefined,
+                }}
+              >
+                <div className="modui-cylindrical-art-halo" />
+                <span className="modui-cylindrical-index-label">0{index + 1}</span>
+              </div>
+            )}
+
+            <div className="modui-cylindrical-card-body">
+              <h4 className="modui-cylindrical-title">{item.title}</h4>
+              {item.subtitle && <p className="modui-cylindrical-subtitle">{item.subtitle}</p>}
+              {item.content && <div className="modui-cylindrical-custom">{item.content}</div>}
+            </div>
+
+            <div className="modui-cylindrical-card-sheen" />
+          </div>
+        ))}
+      </div>
+
+      {showControls && (
+        <div className="modui-cylindrical-controls" onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            className="modui-cylindrical-ctrl-btn"
+            onClick={() => snapToIndex((activeIndex - 1 + totalItems) % totalItems)}
+            aria-label="Previous slide"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+
+          {showIndicators && (
+            <div className="modui-cylindrical-dots" role="tablist" aria-label="Slides">
+              {items.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={\`modui-cylindrical-dot \${i === activeIndex ? 'modui-cylindrical-dot--active' : ''}\`}
+                  onClick={() => snapToIndex(i)}
+                  aria-label={\`Go to slide \${i + 1}\`}
+                  role="tab"
+                  aria-selected={i === activeIndex}
+                />
+              ))}
+            </div>
+          )}
+
+          <button
+            type="button"
+            className="modui-cylindrical-ctrl-btn"
+            onClick={() => snapToIndex((activeIndex + 1) % totalItems)}
+            aria-label="Next slide"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      )}
+
+      {showDragHint && (
+        <div className="modui-cylindrical-drag-hint">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="8 17 3 12 8 7" />
+            <polyline points="16 17 21 12 16 7" />
+          </svg>
+          <span>Drag to rotate · Click card to focus</span>
+        </div>
+      )}
+    </div>
+  );
+};`,
+    rawCssCode: `.modui-cylindrical-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  cursor: grab;
+  touch-action: pan-y;
+  outline: none;
+  perspective-origin: 50% 50%;
+}
+
+.modui-cylindrical-viewport:active {
+  cursor: grabbing;
+}
+
+.modui-cylindrical-viewport:focus-visible {
+  outline: 2px solid var(--accent-primary, #4f46e5);
+  outline-offset: 4px;
+  border-radius: var(--radius-xl, 1rem);
+}
+
+.modui-cylindrical-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modui-cylindrical-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  border-radius: var(--radius-lg, 0.75rem);
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  backface-visibility: hidden;
+  will-change: transform, filter, opacity;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+  transform-origin: center center;
+  pointer-events: auto;
+  box-sizing: border-box;
+  transition:
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-cylindrical-card:hover {
+  border-color: var(--border-hover, #cbd5e1);
+  box-shadow: 0 20px 35px -8px rgba(15, 23, 42, 0.12), 0 1px 3px 0 rgba(15, 23, 42, 0.05);
+}
+
+.modui-cylindrical-card--active {
+  border-color: var(--accent-primary, #4f46e5);
+  box-shadow:
+    0 24px 48px -12px rgba(79, 70, 229, 0.18),
+    0 0 0 1px rgba(79, 70, 229, 0.25);
+  cursor: default;
+}
+
+.modui-cylindrical-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.8rem 0.35rem;
+  gap: 0.4rem;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.modui-cylindrical-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 9999px;
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--accent-primary, #4f46e5);
+  border: 1px solid rgba(79, 70, 229, 0.16);
+}
+
+.modui-cylindrical-tag {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.68rem;
+  color: var(--text-tertiary, #94a3b8);
+  font-weight: 500;
+}
+
+.modui-cylindrical-art {
+  position: relative;
+  flex: 1;
+  min-height: 45px;
+  margin: 0.2rem 0.6rem;
+  border-radius: var(--radius-md, 0.5rem);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.modui-cylindrical-art--pattern {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.modui-cylindrical-art-halo {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.modui-cylindrical-index-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+  opacity: 0.14;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+.modui-cylindrical-card-body {
+  padding: 0.5rem 0.8rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  z-index: 2;
+  background: var(--bg-card, #ffffff);
+  flex-shrink: 0;
+}
+
+.modui-cylindrical-title {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary, #0f172a);
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.modui-cylindrical-subtitle {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.7rem;
+  color: var(--text-secondary, #64748b);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.modui-cylindrical-card-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    transparent 50%,
+    rgba(15, 23, 42, 0.02) 100%
+  );
+  border-radius: inherit;
+}
+
+.modui-cylindrical-controls {
+  position: absolute;
+  bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.3rem 0.55rem;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  border-radius: 9999px;
+  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.modui-cylindrical-ctrl-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  background: #ffffff;
+  color: var(--text-secondary, #64748b);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.modui-cylindrical-ctrl-btn:hover {
+  background: var(--bg-hover, #f8fafc);
+  color: var(--text-primary, #0f172a);
+  border-color: var(--border-hover, #cbd5e1);
+}
+
+.modui-cylindrical-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0 0.2rem;
+}
+
+.modui-cylindrical-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  border: none;
+  padding: 0;
+  background: var(--border-hover, #cbd5e1);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-cylindrical-dot--active {
+  width: 16px;
+  background: var(--accent-primary, #4f46e5);
+}
+
+.modui-cylindrical-drag-hint {
+  position: absolute;
+  top: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  color: var(--text-tertiary, #94a3b8);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(4px);
+  padding: 0.22rem 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  z-index: 10;
+}
+
+@media (max-width: 640px) {
+  .modui-cylindrical-viewport {
+    min-height: 260px;
+  }
+
+  .modui-cylindrical-drag-hint {
+    top: 0.5rem;
+    font-size: 0.625rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modui-cylindrical-ring,
+  .modui-cylindrical-card {
+    transition: none !important;
+  }
+}`,
+    propsDoc: [
+      {
+        name: 'items',
+        type: 'CylindricalCarouselItem[]',
+        required: true,
+        description: 'Array of items with title, subtitle, tag, badge, image, color, or custom content.',
+      },
+      {
+        name: 'radius',
+        type: 'number',
+        defaultValue: '360',
+        description: 'Virtual cylinder radius in pixels for 3D translateZ distance.',
+      },
+      {
+        name: 'cardWidth',
+        type: 'number',
+        defaultValue: '220',
+        description: 'Width of each card on the cylinder in pixels.',
+      },
+      {
+        name: 'cardHeight',
+        type: 'number',
+        defaultValue: '300',
+        description: 'Height of each card on the cylinder in pixels.',
+      },
+      {
+        name: 'tiltAngle',
+        type: 'number',
+        defaultValue: '-4',
+        description: 'Pitch angle in degrees to tilt the 3D cylinder towards or away from the viewer.',
+      },
+      {
+        name: 'perspective',
+        type: 'number',
+        defaultValue: '1100',
+        description: 'CSS 3D perspective distance in pixels.',
+      },
+      {
+        name: 'autoplay',
+        type: 'boolean',
+        defaultValue: 'false',
+        description: 'Enable slow continuous rotation when idle, pausing on hover or drag.',
+      },
+      {
+        name: 'autoplaySpeed',
+        type: 'number',
+        defaultValue: '8',
+        description: 'Rotation speed in degrees per second when autoplay is enabled.',
+      },
+      {
+        name: 'friction',
+        type: 'number',
+        defaultValue: '0.93',
+        description: 'Momentum friction deceleration factor between 0.85 and 0.98.',
+      },
+      {
+        name: 'snapToNearest',
+        type: 'boolean',
+        defaultValue: 'true',
+        description: 'Smoothly snap to the nearest card with cubic easing after drag inertia ends.',
+      },
+      {
+        name: 'onActiveChange',
+        type: '(index: number, item: CylindricalCarouselItem) => void',
+        description: 'Callback fired whenever the active focused card in front changes.',
+      },
+      {
+        name: 'showControls',
+        type: 'boolean',
+        defaultValue: 'true',
+        description: 'Show bottom floating capsule controls with previous/next buttons.',
+      },
+      {
+        name: 'showIndicators',
+        type: 'boolean',
+        defaultValue: 'true',
+        description: 'Show active slide indicator dots in the bottom control pill.',
+      },
+      {
+        name: 'showDragHint',
+        type: 'boolean',
+        defaultValue: 'true',
+        description: 'Show top drag hint instruction badge.',
+      },
+    ],
+    accessibilityNotes: [
+      'Container is accessible with role="region" and aria-roledescription="carousel".',
+      'Each card is accessible with role="group", aria-roledescription="slide", and aria-current="true" when active.',
+      'Keyboard navigation enabled: Left and Right arrow keys smoothly step between slides.',
+      'Indicator tabs are marked with role="tablist" and role="tab" with aria-selected.',
+      'Respects prefers-reduced-motion media query by disabling continuous animations and abrupt transitions.',
+    ],
+    features: [
+      'True 3D perspective projection with CSS preserve-3d and geometric circular layout',
+      'Pointer inertia momentum tossing with exponential friction deceleration physics',
+      'Dynamic optical depth-of-field with progressive blur, opacity, and scale falloff',
+      'Click-to-focus smooth spherical camera rotation with cubic-bezier easing',
+      'Zero external 3D libraries (100% native React + CSS GPU acceleration)',
     ],
   },
 ];

@@ -4,6 +4,7 @@ import { AnimatedButton } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { KineticText } from '../components/ui/motion/KineticText';
 import { NumberTicker } from '../components/ui/counter';
+import { CylindricalCarousel } from '../components/ui/carousel';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -148,6 +149,30 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'number-ticker' && (
                     <div style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                       <NumberTicker value={1240} prefix="$" suffix="k" />
+                    </div>
+                  )}
+
+                  {comp.slug === 'cylindrical-carousel' && (
+                    <div style={{ width: '100%', height: '150px', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <CylindricalCarousel
+                        items={[
+                          { id: '1', title: 'Spatial Studio', tag: 'Core', color: '#4F46E5', badge: 'v2.1' },
+                          { id: '2', title: 'Neural Canvas', tag: 'WebGL', color: '#06B6D4', badge: 'New' },
+                          { id: '3', title: 'Haptic Rotary', tag: 'Dial', color: '#10B981' },
+                          { id: '4', title: 'Vector Scope', tag: 'Audio', color: '#F59E0B' },
+                        ]}
+                        radius={115}
+                        cardWidth={95}
+                        cardHeight={110}
+                        perspective={420}
+                        tiltAngle={-4}
+                        showControls={false}
+                        showIndicators={false}
+                        showDragHint={false}
+                        autoplay={true}
+                        autoplaySpeed={15}
+                        style={{ minHeight: '150px', height: '150px' }}
+                      />
                     </div>
                   )}
                 </div>

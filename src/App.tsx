@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
@@ -17,6 +19,23 @@ export function App() {
 
   // Command palette state
   const [isCmdkOpen, setIsCmdkOpen] = useState(false);
+  const lenisRef = useRef<Lenis | null>(null);
+
+  // Initialize Lenis smooth scrolling
+  useEffect(() => {
+    const lenis = new Lenis({
+      autoRaf: true,
+      duration: 1.15,
+      smoothWheel: true,
+      anchors: true,
+    });
+    lenisRef.current = lenis;
+
+    return () => {
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
 
   // Apply light theme
   useEffect(() => {
@@ -28,7 +47,11 @@ export function App() {
     const handleLocationChange = () => {
       const hash = window.location.hash.replace(/^#/, '');
       setCurrentPath(hash || window.location.pathname || '/');
-      window.scrollTo(0, 0);
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo(0, 0);
+      }
     };
 
     window.addEventListener('popstate', handleLocationChange);
@@ -54,7 +77,11 @@ export function App() {
   const navigate = (path: string) => {
     window.location.hash = path;
     setCurrentPath(path);
-    window.scrollTo(0, 0);
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
   };
 
   // Route resolver

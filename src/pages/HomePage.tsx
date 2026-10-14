@@ -4,6 +4,7 @@ import { AnimatedButton } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { KineticText } from '../components/ui/motion/KineticText';
 import { NumberTicker } from '../components/ui/counter';
+import { CylindricalCarousel } from '../components/ui/carousel';
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { trackCopyCode, trackComponentInstall, trackPreviewOpen } from '../lib/analytics';
 import './HomePage.css';
@@ -512,37 +513,40 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Card 2: Pulse Badge Indicator */}
-            <div className="nomu-featured-card" onClick={() => onNavigate('/components/badge')}>
+            {/* Card 2: Cylindrical 3D Carousel (Today's Component) */}
+            <div className="nomu-featured-card" onClick={() => onNavigate('/components/cylindrical-carousel')}>
               <div className="nomu-card-meta-top">
-                <span className="nomu-card-cat-badge">Status & Indicators</span>
-                <span className="nomu-card-accent-tag">CSS Keyframes</span>
+                <span className="nomu-card-cat-badge">3D & Interactive</span>
+                <span className="nomu-card-accent-tag">Inertia Physics</span>
               </div>
 
-              <h3 className="nomu-card-title">Pulse Badge Indicator</h3>
+              <h3 className="nomu-card-title">Cylindrical 3D Carousel</h3>
               <p className="nomu-card-description">
-                Tactile status indicators and pill badges with breathing ambient pulse auras, live indicator beacons, and semantic tokens.
+                3D cylindrical projection carousel with touch/mouse inertia drag physics, real-time depth-of-field blur, and click-to-focus orientation.
               </p>
 
               {/* Live rendered preview directly inside card */}
               <div className="nomu-card-preview-stage" onClick={(e) => e.stopPropagation()}>
-                <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
-                  <Badge
-                    variant="accent"
-                    dot
-                    pulse
-                    onClick={() => {
-                      confetti({ particleCount: 18, spread: 45 });
-                    }}
-                  >
-                    Live Pulse
-                  </Badge>
-                  <Badge variant="success" dot>
-                    Online
-                  </Badge>
-                  <Badge variant="cyan">
-                    React 19
-                  </Badge>
+                <div style={{ width: '100%', height: '145px', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <CylindricalCarousel
+                    items={[
+                      { id: '1', title: 'Spatial Studio', tag: 'Core', color: '#4F46E5', badge: 'v2.1' },
+                      { id: '2', title: 'Neural Canvas', tag: 'WebGL', color: '#06B6D4', badge: 'New' },
+                      { id: '3', title: 'Haptic Rotary', tag: 'Dial', color: '#10B981' },
+                      { id: '4', title: 'Vector Scope', tag: 'Audio', color: '#F59E0B' },
+                    ]}
+                    radius={110}
+                    cardWidth={90}
+                    cardHeight={105}
+                    perspective={420}
+                    tiltAngle={-4}
+                    showControls={false}
+                    showIndicators={false}
+                    showDragHint={false}
+                    autoplay={true}
+                    autoplaySpeed={15}
+                    style={{ minHeight: '145px', height: '145px' }}
+                  />
                 </div>
               </div>
 
@@ -610,7 +614,165 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* 5. Senior Developer Architectural Sandbox & Terminal (Much Better Section) */}
+      {/* Option A: Architectural Spec Sheet (Why ModUI) - Stackable Cards on Scroll */}
+      <section className="nomu-specs-section">
+        <div className="modui-container">
+          <div className="nomu-specs-header">
+            <div className="nomu-eyebrow">ENGINEERING SPECIFICATIONS</div>
+            <h2 className="nomu-specs-title">
+              Crafted with Purpose. <br />
+              Engineered for Longevity.
+            </h2>
+            <p className="nomu-specs-desc">
+              We reject the bloat of black-box component libraries. Every module in ModUI is built on foundational web standards, giving you complete autonomy, blistering speed, and uncompromising visual fidelity.
+            </p>
+          </div>
+
+          <div className="nomu-stacked-cards-list">
+            {/* Spec Card 1: Pure React & CSS Foundation */}
+            <div className="nomu-stacked-card" style={{ '--card-index': 0 } as React.CSSProperties}>
+              <div className="nomu-stacked-card-header">
+                <div className="nomu-stacked-card-meta">
+                  <span className="nomu-stacked-card-num">01</span>
+                  <span className="nomu-stacked-card-sep">/</span>
+                  <span className="nomu-stacked-card-category">RUNTIME ARCHITECTURE</span>
+                </div>
+                <div className="nomu-stacked-card-status">
+                  <span className="nomu-status-dot" />
+                  <span className="nomu-status-text">Production Verified</span>
+                </div>
+              </div>
+
+              <div className="nomu-stacked-card-body">
+                <div className="nomu-stacked-card-content">
+                  <h3 className="nomu-stacked-card-title">Pure React & CSS Foundation</h3>
+                  <p className="nomu-stacked-card-text">
+                    No third-party runtime bloat, no proprietary styling engines, and no hidden wrapper baggage. You get lean, ultra-fast JSX and vanilla CSS that bundle cleanly into any React 18 or 19 stack.
+                  </p>
+                  <div className="nomu-stacked-card-tags">
+                    <span className="nomu-tag-chip">Zero Runtime Dependency</span>
+                    <span className="nomu-tag-chip">Standard CSS Tokens</span>
+                    <span className="nomu-tag-chip">100% Tree-Shakeable</span>
+                  </div>
+                </div>
+
+                <div className="nomu-stacked-card-metric-box">
+                  <div className="nomu-metric-num">&lt; 1.8kb</div>
+                  <div className="nomu-metric-sub">Average gzip footprint</div>
+                  <div className="nomu-metric-detail">Measured across all core atomic components</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Spec Card 2: Complete Code Ownership */}
+            <div className="nomu-stacked-card" style={{ '--card-index': 1 } as React.CSSProperties}>
+              <div className="nomu-stacked-card-header">
+                <div className="nomu-stacked-card-meta">
+                  <span className="nomu-stacked-card-num">02</span>
+                  <span className="nomu-stacked-card-sep">/</span>
+                  <span className="nomu-stacked-card-category">CODE OWNERSHIP</span>
+                </div>
+                <div className="nomu-stacked-card-status">
+                  <span className="nomu-status-dot" />
+                  <span className="nomu-status-text">Direct Copy-Paste</span>
+                </div>
+              </div>
+
+              <div className="nomu-stacked-card-body">
+                <div className="nomu-stacked-card-content">
+                  <h3 className="nomu-stacked-card-title">Complete Code Ownership</h3>
+                  <p className="nomu-stacked-card-text">
+                    No lock-in CLI commands or breaking upstream package updates. Copy the raw TSX and CSS straight into your project. You own every single line, variable, and keyframe forever.
+                  </p>
+                  <div className="nomu-stacked-card-tags">
+                    <span className="nomu-tag-chip">Zero Vendor Lock-In</span>
+                    <span className="nomu-tag-chip">Direct TSX & CSS</span>
+                    <span className="nomu-tag-chip">Autonomous Styling</span>
+                  </div>
+                </div>
+
+                <div className="nomu-stacked-card-metric-box">
+                  <div className="nomu-metric-num">100%</div>
+                  <div className="nomu-metric-sub">Source code transparency</div>
+                  <div className="nomu-metric-detail">Full access to raw JSX & vanilla CSS styles</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Spec Card 3: Hardware-Accelerated Motion */}
+            <div className="nomu-stacked-card" style={{ '--card-index': 2 } as React.CSSProperties}>
+              <div className="nomu-stacked-card-header">
+                <div className="nomu-stacked-card-meta">
+                  <span className="nomu-stacked-card-num">03</span>
+                  <span className="nomu-stacked-card-sep">/</span>
+                  <span className="nomu-stacked-card-category">MOTION COMPOSITING</span>
+                </div>
+                <div className="nomu-stacked-card-status">
+                  <span className="nomu-status-dot" />
+                  <span className="nomu-status-text">GPU Composited</span>
+                </div>
+              </div>
+
+              <div className="nomu-stacked-card-body">
+                <div className="nomu-stacked-card-content">
+                  <h3 className="nomu-stacked-card-title">Hardware-Accelerated Motion</h3>
+                  <p className="nomu-stacked-card-text">
+                    All micro-interactions, 3D projections, and inertia physics run exclusively on GPU-accelerated CSS properties (transform, opacity, preserve-3d), preventing CPU layout thrashing and stutter.
+                  </p>
+                  <div className="nomu-stacked-card-tags">
+                    <span className="nomu-tag-chip">Composited Transforms</span>
+                    <span className="nomu-tag-chip">Zero Layout Thrashing</span>
+                    <span className="nomu-tag-chip">Subpixel Precision</span>
+                  </div>
+                </div>
+
+                <div className="nomu-stacked-card-metric-box">
+                  <div className="nomu-metric-num">120 FPS</div>
+                  <div className="nomu-metric-sub">Fluid refresh stability</div>
+                  <div className="nomu-metric-detail">Zero frame drops under continuous interaction</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Spec Card 4: Accessible by Default */}
+            <div className="nomu-stacked-card" style={{ '--card-index': 3 } as React.CSSProperties}>
+              <div className="nomu-stacked-card-header">
+                <div className="nomu-stacked-card-meta">
+                  <span className="nomu-stacked-card-num">04</span>
+                  <span className="nomu-stacked-card-sep">/</span>
+                  <span className="nomu-stacked-card-category">STANDARDS & ACCESSIBILITY</span>
+                </div>
+                <div className="nomu-stacked-card-status">
+                  <span className="nomu-status-dot" />
+                  <span className="nomu-status-text">Standards Verified</span>
+                </div>
+              </div>
+
+              <div className="nomu-stacked-card-body">
+                <div className="nomu-stacked-card-content">
+                  <h3 className="nomu-stacked-card-title">Accessible by Default</h3>
+                  <p className="nomu-stacked-card-text">
+                    Every component is thoroughly tested with screen readers, semantic landmark roles, polite live regions, and full keyboard navigation. Smooth motion gracefully respects user preferences.
+                  </p>
+                  <div className="nomu-stacked-card-tags">
+                    <span className="nomu-tag-chip">WAI-ARIA 1.2 Standards</span>
+                    <span className="nomu-tag-chip">Keyboard Navigable</span>
+                    <span className="nomu-tag-chip">Reduced Motion Support</span>
+                  </div>
+                </div>
+
+                <div className="nomu-stacked-card-metric-box">
+                  <div className="nomu-metric-num">100 / 100</div>
+                  <div className="nomu-metric-sub">Accessibility audit baseline</div>
+                  <div className="nomu-metric-detail">Lighthouse & axe-core standard compliance</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Senior Developer Architectural Sandbox & Terminal */}
       <section className="nomu-architecture-sandbox-section">
         <div className="modui-container">
           <div className="nomu-sandbox-grid">
