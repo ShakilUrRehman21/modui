@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Modui — Nomu Footer Styles
+   Modui — ModUI Footer Styles
    ========================================================================== */
 
-.nomu-footer {
+.modui-footer {
   background: #0B0F17;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 3rem 0 2rem;
@@ -10,7 +10,7 @@
   margin-top: auto;
 }
 
-.nomu-footer-inner {
+.modui-footer-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -20,19 +20,19 @@
   gap: 1.5rem;
 }
 
-.nomu-footer-brand {
+.modui-footer-brand {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.nomu-footer-logo-wrap {
+.modui-footer-logo-wrap {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
-.nomu-footer-logo {
+.modui-footer-logo {
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 800;
@@ -40,7 +40,7 @@
   color: #FFFFFF;
 }
 
-.nomu-footer-dot {
+.modui-footer-dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
@@ -48,19 +48,19 @@
   margin-top: -3px;
 }
 
-.nomu-footer-tagline {
+.modui-footer-tagline {
   font-size: 0.8125rem;
   color: #64748B;
 }
 
-.nomu-footer-nav {
+.modui-footer-nav {
   display: flex;
   align-items: center;
   gap: 1.25rem;
   flex-wrap: wrap;
 }
 
-.nomu-footer-link {
+.modui-footer-link {
   font-size: 0.8125rem;
   font-weight: 500;
   color: #94A3B8;
@@ -71,11 +71,11 @@
   cursor: pointer;
 }
 
-.nomu-footer-link:hover {
+.modui-footer-link:hover {
   color: #FFFFFF;
 }
 
-.nomu-footer-sub {
+.modui-footer-sub {
   display: flex;
   align-items: center;
   justify-content: space-between;

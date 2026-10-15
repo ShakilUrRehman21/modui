@@ -49,34 +49,34 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <header className="nomu-navbar-wrapper">
-        <div className="nomu-navbar-pill">
+      <header className="modui-navbar-wrapper">
+        <div className="modui-navbar-pill">
           {/* Brand Logo */}
           <button
-            className="nomu-brand-btn"
+            className="modui-brand-btn"
             onClick={() => handleNavClick('/')}
             aria-label="ModUI Home"
           >
-            <span className="nomu-brand-text">ModUI</span>
-            <span className="nomu-brand-dot" />
+            <span className="modui-brand-text">ModUI</span>
+            <span className="modui-brand-dot" />
           </button>
 
           {/* Desktop Center Nav Links */}
-          <nav className="nomu-nav-center" aria-label="Main Navigation">
+          <nav className="modui-nav-center" aria-label="Main Navigation">
             <button
-              className={`nomu-nav-link ${currentPath === '/' ? 'nomu-nav-link--active' : ''}`}
+              className={`modui-nav-link ${currentPath === '/' ? 'modui-nav-link--active' : ''}`}
               onClick={() => handleNavClick('/')}
             >
               <span>Overview</span>
             </button>
             <button
-              className={`nomu-nav-link ${currentPath.startsWith('/components') ? 'nomu-nav-link--active' : ''}`}
+              className={`modui-nav-link ${currentPath.startsWith('/components') ? 'modui-nav-link--active' : ''}`}
               onClick={() => handleNavClick('/components')}
             >
               <span>Components</span>
             </button>
             <button
-              className={`nomu-nav-link ${currentPath === '/docs' ? 'nomu-nav-link--active' : ''}`}
+              className={`modui-nav-link ${currentPath === '/docs' ? 'modui-nav-link--active' : ''}`}
               onClick={() => handleNavClick('/docs')}
             >
               <span>Docs</span>
@@ -84,22 +84,22 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Right Actions */}
-          <div className="nomu-nav-actions">
+          <div className="modui-nav-actions">
             <button
-              className="nomu-search-btn"
+              className="modui-search-btn"
               onClick={onOpenCommandPalette}
               title="Search (Ctrl + K)"
               aria-label="Search components"
             >
               <span>Search</span>
-              <span className="nomu-search-kbd">⌘K</span>
+              <span className="modui-search-kbd">⌘K</span>
             </button>
 
             <a
               href="https://github.com/ShakilUrRehman21/modui"
               target="_blank"
               rel="noopener noreferrer"
-              className="nomu-github-btn"
+              className="modui-github-btn"
               title="GitHub"
               onClick={() => trackGithubClick({ location: 'navbar' })}
             >
@@ -107,7 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
 
             <button
-              className="nomu-cta-pill"
+              className="modui-cta-pill"
               onClick={() => handleNavClick('/components')}
             >
               <span>Start building</span>
@@ -115,16 +115,16 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Mobile Menu Button with Animated Bars */}
             <button
-              className="nomu-mobile-menu-trigger"
+              className="modui-mobile-menu-trigger"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
             >
-              <span className={`nomu-hamburger-icon ${mobileMenuOpen ? 'open' : ''}`}>
-                <span className="nomu-hamburger-bar" />
-                <span className="nomu-hamburger-bar" />
+              <span className={`modui-hamburger-icon ${mobileMenuOpen ? 'open' : ''}`}>
+                <span className="modui-hamburger-bar" />
+                <span className="modui-hamburger-bar" />
               </span>
-              <span className="nomu-mobile-trigger-text">{mobileMenuOpen ? 'Close' : 'Menu'}</span>
+              <span className="modui-mobile-trigger-text">{mobileMenuOpen ? 'Close' : 'Menu'}</span>
             </button>
           </div>
         </div>
@@ -134,32 +134,32 @@ export const Navbar: React.FC<NavbarProps> = ({
       {mobileMenuOpen && (
         <>
           <div
-            className="nomu-mobile-backdrop"
+            className="modui-mobile-backdrop"
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
-          <div className="nomu-mobile-drawer" role="dialog" aria-modal="true">
-            <div className="nomu-mobile-nav-links">
+          <div className="modui-mobile-drawer" role="dialog" aria-modal="true">
+            <div className="modui-mobile-nav-links">
               <button
-                className={`nomu-mobile-link ${currentPath === '/' ? 'nomu-mobile-link--active' : ''}`}
+                className={`modui-mobile-link ${currentPath === '/' ? 'modui-mobile-link--active' : ''}`}
                 onClick={() => handleNavClick('/')}
               >
                 <span>Overview</span>
               </button>
               <button
-                className={`nomu-mobile-link ${currentPath.startsWith('/components') ? 'nomu-mobile-link--active' : ''}`}
+                className={`modui-mobile-link ${currentPath.startsWith('/components') ? 'modui-mobile-link--active' : ''}`}
                 onClick={() => handleNavClick('/components')}
               >
                 <span>Components</span>
               </button>
               <button
-                className={`nomu-mobile-link ${currentPath === '/docs' ? 'nomu-mobile-link--active' : ''}`}
+                className={`modui-mobile-link ${currentPath === '/docs' ? 'modui-mobile-link--active' : ''}`}
                 onClick={() => handleNavClick('/docs')}
               >
                 <span>Documentation</span>
               </button>
               <button
-                className="nomu-mobile-link nomu-mobile-search-link"
+                className="modui-mobile-link modui-mobile-search-link"
                 onClick={handleSearchClick}
               >
                 <span>Search Components (⌘K)</span>
@@ -168,16 +168,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                 href="https://github.com/ShakilUrRehman21/modui"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="nomu-mobile-link"
+                className="modui-mobile-link"
                 onClick={() => trackGithubClick({ location: 'drawer' })}
               >
                 <span>GitHub Repository ↗</span>
               </a>
             </div>
 
-            <div className="nomu-mobile-drawer-footer">
+            <div className="modui-mobile-drawer-footer">
               <button
-                className="nomu-cta-btn"
+                className="modui-cta-btn"
                 style={{ width: '100%', justifyContent: 'center' }}
                 onClick={() => handleNavClick('/components')}
               >

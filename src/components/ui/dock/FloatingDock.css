@@ -1,0 +1,317 @@
+/* ==========================================================================
+   ModUI — Floating Dock
+   ========================================================================== */
+
+.modui-floating-dock {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border-radius: 9999px;
+  user-select: none;
+  z-index: 50;
+  transition: padding 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease;
+  contain: layout;
+}
+
+/* Position Modes */
+.modui-dock--pos-static {
+  position: relative;
+}
+
+.modui-dock--pos-bottom {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+
+.modui-dock--pos-top {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+
+/* Orientations */
+.modui-dock--horizontal {
+  flex-direction: row;
+}
+
+.modui-dock--vertical {
+  flex-direction: column;
+}
+
+.modui-dock--vertical .modui-dock-items-track {
+  flex-direction: column;
+}
+
+/* Surface Variants */
+/* 1. Glass (Luminous Light Frosted Glass) */
+.modui-dock--variant-glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 4px 6px -1px rgba(15, 23, 42, 0.04),
+    0 20px 40px -15px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(15, 23, 42, 0.05);
+}
+
+/* 2. Dark Obsidian Glass */
+.modui-dock--variant-dark {
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 10px 30px -10px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.modui-dock--variant-dark .modui-dock-item-btn {
+  color: #94A3B8;
+}
+
+.modui-dock--variant-dark .modui-dock-item-btn:hover:not(.modui-dock-item--active) {
+  background: rgba(255, 255, 255, 0.08);
+  color: #F8FAFC;
+}
+
+.modui-dock--variant-dark .modui-dock-item--active {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  color: #FFFFFF;
+}
+
+/* 3. Solid Surface */
+.modui-dock--variant-solid {
+  background: #FFFFFF;
+  border: 1px solid var(--border-default, #E2E8F0);
+  box-shadow: 0 12px 30px -8px rgba(15, 23, 42, 0.09), 0 0 0 1px rgba(15, 23, 42, 0.04);
+}
+
+/* 4. Minimal */
+.modui-dock--variant-minimal {
+  background: transparent;
+  border: 1px dashed var(--border-default, #E2E8F0);
+  box-shadow: none;
+}
+
+/* Items Track Container */
+.modui-dock-items-track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* Individual Item Wrapper */
+.modui-dock-item-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dock-base-size, 44px);
+  height: var(--dock-base-size, 44px);
+  margin: 0 4px;
+}
+
+.modui-dock--vertical .modui-dock-item-wrapper {
+  margin: 4px 0;
+}
+
+/* Interactive Dock Button */
+.modui-dock-item-btn {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #64748B;
+  cursor: pointer;
+  outline: none;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+.modui-dock-item-btn:hover:not(.modui-dock-item--active) {
+  background: rgba(15, 23, 42, 0.05);
+  color: #0F172A;
+}
+
+/* Active Item State */
+.modui-dock-item--active {
+  background: rgba(79, 70, 229, 0.1);
+  border: 1px solid rgba(79, 70, 229, 0.28);
+  box-shadow: 0 2px 10px rgba(79, 70, 229, 0.14);
+  color: var(--accent-primary, #4F46E5);
+}
+
+.modui-dock-item--disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Focus Visible */
+.modui-dock-item-btn:focus-visible {
+  outline: 2px solid var(--accent-primary, #4F46E5);
+  outline-offset: 2px;
+}
+
+/* Icon Container with Micro-interaction */
+.modui-dock-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52%;
+  height: 52%;
+  pointer-events: none;
+  transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+.modui-dock-icon-wrap svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.85;
+}
+
+/* Subtle icon hover lift */
+.modui-dock-item-btn:hover .modui-dock-icon-wrap {
+  transform: translateY(-2px) scale(1.06);
+}
+
+/* Tactile press haptic feedback */
+.modui-dock-item-btn:active .modui-dock-icon-wrap {
+  transform: scale(0.92);
+}
+
+/* Badge (Count or Dot) */
+.modui-dock-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #EF4444;
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 9999px;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 0 2px 5px rgba(239, 68, 68, 0.35);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.modui-dock-badge--count {
+  padding: 1.5px 4.5px;
+  min-width: 14px;
+  text-align: center;
+}
+
+.modui-dock-badge--dot {
+  width: 7px;
+  height: 7px;
+  top: 1px;
+  right: 1px;
+}
+
+/* Floating Tooltip */
+.modui-dock-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px) scale(0.95);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #0F172A;
+  color: #F8FAFC;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
+  transition: opacity 0.16s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+}
+
+.modui-dock-tooltip--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* Tooltip Arrow */
+.modui-dock-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px;
+  border-style: solid;
+  border-color: #0F172A transparent transparent transparent;
+}
+
+/* Tooltip for Vertical Dock */
+.modui-dock--vertical .modui-dock-tooltip {
+  bottom: auto;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px) scale(0.95);
+}
+
+.modui-dock--vertical .modui-dock-tooltip--visible {
+  transform: translateY(-50%) translateX(0) scale(1);
+}
+
+.modui-dock--vertical .modui-dock-tooltip::after {
+  top: 50%;
+  left: auto;
+  right: 100%;
+  transform: translateY(-50%);
+  border-color: transparent #0F172A transparent transparent;
+}
+
+/* Tooltip Shortcut Kbd */
+.modui-dock-tooltip-shortcut {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #94A3B8;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1px 4px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .modui-floating-dock,
+  .modui-dock-item-wrapper,
+  .modui-dock-item-btn,
+  .modui-dock-tooltip {
+    transition: none !important;
+    animation: none !important;
+  }
+}

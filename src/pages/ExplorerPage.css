@@ -1,16 +1,16 @@
 /* ==========================================================================
-   Modui — Nomu Explorer Page Styles
+   Modui — ModUI Explorer Page Styles
    ========================================================================== */
 
-.nomu-explorer-wrap {
+.modui-explorer-wrap {
   padding: 4rem 0 6rem;
 }
 
-.nomu-explorer-header {
+.modui-explorer-header {
   margin-bottom: 2.5rem;
 }
 
-.nomu-explorer-title {
+.modui-explorer-title {
   font-family: var(--font-display);
   font-size: clamp(2.25rem, 4.5vw, 3.5rem);
   font-weight: 800;
@@ -19,20 +19,20 @@
   margin-bottom: 0.75rem;
 }
 
-.nomu-explorer-subtitle {
+.modui-explorer-subtitle {
   font-size: 1.05rem;
   color: var(--text-secondary);
   line-height: 1.6;
   max-width: 680px;
 }
 
-.nomu-explorer-toolbar {
+.modui-explorer-toolbar {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-.nomu-explorer-search {
+.modui-explorer-search {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -44,16 +44,16 @@
   transition: all var(--transition-fast);
 }
 
-.nomu-explorer-search:focus-within {
+.modui-explorer-search:focus-within {
   border-color: var(--accent-primary);
   box-shadow: 0 4px 20px rgba(255, 116, 72, 0.15);
 }
 
-.nomu-search-icon {
+.modui-search-icon {
   color: var(--text-tertiary);
 }
 
-.nomu-search-input-field {
+.modui-search-input-field {
   flex: 1;
   border: none;
   background: transparent;
@@ -62,29 +62,70 @@
   color: var(--text-primary);
 }
 
-.nomu-search-input-field::placeholder {
+.modui-search-input-field::placeholder {
   color: var(--text-tertiary);
 }
 
-.nomu-clear-search-btn {
+.modui-clear-search-btn {
   color: var(--text-tertiary);
   cursor: pointer;
   display: flex;
   align-items: center;
 }
 
-.nomu-clear-search-btn:hover {
+.modui-clear-search-btn:hover {
   color: var(--text-primary);
 }
 
-.nomu-explorer-pills {
+.modui-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.modui-explorer-pills {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
 
-.nomu-empty-state {
+.modui-category-pill {
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: #FFFFFF;
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.modui-category-pill:hover {
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
+.modui-category-pill--active {
+  background: var(--accent-primary) !important;
+  color: #FFFFFF !important;
+  border-color: var(--accent-primary) !important;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28);
+}
+
+.modui-empty-state {
   padding: 4rem 2rem;
   text-align: center;
   background: #FFFFFF;
@@ -94,23 +135,23 @@
   color: var(--text-secondary);
 }
 
-.nomu-featured-grid {
+.modui-featured-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 1.75rem;
 }
 
 @media (max-width: 640px) {
-  .nomu-explorer-wrap {
+  .modui-explorer-wrap {
     padding: 2.5rem 0 4rem;
   }
-  .nomu-featured-grid {
+  .modui-featured-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
   }
 }
 
-.nomu-featured-card {
+.modui-featured-card {
   background: #FFFFFF;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-default);
@@ -122,20 +163,20 @@
   cursor: pointer;
 }
 
-.nomu-featured-card:hover {
+.modui-featured-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
-  border-color: rgba(224, 93, 56, 0.35);
+  border-color: var(--accent-border);
 }
 
-.nomu-card-meta-top {
+.modui-card-meta-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-.nomu-card-cat-badge {
+.modui-card-cat-badge {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 600;
@@ -145,13 +186,13 @@
   color: var(--text-secondary);
 }
 
-.nomu-card-ver-tag {
+.modui-card-ver-tag {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   color: var(--text-tertiary);
 }
 
-.nomu-card-title {
+.modui-card-title {
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
@@ -160,14 +201,14 @@
   margin-bottom: 0.5rem;
 }
 
-.nomu-card-description {
+.modui-card-description {
   font-size: 0.875rem;
   color: var(--text-secondary);
   line-height: 1.55;
   margin-bottom: 1.5rem;
 }
 
-.nomu-card-preview-stage {
+.modui-card-preview-stage {
   min-height: 140px;
   background: #FAF9F6;
   border: 1px solid var(--border-subtle);
@@ -179,13 +220,13 @@
   margin-bottom: 1.5rem;
 }
 
-.nomu-card-action-bar {
+.modui-card-action-bar {
   margin-top: auto;
   padding-top: 1rem;
   border-top: 1px solid var(--border-subtle);
 }
 
-.nomu-card-cta-link {
+.modui-card-cta-link {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -195,6 +236,6 @@
   transition: transform var(--transition-fast);
 }
 
-.nomu-featured-card:hover .nomu-card-cta-link {
+.modui-featured-card:hover .modui-card-cta-link {
   transform: translateX(3px);
 }

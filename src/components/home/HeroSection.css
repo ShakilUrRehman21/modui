@@ -1,0 +1,306 @@
+/* ==========================================================================
+   ModUI — Hero Section Styles
+   ========================================================================== */
+
+.modui-hero-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.modui-hero-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4.5rem 1.5rem 3.5rem;
+  max-width: 1140px;
+  margin: 0 auto;
+  text-align: center;
+  z-index: 1;
+}
+
+.modui-hero-grid-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.modui-headline,
+.modui-hero-subtitle,
+.modui-hero-cta-row,
+.modui-composer-bar,
+.modui-workbench-stage-card,
+.modui-ecosystem-strip {
+  position: relative;
+  z-index: 1;
+}
+
+.modui-hero-badge-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.modui-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.95rem;
+  border-radius: var(--radius-pill);
+  background: #FFFFFF;
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.modui-hero-badge:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent-primary);
+}
+
+.modui-hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  box-shadow: 0 0 6px var(--accent-primary);
+}
+
+.modui-hero-badge-tag {
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.modui-hero-badge-divider {
+  opacity: 0.25;
+}
+
+/* Big Sculpted Headline */
+.modui-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 6.25vw, 5.25rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  margin-bottom: 1.35rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.modui-headline-line {
+  display: block;
+}
+
+.modui-headline-serif {
+  font-family: var(--font-serif, 'Instrument Serif', Georgia, serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-primary);
+  letter-spacing: -0.01em;
+  font-size: 1.08em;
+  display: inline;
+  word-break: break-word;
+}
+
+.modui-cursor-caret {
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--accent-primary);
+  font-weight: 300;
+  animation: modui-blink 0.9s infinite step-end;
+}
+
+@keyframes modui-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.modui-hero-subtitle {
+  font-size: clamp(1.05rem, 1.6vw, 1.1875rem);
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 660px;
+  margin: 0 auto 2.5rem;
+  font-weight: 400;
+}
+
+/* CTA Row */
+.modui-hero-cta-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.25rem;
+}
+
+.modui-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.65rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-coral);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+}
+
+.modui-cta-btn:hover {
+  background: var(--accent-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px -4px rgba(79, 70, 229, 0.38);
+}
+
+.modui-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.65rem;
+  border-radius: var(--radius-pill);
+  background: #FFFFFF;
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.modui-secondary-btn:hover {
+  background: var(--bg-surface-elevated);
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Improved, Compact, Sleek Search Bar */
+.modui-composer-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  height: 40px;
+  padding: 0.2rem 0.35rem 0.2rem 1rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  margin: 0 auto 3rem;
+  outline: none !important;
+  transition: all var(--transition-fast);
+}
+
+.modui-composer-bar:focus-within {
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.12);
+  outline: none !important;
+}
+
+.modui-composer-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none !important;
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+  font-family: inherit;
+}
+
+.modui-composer-input:focus {
+  outline: none !important;
+}
+
+.modui-composer-input::placeholder {
+  color: #94A3B8;
+  font-size: 0.8125rem;
+}
+
+.modui-composer-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--text-primary);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.modui-composer-submit-btn:hover {
+  background: var(--accent-primary);
+}
+
+/* Ecosystem Strip */
+.modui-ecosystem-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.modui-ecosystem-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.modui-ecosystem-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.modui-eco-tag {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.modui-eco-dot {
+  color: var(--border-default);
+  font-size: 0.8125rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .modui-hero-section {
+    padding: 3.5rem 1rem 2rem;
+  }
+  .modui-hero-cta-row {
+    flex-direction: column;
+    width: 100%;
+  }
+  .modui-cta-btn,
+  .modui-secondary-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .modui-composer-bar {
+    max-width: 100%;
+  }
+}

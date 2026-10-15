@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Modui — Component Detail Page Styles (Nomu Design System)
+   Modui — Component Detail Page Styles (ModUI Design System)
    ========================================================================== */
 
 .modui-detail-page-wrap {
@@ -207,6 +207,38 @@
   user-select: none;
   padding-top: 0.5rem;
 }
+
+.modui-pill-toggle {
+  font-family: var(--font-sans, -apple-system, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-default, #E2E8F0);
+  color: var(--text-secondary, #64748B);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.modui-pill-toggle:hover {
+  border-color: var(--text-secondary, #64748B);
+  color: var(--text-primary, #0F172A);
+  background: #F8FAFC;
+}
+
+.modui-pill-toggle--active {
+  background: var(--text-primary, #0F172A) !important;
+  border-color: var(--text-primary, #0F172A) !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
+}
+
 
 /* Tabs Bar */
 .modui-detail-tabs-bar {

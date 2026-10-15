@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Modui — Nomu Floating Pill Navbar
+   Modui — ModUI Floating Pill Navbar
    ========================================================================== */
 
-.nomu-navbar-wrapper {
+.modui-navbar-wrapper {
   position: sticky;
   top: 1rem;
   z-index: 1000;
@@ -11,7 +11,7 @@
   pointer-events: none;
 }
 
-.nomu-navbar-pill {
+.modui-navbar-pill {
   max-width: 1080px;
   margin: 0 auto;
   height: 54px;
@@ -30,7 +30,7 @@
 }
 
 /* Brand Wordmark */
-.nomu-brand-btn {
+.modui-brand-btn {
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -41,7 +41,7 @@
   padding: 0;
 }
 
-.nomu-brand-text {
+.modui-brand-text {
   font-family: var(--font-display);
   font-size: 1.35rem;
   font-weight: 800;
@@ -49,7 +49,7 @@
   color: var(--text-primary);
 }
 
-.nomu-brand-dot {
+.modui-brand-dot {
   width: 6px;
   height: 6px;
   background: var(--accent-primary);
@@ -59,13 +59,13 @@
 }
 
 /* Center Links */
-.nomu-nav-center {
+.modui-nav-center {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
-.nomu-nav-link {
+.modui-nav-link {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
@@ -80,24 +80,24 @@
   border: none;
 }
 
-.nomu-nav-link:hover {
+.modui-nav-link:hover {
   background: var(--bg-surface-elevated);
   color: var(--text-primary);
 }
 
-.nomu-nav-link--active {
+.modui-nav-link--active {
   font-weight: 600;
   color: var(--accent-primary);
 }
 
 /* Right Actions */
-.nomu-nav-actions {
+.modui-nav-actions {
   display: flex;
   align-items: center;
   gap: 0.45rem;
 }
 
-.nomu-search-btn {
+.modui-search-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -111,13 +111,13 @@
   cursor: pointer;
 }
 
-.nomu-search-btn:hover {
+.modui-search-btn:hover {
   background: var(--bg-surface-elevated);
   color: var(--text-primary);
   border-color: var(--border-default);
 }
 
-.nomu-search-kbd {
+.modui-search-kbd {
   font-family: var(--font-mono);
   font-size: 0.65rem;
   background: rgba(0, 0, 0, 0.05);
@@ -125,7 +125,7 @@
   border-radius: 4px;
 }
 
-.nomu-github-btn {
+.modui-github-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -140,14 +140,14 @@
   transition: all var(--transition-fast);
 }
 
-.nomu-github-btn:hover {
+.modui-github-btn:hover {
   color: var(--text-primary);
   border-color: var(--border-strong);
   background: var(--bg-surface-elevated);
 }
 
 /* Primary Coral Pill CTA */
-.nomu-cta-pill {
+.modui-cta-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -163,14 +163,14 @@
   border: none;
 }
 
-.nomu-cta-pill:hover {
+.modui-cta-pill:hover {
   background: var(--accent-primary-hover);
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(79, 70, 229, 0.38);
 }
 
 /* Mobile Toggle Button */
-.nomu-mobile-menu-trigger {
+.modui-mobile-menu-trigger {
   display: none;
   align-items: center;
   gap: 0.4rem;
@@ -186,11 +186,11 @@
   transition: all var(--transition-fast);
 }
 
-.nomu-mobile-menu-trigger:hover {
+.modui-mobile-menu-trigger:hover {
   border-color: var(--text-primary);
 }
 
-.nomu-hamburger-icon {
+.modui-hamburger-icon {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -199,7 +199,7 @@
   height: 14px;
 }
 
-.nomu-hamburger-bar {
+.modui-hamburger-bar {
   display: block;
   width: 100%;
   height: 2px;
@@ -208,16 +208,16 @@
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.nomu-hamburger-icon.open .nomu-hamburger-bar:first-child {
+.modui-hamburger-icon.open .modui-hamburger-bar:first-child {
   transform: translateY(3px) rotate(45deg);
 }
 
-.nomu-hamburger-icon.open .nomu-hamburger-bar:last-child {
+.modui-hamburger-icon.open .modui-hamburger-bar:last-child {
   transform: translateY(-3px) rotate(-45deg);
 }
 
 /* Mobile Backdrop */
-.nomu-mobile-backdrop {
+.modui-mobile-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.35);
@@ -225,11 +225,11 @@
   -webkit-backdrop-filter: blur(4px);
   z-index: 1000;
   pointer-events: auto;
-  animation: nomuFadeIn 0.2s ease-out;
+  animation: moduiFadeIn 0.2s ease-out;
 }
 
 /* Mobile Drawer */
-.nomu-mobile-drawer {
+.modui-mobile-drawer {
   position: fixed;
   top: 4.75rem;
   left: 1rem;
@@ -244,16 +244,16 @@
   flex-direction: column;
   gap: 0.5rem;
   pointer-events: auto;
-  animation: nomuSlideDown 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: moduiSlideDown 0.24s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.nomu-mobile-nav-links {
+.modui-mobile-nav-links {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 }
 
-.nomu-mobile-link {
+.modui-mobile-link {
   text-align: left;
   padding: 0.75rem 1rem;
   font-size: 0.95rem;
@@ -268,33 +268,33 @@
   display: block;
 }
 
-.nomu-mobile-link:hover {
+.modui-mobile-link:hover {
   background: var(--bg-surface-elevated);
 }
 
-.nomu-mobile-link--active {
+.modui-mobile-link--active {
   font-weight: 700;
   color: var(--accent-primary);
   background: rgba(79, 70, 229, 0.06);
 }
 
-.nomu-mobile-search-link {
+.modui-mobile-search-link {
   color: var(--accent-primary);
   font-weight: 600;
 }
 
-.nomu-mobile-drawer-footer {
+.modui-mobile-drawer-footer {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--border-default);
 }
 
-@keyframes nomuFadeIn {
+@keyframes moduiFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes nomuSlideDown {
+@keyframes moduiSlideDown {
   from {
     opacity: 0;
     transform: translateY(-8px) scale(0.98);
@@ -307,37 +307,37 @@
 
 /* Breakpoints */
 @media (max-width: 840px) {
-  .nomu-nav-center {
+  .modui-nav-center {
     display: none;
   }
-  .nomu-search-btn {
+  .modui-search-btn {
     display: none;
   }
-  .nomu-cta-pill {
+  .modui-cta-pill {
     display: none;
   }
-  .nomu-mobile-menu-trigger {
+  .modui-mobile-menu-trigger {
     display: flex;
   }
 }
 
 @media (max-width: 540px) {
-  .nomu-navbar-wrapper {
+  .modui-navbar-wrapper {
     top: 0.5rem;
     padding: 0 0.5rem;
   }
-  .nomu-navbar-pill {
+  .modui-navbar-pill {
     height: 50px;
     padding: 0.25rem 0.5rem 0.25rem 0.95rem;
   }
-  .nomu-brand-text {
+  .modui-brand-text {
     font-size: 1.2rem;
   }
   /* On small mobile, move GitHub link into the drawer to keep navbar uncluttered */
-  .nomu-nav-actions .nomu-github-btn {
+  .modui-nav-actions .modui-github-btn {
     display: none;
   }
-  .nomu-mobile-drawer {
+  .modui-mobile-drawer {
     top: 4.25rem;
     left: 0.75rem;
     right: 0.75rem;

@@ -8,33 +8,33 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
-    <footer className="nomu-footer">
-      <div className="modui-container nomu-footer-inner">
-        <div className="nomu-footer-brand">
-          <div className="nomu-footer-logo-wrap">
-            <span className="nomu-footer-logo">ModUI</span>
-            <span className="nomu-footer-dot" />
+    <footer className="modui-footer">
+      <div className="modui-container modui-footer-inner">
+        <div className="modui-footer-brand">
+          <div className="modui-footer-logo-wrap">
+            <span className="modui-footer-logo">ModUI</span>
+            <span className="modui-footer-dot" />
           </div>
-          <span className="nomu-footer-tagline">
+          <span className="modui-footer-tagline">
             Modular UI, thoughtfully built.
           </span>
         </div>
 
-        <div className="nomu-footer-nav">
-          <button className="nomu-footer-link" onClick={() => onNavigate('/')}>
+        <div className="modui-footer-nav">
+          <button className="modui-footer-link" onClick={() => onNavigate('/')}>
             Overview
           </button>
-          <button className="nomu-footer-link" onClick={() => onNavigate('/components')}>
+          <button className="modui-footer-link" onClick={() => onNavigate('/components')}>
             Components
           </button>
-          <button className="nomu-footer-link" onClick={() => onNavigate('/docs')}>
+          <button className="modui-footer-link" onClick={() => onNavigate('/docs')}>
             Docs
           </button>
           <a
             href="https://github.com/ShakilUrRehman21/modui"
             target="_blank"
             rel="noopener noreferrer"
-            className="nomu-footer-link"
+            className="modui-footer-link"
             onClick={() => trackGithubClick({ location: 'footer' })}
           >
             <span>GitHub</span>
@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      <div className="modui-container nomu-footer-sub">
+      <div className="modui-container modui-footer-sub">
         <span>© {new Date().getFullYear()} Modui. Built for modern creative developers.</span>
         <span>Open source. MIT Licensed.</span>
       </div>

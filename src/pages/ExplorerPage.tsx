@@ -5,6 +5,7 @@ import { Badge } from '../components/ui/badge';
 import { KineticText } from '../components/ui/motion/KineticText';
 import { NumberTicker } from '../components/ui/counter';
 import { CylindricalCarousel } from '../components/ui/carousel';
+import { FloatingDock } from '../components/ui/dock';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -40,24 +41,24 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
   }, [searchQuery, selectedCategory]);
 
   return (
-    <div className="nomu-explorer-wrap">
+    <div className="modui-explorer-wrap">
       <div className="modui-container">
         {/* Header */}
-        <div className="nomu-explorer-header">
-          <div className="nomu-eyebrow">MODULE CATALOGUE</div>
-          <h1 className="nomu-explorer-title">Explore Components</h1>
-          <p className="nomu-explorer-subtitle">
+        <div className="modui-explorer-header">
+          <div className="modui-eyebrow">MODULE CATALOGUE</div>
+          <h1 className="modui-explorer-title">Explore Components</h1>
+          <p className="modui-explorer-subtitle">
             Browse our curated collection of modular React components.
             Inspect live variations and open dedicated code tabs to copy TSX, CSS, and usage examples.
           </p>
         </div>
 
         {/* Search & Filter Toolbar */}
-        <div className="nomu-explorer-toolbar">
-          <div className="nomu-explorer-search">
+        <div className="modui-explorer-toolbar">
+          <div className="modui-explorer-search">
             <input
               type="text"
-              className="nomu-search-input-field"
+              className="modui-search-input-field"
               placeholder="Search components..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -65,7 +66,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="nomu-clear-search-btn"
+                className="modui-clear-search-btn"
                 aria-label="Clear search"
               >
                 Clear
@@ -73,9 +74,9 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
             )}
           </div>
 
-          <div className="nomu-explorer-pills">
+          <div className="modui-explorer-pills">
             <button
-              className={`nomu-category-pill ${selectedCategory === 'All' ? 'nomu-category-pill--active' : ''}`}
+              className={`modui-category-pill ${selectedCategory === 'All' ? 'modui-category-pill--active' : ''}`}
               onClick={() => setSelectedCategory('All')}
             >
               All ({COMPONENT_REGISTRY.length})
@@ -86,7 +87,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
               return (
                 <button
                   key={cat}
-                  className={`nomu-category-pill ${selectedCategory === cat ? 'nomu-category-pill--active' : ''}`}
+                  className={`modui-category-pill ${selectedCategory === cat ? 'modui-category-pill--active' : ''}`}
                   onClick={() => setSelectedCategory(cat)}
                 >
                   {cat} ({count})
@@ -98,25 +99,25 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
 
         {/* Visual Component Cards Grid (No Boring Table) */}
         {filteredComponents.length > 0 ? (
-          <div className="nomu-featured-grid" style={{ marginTop: '2.5rem', marginBottom: '6rem' }}>
+          <div className="modui-featured-grid" style={{ marginTop: '2.5rem', marginBottom: '6rem' }}>
             {filteredComponents.map((comp) => (
               <div
                 key={comp.id}
-                className="nomu-featured-card"
+                className="modui-featured-card"
                 onClick={() => {
                   trackPreviewOpen({ component: comp.slug, mode: 'card_preview' });
                   onNavigate(`/components/${comp.slug}`);
                 }}
               >
-                <div className="nomu-card-meta-top">
-                  <span className="nomu-card-cat-badge">{comp.category}</span>
+                <div className="modui-card-meta-top">
+                  <span className="modui-card-cat-badge">{comp.category}</span>
                 </div>
 
-                <h3 className="nomu-card-title">{comp.name}</h3>
-                <p className="nomu-card-description">{comp.description}</p>
+                <h3 className="modui-card-title">{comp.name}</h3>
+                <p className="modui-card-description">{comp.description}</p>
 
                 {/* Live component preview inside each card */}
-                <div className="nomu-card-preview-stage" onClick={(e) => e.stopPropagation()}>
+                <div className="modui-card-preview-stage" onClick={(e) => e.stopPropagation()}>
                   {comp.slug === 'animated-button' && (
                     <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
                       <AnimatedButton variant="shimmer" size="sm">
@@ -133,10 +134,6 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       <Badge variant="accent" dot pulse>
                         Live Pulse
                       </Badge>
-                      <Badge variant="success" dot>
-                        Online
-                      </Badge>
-                      <Badge variant="cyan">React 19</Badge>
                     </div>
                   )}
 
@@ -162,8 +159,8 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                           { id: '4', title: 'Vector Scope', tag: 'Audio', color: '#F59E0B' },
                         ]}
                         radius={115}
-                        cardWidth={95}
-                        cardHeight={110}
+                        cardWidth={120}
+                        cardHeight={150}
                         perspective={420}
                         tiltAngle={-4}
                         showControls={false}
@@ -175,10 +172,75 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       />
                     </div>
                   )}
+
+                  {comp.slug === 'floating-dock' && (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '150px' }}>
+                      <FloatingDock
+                        items={[
+                          {
+                            id: '1',
+                            label: 'Home',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                              </svg>
+                            ),
+                          },
+                          {
+                            id: '2',
+                            label: 'Explore',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+                              </svg>
+                            ),
+                          },
+                          {
+                            id: '3',
+                            label: 'Docs',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" />
+                                <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" />
+                                <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" />
+                              </svg>
+                            ),
+                          },
+                          {
+                            id: '4',
+                            label: 'Terminal',
+                            badge: '3',
+                            badgeVariant: 'count',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="4 17 10 11 4 5" />
+                                <line x1="12" x2="20" y1="19" y2="19" />
+                              </svg>
+                            ),
+                          },
+                          {
+                            id: '5',
+                            label: 'Settings',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="3" />
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                              </svg>
+                            ),
+                          },
+                        ]}
+                        baseSize={40}
+                        variant="glass"
+                        showTooltips={false}
+                      />
+                    </div>
+                  )}
                 </div>
 
-                <div className="nomu-card-action-bar">
-                  <span className="nomu-card-cta-link">
+                <div className="modui-card-action-bar">
+                  <span className="modui-card-cta-link">
                     <span>Inspect & View Code Tabs</span>
                   </span>
                 </div>
@@ -186,10 +248,10 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
             ))}
           </div>
         ) : (
-          <div className="nomu-empty-state">
+          <div className="modui-empty-state">
             <p>No components found matching "{searchQuery}".</p>
             <button
-              className="nomu-category-pill nomu-category-pill--active"
+              className="modui-category-pill modui-category-pill--active"
               style={{ marginTop: '1rem' }}
               onClick={() => {
                 setSearchQuery('');

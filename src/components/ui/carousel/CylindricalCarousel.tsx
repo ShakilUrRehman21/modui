@@ -91,19 +91,20 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
     }
   }, []);
 
-  // Compute auto-scale factor so the 3D cylinder NEVER escapes the container box
+  // Compute auto-scale factor so the 3D cylinder NEVER escapes the container box and leaves clear gap for controls
   const autoScale = useMemo(() => {
     if (!containerDim.width || !containerDim.height) return 1;
     // Total diameter footprint needed in 3D projection
     const requiredWidth = radius * 2 + cardWidth;
-    const requiredHeight = cardHeight + 40;
+    const verticalReserve = (showControls ? 76 : 16) + (showDragHint ? 32 : 0);
+    const requiredHeight = cardHeight + 20;
 
-    const scaleX = (containerDim.width - 20) / requiredWidth;
-    const scaleY = (containerDim.height - 30) / requiredHeight;
+    const scaleX = (containerDim.width - 24) / requiredWidth;
+    const scaleY = (containerDim.height - verticalReserve) / requiredHeight;
 
     const fitScale = Math.min(scaleX, scaleY, 1);
     return Math.max(fitScale, 0.28);
-  }, [containerDim, radius, cardWidth, cardHeight]);
+  }, [containerDim, radius, cardWidth, cardHeight, showControls, showDragHint]);
 
   // Rotation state in degrees
   const [rotation, setRotation] = useState(0);
@@ -409,6 +410,7 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
         ref={cylinderRef}
         className="modui-cylindrical-ring"
         style={{
+          top: showControls ? 'calc(50% - 20px)' : '50%',
           transform: `scale(${autoScale}) translateZ(-${radius}px) rotateX(${tiltAngle}deg) rotateY(${rotation}deg)`,
         }}
       >
@@ -467,60 +469,63 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
           </div>
         ))}
       </div>
-
       {/* Floating Tactical Bottom Controls */}
-      {showControls && (
-        <div className="modui-cylindrical-controls" onClick={(e) => e.stopPropagation()}>
-          <button
-            type="button"
-            className="modui-cylindrical-ctrl-btn"
-            onClick={() => snapToIndex((activeIndex - 1 + totalItems) % totalItems)}
-            aria-label="Previous slide"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </button>
+      {
+        showControls && (
+          <div className="modui-cylindrical-controls" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="modui-cylindrical-ctrl-btn"
+              onClick={() => snapToIndex((activeIndex - 1 + totalItems) % totalItems)}
+              aria-label="Previous slide"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
 
-          {showIndicators && (
-            <div className="modui-cylindrical-dots" role="tablist" aria-label="Slides">
-              {items.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  className={`modui-cylindrical-dot ${i === activeIndex ? 'modui-cylindrical-dot--active' : ''}`}
-                  onClick={() => snapToIndex(i)}
-                  aria-label={`Go to slide ${i + 1}`}
-                  role="tab"
-                  aria-selected={i === activeIndex}
-                />
-              ))}
-            </div>
-          )}
+            {showIndicators && (
+              <div className="modui-cylindrical-dots" role="tablist" aria-label="Slides">
+                {items.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`modui-cylindrical-dot ${i === activeIndex ? 'modui-cylindrical-dot--active' : ''}`}
+                    onClick={() => snapToIndex(i)}
+                    aria-label={`Go to slide ${i + 1}`}
+                    role="tab"
+                    aria-selected={i === activeIndex}
+                  />
+                ))}
+              </div>
+            )}
 
-          <button
-            type="button"
-            className="modui-cylindrical-ctrl-btn"
-            onClick={() => snapToIndex((activeIndex + 1) % totalItems)}
-            aria-label="Next slide"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-        </div>
-      )}
+            <button
+              type="button"
+              className="modui-cylindrical-ctrl-btn"
+              onClick={() => snapToIndex((activeIndex + 1) % totalItems)}
+              aria-label="Next slide"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
+        )
+      }
 
       {/* Drag instruction micro-hint */}
-      {showDragHint && (
-        <div className="modui-cylindrical-drag-hint">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="8 17 3 12 8 7" />
-            <polyline points="16 17 21 12 16 7" />
-          </svg>
-          <span>Drag to rotate · Click card to focus</span>
-        </div>
-      )}
-    </div>
+      {
+        showDragHint && (
+          <div className="modui-cylindrical-drag-hint">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="8 17 3 12 8 7" />
+              <polyline points="16 17 21 12 16 7" />
+            </svg>
+            <span>Drag to rotate · Click card to focus</span>
+          </div>
+        )
+      }
+    </div >
   );
 };

@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Modui Design System — Nomu UI Standard (100% Faithful Implementation)
-   Inspired by https://nomu.store/
+   Modui Design System — ModUI UI Standard (100% Faithful Implementation)
+   Inspired by https://modui.store/
    ========================================================================== */
 
 :root {
@@ -175,8 +175,8 @@ select {
   }
 }
 
-/* Nomu Top Floating Capsule Badge */
-.nomu-hero-badge {
+/* ModUI Top Floating Capsule Badge */
+.modui-hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -191,17 +191,17 @@ select {
   transition: transform var(--transition-fast);
 }
 
-.nomu-hero-badge:hover {
+.modui-hero-badge:hover {
   transform: translateY(-1px);
 }
 
-.nomu-hero-badge-tag {
+.modui-hero-badge-tag {
   color: var(--accent-primary);
   font-weight: 700;
 }
 
-/* Nomu Signature Heading Typography */
-.nomu-headline {
+/* ModUI Signature Heading Typography */
+.modui-headline {
   font-family: var(--font-display);
   font-size: clamp(2.75rem, 6vw, 4.75rem);
   font-weight: 800;
@@ -211,13 +211,13 @@ select {
   text-align: center;
 }
 
-.nomu-headline-coral {
+.modui-headline-coral {
   color: var(--accent-primary);
   display: inline-block;
 }
 
-/* Nomu Signature Coral Pill CTA Button */
-.nomu-cta-btn {
+/* ModUI Signature Coral Pill CTA Button */
+.modui-cta-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -234,18 +234,28 @@ select {
   text-decoration: none;
 }
 
-.nomu-cta-btn:hover {
+.modui-cta-btn:hover {
   background: var(--accent-primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 10px 28px -4px rgba(255, 116, 72, 0.45);
+  box-shadow: 0 10px 28px -4px rgba(79, 70, 229, 0.4);
 }
 
-.nomu-cta-btn-arrow {
+.modui-cta-btn-arrow {
   transition: transform var(--transition-fast);
 }
 
-.nomu-cta-btn:hover .nomu-cta-btn-arrow {
+.modui-cta-btn:hover .modui-cta-btn-arrow {
   transform: translate(2px, -2px);
+}
+
+.modui-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
 }
 
 /* Custom Scrollbars */
