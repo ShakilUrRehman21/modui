@@ -6,6 +6,7 @@ import { KineticText } from '../components/ui/motion/KineticText';
 import { NumberTicker } from '../components/ui/counter';
 import { CylindricalCarousel } from '../components/ui/carousel';
 import { FloatingDock } from '../components/ui/dock';
+import { RadialOrbitHub } from '../components/ui/radial-hub';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -233,7 +234,60 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         ]}
                         baseSize={40}
                         variant="glass"
-                        showTooltips={false}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'radial-orbit-hub' && (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '170px' }}>
+                      <RadialOrbitHub
+                        items={[
+                          {
+                            id: 'search',
+                            label: 'Search',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                              </svg>
+                            ),
+                          },
+                          {
+                            id: 'ai',
+                            label: 'AI Core',
+                            badge: 'AI',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
+                              </svg>
+                            ),
+                          },
+                          {
+                            id: 'layers',
+                            label: 'Layers',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                                <polyline points="2 17 12 22 22 17" />
+                                <polyline points="2 12 12 17 22 12" />
+                              </svg>
+                            ),
+                          },
+                          {
+                            id: 'terminal',
+                            label: 'Terminal',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="4 17 10 11 4 5" />
+                                <line x1="12" x2="20" y1="19" y2="19" />
+                              </svg>
+                            ),
+                          },
+                        ]}
+                        radius={64}
+                        variant="glass"
+                        showLabels={false}
+                        soundEnabled={false}
                       />
                     </div>
                   )}

@@ -132,6 +132,14 @@
   overflow: hidden;
 }
 
+.modui-card-preview-stage--orbit {
+  min-height: 165px;
+  height: 165px;
+  padding: 0.5rem;
+  overflow: visible;
+  position: relative;
+}
+
 .modui-card-action-bar {
   margin-top: auto;
   padding-top: 1rem;

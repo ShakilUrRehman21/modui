@@ -1,0 +1,414 @@
+/* ==========================================================================
+   ModUI RadialOrbitHub Component Stylesheet
+   Elastic Radial Bloom · Rotational Inertia Track · Tactile Micro-Haptics
+   ========================================================================== */
+
+.modui-radial-hub {
+  position: relative;
+  width: calc(var(--hub-radius, 110px) * 2 + 80px);
+  height: calc(var(--hub-radius, 110px) * 2 + 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: none;
+  outline: none;
+  margin: 0 auto;
+}
+
+/* Background Orbit Geometry Ring */
+.modui-radial-orbit-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+}
+
+.modui-radial-hub--open .modui-radial-orbit-canvas {
+  opacity: 1;
+}
+
+.modui-radial-orbit-ring {
+  fill: none;
+  stroke: rgba(79, 70, 229, 0.16);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 6;
+  animation: modui-orbit-rotate 40s linear infinite;
+  transform-origin: center center;
+}
+
+.modui-radial-orbit-ring-outer {
+  fill: none;
+  stroke: rgba(79, 70, 229, 0.08);
+  stroke-width: 1;
+}
+
+@keyframes modui-orbit-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Satellites Track Container */
+.modui-radial-satellites {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Individual Node Slot with Elastic Bloom Transition */
+.modui-radial-node-slot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.3) translate3d(0, 0, 0);
+  transition:
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.25s ease;
+  will-change: transform, opacity;
+}
+
+.modui-radial-node-slot--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Counter-rotation to keep icons straight */
+.modui-radial-node-counter-rot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+}
+
+/* Satellite Action Node Button */
+.modui-radial-node-btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow:
+    0 10px 25px -4px rgba(15, 23, 42, 0.1),
+    0 4px 10px -2px rgba(15, 23, 42, 0.05);
+  cursor: pointer;
+  outline: none;
+  transition:
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.22s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+}
+
+.modui-radial-node-btn:hover,
+.modui-radial-node-btn--hovered {
+  transform: scale(1.18) translateY(-2px);
+  box-shadow:
+    0 16px 32px -6px rgba(79, 70, 229, 0.28),
+    0 0 0 1px rgba(79, 70, 229, 0.3);
+  border-color: var(--accent-primary, #4F46E5);
+}
+
+.modui-radial-node-btn:active {
+  transform: scale(0.96);
+}
+
+.modui-radial-node-btn:focus-visible {
+  outline: 2px solid var(--accent-primary, #4F46E5);
+  outline-offset: 3px;
+}
+
+.modui-radial-node-btn--disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Node Icon Container */
+.modui-radial-node-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--text-primary, #0F172A);
+  transition: transform 0.2s ease;
+}
+
+.modui-radial-node-btn:hover .modui-radial-node-icon {
+  transform: scale(1.1);
+}
+
+.modui-radial-node-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 2;
+}
+
+/* Node Badge (Counter or Status Dot) */
+.modui-radial-node-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #EF4444;
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 5px;
+  min-width: 15px;
+  border-radius: 9999px;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+  pointer-events: none;
+}
+
+/* Subtle Specular Glare Arc on Node */
+.modui-radial-node-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Node Floating Tooltip */
+.modui-radial-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px) scale(0.92);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  background: #0F172A;
+  color: #F8FAFC;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+  transition: opacity 0.16s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 50;
+}
+
+.modui-radial-tooltip--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.modui-radial-tooltip-kbd {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #94A3B8;
+}
+
+/* ==========================================================================
+   Central Core Button
+   ========================================================================== */
+
+.modui-radial-core-btn {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  z-index: 20;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-radial-core-btn:hover {
+  transform: scale(1.06);
+}
+
+.modui-radial-core-btn:active {
+  transform: scale(0.95);
+}
+
+.modui-radial-core-btn:focus-visible {
+  outline: 2px solid var(--accent-primary, #4F46E5);
+  outline-offset: 4px;
+}
+
+.modui-radial-core-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 12px 28px -4px rgba(79, 70, 229, 0.45),
+    0 0 0 2px rgba(255, 255, 255, 0.9),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  z-index: 2;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-radial-hub--open .modui-radial-core-inner {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  box-shadow:
+    0 12px 28px -4px rgba(239, 68, 68, 0.45),
+    0 0 0 2px rgba(255, 255, 255, 0.9),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.modui-radial-core-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modui-radial-hub--open .modui-radial-core-icon-box {
+  transform: rotate(90deg);
+}
+
+/* Ambient Radar Pulse Halo around Core */
+.modui-radial-core-halo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(79, 70, 229, 0.28);
+  pointer-events: none;
+  animation: modui-core-pulse 2.8s ease-out infinite;
+  opacity: 0.8;
+}
+
+.modui-radial-hub--open .modui-radial-core-halo {
+  border-color: rgba(239, 68, 68, 0.35);
+  animation-duration: 2s;
+}
+
+@keyframes modui-core-pulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0.25;
+  }
+  100% {
+    transform: scale(1.38);
+    opacity: 0;
+  }
+}
+
+.modui-radial-core-glow {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(8px);
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Surface Variants
+   ========================================================================== */
+
+/* 1. Dark Edition */
+.modui-radial-hub--dark .modui-radial-orbit-ring {
+  stroke: rgba(255, 255, 255, 0.12);
+}
+
+.modui-radial-hub--dark .modui-radial-node-btn {
+  background: #1E293B;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.4);
+}
+
+.modui-radial-hub--dark .modui-radial-node-icon {
+  color: #F8FAFC;
+}
+
+.modui-radial-hub--dark .modui-radial-node-btn:hover {
+  background: #334155;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.6);
+}
+
+/* 2. Neon Cyan Edition */
+.modui-radial-hub--neon .modui-radial-orbit-ring {
+  stroke: rgba(6, 182, 212, 0.3);
+}
+
+.modui-radial-hub--neon .modui-radial-core-inner {
+  background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+  box-shadow:
+    0 12px 30px -4px rgba(6, 182, 212, 0.55),
+    0 0 0 2px rgba(255, 255, 255, 0.9);
+}
+
+.modui-radial-hub--neon .modui-radial-core-halo {
+  border-color: rgba(6, 182, 212, 0.45);
+}
+
+.modui-radial-hub--neon .modui-radial-node-btn:hover {
+  border-color: #06B6D4;
+  box-shadow: 0 16px 32px -6px rgba(6, 182, 212, 0.4);
+}
+
+/* 3. Minimal */
+.modui-radial-hub--minimal .modui-radial-core-inner {
+  background: #FFFFFF;
+  color: #0F172A;
+  border: 1px solid var(--border-default, #E2E8F0);
+  box-shadow: var(--shadow-md);
+}
+
+.modui-radial-hub--minimal .modui-radial-node-btn {
+  background: #FFFFFF;
+  border: 1px dashed var(--border-default, #CBD5E1);
+  box-shadow: var(--shadow-sm);
+}
