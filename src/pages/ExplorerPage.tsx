@@ -7,6 +7,7 @@ import { NumberTicker } from '../components/ui/counter';
 import { CylindricalCarousel } from '../components/ui/carousel';
 import { FloatingDock } from '../components/ui/dock';
 import { RadialOrbitHub } from '../components/ui/radial-hub';
+import { FluidElasticAccordion } from '../components/ui/accordion';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -288,6 +289,25 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         variant="glass"
                         showLabels={false}
                         soundEnabled={false}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'fluid-elastic-accordion' && (
+                    <div style={{ width: '100%', height: '170px', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
+                      <FluidElasticAccordion
+                        items={[
+                          { id: '1', number: '01', title: 'Spatial', subtitle: 'WebGL 3D', color: '#4F46E5', tag: 'Core' },
+                          { id: '2', number: '02', title: 'Rotary', subtitle: 'Dial Wheel', color: '#06B6D4', tag: 'Audio' },
+                          { id: '3', number: '03', title: 'Neural', subtitle: 'Spring Mesh', color: '#10B981', tag: 'Physics' },
+                        ]}
+                        defaultActiveId="1"
+                        orientation="horizontal"
+                        variant="dark"
+                        trigger="hover"
+                        soundEnabled={false}
+                        expandedRatio={2.5}
+                        style={{ height: '160px', minHeight: '160px', width: '100%' }}
                       />
                     </div>
                   )}

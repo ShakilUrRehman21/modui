@@ -1,0 +1,531 @@
+/* ==========================================================================
+   ModUI FluidElasticAccordion Component Stylesheet
+   Spring Inertia Expansion · Liquid Bezier Dividing Edge · Multi-Orientation
+   ========================================================================== */
+
+.modui-fluid-accordion {
+  position: relative;
+  display: flex;
+  width: 100%;
+  border-radius: var(--radius-xl, 1.5rem);
+  overflow: hidden;
+  box-sizing: border-box;
+  user-select: none;
+  isolation: isolate;
+  background: #0B0F19;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 20px 50px -10px rgba(0, 0, 0, 0.5),
+    0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Horizontal Filmstrip Orientation */
+.modui-fluid-accordion--horizontal {
+  flex-direction: row;
+  min-height: 440px;
+  height: 480px;
+}
+
+/* Vertical Stack Orientation */
+.modui-fluid-accordion--vertical {
+  flex-direction: column;
+  min-height: 520px;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Spring Physics Transitions
+   -------------------------------------------------------------------------- */
+.modui-fluid-accordion--spring-elastic .modui-fluid-panel {
+  transition:
+    flex 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.modui-fluid-accordion--spring-snappy .modui-fluid-panel {
+  transition:
+    flex 0.42s cubic-bezier(0.2, 0.9, 0.2, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.modui-fluid-accordion--spring-gentle .modui-fluid-panel {
+  transition:
+    flex 0.85s cubic-bezier(0.25, 1, 0.4, 1),
+    background-color 0.5s ease,
+    border-color 0.5s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Individual Panel Container
+   -------------------------------------------------------------------------- */
+.modui-fluid-panel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  will-change: flex;
+}
+
+.modui-fluid-panel:focus-visible {
+  outline: 2px solid var(--panel-accent, #4F46E5);
+  outline-offset: -2px;
+  z-index: 5;
+}
+
+/* Background Ambient Lighting & Imagery */
+.modui-fluid-panel-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.modui-fluid-panel-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18;
+  filter: saturate(1.2) contrast(1.1);
+  transform: scale(1.05);
+  transition:
+    opacity 0.6s ease,
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-fluid-panel--active .modui-fluid-panel-img {
+  opacity: 0.38;
+  transform: scale(1);
+}
+
+.modui-fluid-panel-glow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  transition: opacity 0.5s ease;
+}
+
+.modui-fluid-panel--active .modui-fluid-panel-glow {
+  opacity: 1;
+}
+
+.modui-fluid-panel-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Collapsed Ribbon Presentation
+   -------------------------------------------------------------------------- */
+.modui-fluid-collapsed-bar {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  padding: 1.5rem 1rem;
+  box-sizing: border-box;
+  transition:
+    opacity 0.35s ease,
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.modui-fluid-accordion--horizontal .modui-fluid-collapsed-bar {
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modui-fluid-accordion--vertical .modui-fluid-collapsed-bar {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.75rem;
+}
+
+.modui-fluid-panel--active .modui-fluid-collapsed-bar {
+  opacity: 0;
+  transform: scale(0.96);
+  pointer-events: none;
+}
+
+.modui-fluid-panel--collapsed .modui-fluid-collapsed-bar {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.modui-fluid-num-pill {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary, #94A3B8);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.55rem;
+  border-radius: 9999px;
+  line-height: 1;
+}
+
+.modui-fluid-panel:hover .modui-fluid-num-pill {
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.modui-fluid-collapsed-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.modui-fluid-accordion--horizontal .modui-fluid-collapsed-title {
+  font-family: var(--font-display, sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #CBD5E1;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.modui-fluid-accordion--vertical .modui-fluid-collapsed-title {
+  font-family: var(--font-display, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #CBD5E1;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.modui-fluid-panel:hover .modui-fluid-collapsed-title {
+  color: #FFFFFF;
+}
+
+.modui-fluid-collapsed-tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--panel-accent, #4F46E5);
+  background: rgba(79, 70, 229, 0.12);
+  border: 1px solid rgba(79, 70, 229, 0.25);
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+}
+
+/* --------------------------------------------------------------------------
+   Expanded Canvas Presentation
+   -------------------------------------------------------------------------- */
+.modui-fluid-expanded-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.25rem;
+  overflow: hidden;
+  transition:
+    opacity 0.45s ease 0.1s,
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s;
+}
+
+.modui-fluid-panel--collapsed .modui-fluid-expanded-content {
+  opacity: 0;
+  transform: translateX(-16px);
+  pointer-events: none;
+}
+
+.modui-fluid-panel--active .modui-fluid-expanded-content {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.modui-fluid-meta-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.modui-fluid-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid;
+}
+
+.modui-fluid-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.modui-fluid-index-hero {
+  font-family: var(--font-display, sans-serif);
+  font-size: 2.75rem;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.08);
+  letter-spacing: -0.04em;
+}
+
+.modui-fluid-body {
+  margin-top: auto;
+  max-width: 520px;
+}
+
+.modui-fluid-headline {
+  font-family: var(--font-display, sans-serif);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.18;
+  color: #FFFFFF;
+  margin: 0 0 0.5rem 0;
+}
+
+.modui-fluid-subhead {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--panel-accent, #4F46E5);
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.01em;
+}
+
+.modui-fluid-description {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.8875rem;
+  line-height: 1.6;
+  color: #94A3B8;
+  margin: 0 0 1.5rem 0;
+}
+
+.modui-fluid-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  background: var(--btn-accent, #4F46E5);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md, 0.625rem);
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.4);
+}
+
+.modui-fluid-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -2px rgba(79, 70, 229, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   Interactive Liquid Bezier Edge Divider
+   -------------------------------------------------------------------------- */
+.modui-fluid-edge-divider {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modui-fluid-accordion--horizontal .modui-fluid-edge-divider {
+  top: 0;
+  bottom: 0;
+  right: -20px;
+  width: 40px;
+  height: 100%;
+}
+
+.modui-fluid-accordion--vertical .modui-fluid-edge-divider {
+  left: 0;
+  right: 0;
+  bottom: -20px;
+  height: 40px;
+  width: 100%;
+}
+
+.modui-fluid-edge-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* --------------------------------------------------------------------------
+   Variant Skins: Dark · Glass · Editorial · Minimal
+   -------------------------------------------------------------------------- */
+
+/* 1. Dark (Obsidian & Electric Glow) */
+.modui-fluid-accordion--dark {
+  background: #0B0F19;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.modui-fluid-accordion--dark .modui-fluid-panel {
+  background: #0F172A;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.modui-fluid-accordion--dark.modui-fluid-accordion--vertical .modui-fluid-panel {
+  border-right: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.modui-fluid-accordion--dark .modui-fluid-panel--active {
+  background: #0B0F19;
+}
+
+/* 2. Glass (Translucent Frosted Blur) */
+.modui-fluid-accordion--glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 20px 48px -10px rgba(15, 23, 42, 0.12),
+    0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.modui-fluid-accordion--glass .modui-fluid-panel {
+  background: rgba(255, 255, 255, 0.35);
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.modui-fluid-accordion--glass.modui-fluid-accordion--vertical .modui-fluid-panel {
+  border-right: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.modui-fluid-accordion--glass .modui-fluid-panel--active {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.modui-fluid-accordion--glass .modui-fluid-headline,
+.modui-fluid-accordion--glass .modui-fluid-collapsed-title {
+  color: #0F172A;
+}
+
+.modui-fluid-accordion--glass .modui-fluid-description {
+  color: #475569;
+}
+
+.modui-fluid-accordion--glass .modui-fluid-index-hero {
+  color: rgba(15, 23, 42, 0.06);
+}
+
+.modui-fluid-accordion--glass .modui-fluid-num-pill {
+  color: #475569;
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* 3. Editorial (Warm Titanium & Bold Contrast) */
+.modui-fluid-accordion--editorial {
+  background: #18181B;
+  border-color: #27272A;
+}
+
+.modui-fluid-accordion--editorial .modui-fluid-panel {
+  background: #18181B;
+  border-right: 1px solid #27272A;
+}
+
+.modui-fluid-accordion--editorial.modui-fluid-accordion--vertical .modui-fluid-panel {
+  border-right: none;
+  border-bottom: 1px solid #27272A;
+}
+
+.modui-fluid-accordion--editorial .modui-fluid-headline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: 2rem;
+}
+
+/* 4. Minimal (Sharp High-Contrast Monoline) */
+.modui-fluid-accordion--minimal {
+  background: #000000;
+  border: 1px solid #222222;
+  border-radius: 0;
+}
+
+.modui-fluid-accordion--minimal .modui-fluid-panel {
+  background: #000000;
+  border-right: 1px solid #222222;
+  border-radius: 0;
+}
+
+.modui-fluid-accordion--minimal.modui-fluid-accordion--vertical .modui-fluid-panel {
+  border-right: none;
+  border-bottom: 1px solid #222222;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile & Responsive Adaptations
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .modui-fluid-accordion--horizontal {
+    flex-direction: column;
+    min-height: 560px;
+    height: auto;
+  }
+
+  .modui-fluid-accordion--horizontal .modui-fluid-collapsed-bar {
+    flex-direction: row;
+    padding: 1rem 1.25rem;
+  }
+
+  .modui-fluid-accordion--horizontal .modui-fluid-collapsed-title {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 0.95rem;
+  }
+
+  .modui-fluid-expanded-content {
+    padding: 1.5rem;
+  }
+
+  .modui-fluid-headline {
+    font-size: 1.45rem;
+  }
+}
