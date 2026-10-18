@@ -10,6 +10,8 @@ import { RadialOrbitHub } from '../components/ui/radial-hub';
 import type { RadialOrbitMode, RadialOrbitVariant } from '../components/ui/radial-hub';
 import { FluidElasticAccordion } from '../components/ui/accordion';
 import type { FluidAccordionOrientation, FluidAccordionVariant, FluidAccordionTrigger, FluidAccordionSpring } from '../components/ui/accordion';
+import { BeforeAfterSlider } from '../components/ui/slider';
+import type { SliderOrientation, SliderInteraction, SliderVariant } from '../components/ui/slider';
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { trackCopyCode, trackGithubClick, trackPreviewOpen } from '../lib/analytics';
 import './ComponentDetailPage.css';
@@ -65,6 +67,14 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [accordionSound, setAccordionSound] = useState(true);
   const [accordionLiquidEdge, setAccordionLiquidEdge] = useState(true);
   const [accordionRatio, setAccordionRatio] = useState(3.4);
+
+  // Playground state for BeforeAfterSlider
+  const [sliderOrientation, setSliderOrientation] = useState<SliderOrientation>('horizontal');
+  const [sliderMode, setSliderMode] = useState<SliderInteraction>('drag');
+  const [sliderVariant, setSliderVariant] = useState<SliderVariant>('dark');
+  const [sliderPosition, setSliderPosition] = useState(50);
+  const [sliderLabels, setSliderLabels] = useState(true);
+  const [sliderSound, setSliderSound] = useState(true);
 
   // File viewer state inside Code tab
   const [selectedFile, setSelectedFile] = useState<'tsx' | 'css' | 'usage'>('tsx');
@@ -522,6 +532,28 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                 />
               </div>
             )}
+
+            {/* Stage for BeforeAfterSlider */}
+            {slug === 'before-after-slider' && (
+              <div style={{ width: '100%', maxWidth: '720px', margin: '0 auto', padding: '1rem 0' }}>
+                <BeforeAfterSlider
+                  orientation={sliderOrientation}
+                  mode={sliderMode}
+                  variant={sliderVariant}
+                  position={sliderPosition}
+                  onPositionChange={(pos) => setSliderPosition(pos)}
+                  showLabels={sliderLabels}
+                  soundEnabled={sliderSound}
+                  aspectRatio="16 / 10"
+                />
+                <div style={{ marginTop: '1.5rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                  Divider Position: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{sliderPosition}%</span>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                    Tip: Drag the tactile handle, hover (if mode allows), or focus and use Arrow / Home / End keys.
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Playground Controls for Button */}
@@ -901,6 +933,91 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                       onChange={(e) => setAccordionSound(e.target.checked)}
                     />
                     <span>Web Audio Micro-Haptics</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Playground Controls for BeforeAfterSlider */}
+          {slug === 'before-after-slider' && (
+            <div className="modui-controls-panel">
+              <div className="modui-control-group">
+                <label className="modui-control-label">Orientation</label>
+                <div style={{ display: 'flex', gap: '0.4rem' }}>
+                  {(['horizontal', 'vertical'] as const).map((orient) => (
+                    <button
+                      key={orient}
+                      type="button"
+                      className={`modui-pill-toggle ${sliderOrientation === orient ? 'modui-pill-toggle--active' : ''}`}
+                      onClick={() => setSliderOrientation(orient)}
+                    >
+                      {orient.charAt(0).toUpperCase() + orient.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Interaction Mode</label>
+                <div style={{ display: 'flex', gap: '0.4rem' }}>
+                  {(['drag', 'hover', 'both'] as const).map((m) => (
+                    <button
+                      key={m}
+                      type="button"
+                      className={`modui-pill-toggle ${sliderMode === m ? 'modui-pill-toggle--active' : ''}`}
+                      onClick={() => setSliderMode(m)}
+                    >
+                      {m.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Surface Skin</label>
+                <select
+                  className="modui-control-select"
+                  value={sliderVariant}
+                  onChange={(e) => setSliderVariant(e.target.value as SliderVariant)}
+                >
+                  <option value="dark">Dark Obsidian</option>
+                  <option value="glass">Frosted Glass</option>
+                  <option value="minimal">Minimal Monoline</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Divider Position ({sliderPosition}%)</label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={sliderPosition}
+                  onChange={(e) => setSliderPosition(parseInt(e.target.value, 10))}
+                  style={{ width: '100%', accentColor: 'var(--accent-primary)' }}
+                />
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Toggles & Feedback</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={sliderLabels}
+                      onChange={(e) => setSliderLabels(e.target.checked)}
+                    />
+                    <span>Corner Badges (Before / After)</span>
+                  </label>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={sliderSound}
+                      onChange={(e) => setSliderSound(e.target.checked)}
+                    />
+                    <span>Center Snap Acoustic Tick</span>
                   </label>
                 </div>
               </div>

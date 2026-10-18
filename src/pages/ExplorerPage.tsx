@@ -8,6 +8,7 @@ import { CylindricalCarousel } from '../components/ui/carousel';
 import { FloatingDock } from '../components/ui/dock';
 import { RadialOrbitHub } from '../components/ui/radial-hub';
 import { FluidElasticAccordion } from '../components/ui/accordion';
+import { BeforeAfterSlider } from '../components/ui/slider';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -111,17 +112,15 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   onNavigate(`/components/${comp.slug}`);
                 }}
               >
-                <div className="modui-card-meta-top">
-                  <span className="modui-card-cat-badge">{comp.category}</span>
-                </div>
-
-                <h3 className="modui-card-title">{comp.name}</h3>
-                <p className="modui-card-description">{comp.description}</p>
-
-                {/* Live component preview inside each card */}
+                {/* 1. Hero Live Component Preview Canvas */}
                 <div className="modui-card-preview-stage" onClick={(e) => e.stopPropagation()}>
+                  <div className="modui-card-stage-meta">
+                    <span className="modui-card-cat-badge">{comp.category}</span>
+                    <span className="modui-card-ver-tag">v{comp.version}</span>
+                  </div>
+
                   {comp.slug === 'animated-button' && (
-                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', justifyContent: 'center' }}>
                       <AnimatedButton variant="shimmer" size="sm">
                         Shimmer
                       </AnimatedButton>
@@ -132,27 +131,35 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'badge' && (
-                    <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
                       <Badge variant="accent" dot pulse>
                         Live Pulse
+                      </Badge>
+                      <Badge variant="cyan">
+                        v2.4
                       </Badge>
                     </div>
                   )}
 
                   {comp.slug === 'kinetic-text' && (
-                    <div style={{ textAlign: 'center', padding: '0.4rem 0' }}>
-                      <KineticText text="Hover over each letter" interactiveWave={true} />
+                    <div style={{ textAlign: 'center', padding: '0.5rem', color: '#FFFFFF', pointerEvents: 'auto', fontSize: '1.25rem', fontWeight: 700 }}>
+                      <KineticText text="Interactive Wave" interactiveWave={true} />
                     </div>
                   )}
 
                   {comp.slug === 'number-ticker' && (
-                    <div style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-                      <NumberTicker value={1240} prefix="$" suffix="k" />
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.6rem' }}>
+                      <div style={{ fontSize: '2rem', fontWeight: 800, color: '#FFFFFF', fontFamily: 'var(--font-mono)' }}>
+                        <NumberTicker value={1420} prefix="$" suffix="/mo" />
+                      </div>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#10B981', background: 'rgba(16, 185, 129, 0.15)', padding: '0.15rem 0.45rem', borderRadius: '999px', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                        +24.8%
+                      </span>
                     </div>
                   )}
 
                   {comp.slug === 'cylindrical-carousel' && (
-                    <div style={{ width: '100%', height: '150px', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '100%', height: '160px', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <CylindricalCarousel
                         items={[
                           { id: '1', title: 'Spatial Studio', tag: 'Core', color: '#4F46E5', badge: 'v2.1' },
@@ -160,23 +167,23 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                           { id: '3', title: 'Haptic Rotary', tag: 'Dial', color: '#10B981' },
                           { id: '4', title: 'Vector Scope', tag: 'Audio', color: '#F59E0B' },
                         ]}
-                        radius={115}
-                        cardWidth={120}
-                        cardHeight={150}
-                        perspective={420}
+                        radius={110}
+                        cardWidth={115}
+                        cardHeight={135}
+                        perspective={380}
                         tiltAngle={-4}
                         showControls={false}
                         showIndicators={false}
                         showDragHint={false}
                         autoplay={true}
                         autoplaySpeed={15}
-                        style={{ minHeight: '150px', height: '150px' }}
+                        style={{ minHeight: '160px', height: '160px' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'floating-dock' && (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '150px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
                       <FloatingDock
                         items={[
                           {
@@ -206,7 +213,6 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" />
                                 <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" />
-                                <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" />
                               </svg>
                             ),
                           },
@@ -233,14 +239,14 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                             ),
                           },
                         ]}
-                        baseSize={40}
-                        variant="glass"
+                        baseSize={36}
+                        variant="dark"
                       />
                     </div>
                   )}
 
                   {comp.slug === 'radial-orbit-hub' && (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '170px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
                       <RadialOrbitHub
                         items={[
                           {
@@ -285,8 +291,8 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                             ),
                           },
                         ]}
-                        radius={64}
-                        variant="glass"
+                        radius={62}
+                        variant="dark"
                         showLabels={false}
                         soundEnabled={false}
                       />
@@ -294,7 +300,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'fluid-elastic-accordion' && (
-                    <div style={{ width: '100%', height: '170px', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
+                    <div style={{ width: '100%', height: '160px', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
                       <FluidElasticAccordion
                         items={[
                           { id: '1', number: '01', title: 'Spatial', subtitle: 'WebGL 3D', color: '#4F46E5', tag: 'Core' },
@@ -307,16 +313,48 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         trigger="hover"
                         soundEnabled={false}
                         expandedRatio={2.5}
-                        style={{ height: '160px', minHeight: '160px', width: '100%' }}
+                        style={{ height: '150px', minHeight: '150px', width: '100%', borderRadius: '12px' }}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'before-after-slider' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <BeforeAfterSlider
+                        aspectRatio="16 / 10"
+                        variant="dark"
+                        mode="drag"
+                        soundEnabled={false}
+                        initialPosition={50}
+                        showLabels={true}
+                        style={{ width: '92%', maxHeight: '160px', borderRadius: '12px' }}
                       />
                     </div>
                   )}
                 </div>
 
-                <div className="modui-card-action-bar">
-                  <span className="modui-card-cta-link">
-                    <span>Inspect & View Code Tabs</span>
-                  </span>
+                {/* 2. Structured Card Information */}
+                <div className="modui-card-content">
+                  <h3 className="modui-card-title">{comp.name}</h3>
+                  <p className="modui-card-description">{comp.description}</p>
+
+                  <div className="modui-card-action-bar">
+                    <div className="modui-card-tags-mini">
+                      {comp.tags?.slice(0, 2).map((t) => (
+                        <span key={t} className="modui-card-tag-pill">
+                          #{t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <span className="modui-card-cta-link">
+                      <span>Inspect</span>
+                      <svg className="modui-card-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
