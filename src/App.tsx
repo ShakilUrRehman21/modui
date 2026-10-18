@@ -37,7 +37,7 @@ export function App() {
     };
   }, []);
 
-  // Apply light theme
+  // Apply light creative playground theme
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', 'light');
   }, []);

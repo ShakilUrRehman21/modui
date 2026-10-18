@@ -35,7 +35,7 @@
 
 .modui-radial-orbit-ring {
   fill: none;
-  stroke: rgba(79, 70, 229, 0.16);
+  stroke: rgba(54, 92, 245, 0.22);
   stroke-width: 1.5;
   stroke-dasharray: 4 6;
   animation: modui-orbit-rotate 40s linear infinite;
@@ -44,7 +44,7 @@
 
 .modui-radial-orbit-ring-outer {
   fill: none;
-  stroke: rgba(79, 70, 229, 0.08);
+  stroke: rgba(54, 92, 245, 0.1);
   stroke-width: 1;
 }
 
@@ -133,9 +133,9 @@
 .modui-radial-node-btn--hovered {
   transform: scale(1.18) translateY(-2px);
   box-shadow:
-    0 16px 32px -6px rgba(79, 70, 229, 0.28),
-    0 0 0 1px rgba(79, 70, 229, 0.3);
-  border-color: var(--accent-primary, #4F46E5);
+    0 16px 32px -6px rgba(54, 92, 245, 0.28),
+    0 0 0 1px rgba(54, 92, 245, 0.3);
+  border-color: var(--accent-primary, #365CF5);
 }
 
 .modui-radial-node-btn:active {
@@ -280,13 +280,13 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
+  background: linear-gradient(135deg, #365CF5 0%, #2040C9 100%);
   color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow:
-    0 12px 28px -4px rgba(79, 70, 229, 0.45),
+    0 12px 28px -4px rgba(54, 92, 245, 0.42),
     0 0 0 2px rgba(255, 255, 255, 0.9),
     inset 0 1px 2px rgba(255, 255, 255, 0.4);
   z-index: 2;
@@ -294,11 +294,11 @@
 }
 
 .modui-radial-hub--open .modui-radial-core-inner {
-  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  background: linear-gradient(135deg, #1C1D22 0%, #0F1014 100%);
   box-shadow:
-    0 12px 28px -4px rgba(239, 68, 68, 0.45),
+    0 12px 28px -4px rgba(18, 19, 22, 0.35),
     0 0 0 2px rgba(255, 255, 255, 0.9),
-    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+    inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
 .modui-radial-core-icon-box {
@@ -317,14 +317,14 @@
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 1.5px solid rgba(79, 70, 229, 0.28);
+  border: 1.5px solid rgba(54, 92, 245, 0.32);
   pointer-events: none;
   animation: modui-core-pulse 2.8s ease-out infinite;
   opacity: 0.8;
 }
 
 .modui-radial-hub--open .modui-radial-core-halo {
-  border-color: rgba(239, 68, 68, 0.35);
+  border-color: rgba(18, 19, 22, 0.25);
   animation-duration: 2s;
 }
 
@@ -347,7 +347,7 @@
   position: absolute;
   inset: -12px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(79, 70, 229, 0.25) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(54, 92, 245, 0.22) 0%, transparent 70%);
   pointer-events: none;
   filter: blur(8px);
   z-index: 1;

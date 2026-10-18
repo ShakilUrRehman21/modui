@@ -155,10 +155,10 @@
 
 /* Active Item State */
 .modui-dock-item--active {
-  background: rgba(79, 70, 229, 0.1);
-  border: 1px solid rgba(79, 70, 229, 0.28);
-  box-shadow: 0 2px 10px rgba(79, 70, 229, 0.14);
-  color: var(--accent-primary, #4F46E5);
+  background: rgba(54, 92, 245, 0.1);
+  border: 1px solid rgba(54, 92, 245, 0.28);
+  box-shadow: 0 2px 10px rgba(54, 92, 245, 0.14);
+  color: var(--accent-primary, #365CF5);
 }
 
 .modui-dock-item--disabled {
@@ -169,7 +169,7 @@
 
 /* Focus Visible */
 .modui-dock-item-btn:focus-visible {
-  outline: 2px solid var(--accent-primary, #4F46E5);
+  outline: 2px solid var(--accent-primary, #365CF5);
   outline-offset: 2px;
 }
 

@@ -7,16 +7,14 @@
   position: relative;
   display: flex;
   width: 100%;
-  border-radius: var(--radius-xl, 1.5rem);
+  border-radius: var(--radius-md, 8px);
   overflow: hidden;
   box-sizing: border-box;
   user-select: none;
   isolation: isolate;
-  background: #0B0F19;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 20px 50px -10px rgba(0, 0, 0, 0.5),
-    0 4px 16px rgba(0, 0, 0, 0.25);
+  background: #FFFFFF;
+  border: 1px solid var(--border-default, #E4E1D9);
+  box-shadow: 0 4px 16px rgba(32, 32, 30, 0.06);
 }
 
 /* Horizontal Filmstrip Orientation */
@@ -195,13 +193,12 @@
 
 .modui-fluid-accordion--horizontal .modui-fluid-collapsed-title {
   font-family: var(--font-display, sans-serif);
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #CBD5E1;
+  color: #64748B;
   writing-mode: vertical-rl;
-  transform: rotate(180deg);
   white-space: nowrap;
   transition: color 0.25s ease;
 }
@@ -395,7 +392,94 @@
    Variant Skins: Dark · Glass · Editorial · Minimal
    -------------------------------------------------------------------------- */
 
-/* 1. Dark (Obsidian & Electric Glow) */
+/* 1. Light (Clean Creative Studio Standard) */
+.modui-fluid-accordion--light {
+  background: #FFFFFF;
+  border: 1px solid var(--border-default, #E4E1D9);
+}
+
+.modui-fluid-accordion--light .modui-fluid-panel {
+  background: #FAF9F5;
+  border-right: 1px solid var(--border-default, #E4E1D9);
+}
+
+.modui-fluid-accordion--light.modui-fluid-accordion--vertical .modui-fluid-panel {
+  border-right: none;
+  border-bottom: 1px solid var(--border-default, #E4E1D9);
+}
+
+.modui-fluid-accordion--light .modui-fluid-panel--active {
+  background: #FFFFFF;
+}
+
+.modui-fluid-accordion--light .modui-fluid-headline,
+.modui-fluid-accordion--light .modui-fluid-collapsed-title {
+  color: var(--text-primary, #20201E);
+}
+
+.modui-fluid-accordion--light .modui-fluid-description {
+  color: var(--text-secondary, #696963);
+}
+
+.modui-fluid-accordion--light .modui-fluid-index-hero {
+  color: rgba(32, 32, 30, 0.05);
+}
+
+.modui-fluid-accordion--light .modui-fluid-num-pill {
+  color: var(--text-primary, #20201E);
+  background: #FFFFFF;
+  border: 1px solid var(--border-default, #E4E1D9);
+}
+
+.modui-fluid-accordion--light .modui-fluid-cat-tag {
+  background: rgba(54, 92, 245, 0.08);
+  color: var(--accent-primary, #365CF5);
+  border: 1px solid rgba(54, 92, 245, 0.2);
+}
+
+.modui-fluid-accordion--light .modui-fluid-cta-btn {
+  background: var(--accent-primary, #365CF5);
+  color: #FFFFFF;
+  border-radius: var(--radius-sm, 6px);
+  box-shadow: 0 2px 8px rgba(54, 92, 245, 0.25);
+}
+
+/* 2. Editorial (Warm Studio Paper & Clean Contrast) */
+.modui-fluid-accordion--editorial {
+  background: #FAF9F5;
+  border-color: var(--border-default, #E4E1D9);
+}
+
+.modui-fluid-accordion--editorial .modui-fluid-panel {
+  background: #FAF9F5;
+  border-right: 1px solid var(--border-default, #E4E1D9);
+}
+
+.modui-fluid-accordion--editorial.modui-fluid-accordion--vertical .modui-fluid-panel {
+  border-right: none;
+  border-bottom: 1px solid var(--border-default, #E4E1D9);
+}
+
+.modui-fluid-accordion--editorial .modui-fluid-panel--active {
+  background: #FFFFFF;
+}
+
+.modui-fluid-accordion--editorial .modui-fluid-headline,
+.modui-fluid-accordion--editorial .modui-fluid-collapsed-title {
+  color: var(--text-primary, #20201E);
+}
+
+.modui-fluid-accordion--editorial .modui-fluid-description {
+  color: var(--text-secondary, #696963);
+}
+
+.modui-fluid-accordion--editorial .modui-fluid-num-pill {
+  color: var(--text-primary, #20201E);
+  background: #FFFFFF;
+  border-color: var(--border-default, #E4E1D9);
+}
+
+/* 3. Dark (Obsidian & Electric Glow) */
 .modui-fluid-accordion--dark {
   background: #0B0F19;
   border-color: rgba(255, 255, 255, 0.08);
@@ -415,7 +499,7 @@
   background: #0B0F19;
 }
 
-/* 2. Glass (Translucent Frosted Blur) */
+/* 4. Glass (Translucent Frosted Blur) */
 .modui-fluid-accordion--glass {
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(16px);
@@ -457,29 +541,6 @@
   color: #475569;
   background: rgba(0, 0, 0, 0.04);
   border-color: rgba(0, 0, 0, 0.08);
-}
-
-/* 3. Editorial (Warm Titanium & Bold Contrast) */
-.modui-fluid-accordion--editorial {
-  background: #18181B;
-  border-color: #27272A;
-}
-
-.modui-fluid-accordion--editorial .modui-fluid-panel {
-  background: #18181B;
-  border-right: 1px solid #27272A;
-}
-
-.modui-fluid-accordion--editorial.modui-fluid-accordion--vertical .modui-fluid-panel {
-  border-right: none;
-  border-bottom: 1px solid #27272A;
-}
-
-.modui-fluid-accordion--editorial .modui-fluid-headline {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  font-size: 2rem;
 }
 
 /* 4. Minimal (Sharp High-Contrast Monoline) */
@@ -527,5 +588,31 @@
 
   .modui-fluid-headline {
     font-size: 1.45rem;
+  }
+
+  /* Keep compact horizontal preview inside card stages on mobile */
+  .modui-card-stage .modui-fluid-accordion--horizontal,
+  .modui-card-preview-stage .modui-fluid-accordion--horizontal {
+    flex-direction: row !important;
+    min-height: 160px !important;
+    height: 160px !important;
+  }
+
+  .modui-card-stage .modui-fluid-accordion--horizontal .modui-fluid-collapsed-bar,
+  .modui-card-preview-stage .modui-fluid-accordion--horizontal .modui-fluid-collapsed-bar {
+    flex-direction: column !important;
+    padding: 0.5rem !important;
+  }
+
+  .modui-card-stage .modui-fluid-accordion--horizontal .modui-fluid-collapsed-title,
+  .modui-card-preview-stage .modui-fluid-accordion--horizontal .modui-fluid-collapsed-title {
+    writing-mode: vertical-rl !important;
+    transform: none !important;
+    font-size: 0.75rem !important;
+  }
+
+  .modui-card-stage .modui-fluid-expanded-content,
+  .modui-card-preview-stage .modui-fluid-expanded-content {
+    padding: 0.75rem !important;
   }
 }

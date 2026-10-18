@@ -48,7 +48,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [carouselCount, setCarouselCount] = useState(6);
 
   // Playground state for FloatingDock
-  const [dockVariant, setDockVariant] = useState<'glass' | 'solid' | 'minimal' | 'dark'>('glass');
+  const [dockVariant, setDockVariant] = useState<'glass' | 'solid' | 'minimal' | 'dark'>('solid');
   const [dockOrientation, setDockOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
   const [dockActiveId, setDockActiveId] = useState('home');
 
@@ -61,7 +61,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
 
   // Playground state for FluidElasticAccordion
   const [accordionOrientation, setAccordionOrientation] = useState<FluidAccordionOrientation>('horizontal');
-  const [accordionVariant, setAccordionVariant] = useState<FluidAccordionVariant>('dark');
+  const [accordionVariant, setAccordionVariant] = useState<FluidAccordionVariant>('light');
   const [accordionTrigger, setAccordionTrigger] = useState<FluidAccordionTrigger>('click');
   const [accordionSpring, setAccordionSpring] = useState<FluidAccordionSpring>('elastic');
   const [accordionSound, setAccordionSound] = useState(true);
@@ -71,7 +71,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   // Playground state for BeforeAfterSlider
   const [sliderOrientation, setSliderOrientation] = useState<SliderOrientation>('horizontal');
   const [sliderMode, setSliderMode] = useState<SliderInteraction>('drag');
-  const [sliderVariant, setSliderVariant] = useState<SliderVariant>('dark');
+  const [sliderVariant, setSliderVariant] = useState<SliderVariant>('light');
   const [sliderPosition, setSliderPosition] = useState(50);
   const [sliderLabels, setSliderLabels] = useState(true);
   const [sliderSound, setSliderSound] = useState(true);
@@ -86,7 +86,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   if (!component) {
     return (
       <div className="modui-container" style={{ padding: '6rem 0', textAlign: 'center' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', marginBottom: '1rem', color: '#fff' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>
           Component Not Found
         </h2>
         <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: 'var(--text-sm)' }}>
@@ -299,7 +299,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                 padding: '2.5rem 1rem',
                 background: dockVariant === 'dark'
                   ? 'radial-gradient(circle at center, #1E293B 0%, #0F172A 100%)'
-                  : 'radial-gradient(circle at center, rgba(99, 102, 241, 0.05) 0%, transparent 70%)',
+                  : 'radial-gradient(circle at center, rgba(54, 92, 245, 0.05) 0%, transparent 70%)',
                 borderRadius: '16px',
                 transition: 'background 0.3s ease',
               }}>
@@ -463,6 +463,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                   radius={orbitRadius}
                   mode={orbitMode}
                   variant={orbitVariant}
+                  defaultOpen={false}
                   soundEnabled={orbitSound}
                   onSelect={(item) => setOrbitSelectedLabel(`${item.label} (${item.id})`)}
                 />
@@ -866,6 +867,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                   value={accordionVariant}
                   onChange={(e) => setAccordionVariant(e.target.value as FluidAccordionVariant)}
                 >
+                  <option value="light">Crisp Light Studio</option>
                   <option value="dark">Dark Obsidian</option>
                   <option value="glass">Frosted Translucent Glass</option>
                   <option value="editorial">Warm Titanium Editorial</option>
@@ -981,6 +983,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                   value={sliderVariant}
                   onChange={(e) => setSliderVariant(e.target.value as SliderVariant)}
                 >
+                  <option value="light">Crisp Light Studio</option>
                   <option value="dark">Dark Obsidian</option>
                   <option value="glass">Frosted Glass</option>
                   <option value="minimal">Minimal Monoline</option>

@@ -1,6 +1,6 @@
 /* ==========================================================================
-   ModUI BeforeAfterSlider Component Stylesheet
-   Dual-Layer Clip Separation · Tactile Frosted Handle · Elastic Boundary Snap
+   ModUI BeforeAfterSlider Component Stylesheet — Light Creative Studio Standard
+   Dual-Layer Clip Separation · Tactile Clean Handle · Light Blueprint/Render Scenes
    ========================================================================== */
 
 .modui-compare-slider {
@@ -10,13 +10,11 @@
   -webkit-user-select: none;
   touch-action: none;
   cursor: ew-resize;
-  border-radius: var(--radius-xl, 1.25rem);
+  border-radius: var(--radius-md, 8px);
   box-sizing: border-box;
-  background: #0B0F19;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 20px 48px -10px rgba(0, 0, 0, 0.45),
-    0 4px 16px rgba(0, 0, 0, 0.2);
+  background: #FFFFFF;
+  border: 1px solid var(--border-default, #E4E1D9);
+  box-shadow: 0 4px 16px rgba(32, 32, 30, 0.06);
   outline: none;
   isolation: isolate;
   transition:
@@ -29,7 +27,7 @@
 }
 
 .modui-compare-slider:focus-visible {
-  outline: 2px solid var(--accent-primary, #4F46E5);
+  outline: 2px solid var(--accent-primary, #365CF5);
   outline-offset: 4px;
 }
 
@@ -90,10 +88,8 @@
   bottom: 0;
   left: 0;
   width: 2px;
-  background: #FFFFFF;
-  box-shadow:
-    0 0 10px rgba(255, 255, 255, 0.7),
-    0 0 20px var(--accent-primary, #4F46E5);
+  background: var(--accent-primary, #365CF5);
+  box-shadow: 0 0 8px rgba(54, 92, 245, 0.35);
 }
 
 /* Vertical mode divider: full width horizontal line */
@@ -110,10 +106,8 @@
   right: 0;
   top: 0;
   height: 2px;
-  background: #FFFFFF;
-  box-shadow:
-    0 0 10px rgba(255, 255, 255, 0.7),
-    0 0 20px var(--accent-primary, #4F46E5);
+  background: var(--accent-primary, #365CF5);
+  box-shadow: 0 0 8px rgba(54, 92, 245, 0.35);
 }
 
 /* Handle Grip Disc */
@@ -121,36 +115,32 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: rgba(15, 23, 42, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-default, #E4E1D9);
   box-shadow:
-    0 10px 25px -4px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(0, 0, 0, 0.4),
-    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    0 4px 14px rgba(32, 32, 30, 0.12),
+    0 1px 3px rgba(32, 32, 30, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FFFFFF;
+  color: var(--accent-primary, #365CF5);
   transition:
     transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.2s ease,
-    background-color 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .modui-compare-slider:hover .modui-slider-handle,
 .modui-compare-slider--dragging .modui-slider-handle {
-  transform: translate(-50%, -50%) scale(1.1);
-  border-color: #FFFFFF;
-  background: rgba(15, 23, 42, 0.95);
+  transform: translate(-50%, -50%) scale(1.08);
+  border-color: var(--accent-primary, #365CF5);
   box-shadow:
-    0 14px 32px -4px rgba(0, 0, 0, 0.6),
-    0 0 16px rgba(79, 70, 229, 0.45);
+    0 8px 20px rgba(54, 92, 245, 0.22),
+    0 2px 6px rgba(32, 32, 30, 0.08);
 }
 
 .modui-slider-handle-inner {
@@ -163,9 +153,9 @@
 
 .modui-slider-handle-halo {
   position: absolute;
-  inset: -6px;
+  inset: -5px;
   border-radius: 50%;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border: 1px dashed rgba(54, 92, 245, 0.3);
   pointer-events: none;
   animation: modui-slider-halo-spin 14s linear infinite;
   opacity: 0.6;
@@ -189,58 +179,58 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 9999px;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-sm, 6px);
   font-family: var(--font-mono, monospace);
-  font-size: 0.72rem;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #F8FAFC;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-default, #E4E1D9);
+  color: var(--text-primary, #20201E);
+  box-shadow: 0 2px 8px rgba(32, 32, 30, 0.06);
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
 
 .modui-slider-badge--before {
-  top: 1.25rem;
-  left: 1.25rem;
+  top: 1rem;
+  left: 1rem;
 }
 
 .modui-slider-badge--after {
-  top: 1.25rem;
-  right: 1.25rem;
+  top: 1rem;
+  right: 1rem;
 }
 
 .modui-compare-slider--vertical .modui-slider-badge--before {
-  top: 1.25rem;
-  left: 1.25rem;
+  top: 1rem;
+  left: 1rem;
 }
 
 .modui-compare-slider--vertical .modui-slider-badge--after {
-  bottom: 1.25rem;
+  bottom: 1rem;
   top: auto;
-  left: 1.25rem;
+  left: 1rem;
 }
 
 .modui-slider-badge-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #94A3B8;
+  background: var(--text-tertiary, #8E8D86);
 }
 
 .modui-slider-badge-dot--accent {
-  background: var(--accent-primary, #4F46E5);
-  box-shadow: 0 0 8px var(--accent-primary, #4F46E5);
+  background: var(--accent-primary, #365CF5);
+  box-shadow: 0 0 6px rgba(54, 92, 245, 0.4);
 }
 
 /* --------------------------------------------------------------------------
-   Default Artistic Demonstration Scenes (Built-in High-Fidelity Graphics)
+   Default Artistic Demonstration Scenes (Built-in Light Studio Graphics)
    -------------------------------------------------------------------------- */
 .modui-slider-default-scene {
   position: relative;
@@ -251,21 +241,21 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
-/* Before: Minimal Blueprint Wireframe */
+/* Before: Minimal Light Blueprint Wireframe */
 .modui-slider-default-before {
-  background: #090D16;
+  background: #F7F6F0;
 }
 
 .modui-slider-grid-lines {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 32px 32px;
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 .modui-slider-blueprint-box,
@@ -274,9 +264,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: clamp(100px, 34%, 150px);
-  height: clamp(100px, 34%, 150px);
-  border-radius: var(--radius-lg, 1rem);
+  width: clamp(90px, 32%, 140px);
+  height: clamp(90px, 32%, 140px);
+  border-radius: var(--radius-md, 8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -284,56 +274,55 @@
 }
 
 .modui-slider-blueprint-box {
-  border: 1.5px dashed rgba(255, 255, 255, 0.35);
-  background: rgba(15, 23, 42, 0.45);
+  border: 1.5px dashed rgba(54, 92, 245, 0.35);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 12px rgba(32, 32, 30, 0.04);
 }
 
 .modui-slider-blueprint-circle {
-  width: 56%;
-  height: 56%;
+  width: 54%;
+  height: 54%;
   border-radius: 50%;
-  border: 1.5px solid rgba(148, 163, 184, 0.5);
+  border: 1.5px solid rgba(54, 92, 245, 0.45);
 }
 
-/* After: 3D Volumetric Caustic Glow */
+/* After: Clean Rendered Studio Art */
 .modui-slider-default-after {
-  background: radial-gradient(circle at 60% 40%, #1E1B4B 0%, #0B0F19 85%);
+  background: radial-gradient(circle at 60% 40%, #E8F0FE 0%, #FFFFFF 85%);
 }
 
 .modui-slider-volumetric-orb {
   position: absolute;
-  width: clamp(160px, 55%, 260px);
-  height: clamp(160px, 55%, 260px);
+  width: clamp(150px, 50%, 240px);
+  height: clamp(150px, 50%, 240px);
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #06B6D4 0%, #4F46E5 45%, transparent 75%);
-  filter: blur(24px);
-  opacity: 0.8;
+  background: radial-gradient(circle at 35% 35%, rgba(54, 92, 245, 0.15) 0%, rgba(255, 115, 94, 0.1) 60%, transparent 80%);
+  filter: blur(20px);
+  opacity: 0.9;
 }
 
 .modui-slider-rendered-box {
-  background: rgba(255, 255, 255, 0.09);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: #FFFFFF;
+  border: 1px solid var(--border-default, #E4E1D9);
   box-shadow:
-    0 20px 40px -10px rgba(79, 70, 229, 0.45),
-    inset 0 1px 1px rgba(255, 255, 255, 0.6);
+    0 12px 28px -4px rgba(54, 92, 245, 0.14),
+    0 2px 6px rgba(32, 32, 30, 0.04);
 }
 
 .modui-slider-caustic-beam {
-  width: 56%;
-  height: 56%;
+  width: 54%;
+  height: 54%;
   border-radius: 50%;
-  background: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
+  background: linear-gradient(135deg, var(--accent-primary, #365CF5) 0%, #60A5FA 100%);
   box-shadow:
-    0 0 24px rgba(56, 189, 248, 0.7),
-    0 0 48px rgba(79, 70, 229, 0.5);
+    0 0 16px rgba(54, 92, 245, 0.4),
+    0 4px 12px rgba(54, 92, 245, 0.25);
 }
 
-/* Side scene tags - docked to bottom corners so they are never sliced by the divider */
+/* Side scene tags - docked to bottom corners */
 .modui-slider-scene-tag {
   position: absolute;
-  bottom: 0.85rem;
+  bottom: 0.75rem;
   font-family: var(--font-mono, monospace);
   font-size: 0.625rem;
   letter-spacing: 0.08em;
@@ -345,15 +334,15 @@
 }
 
 .modui-slider-scene-tag--before {
-  left: 1rem;
+  left: 0.85rem;
   text-align: left;
-  color: #94A3B8;
+  color: var(--text-secondary, #696963);
 }
 
 .modui-slider-scene-tag--after {
-  right: 1rem;
+  right: 0.85rem;
   text-align: right;
-  color: #38BDF8;
+  color: var(--accent-primary, #365CF5);
 }
 
 .modui-slider-scene-sub {
@@ -364,30 +353,48 @@
 }
 
 /* --------------------------------------------------------------------------
-   Themes: Dark · Glass · Minimal
+   Themes: Light · Glass · Dark · Minimal
    -------------------------------------------------------------------------- */
-.modui-compare-slider--glass {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-color: rgba(255, 255, 255, 0.8);
-  box-shadow:
-    0 20px 48px -10px rgba(15, 23, 42, 0.12),
-    0 4px 16px rgba(15, 23, 42, 0.04);
+.modui-compare-slider--light {
+  background: #FFFFFF;
+  border: 1px solid var(--border-default, #E4E1D9);
+  box-shadow: 0 4px 16px rgba(32, 32, 30, 0.06);
 }
 
-.modui-compare-slider--glass .modui-slider-divider-line {
-  background: #4F46E5;
-  box-shadow: 0 0 12px rgba(79, 70, 229, 0.5);
+.modui-compare-slider--glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 14px 34px -6px rgba(32, 32, 30, 0.08),
+    0 2px 6px rgba(32, 32, 30, 0.04);
+}
+
+.modui-compare-slider--dark {
+  background: #101114;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.modui-compare-slider--dark .modui-slider-badge {
+  background: rgba(16, 17, 20, 0.85);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #F8FAFC;
+}
+
+.modui-compare-slider--dark .modui-slider-handle {
+  background: #18191E;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
 }
 
 .modui-compare-slider--minimal {
-  border-radius: 0;
-  border: 1px solid #222222;
+  border-radius: var(--radius-xs, 4px);
+  border: 1px solid var(--border-default, #E4E1D9);
 }
 
 .modui-compare-slider--minimal .modui-slider-handle {
-  border-radius: 0;
-  width: 38px;
-  height: 38px;
+  border-radius: var(--radius-xs, 4px);
+  width: 32px;
+  height: 32px;
 }

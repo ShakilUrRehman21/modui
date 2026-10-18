@@ -120,39 +120,48 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   </div>
 
                   {comp.slug === 'animated-button' && (
-                    <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
                       <AnimatedButton variant="shimmer" size="sm">
                         Shimmer
                       </AnimatedButton>
                       <AnimatedButton variant="glow" size="sm">
                         Glow
                       </AnimatedButton>
+                      <AnimatedButton variant="slide" size="sm">
+                        Slide
+                      </AnimatedButton>
                     </div>
                   )}
 
                   {comp.slug === 'badge' && (
-                    <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', maxWidth: '240px' }}>
                       <Badge variant="accent" dot pulse>
                         Live Pulse
                       </Badge>
+                      <Badge variant="success" dot>
+                        Operational
+                      </Badge>
                       <Badge variant="cyan">
                         v2.4
+                      </Badge>
+                      <Badge variant="warning" dot>
+                        Syncing
                       </Badge>
                     </div>
                   )}
 
                   {comp.slug === 'kinetic-text' && (
-                    <div style={{ textAlign: 'center', padding: '0.5rem', color: '#FFFFFF', pointerEvents: 'auto', fontSize: '1.25rem', fontWeight: 700 }}>
+                    <div style={{ textAlign: 'center', padding: '0.5rem', color: 'var(--text-primary)', pointerEvents: 'auto', fontSize: '1.25rem', fontWeight: 700 }}>
                       <KineticText text="Interactive Wave" interactiveWave={true} />
                     </div>
                   )}
 
                   {comp.slug === 'number-ticker' && (
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.6rem' }}>
-                      <div style={{ fontSize: '2rem', fontWeight: 800, color: '#FFFFFF', fontFamily: 'var(--font-mono)' }}>
+                      <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
                         <NumberTicker value={1420} prefix="$" suffix="/mo" />
                       </div>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#10B981', background: 'rgba(16, 185, 129, 0.15)', padding: '0.15rem 0.45rem', borderRadius: '999px', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#10B981', background: 'rgba(16, 185, 129, 0.12)', padding: '0.15rem 0.45rem', borderRadius: '999px', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
                         +24.8%
                       </span>
                     </div>
@@ -162,10 +171,10 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                     <div style={{ width: '100%', height: '160px', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <CylindricalCarousel
                         items={[
-                          { id: '1', title: 'Spatial Studio', tag: 'Core', color: '#4F46E5', badge: 'v2.1' },
-                          { id: '2', title: 'Neural Canvas', tag: 'WebGL', color: '#06B6D4', badge: 'New' },
+                          { id: '1', title: 'Spatial Studio', tag: 'Core', color: '#365CF5', badge: 'v2.1' },
+                          { id: '2', title: 'Neural Canvas', tag: 'WebGL', color: '#FF735E', badge: 'New' },
                           { id: '3', title: 'Haptic Rotary', tag: 'Dial', color: '#10B981' },
-                          { id: '4', title: 'Vector Scope', tag: 'Audio', color: '#F59E0B' },
+                          { id: '4', title: 'Vector Scope', tag: 'Audio', color: '#F1E99B' },
                         ]}
                         radius={110}
                         cardWidth={115}
@@ -240,7 +249,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                           },
                         ]}
                         baseSize={36}
-                        variant="dark"
+                        variant="solid"
                       />
                     </div>
                   )}
@@ -291,8 +300,9 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                             ),
                           },
                         ]}
-                        radius={62}
-                        variant="dark"
+                        radius={48}
+                        defaultOpen={false}
+                        variant="glass"
                         showLabels={false}
                         soundEnabled={false}
                       />
@@ -300,34 +310,34 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'fluid-elastic-accordion' && (
-                    <div style={{ width: '100%', height: '160px', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
+                    <div style={{ width: '100%', height: '160px', overflow: 'hidden', display: 'flex', alignItems: 'center', padding: '0 0.5rem' }}>
                       <FluidElasticAccordion
                         items={[
-                          { id: '1', number: '01', title: 'Spatial', subtitle: 'WebGL 3D', color: '#4F46E5', tag: 'Core' },
-                          { id: '2', number: '02', title: 'Rotary', subtitle: 'Dial Wheel', color: '#06B6D4', tag: 'Audio' },
+                          { id: '1', number: '01', title: 'Spatial', subtitle: 'WebGL 3D', color: '#365CF5', tag: 'Core' },
+                          { id: '2', number: '02', title: 'Rotary', subtitle: 'Dial Wheel', color: '#FF735E', tag: 'Audio' },
                           { id: '3', number: '03', title: 'Neural', subtitle: 'Spring Mesh', color: '#10B981', tag: 'Physics' },
                         ]}
                         defaultActiveId="1"
                         orientation="horizontal"
-                        variant="dark"
+                        variant="light"
                         trigger="hover"
                         soundEnabled={false}
                         expandedRatio={2.5}
-                        style={{ height: '150px', minHeight: '150px', width: '100%', borderRadius: '12px' }}
+                        style={{ height: '145px', minHeight: '145px', width: '100%', borderRadius: '6px' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'before-after-slider' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 0.75rem' }}>
                       <BeforeAfterSlider
                         aspectRatio="16 / 10"
-                        variant="dark"
+                        variant="light"
                         mode="drag"
                         soundEnabled={false}
                         initialPosition={50}
                         showLabels={true}
-                        style={{ width: '92%', maxHeight: '160px', borderRadius: '12px' }}
+                        style={{ width: '100%', maxHeight: '155px', borderRadius: '6px' }}
                       />
                     </div>
                   )}

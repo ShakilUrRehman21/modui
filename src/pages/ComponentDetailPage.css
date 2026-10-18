@@ -9,7 +9,7 @@
 }
 
 .modui-detail-page {
-  padding-top: 3rem;
+  padding-top: calc(72px + 2.5rem);
   padding-bottom: 6rem;
   width: 100%;
   box-sizing: border-box;
@@ -433,6 +433,7 @@
 
 .modui-props-table {
   width: 100%;
+  min-width: 560px;
   border-collapse: collapse;
   font-size: 0.875rem;
   text-align: left;
@@ -507,7 +508,7 @@
 
 @media (max-width: 640px) {
   .modui-detail-page {
-    padding-top: 1.75rem;
+    padding-top: calc(72px + 1.25rem);
     padding-bottom: 4rem;
   }
 

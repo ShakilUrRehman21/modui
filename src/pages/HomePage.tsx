@@ -25,10 +25,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
   return (
     <div className="modui-home">
-      {/* 1. Hero Section with Interactive Pixel Grid & nested Studio Stage */}
-      <HeroSection onNavigate={onNavigate}>
-        <StudioSection onNavigate={onNavigate} />
-      </HeroSection>
+      {/* 1. Creative Playground Hero Section */}
+      <HeroSection onNavigate={onNavigate} />
 
       {/* 2. Featured 3-Card Showcase Grid */}
       <FeaturedSection onNavigate={onNavigate} />

@@ -24,7 +24,7 @@
 }
 
 .modui-cylindrical-viewport:focus-visible {
-  outline: 2px solid var(--accent-primary, #4f46e5);
+  outline: 2px solid var(--accent-primary, #365CF5);
   outline-offset: 4px;
   border-radius: var(--radius-xl, 1rem);
 }
@@ -73,10 +73,10 @@
 }
 
 .modui-cylindrical-card--active {
-  border-color: var(--accent-primary, #4f46e5);
+  border-color: var(--accent-primary, #365CF5);
   box-shadow:
-    0 24px 48px -12px rgba(79, 70, 229, 0.18),
-    0 0 0 1px rgba(79, 70, 229, 0.25);
+    0 24px 48px -12px rgba(54, 92, 245, 0.18),
+    0 0 0 1px rgba(54, 92, 245, 0.25);
   cursor: default;
 }
 

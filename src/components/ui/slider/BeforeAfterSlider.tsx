@@ -3,7 +3,7 @@ import './BeforeAfterSlider.css';
 
 export type SliderOrientation = 'horizontal' | 'vertical';
 export type SliderInteraction = 'drag' | 'hover' | 'both';
-export type SliderVariant = 'dark' | 'glass' | 'minimal';
+export type SliderVariant = 'light' | 'dark' | 'glass' | 'minimal';
 
 export interface BeforeAfterSliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /** Source URL for the before image (shown on the left/top) */
@@ -77,7 +77,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   afterLabel = 'After',
   orientation = 'horizontal',
   mode = 'drag',
-  variant = 'dark',
+  variant = 'light',
   initialPosition = 50,
   position: controlledPosition,
   onPositionChange,
@@ -314,16 +314,14 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
         <div className="modui-slider-handle">
           <div className="modui-slider-handle-inner">
             {orientation === 'horizontal' ? (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 18 9 12 15 6" />
-                <polyline points="9 18 3 12 9 6" />
-                <polyline points="9 18 15 12 9 6" />
-                <polyline points="15 18 21 12 15 6" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M8 7L3 12L8 17" />
+                <path d="M16 7L21 12L16 17" />
               </svg>
             ) : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="18 15 12 9 6 15" />
-                <polyline points="18 9 12 15 6 9" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7 8L12 3L17 8" />
+                <path d="M7 16L12 21L17 16" />
               </svg>
             )}
           </div>

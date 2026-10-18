@@ -17,7 +17,7 @@ export interface FluidAccordionItem {
 }
 
 export type FluidAccordionOrientation = 'horizontal' | 'vertical';
-export type FluidAccordionVariant = 'dark' | 'glass' | 'editorial' | 'minimal';
+export type FluidAccordionVariant = 'light' | 'editorial' | 'glass' | 'dark' | 'minimal';
 export type FluidAccordionTrigger = 'click' | 'hover';
 export type FluidAccordionSpring = 'gentle' | 'snappy' | 'elastic';
 
@@ -71,7 +71,7 @@ export const FluidElasticAccordion: React.FC<FluidElasticAccordionProps> = ({
   activeId: controlledActiveId,
   onActiveChange,
   orientation = 'horizontal',
-  variant = 'dark',
+  variant = 'light',
   trigger = 'click',
   springTension = 'elastic',
   soundEnabled = true,

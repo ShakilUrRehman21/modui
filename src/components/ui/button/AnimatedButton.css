@@ -133,13 +133,13 @@
 
 .modui-btn--ripple:hover {
   background: #f8fafc;
-  border-color: rgba(79, 70, 229, 0.35);
+  border-color: rgba(54, 92, 245, 0.35);
 }
 
 .modui-btn-ripple-effect {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(79, 70, 229, 0.45) 0%, rgba(79, 70, 229, 0.18) 60%, transparent 100%);
+  background: radial-gradient(circle, rgba(54, 92, 245, 0.35) 0%, rgba(54, 92, 245, 0.12) 60%, transparent 100%);
   pointer-events: none;
   z-index: 1;
   animation: modui-ripple-expand 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;

@@ -1,224 +1,269 @@
 import React, { useState } from 'react';
-import confetti from 'canvas-confetti';
+import { COMPONENT_REGISTRY } from '../../registry/components';
 import { RadialOrbitHub } from '../ui/radial-hub';
-import { CylindricalCarousel } from '../ui/carousel';
-import { NumberTicker } from '../ui/counter';
+import { FluidElasticAccordion } from '../ui/accordion';
+import { BeforeAfterSlider } from '../ui/slider';
+import { trackPreviewOpen, trackCopyCode } from '../../lib/analytics';
 import './FeaturedSection.css';
 
 interface FeaturedSectionProps {
   onNavigate: (path: string) => void;
 }
 
+// Strictly showcase 3 flagship primitives on the Home Page
+const FEATURED_SLUGS = [
+  'radial-orbit-hub',
+  'before-after-slider',
+  'fluid-elastic-accordion',
+];
+
 export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) => {
-  const [cardTickerVal, setCardTickerVal] = useState(1420);
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+
+  // Retrieve the 3 featured components from the registry
+  const featuredComponents = FEATURED_SLUGS.map((slug) =>
+    COMPONENT_REGISTRY.find((comp) => comp.slug === slug)
+  ).filter(Boolean);
+
+  const handleCopySnippet = (slug: string, snippet: string) => {
+    navigator.clipboard.writeText(snippet);
+    setCopiedSlug(slug);
+    trackCopyCode({
+      component: slug,
+      file: 'snippet',
+      format: 'snippet',
+      source: 'featured_showcase',
+    });
+    setTimeout(() => {
+      setCopiedSlug((prev) => (prev === slug ? null : prev));
+    }, 2000);
+  };
 
   return (
-    <section className="modui-showcase-section">
+    <section className="modui-gallery-section" id="components-gallery">
       <div className="modui-container">
-        <div className="modui-showcase-header">
-          <div className="modui-eyebrow">FEATURED SHOWCASE</div>
-          <h2 className="modui-showcase-title">Signature Interface Patterns</h2>
-          <p className="modui-showcase-desc">
-            Explore live, interactive modules crafted for tactile engagement, high performance, and rapid copy-paste adoption.
+        {/* Section Header */}
+        <div className="modui-gallery-header">
+          <div className="modui-gallery-eyebrow">
+            <span className="modui-gallery-eyebrow-dot" />
+            <span>FEATURED PRIMITIVES</span>
+            <span className="modui-gallery-count">3 FLAGSHIP MODULES</span>
+          </div>
+
+          <h2 className="modui-gallery-title">
+            Engineered for Character.
+          </h2>
+
+          <p className="modui-gallery-desc">
+            Three living interactive primitives showcasing fluid spring mechanics, tactile haptic responses,
+            and high-precision architectural styling. Interact directly with each module.
           </p>
         </div>
 
-        <div className="modui-featured-3-grid">
-          {/* Card 1: Radial Orbit Action Hub */}
-          <div
-            className="modui-featured-card"
-            onClick={() => onNavigate('/components/radial-orbit-hub')}
-          >
-            <div className="modui-card-meta-top">
-              <span className="modui-card-cat-badge">Action Wheel</span>
-              <span className="modui-card-accent-tag">Inertia Momentum</span>
-            </div>
-            <h3 className="modui-card-title">Radial Orbit Action Hub</h3>
-            <p className="modui-card-description">
-              Tactile circular core blossoming into satellite action nodes with rotational inertia, drag momentum, and Web Audio haptics.
-            </p>
+        {/* 3-Card Featured Grid */}
+        <div className="modui-gallery-grid">
+          {featuredComponents.map((comp) => {
+            if (!comp) return null;
+            const isCopied = copiedSlug === comp.slug;
 
-            <div className="modui-card-preview-stage modui-card-preview-stage--orbit" onClick={(e) => e.stopPropagation()}>
-              <RadialOrbitHub
-                items={[
-                  {
-                    id: 'search',
-                    label: 'Spotlight',
-                    icon: (
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="11" cy="11" r="8" />
-                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                      </svg>
-                    ),
-                  },
-                  {
-                    id: 'ai',
-                    label: 'AI Synthesis',
-                    badge: 'Pro',
-                    icon: (
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
-                      </svg>
-                    ),
-                  },
-                  {
-                    id: 'layers',
-                    label: 'Stack',
-                    icon: (
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="12 2 2 7 12 12 22 7 12 2" />
-                        <polyline points="2 17 12 22 22 17" />
-                        <polyline points="2 12 12 17 22 12" />
-                      </svg>
-                    ),
-                  },
-                  {
-                    id: 'terminal',
-                    label: 'Console',
-                    icon: (
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="4 17 10 11 4 5" />
-                        <line x1="12" x2="20" y1="19" y2="19" />
-                      </svg>
-                    ),
-                  },
-                  {
-                    id: 'deploy',
-                    label: 'Publish',
-                    badge: 'Fast',
-                    icon: (
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
-                        <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
-                      </svg>
-                    ),
-                  },
-                ]}
-                radius={60}
-                variant="glass"
-                showLabels={false}
-                soundEnabled={true}
-                onSelect={(_item) => {
-                  confetti({
-                    particleCount: 28,
-                    spread: 55,
-                    origin: { y: 0.6 },
-                    colors: ['#4F46E5', '#38BDF8', '#F59E0B', '#10B981'],
+            return (
+              <div
+                key={comp.slug}
+                className="modui-card-item"
+                onClick={() => {
+                  trackPreviewOpen({
+                    component: comp.slug,
+                    variant: 'default',
+                    source: 'featured_card',
                   });
+                  onNavigate(`/components/${comp.slug}`);
                 }}
-              />
-            </div>
+              >
+                {/* 1. Component Live Canvas Stage */}
+                <div
+                  className="modui-card-stage"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="modui-card-stage-topbar">
+                    <span className="modui-card-cat-badge">{comp.category}</span>
+                    <span className="modui-card-ver-badge">v{comp.version}</span>
+                  </div>
 
-            <div className="modui-card-action-bar">
-              <span className="modui-card-cta-link">
-                <span>Inspect Component</span>
-                <span>→</span>
-              </span>
-            </div>
-          </div>
+                  {/* RadialOrbitHub Live Stage */}
+                  {comp.slug === 'radial-orbit-hub' && (
+                    <div className="modui-stage-center">
+                      <RadialOrbitHub
+                        items={[
+                          {
+                            id: 'search',
+                            label: 'Search',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                              </svg>
+                            ),
+                          },
+                          {
+                            id: 'ai',
+                            label: 'AI Core',
+                            badge: 'AI',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
+                              </svg>
+                            ),
+                          },
+                          {
+                            id: 'layers',
+                            label: 'Layers',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                                <polyline points="2 17 12 22 22 17" />
+                                <polyline points="2 12 12 17 22 12" />
+                              </svg>
+                            ),
+                          },
+                          {
+                            id: 'terminal',
+                            label: 'Terminal',
+                            icon: (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="4 17 10 11 4 5" />
+                                <line x1="12" x2="20" y1="19" y2="19" />
+                              </svg>
+                            ),
+                          },
+                        ]}
+                        radius={48}
+                        defaultOpen={false}
+                        variant="glass"
+                        showLabels={false}
+                        soundEnabled={false}
+                      />
+                    </div>
+                  )}
 
-          {/* Card 2: Cylindrical 3D Carousel */}
-          <div
-            className="modui-featured-card"
-            onClick={() => onNavigate('/components/cylindrical-carousel')}
-          >
-            <div className="modui-card-meta-top">
-              <span className="modui-card-cat-badge">3D & Interactive Showcase</span>
-              <span className="modui-card-accent-tag">CSS 3D Engine</span>
-            </div>
-            <h3 className="modui-card-title">Cylindrical 3D Carousel</h3>
-            <p className="modui-card-description">
-              Pure CSS 3D cylindrical carousel supporting touch drag, mouse physics, inertia momentum, and tilt.
-            </p>
+                  {/* BeforeAfterSlider Live Stage */}
+                  {comp.slug === 'before-after-slider' && (
+                    <div className="modui-stage-center" style={{ padding: '0.5rem 1rem' }}>
+                      <BeforeAfterSlider
+                        aspectRatio="16 / 10"
+                        variant="light"
+                        mode="drag"
+                        soundEnabled={false}
+                        initialPosition={50}
+                        showLabels={true}
+                        style={{ width: '100%', maxHeight: '185px', borderRadius: '6px' }}
+                      />
+                    </div>
+                  )}
 
-            <div className="modui-card-preview-stage modui-card-preview-stage--carousel" onClick={(e) => e.stopPropagation()}>
-              <div style={{ width: '100%', height: '145px', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <CylindricalCarousel
-                  items={[
-                    { id: '1', title: 'Spatial Studio', tag: 'Core', color: '#4F46E5', badge: 'v2.1' },
-                    { id: '2', title: 'Neural Canvas', tag: 'WebGL', color: '#06B6D4', badge: 'New' },
-                    { id: '3', title: 'Haptic Rotary', tag: 'Dial', color: '#10B981' },
-                    { id: '4', title: 'Vector Scope', tag: 'Audio', color: '#F59E0B' },
-                  ]}
-                  radius={115}
-                  cardWidth={120}
-                  cardHeight={150}
-                  perspective={420}
-                  tiltAngle={-4}
-                  showControls={false}
-                  showIndicators={false}
-                  showDragHint={false}
-                  autoplay={true}
-                  autoplaySpeed={15}
-                  style={{ minHeight: '145px', height: '145px' }}
-                />
-              </div>
-            </div>
-
-            <div className="modui-card-action-bar">
-
-              <span className="modui-card-cta-link">
-                <span>Inspect Component</span>
-                <span>→</span>
-              </span>
-            </div>
-          </div>
-
-          {/* Card 3: Number Ticker */}
-          <div
-            className="modui-featured-card"
-            onClick={() => onNavigate('/components/number-ticker')}
-          >
-            <div className="modui-card-meta-top">
-              <span className="modui-card-cat-badge">Status & Indicators</span>
-              <span className="modui-card-accent-tag">Easing Springs</span>
-            </div>
-            <h3 className="modui-card-title">Number Ticker Counter</h3>
-            <p className="modui-card-description">
-              Mechanical rolling digits ticker for metrics, dashboards, dynamic counters, and realtime analytics.
-            </p>
-
-            <div className="modui-card-preview-stage" onClick={(e) => e.stopPropagation()}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.65rem', width: '100%' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-                  <NumberTicker value={cardTickerVal} prefix="$" suffix="/mo" duration={1} />
+                  {/* FluidElasticAccordion Live Stage */}
+                  {comp.slug === 'fluid-elastic-accordion' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', padding: '0.75rem 1rem' }}>
+                      <FluidElasticAccordion
+                        items={[
+                          { id: '1', number: '01', title: 'Spatial', subtitle: 'WebGL 3D', color: '#365CF5', tag: 'Core' },
+                          { id: '2', number: '02', title: 'Rotary', subtitle: 'Haptics', color: '#FF735E', tag: 'Audio' },
+                          { id: '3', number: '03', title: 'Physics', subtitle: 'Spring Mesh', color: '#10B981', tag: 'Motion' },
+                        ]}
+                        defaultActiveId="1"
+                        orientation="horizontal"
+                        variant="light"
+                        trigger="hover"
+                        soundEnabled={false}
+                        expandedRatio={2.5}
+                        style={{ height: '160px', minHeight: '160px', width: '100%', borderRadius: '6px' }}
+                      />
+                    </div>
+                  )}
                 </div>
-                <div style={{ display: 'flex', gap: '0.35rem' }}>
-                  <button
-                    type="button"
-                    className="modui-pill-toggle"
-                    onClick={() => setCardTickerVal((v) => v + 250)}
-                  >
-                    +250
-                  </button>
-                  <button
-                    type="button"
-                    className="modui-pill-toggle"
-                    onClick={() => setCardTickerVal((v) => Math.max(0, v - 100))}
-                  >
-                    -100
-                  </button>
-                  <button
-                    type="button"
-                    className="modui-pill-toggle"
-                    onClick={() => setCardTickerVal(Math.floor(Math.random() * 8000) + 500)}
-                  >
-                    Random
-                  </button>
+
+                {/* 2. Structured Card Information */}
+                <div className="modui-card-body">
+                  <div className="modui-card-header-row">
+                    <h3 className="modui-card-name">{comp.name}</h3>
+
+                    {/* Quick Snippet Copy */}
+                    <button
+                      type="button"
+                      className="modui-card-copy-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCopySnippet(comp.slug, comp.codeSnippet || `<${comp.name} />`);
+                      }}
+                      title={`Copy ${comp.name} snippet`}
+                      aria-label={`Copy ${comp.name} snippet`}
+                    >
+                      {isCopied ? (
+                        <>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#365CF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                          </svg>
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  <p className="modui-card-desc">{comp.description}</p>
+
+                  <div className="modui-card-footer">
+                    <div className="modui-card-tags">
+                      {comp.tags?.slice(0, 2).map((t) => (
+                        <span key={t} className="modui-card-tag">
+                          #{t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <span className="modui-card-inspect-cta">
+                      <span>Inspect & Code</span>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            );
+          })}
+        </div>
 
-            <div className="modui-card-action-bar">
-
-              <span className="modui-card-cta-link">
-                <span>Inspect Component</span>
-                <span>→</span>
-              </span>
-            </div>
+        {/* Bottom Banner to Explore All 9 Components */}
+        <div className="modui-gallery-footer-banner">
+          <div className="modui-gallery-footer-text">
+            <h4 className="modui-gallery-footer-title">Looking for the remaining 6 components?</h4>
+            <p className="modui-gallery-footer-desc">
+              Browse FloatingDock, CylindricalCarousel, NumberTicker, AnimatedButton, KineticText, and Badge in the laboratory catalogue.
+            </p>
           </div>
+          <button
+            type="button"
+            className="modui-gallery-explore-all-btn"
+            onClick={() => onNavigate('/components')}
+          >
+            <span>Explore All 9 Primitives</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </button>
         </div>
       </div>
     </section>
   );
 };
+
+export default FeaturedSection;

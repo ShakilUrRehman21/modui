@@ -58,7 +58,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             aria-label="ModUI Home"
           >
             <span className="modui-brand-text">ModUI</span>
-            <span className="modui-brand-dot" />
+            <span className="modui-brand-badge">LAB</span>
           </button>
 
           {/* Desktop Center Nav Links */}
@@ -79,7 +79,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`modui-nav-link ${currentPath === '/docs' ? 'modui-nav-link--active' : ''}`}
               onClick={() => handleNavClick('/docs')}
             >
-              <span>Docs</span>
+              <span>Documentation</span>
             </button>
           </nav>
 
@@ -91,6 +91,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               title="Search (Ctrl + K)"
               aria-label="Search components"
             >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
               <span>Search</span>
               <span className="modui-search-kbd">⌘K</span>
             </button>
@@ -110,7 +114,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="modui-cta-pill"
               onClick={() => handleNavClick('/components')}
             >
-              <span>Start building</span>
+              <span>Explore Components</span>
             </button>
 
             {/* Mobile Menu Button with Animated Bars */}
@@ -181,7 +185,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 style={{ width: '100%', justifyContent: 'center' }}
                 onClick={() => handleNavClick('/components')}
               >
-                <span>Start building</span>
+                <span>Explore Components</span>
               </button>
             </div>
           </div>
