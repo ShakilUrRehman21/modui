@@ -1,6 +1,7 @@
 import React from 'react';
 import './Footer.css';
 import { trackGithubClick } from '../../lib/analytics';
+import { COMPONENT_REGISTRY } from '../../registry/components';
 
 interface FooterProps {
   onNavigate: (path: string) => void;
@@ -16,7 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <span className="modui-footer-cta-eyebrow">READY TO DEPLOY</span>
             <h3 className="modui-footer-cta-title">Build interfaces that refuse to be boring.</h3>
             <p className="modui-footer-cta-desc">
-              All 9 components are open source, MIT licensed, and ready to drop directly into your project.
+              All {COMPONENT_REGISTRY.length} components are open source, MIT licensed, and ready to drop directly into your project.
             </p>
           </div>
           <div className="modui-footer-cta-actions">

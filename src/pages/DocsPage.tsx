@@ -190,6 +190,10 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
 │   │       │   ├── RadialOrbitHub.tsx
 │   │       │   ├── RadialOrbitHub.css
 │   │       │   └── index.ts
+│   │       ├── rotary/
+│   │       │   ├── RotaryJogWheel.tsx
+│   │       │   ├── RotaryJogWheel.css
+│   │       │   └── index.ts
 │   │       ├── slider/
 │   │       │   ├── BeforeAfterSlider.tsx
 │   │       │   ├── BeforeAfterSlider.css

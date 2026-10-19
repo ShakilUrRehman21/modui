@@ -9,6 +9,7 @@ import { FloatingDock } from '../components/ui/dock';
 import { RadialOrbitHub } from '../components/ui/radial-hub';
 import { FluidElasticAccordion } from '../components/ui/accordion';
 import { BeforeAfterSlider } from '../components/ui/slider';
+import { RotaryJogWheel } from '../components/ui/rotary';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -338,6 +339,21 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         initialPosition={50}
                         showLabels={true}
                         style={{ width: '100%', maxHeight: '155px', borderRadius: '6px' }}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'rotary-jog-wheel' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <RotaryJogWheel
+                        size="sm"
+                        defaultValue={48}
+                        min={0}
+                        max={100}
+                        variant="metallic"
+                        mode="bounded"
+                        soundEnabled={false}
+                        sublabel="VOL"
                       />
                     </div>
                   )}

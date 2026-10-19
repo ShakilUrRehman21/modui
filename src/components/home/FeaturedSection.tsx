@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { COMPONENT_REGISTRY } from '../../registry/components';
 import { RadialOrbitHub } from '../ui/radial-hub';
 import { FluidElasticAccordion } from '../ui/accordion';
-import { BeforeAfterSlider } from '../ui/slider';
+import { RotaryJogWheel } from '../ui/rotary';
 import { trackPreviewOpen, trackCopyCode } from '../../lib/analytics';
 import './FeaturedSection.css';
 
@@ -13,7 +13,7 @@ interface FeaturedSectionProps {
 // Strictly showcase 3 flagship primitives on the Home Page
 const FEATURED_SLUGS = [
   'radial-orbit-hub',
-  'before-after-slider',
+  'rotary-jog-wheel',
   'fluid-elastic-accordion',
 ];
 
@@ -145,17 +145,18 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                     </div>
                   )}
 
-                  {/* BeforeAfterSlider Live Stage */}
-                  {comp.slug === 'before-after-slider' && (
-                    <div className="modui-stage-center" style={{ padding: '0.5rem 1rem' }}>
-                      <BeforeAfterSlider
-                        aspectRatio="16 / 10"
-                        variant="light"
-                        mode="drag"
+                  {/* RotaryJogWheel Live Stage */}
+                  {comp.slug === 'rotary-jog-wheel' && (
+                    <div className="modui-stage-center" style={{ padding: '0.75rem 1rem' }}>
+                      <RotaryJogWheel
+                        size="sm"
+                        defaultValue={64}
+                        min={0}
+                        max={100}
+                        variant="metallic"
+                        mode="bounded"
                         soundEnabled={false}
-                        initialPosition={50}
-                        showLabels={true}
-                        style={{ width: '100%', maxHeight: '185px', borderRadius: '6px' }}
+                        sublabel="LEVEL"
                       />
                     </div>
                   )}
@@ -241,12 +242,12 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
           })}
         </div>
 
-        {/* Bottom Banner to Explore All 9 Components */}
+        {/* Bottom Banner to Explore All Components */}
         <div className="modui-gallery-footer-banner">
           <div className="modui-gallery-footer-text">
-            <h4 className="modui-gallery-footer-title">Looking for the remaining 6 components?</h4>
+            <h4 className="modui-gallery-footer-title">{`Looking for the remaining ${COMPONENT_REGISTRY.length - 3} components?`}</h4>
             <p className="modui-gallery-footer-desc">
-              Browse FloatingDock, CylindricalCarousel, NumberTicker, AnimatedButton, KineticText, and Badge in the laboratory catalogue.
+              Browse BeforeAfterSlider, FloatingDock, CylindricalCarousel, NumberTicker, AnimatedButton, KineticText, and Badge in the laboratory catalogue.
             </p>
           </div>
           <button
@@ -254,7 +255,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
             className="modui-gallery-explore-all-btn"
             onClick={() => onNavigate('/components')}
           >
-            <span>Explore All 9 Primitives</span>
+            <span>{`Explore All ${COMPONENT_REGISTRY.length} Primitives`}</span>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
