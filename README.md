@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-51%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-55%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -20,14 +20,15 @@ ModUI is an open-source collection of production-grade, highly interactive React
 - **Copy & Paste Architecture:** Every component is self-contained. Copy the `.tsx` and `.css` directly into your codebase and customize freely.
 - **Physics-Informed Motion:** Realistic mechanical detents, non-linear spring expansions, magnetic cursor attraction, liquid bezier deformation, and velocity momentum.
 - **Synthesized Web Audio Haptics:** Acoustic micro-ticks and mechanical feedback generated in real time using the native Web Audio API oscillators — zero external sound assets needed.
-- **Accessible by Default:** Built to WCAG AA standards with visible focus rings, ARIA roles (`slider`, `tablist`, `menu`, `button`), keyboard navigation, and reduced-motion considerations.
+- **Accessible by Default:** Built to WCAG AA standards with visible focus rings, ARIA roles (`slider`, `tablist`, `menu`, `button`, `region`), keyboard navigation, and reduced-motion considerations.
 
 ---
 
-## Published Modules (10 Primitives)
+## Published Modules (11 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Cyber Stream Matrix** | Typography & Motion | Generative 2D canvas stream, pointer shockwave repulsion physics, click particle bursts, and Web Audio synthesizer chirps | `src/components/ui/matrix` |
 | **Rotary Jog Wheel** | Buttons and Actions | Circular scrub physics (`atan2`), momentum inertia deceleration, detent notch snapping, and synthesized micro-haptic audio ticks | `src/components/ui/rotary` |
 | **Radial Orbit Hub** | Buttons and Actions | Radial action launcher, circular satellite bloom, rotational velocity momentum, default-closed tactile core, and haptic tones | `src/components/ui/radial-hub` |
 | **Animated Button** | Buttons and Actions | Shimmer light pass, neon glow pulse, water ripple waves, magnetic cursor tracking, and arrow slides | `src/components/ui/button` |

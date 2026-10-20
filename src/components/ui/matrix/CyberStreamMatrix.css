@@ -1,0 +1,85 @@
+/**
+ * ModUI CyberStreamMatrix Stylesheet
+ * High-performance generative glyph stream with cursor shockwave & particle burst
+ */
+
+.modui-matrix-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  border: 1px solid var(--border-default, #E2E8F0);
+  background: #F8F7F2;
+  cursor: crosshair;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.modui-matrix-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* Subtle Vignette Edge Shading */
+.modui-matrix-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.05);
+  border-radius: inherit;
+}
+
+.modui-matrix--dark-obsidian::after {
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.modui-matrix--blueprint::after {
+  box-shadow: inset 0 0 50px rgba(15, 23, 42, 0.6);
+}
+
+.modui-matrix--emerald::after {
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.6);
+}
+
+/* Overlay Content Slot */
+.modui-matrix-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Theme Borders */
+.modui-matrix--studio-light {
+  border-color: var(--border-default, #E2E8F0);
+}
+
+.modui-matrix--dark-obsidian {
+  border-color: #27272A;
+  background: #121214;
+}
+
+.modui-matrix--blueprint {
+  border-color: rgba(56, 189, 248, 0.2);
+  background: #0F172A;
+}
+
+.modui-matrix--emerald {
+  border-color: rgba(74, 222, 128, 0.2);
+  background: #0A120D;
+}

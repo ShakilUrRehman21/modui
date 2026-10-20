@@ -10,6 +10,7 @@ import { RadialOrbitHub } from '../components/ui/radial-hub';
 import { FluidElasticAccordion } from '../components/ui/accordion';
 import { BeforeAfterSlider } from '../components/ui/slider';
 import { RotaryJogWheel } from '../components/ui/rotary';
+import { CyberStreamMatrix } from '../components/ui/matrix';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -355,6 +356,42 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         soundEnabled={false}
                         sublabel="VOL"
                       />
+                    </div>
+                  )}
+
+                  {comp.slug === 'cyber-stream-matrix' && (
+                    <div style={{ width: '100%', height: '160px', borderRadius: '6px', overflow: 'hidden', position: 'relative' }}>
+                      <CyberStreamMatrix
+                        variant="studio-light"
+                        charset="hex"
+                        speed={0.5}
+                        density={1}
+                        glow={true}
+                        soundEnabled={false}
+                        style={{ width: '100%', height: '100%' }}
+                      >
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            padding: '0.35rem 0.75rem',
+                            background: 'rgba(255,255,255,0.88)',
+                            backdropFilter: 'blur(8px)',
+                            border: '1px solid rgba(0,0,0,0.08)',
+                            borderRadius: '999px',
+                            fontSize: '0.68rem',
+                            fontWeight: 600,
+                            letterSpacing: '0.08em',
+                            color: '#1a1a1a',
+                            boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+                            pointerEvents: 'none',
+                          }}
+                        >
+                          CANVAS // STREAM
+                        </div>
+                      </CyberStreamMatrix>
                     </div>
                   )}
                 </div>
