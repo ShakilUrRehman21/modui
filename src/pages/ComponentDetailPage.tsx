@@ -16,6 +16,8 @@ import { RotaryJogWheel } from '../components/ui/rotary';
 import type { RotaryWheelVariant, RotaryWheelMode, RotaryDisplayFormat } from '../components/ui/rotary';
 import { CyberStreamMatrix } from '../components/ui/matrix';
 import type { MatrixVariant, MatrixCharset } from '../components/ui/matrix';
+import { CausticRippleSurface } from '../components/ui/caustic-surface';
+import type { CausticSurfaceVariant } from '../components/ui/caustic-surface';
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { trackCopyCode, trackGithubClick, trackPreviewOpen } from '../lib/analytics';
 import './ComponentDetailPage.css';
@@ -97,6 +99,14 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [matrixDensity, setMatrixDensity] = useState<number>(1);
   const [matrixGlow, setMatrixGlow] = useState<boolean>(true);
   const [matrixSound, setMatrixSound] = useState<boolean>(true);
+
+  // Playground state for CausticRippleSurface
+  const [causticVariant, setCausticVariant] = useState<CausticSurfaceVariant>('porcelain');
+  const [causticDamping, setCausticDamping] = useState<number>(0.98);
+  const [causticRefraction, setCausticRefraction] = useState<number>(2.2);
+  const [causticDropletRadius, setCausticDropletRadius] = useState<number>(4);
+  const [causticRain, setCausticRain] = useState<boolean>(true);
+  const [causticSound, setCausticSound] = useState<boolean>(true);
 
   // File viewer state inside Code tab
   const [selectedFile, setSelectedFile] = useState<'tsx' | 'css' | 'usage'>('tsx');
@@ -681,6 +691,27 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                   Interactive Canvas: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>60 FPS Stream Loop</span>
                   <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
                     Tip: Move your cursor across the canvas to disperse glyph columns, click anywhere to trigger a particle shockwave burst, or change themes below.
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Stage for CausticRippleSurface */}
+            {slug === 'caustic-ripple-surface' && (
+              <div style={{ width: '100%', maxWidth: '920px', margin: '0 auto', padding: '1rem 0' }}>
+                <CausticRippleSurface
+                  variant={causticVariant}
+                  damping={causticDamping}
+                  refractionStrength={causticRefraction}
+                  dropletRadius={causticDropletRadius}
+                  rainEnabled={causticRain}
+                  soundEnabled={causticSound}
+                  style={{ width: '100%', height: '480px', borderRadius: '16px' }}
+                />
+                <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                  Clean Fluid Surface: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>2D Wave Equation & Caustic Refractor</span>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                    Tip: Drag cursor to generate smooth wake ripples, click anywhere to drop an acoustic water droplet, or press Spacebar.
                   </div>
                 </div>
               </div>
@@ -1350,145 +1381,225 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
               </div>
             </div>
           )}
+
+          {/* Playground Controls for CausticRippleSurface */}
+          {slug === 'caustic-ripple-surface' && (
+            <div className="modui-controls-panel">
+              <div className="modui-control-group">
+                <label className="modui-control-label">Liquid Surface Skin</label>
+                <select
+                  className="modui-control-select"
+                  value={causticVariant}
+                  onChange={(e) => setCausticVariant(e.target.value as CausticSurfaceVariant)}
+                >
+                  <option value="porcelain">Studio Porcelain (Daylight Clear)</option>
+                  <option value="crystal-lake">Crystal Lake (Pure Aquamarine)</option>
+                  <option value="dark-obsidian">Dark Obsidian (Deep Midnight)</option>
+                  <option value="amber-spring">Amber Spring (Golden Sunlight)</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Viscosity Damping ({causticDamping})</label>
+                <input
+                  type="range"
+                  min="0.94"
+                  max="0.995"
+                  step="0.005"
+                  value={causticDamping}
+                  onChange={(e) => setCausticDamping(parseFloat(e.target.value))}
+                  style={{ width: '100%', accentColor: 'var(--accent-primary)' }}
+                />
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Caustic Refraction ({causticRefraction}x)</label>
+                <input
+                  type="range"
+                  min="1.0"
+                  max="4.0"
+                  step="0.2"
+                  value={causticRefraction}
+                  onChange={(e) => setCausticRefraction(parseFloat(e.target.value))}
+                  style={{ width: '100%', accentColor: 'var(--accent-primary)' }}
+                />
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Droplet Scale ({causticDropletRadius}px)</label>
+                <input
+                  type="range"
+                  min="2"
+                  max="8"
+                  step="1"
+                  value={causticDropletRadius}
+                  onChange={(e) => setCausticDropletRadius(parseInt(e.target.value, 10))}
+                  style={{ width: '100%', accentColor: 'var(--accent-primary)' }}
+                />
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Fluid Acoustics & Rain</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={causticRain}
+                      onChange={(e) => setCausticRain(e.target.checked)}
+                    />
+                    <span>Ambient Idle Raindrops</span>
+                  </label>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={causticSound}
+                      onChange={(e) => setCausticSound(e.target.checked)}
+                    />
+                    <span>Web Audio Droplet Plinks</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Main Tabs Navigation */}
-        <div className="modui-detail-tabs-bar" role="tablist">
-          <button
-            className={`modui-detail-tab-btn ${activeTab === 'code' ? 'modui-detail-tab-btn--active' : ''}`}
-            onClick={() => setActiveTab('code')}
-            role="tab"
-          >
-            <span>Code & Implementation</span>
-          </button>
-          <button
-            className={`modui-detail-tab-btn ${activeTab === 'props' ? 'modui-detail-tab-btn--active' : ''}`}
-            onClick={() => setActiveTab('props')}
-            role="tab"
-          >
-            <span>Props & API</span>
-          </button>
-          <button
-            className={`modui-detail-tab-btn ${activeTab === 'a11y' ? 'modui-detail-tab-btn--active' : ''}`}
-            onClick={() => setActiveTab('a11y')}
-            role="tab"
-          >
-            <span>Accessibility</span>
-          </button>
-        </div>
+          <div className="modui-detail-tabs-bar" role="tablist">
+            <button
+              className={`modui-detail-tab-btn ${activeTab === 'code' ? 'modui-detail-tab-btn--active' : ''}`}
+              onClick={() => setActiveTab('code')}
+              role="tab"
+            >
+              <span>Code & Implementation</span>
+            </button>
+            <button
+              className={`modui-detail-tab-btn ${activeTab === 'props' ? 'modui-detail-tab-btn--active' : ''}`}
+              onClick={() => setActiveTab('props')}
+              role="tab"
+            >
+              <span>Props & API</span>
+            </button>
+            <button
+              className={`modui-detail-tab-btn ${activeTab === 'a11y' ? 'modui-detail-tab-btn--active' : ''}`}
+              onClick={() => setActiveTab('a11y')}
+              role="tab"
+            >
+              <span>Accessibility</span>
+            </button>
+          </div>
 
-        {/* TAB 1: CODE — Here user has the 3 files (Component TSX, CSS, Usage) and Copy is ONLY inside tab */}
-        {activeTab === 'code' && (
-          <div className="modui-code-section-wrap">
-            {/* File Switcher Tabs */}
-            <div className="modui-code-file-tabs">
-              <button
-                className={`modui-code-tab-pill ${selectedFile === 'tsx' ? 'modui-code-tab-pill--active' : ''}`}
-                onClick={() => setSelectedFile('tsx')}
-              >
-                <span>{component.name}.tsx</span>
-                <span className="modui-tab-badge">Component</span>
-              </button>
-
-              <button
-                className={`modui-code-tab-pill ${selectedFile === 'css' ? 'modui-code-tab-pill--active' : ''}`}
-                onClick={() => setSelectedFile('css')}
-              >
-                <span>{component.name}.css</span>
-                <span className="modui-tab-badge">CSS Styles</span>
-              </button>
-
-              <button
-                className={`modui-code-tab-pill ${selectedFile === 'usage' ? 'modui-code-tab-pill--active' : ''}`}
-                onClick={() => setSelectedFile('usage')}
-              >
-                <span>Usage.tsx</span>
-                <span className="modui-tab-badge">How to Use</span>
-              </button>
-            </div>
-
-            {/* Code Viewer Container With Explicit Copy Inside */}
-            <div className="modui-code-container">
-              <div className="modui-code-header">
-                <div className="modui-code-file-meta">
-                  <span className="modui-code-file-dot" />
-                  <span className="modui-code-file-name">{getFileLabel()}</span>
-                  <span className="modui-code-file-type">
-                    {selectedFile === 'tsx' ? 'TypeScript / React' : selectedFile === 'css' ? 'CSS3 Stylesheet' : 'Usage Example'}
-                  </span>
-                </div>
-
-                {/* COPY BUTTON INSIDE ITS TAB */}
+          {/* TAB 1: CODE — Here user has the 3 files (Component TSX, CSS, Usage) and Copy is ONLY inside tab */}
+          {activeTab === 'code' && (
+            <div className="modui-code-section-wrap">
+              {/* File Switcher Tabs */}
+              <div className="modui-code-file-tabs">
                 <button
-                  className={`modui-btn-copy-action ${copiedKey === selectedFile ? 'modui-btn-copy-action--success' : ''}`}
-                  onClick={() => handleCopyInsideTab(getActiveCode(), getFileLabel())}
-                  title={`Copy ${getFileLabel()}`}
+                  className={`modui-code-tab-pill ${selectedFile === 'tsx' ? 'modui-code-tab-pill--active' : ''}`}
+                  onClick={() => setSelectedFile('tsx')}
                 >
-                  <span>
-                    {copiedKey === selectedFile
-                      ? 'Copied to Clipboard!'
-                      : `Copy ${getFileLabel()}`}
-                  </span>
+                  <span>{component.name}.tsx</span>
+                  <span className="modui-tab-badge">Component</span>
+                </button>
+
+                <button
+                  className={`modui-code-tab-pill ${selectedFile === 'css' ? 'modui-code-tab-pill--active' : ''}`}
+                  onClick={() => setSelectedFile('css')}
+                >
+                  <span>{component.name}.css</span>
+                  <span className="modui-tab-badge">CSS Styles</span>
+                </button>
+
+                <button
+                  className={`modui-code-tab-pill ${selectedFile === 'usage' ? 'modui-code-tab-pill--active' : ''}`}
+                  onClick={() => setSelectedFile('usage')}
+                >
+                  <span>Usage.tsx</span>
+                  <span className="modui-tab-badge">How to Use</span>
                 </button>
               </div>
 
-              <pre className="modui-code-pre">
-                <code>{getActiveCode()}</code>
-              </pre>
-            </div>
-          </div>
-        )}
+              {/* Code Viewer Container With Explicit Copy Inside */}
+              <div className="modui-code-container">
+                <div className="modui-code-header">
+                  <div className="modui-code-file-meta">
+                    <span className="modui-code-file-dot" />
+                    <span className="modui-code-file-name">{getFileLabel()}</span>
+                    <span className="modui-code-file-type">
+                      {selectedFile === 'tsx' ? 'TypeScript / React' : selectedFile === 'css' ? 'CSS3 Stylesheet' : 'Usage Example'}
+                    </span>
+                  </div>
 
-        {/* TAB 2: PROPS */}
-        {activeTab === 'props' && (
-          <div>
-            {component.propsDoc.length > 0 ? (
-              <div className="modui-table-wrap">
-                <table className="modui-props-table">
-                  <thead>
-                    <tr>
-                      <th>Prop</th>
-                      <th>Type</th>
-                      <th>Default</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {component.propsDoc.map((p) => (
-                      <tr key={p.name}>
-                        <td><span className="modui-prop-name">{p.name}</span></td>
-                        <td><span className="modui-prop-type">{p.type}</span></td>
-                        <td><span className="modui-prop-default">{p.defaultValue || '—'}</span></td>
-                        <td>{p.description}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                  {/* COPY BUTTON INSIDE ITS TAB */}
+                  <button
+                    className={`modui-btn-copy-action ${copiedKey === selectedFile ? 'modui-btn-copy-action--success' : ''}`}
+                    onClick={() => handleCopyInsideTab(getActiveCode(), getFileLabel())}
+                    title={`Copy ${getFileLabel()}`}
+                  >
+                    <span>
+                      {copiedKey === selectedFile
+                        ? 'Copied to Clipboard!'
+                        : `Copy ${getFileLabel()}`}
+                    </span>
+                  </button>
+                </div>
+
+                <pre className="modui-code-pre">
+                  <code>{getActiveCode()}</code>
+                </pre>
               </div>
-            ) : (
-              <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)' }}>
-                Standard React HTML attributes supported.
-              </p>
-            )}
-          </div>
-        )}
+            </div>
+          )}
 
-        {/* TAB 3: ACCESSIBILITY */}
-        {activeTab === 'a11y' && (
-          <div>
-            <ul className="modui-a11y-list">
-              {component.accessibilityNotes.map((note, idx) => (
-                <li key={idx} className="modui-a11y-item">
-                  <span className="modui-a11y-bullet">•</span>
-                  <span>{note}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+          {/* TAB 2: PROPS */}
+          {activeTab === 'props' && (
+            <div>
+              {component.propsDoc.length > 0 ? (
+                <div className="modui-table-wrap">
+                  <table className="modui-props-table">
+                    <thead>
+                      <tr>
+                        <th>Prop</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {component.propsDoc.map((p) => (
+                        <tr key={p.name}>
+                          <td><span className="modui-prop-name">{p.name}</span></td>
+                          <td><span className="modui-prop-type">{p.type}</span></td>
+                          <td><span className="modui-prop-default">{p.defaultValue || '—'}</span></td>
+                          <td>{p.description}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)' }}>
+                  Standard React HTML attributes supported.
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* TAB 3: ACCESSIBILITY */}
+          {activeTab === 'a11y' && (
+            <div>
+              <ul className="modui-a11y-list">
+                {component.accessibilityNotes.map((note, idx) => (
+                  <li key={idx} className="modui-a11y-item">
+                    <span className="modui-a11y-bullet">•</span>
+                    <span>{note}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
+      );
 };
 
-export default ComponentDetailPage;
+      export default ComponentDetailPage;

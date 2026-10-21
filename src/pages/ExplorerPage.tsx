@@ -11,6 +11,7 @@ import { FluidElasticAccordion } from '../components/ui/accordion';
 import { BeforeAfterSlider } from '../components/ui/slider';
 import { RotaryJogWheel } from '../components/ui/rotary';
 import { CyberStreamMatrix } from '../components/ui/matrix';
+import { CausticRippleSurface } from '../components/ui/caustic-surface';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -392,6 +393,22 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                           CANVAS // STREAM
                         </div>
                       </CyberStreamMatrix>
+                    </div>
+                  )}
+
+                  {comp.slug === 'caustic-ripple-surface' && (
+                    <div style={{ width: '100%', height: '160px', borderRadius: '6px', overflow: 'hidden', position: 'relative' }}>
+                      <CausticRippleSurface
+                        variant="porcelain"
+                        compact={true}
+                        damping={0.97}
+                        refractionStrength={2.0}
+                        dropletRadius={3}
+                        rainEnabled={true}
+                        rainInterval={2800}
+                        soundEnabled={false}
+                        style={{ width: '100%', height: '100%' }}
+                      />
                     </div>
                   )}
                 </div>
