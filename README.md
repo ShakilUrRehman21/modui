@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-76%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-67%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (12 Primitives)
+## Published Modules (13 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Neural Cloth Mesh** | 3D & Showcase | 2D physical Verlet integration particle lattice, elastic structural constraints, 3D facet normal lighting, pointer turbulence wake, and harmonic breeze whoosh | `src/components/ui/cloth` |
 | **Caustic Ripple Surface** | 3D & Showcase | 2D discrete wave propagation, real-time sunlight caustic light refraction, ambient idle raindrops, and synthesized acoustic droplet haptics | `src/components/ui/caustic-surface` |
 | **Cyber Stream Matrix** | Typography & Motion | Generative 2D canvas stream, pointer shockwave repulsion physics, click particle bursts, and Web Audio synthesizer chirps | `src/components/ui/matrix` |
 | **Rotary Jog Wheel** | Buttons and Actions | Circular scrub physics (`atan2`), momentum inertia deceleration, detent notch snapping, and synthesized micro-haptic audio ticks | `src/components/ui/rotary` |

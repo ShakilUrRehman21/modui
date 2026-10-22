@@ -1,0 +1,216 @@
+/**
+ * NeuralClothMesh.css
+ * Pure Vanilla CSS styling for the Verlet Silk Cloth Mesh component.
+ * Zero external runtime dependencies.
+ */
+
+.modui-cloth-mesh {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+  overflow: hidden;
+  border-radius: var(--radius-lg, 12px);
+  background-color: #F8F7F2;
+  box-sizing: border-box;
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.modui-cloth-mesh:active {
+  cursor: grabbing;
+}
+
+.modui-cloth-mesh--compact {
+  min-height: unset;
+  height: 100%;
+}
+
+.modui-cloth-mesh--compact .modui-cloth-mesh__overlay {
+  padding: 0.5rem;
+}
+
+.modui-cloth-mesh:focus-visible {
+  outline: 2px solid var(--accent-primary, #365CF5);
+  outline-offset: 2px;
+}
+
+/* Variant Specific Outer Borders & Backgrounds */
+.modui-cloth-mesh--studio-silk {
+  background-color: #F8F7F2;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.modui-cloth-mesh--liquid-gold {
+  background-color: #16130E;
+  border-color: rgba(245, 158, 11, 0.25);
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.45);
+}
+
+.modui-cloth-mesh--dark-obsidian {
+  background-color: #0A0E17;
+  border-color: rgba(6, 182, 212, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
+
+.modui-cloth-mesh--emerald-aurora {
+  background-color: #061A14;
+  border-color: rgba(16, 185, 129, 0.22);
+  box-shadow: 0 4px 30px rgba(6, 78, 59, 0.35);
+}
+
+/* Canvas Element */
+.modui-cloth-mesh__canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+}
+
+/* Atmospheric Vignette Overlay */
+.modui-cloth-mesh__vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(
+    circle at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
+}
+
+.modui-cloth-mesh--liquid-gold .modui-cloth-mesh__vignette,
+.modui-cloth-mesh--dark-obsidian .modui-cloth-mesh__vignette,
+.modui-cloth-mesh--emerald-aurora .modui-cloth-mesh__vignette {
+  background: radial-gradient(
+    circle at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+}
+
+/* Center Content & Typography Overlay */
+.modui-cloth-mesh__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  pointer-events: none;
+}
+
+.modui-cloth-mesh__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 540px;
+  padding: 1.25rem 1.75rem;
+  border-radius: var(--radius-md, 12px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  pointer-events: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modui-cloth-mesh--liquid-gold .modui-cloth-mesh__content {
+  background: rgba(22, 19, 14, 0.85);
+  border-color: rgba(245, 158, 11, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.modui-cloth-mesh--dark-obsidian .modui-cloth-mesh__content {
+  background: rgba(10, 14, 23, 0.82);
+  border-color: rgba(6, 182, 212, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65);
+}
+
+.modui-cloth-mesh--emerald-aurora .modui-cloth-mesh__content {
+  background: rgba(6, 26, 20, 0.85);
+  border-color: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 8px 32px rgba(2, 44, 34, 0.5);
+}
+
+/* Eyebrow Badge Tag */
+.modui-cloth-mesh__badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.6rem;
+}
+
+.modui-cloth-mesh__pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: modui-cloth-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes modui-cloth-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+/* Headline */
+.modui-cloth-mesh__headline {
+  margin: 0 0 0.5rem 0;
+  font-family: var(--font-display, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: clamp(1.25rem, 2.8vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+/* Subheadline */
+.modui-cloth-mesh__subheadline {
+  margin: 0;
+  font-size: clamp(0.78rem, 1.4vw, 0.875rem);
+  line-height: 1.55;
+  opacity: 0.92;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .modui-cloth-mesh {
+    min-height: 320px;
+  }
+
+  .modui-cloth-mesh__content {
+    padding: 1rem 1.25rem;
+    max-width: 92%;
+  }
+
+  .modui-cloth-mesh__badge-tag {
+    font-size: 0.625rem;
+  }
+}

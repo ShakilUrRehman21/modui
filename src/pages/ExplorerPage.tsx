@@ -12,6 +12,7 @@ import { BeforeAfterSlider } from '../components/ui/slider';
 import { RotaryJogWheel } from '../components/ui/rotary';
 import { CyberStreamMatrix } from '../components/ui/matrix';
 import { CausticRippleSurface } from '../components/ui/caustic-surface';
+import { NeuralClothMesh } from '../components/ui/cloth';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -409,6 +410,44 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         soundEnabled={false}
                         style={{ width: '100%', height: '100%' }}
                       />
+                    </div>
+                  )}
+
+                  {comp.slug === 'neural-cloth-mesh' && (
+                    <div style={{ width: '100%', height: '160px', borderRadius: '6px', overflow: 'hidden', position: 'relative' }}>
+                      <NeuralClothMesh
+                        variant="studio-silk"
+                        renderMode="wireframe"
+                        pinMode="curtain"
+                        gravity={0.10}
+                        windStrength={0}
+                        compact={true}
+                        soundEnabled={false}
+                        style={{ width: '100%', height: '100%', minHeight: '160px' }}
+                      >
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            padding: '0.35rem 0.75rem',
+                            background: 'rgba(255,255,255,0.92)',
+                            backdropFilter: 'blur(8px)',
+                            border: '1px solid rgba(0,0,0,0.08)',
+                            borderRadius: '999px',
+                            fontSize: '0.68rem',
+                            fontWeight: 600,
+                            letterSpacing: '0.08em',
+                            color: '#1a1a1a',
+                            boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+                            pointerEvents: 'none',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          VERLET // WIREFRAME
+                        </div>
+                      </NeuralClothMesh>
                     </div>
                   )}
                 </div>

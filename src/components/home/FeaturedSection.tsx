@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { COMPONENT_REGISTRY } from '../../registry/components';
-import { RadialOrbitHub } from '../ui/radial-hub';
+import { NeuralClothMesh } from '../ui/cloth';
 import { FluidElasticAccordion } from '../ui/accordion';
 import { RotaryJogWheel } from '../ui/rotary';
 import { trackPreviewOpen, trackCopyCode } from '../../lib/analytics';
@@ -12,7 +12,7 @@ interface FeaturedSectionProps {
 
 // Strictly showcase 3 flagship primitives on the Home Page
 const FEATURED_SLUGS = [
-  'radial-orbit-hub',
+  'neural-cloth-mesh',
   'rotary-jog-wheel',
   'fluid-elastic-accordion',
 ];
@@ -89,59 +89,42 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                     <span className="modui-card-ver-badge">v{comp.version}</span>
                   </div>
 
-                  {/* RadialOrbitHub Live Stage */}
-                  {comp.slug === 'radial-orbit-hub' && (
-                    <div className="modui-stage-center">
-                      <RadialOrbitHub
-                        items={[
-                          {
-                            id: 'search',
-                            label: 'Search',
-                            icon: (
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <circle cx="11" cy="11" r="8" />
-                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                              </svg>
-                            ),
-                          },
-                          {
-                            id: 'ai',
-                            label: 'AI Core',
-                            badge: 'AI',
-                            icon: (
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
-                              </svg>
-                            ),
-                          },
-                          {
-                            id: 'layers',
-                            label: 'Layers',
-                            icon: (
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <polygon points="12 2 2 7 12 12 22 7 12 2" />
-                                <polyline points="2 17 12 22 22 17" />
-                                <polyline points="2 12 12 17 22 12" />
-                              </svg>
-                            ),
-                          },
-                          {
-                            id: 'terminal',
-                            label: 'Terminal',
-                            icon: (
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <polyline points="4 17 10 11 4 5" />
-                                <line x1="12" x2="20" y1="19" y2="19" />
-                              </svg>
-                            ),
-                          },
-                        ]}
-                        radius={48}
-                        defaultOpen={false}
-                        variant="glass"
-                        showLabels={false}
+                  {/* NeuralClothMesh Live Stage */}
+                  {comp.slug === 'neural-cloth-mesh' && (
+                    <div style={{ width: '100%', height: '100%', minHeight: '190px', borderRadius: '8px', overflow: 'hidden', position: 'relative' }}>
+                      <NeuralClothMesh
+                        variant="studio-silk"
+                        renderMode="wireframe"
+                        pinMode="curtain"
+                        windStrength={0}
+                        gravity={0.10}
+                        compact={true}
                         soundEnabled={false}
-                      />
+                        style={{ width: '100%', height: '100%', minHeight: '190px' }}
+                      >
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            padding: '0.35rem 0.75rem',
+                            background: 'rgba(255,255,255,0.92)',
+                            backdropFilter: 'blur(8px)',
+                            border: '1px solid rgba(0,0,0,0.08)',
+                            borderRadius: '999px',
+                            fontSize: '0.68rem',
+                            fontWeight: 600,
+                            letterSpacing: '0.08em',
+                            color: '#1a1a1a',
+                            boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+                            pointerEvents: 'none',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          VERLET // WIREFRAME
+                        </div>
+                      </NeuralClothMesh>
                     </div>
                   )}
 
