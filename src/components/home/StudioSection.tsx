@@ -52,7 +52,6 @@ export const StudioSection: React.FC<StudioSectionProps> = ({ onNavigate }) => {
         <div className="modui-workbench-title-group">
           <span className="modui-stage-dot" />
           <span className="modui-workbench-title">INTERACTIVE STUDIO</span>
-          <span className="modui-stage-counter-pill">GSAP Kinetic Wave</span>
         </div>
 
         <div className="modui-workbench-header-right">
@@ -73,9 +72,6 @@ export const StudioSection: React.FC<StudioSectionProps> = ({ onNavigate }) => {
             key={kineticWaveKey}
             text={stageKineticText}
           />
-          <span className="modui-canvas-caption">
-            Hover over any character to trigger real-time spring physics
-          </span>
         </div>
       </div>
 
@@ -118,9 +114,6 @@ export const StudioSection: React.FC<StudioSectionProps> = ({ onNavigate }) => {
       </div>
 
       <div className="modui-workbench-footer">
-        <span className="modui-workbench-footer-hint">
-          Interactive Motion Engine • Zero runtime dependencies
-        </span>
         <div className="modui-workbench-inspect-link">
           <button
             onClick={() => onNavigate('/components/kinetic-text')}

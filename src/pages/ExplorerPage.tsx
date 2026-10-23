@@ -13,6 +13,7 @@ import { RotaryJogWheel } from '../components/ui/rotary';
 import { CyberStreamMatrix } from '../components/ui/matrix';
 import { CausticRippleSurface } from '../components/ui/caustic-surface';
 import { NeuralClothMesh } from '../components/ui/cloth';
+import { ApertureIrisLens } from '../components/ui/aperture';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -448,6 +449,20 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                           VERLET // WIREFRAME
                         </div>
                       </NeuralClothMesh>
+                    </div>
+                  )}
+
+                  {comp.slug === 'aperture-iris-lens' && (
+                    <div style={{ width: '100%', height: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                      <ApertureIrisLens
+                        variant="studio-silver"
+                        bladesCount={9}
+                        defaultValue={0.55}
+                        compact={true}
+                        showFStops={false}
+                        soundEnabled={false}
+                        style={{ transform: 'scale(0.48)', transformOrigin: 'center center' }}
+                      />
                     </div>
                   )}
                 </div>

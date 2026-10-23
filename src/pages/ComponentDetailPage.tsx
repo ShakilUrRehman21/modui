@@ -20,6 +20,8 @@ import { CausticRippleSurface } from '../components/ui/caustic-surface';
 import type { CausticSurfaceVariant } from '../components/ui/caustic-surface';
 import { NeuralClothMesh } from '../components/ui/cloth';
 import type { ClothVariant, ClothRenderMode, ClothPinMode } from '../components/ui/cloth';
+import { ApertureIrisLens } from '../components/ui/aperture';
+import type { ApertureVariant } from '../components/ui/aperture';
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { trackCopyCode, trackGithubClick, trackPreviewOpen } from '../lib/analytics';
 import './ComponentDetailPage.css';
@@ -118,6 +120,14 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [clothWind, setClothWind] = useState<number>(0);
   const [clothStiffness, setClothStiffness] = useState<number>(2);
   const [clothSound, setClothSound] = useState<boolean>(true);
+
+  // Playground state for ApertureIrisLens
+  const [apertureVariant, setApertureVariant] = useState<ApertureVariant>('studio-silver');
+  const [apertureBlades, setApertureBlades] = useState<number>(9);
+  const [apertureValue, setApertureValue] = useState<number>(0.55);
+  const [apertureSound, setApertureSound] = useState<boolean>(true);
+  const [apertureRing, setApertureRing] = useState<boolean>(true);
+  const [apertureFocal, setApertureFocal] = useState<string>('50mm');
 
   // File viewer state inside Code tab
   const [selectedFile, setSelectedFile] = useState<'tsx' | 'css' | 'usage'>('tsx');
@@ -745,6 +755,27 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                   Verlet Continuum: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>Structural Spring Lattice</span>
                   <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
                     Tip: Drag through the fabric to billow the silk with aerodynamic wind wake, click or press Spacebar to inject a resonant wave impulse.
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Stage for ApertureIrisLens */}
+            {slug === 'aperture-iris-lens' && (
+              <div style={{ width: '100%', maxWidth: '780px', margin: '0 auto', padding: '1.5rem 0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <ApertureIrisLens
+                  variant={apertureVariant}
+                  bladesCount={apertureBlades}
+                  value={apertureValue}
+                  onChange={(val) => setApertureValue(val)}
+                  soundEnabled={apertureSound}
+                  showRing={apertureRing}
+                  focalLength={apertureFocal}
+                />
+                <div style={{ marginTop: '1.75rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                  Mechanical Iris Barrel: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>Trigonometric Blade Overlap</span>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                    Tip: Drag along the outer knurled ring to scrub aperture opening with rotary angle tracking, click f-stop step presets, or use Arrow keys.
                   </div>
                 </div>
               </div>
@@ -1578,6 +1609,87 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                       onChange={(e) => setClothSound(e.target.checked)}
                     />
                     <span>Web Audio Breeze Resonance</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Playground Controls for ApertureIrisLens */}
+          {slug === 'aperture-iris-lens' && (
+            <div className="modui-controls-panel">
+              <div className="modui-control-group">
+                <label className="modui-control-label">Barrel & Blade Finish</label>
+                <select
+                  className="modui-control-select"
+                  value={apertureVariant}
+                  onChange={(e) => setApertureVariant(e.target.value as ApertureVariant)}
+                >
+                  <option value="studio-silver">Studio Silver (Machined Anodized)</option>
+                  <option value="matte-obsidian">Matte Obsidian (Stealth Graphite)</option>
+                  <option value="classic-brass">Classic Brass (Vintage Leica)</option>
+                  <option value="cyber-neon">Cyber Neon (Sci-Fi Holographic)</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Aperture Ratio ({(apertureValue * 100).toFixed(0)}%)</label>
+                <input
+                  type="range"
+                  min="0.05"
+                  max="1.0"
+                  step="0.01"
+                  value={apertureValue}
+                  onChange={(e) => setApertureValue(parseFloat(e.target.value))}
+                  style={{ width: '100%', accentColor: 'var(--accent-primary)' }}
+                />
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Iris Blades ({apertureBlades})</label>
+                <input
+                  type="range"
+                  min="6"
+                  max="14"
+                  step="1"
+                  value={apertureBlades}
+                  onChange={(e) => setApertureBlades(parseInt(e.target.value, 10))}
+                  style={{ width: '100%', accentColor: 'var(--accent-primary)' }}
+                />
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Focal Engraving</label>
+                <select
+                  className="modui-control-select"
+                  value={apertureFocal}
+                  onChange={(e) => setApertureFocal(e.target.value)}
+                >
+                  <option value="35mm">35mm f/1.4 Summilux</option>
+                  <option value="50mm">50mm f/1.4 Noctilux</option>
+                  <option value="85mm">85mm f/1.4 Portrait Master</option>
+                  <option value="135mm">135mm f/1.8 Telephoto</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Mechanics & Audio</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={apertureSound}
+                      onChange={(e) => setApertureSound(e.target.checked)}
+                    />
+                    <span>Web Audio Leaf Ratchet Clicks</span>
+                  </label>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={apertureRing}
+                      onChange={(e) => setApertureRing(e.target.checked)}
+                    />
+                    <span>Machined Barrel Ring & Degree Ticks</span>
                   </label>
                 </div>
               </div>

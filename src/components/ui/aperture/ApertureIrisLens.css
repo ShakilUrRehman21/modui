@@ -1,0 +1,431 @@
+/**
+ * ApertureIrisLens.css
+ * Hardware-grade mechanical camera aperture styling with pure CSS.
+ * Zero external runtime style dependencies.
+ */
+
+.modui-aperture-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  user-select: none;
+  touch-action: none;
+  padding: 1.5rem 1rem;
+}
+
+.modui-aperture-wrap:focus-visible {
+  outline: 2px solid var(--accent-primary, #365CF5);
+  outline-offset: 4px;
+  border-radius: var(--radius-lg, 12px);
+}
+
+/* Compact mode for cards */
+.modui-aperture--compact {
+  padding: 0.5rem;
+}
+
+.modui-aperture--compact .modui-aperture-barrel {
+  width: 140px;
+  height: 140px;
+}
+
+.modui-aperture--compact .modui-fstop-selector {
+  display: none;
+}
+
+/* Top HUD Readout */
+.modui-aperture-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 290px;
+  margin-bottom: 0.85rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.modui-aperture-hud-item {
+  color: var(--text-tertiary, #64748B);
+}
+
+.modui-aperture-hud-fstop {
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(54, 92, 245, 0.1);
+  color: var(--accent-primary, #365CF5);
+  border: 1px solid rgba(54, 92, 245, 0.25);
+  box-shadow: 0 1px 4px rgba(54, 92, 245, 0.15);
+}
+
+/* Main Circular Lens Assembly */
+.modui-aperture-barrel {
+  position: relative;
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.modui-aperture-barrel--dragging {
+  cursor: grabbing;
+  transform: scale(0.985);
+}
+
+/* Outer Knurled Grip Ring */
+.modui-aperture-knurl-ring {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(0, 0, 0, 0.08) 0deg 2deg,
+    transparent 2deg 4deg
+  );
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15), 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* SVG Iris Assembly */
+.modui-aperture-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* Barrel Elements Base Styles */
+.modui-barrel-outer {
+  fill: #E2E8F0;
+  stroke: #CBD5E1;
+  stroke-width: 1.5;
+}
+
+.modui-barrel-middle {
+  fill: #F1F5F9;
+  stroke: #E2E8F0;
+  stroke-width: 1;
+}
+
+.modui-barrel-inner {
+  fill: #1E293B;
+  stroke: #0F172A;
+  stroke-width: 1.5;
+}
+
+.modui-barrel-bezel {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.modui-barrel-tick {
+  stroke: #94A3B8;
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.modui-barrel-tick--major {
+  stroke: #475569;
+  stroke-width: 1.8;
+}
+
+.modui-iris-aperture-bg {
+  fill: #0F172A;
+}
+
+.modui-aperture-opening-rim {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.25);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+/* Iris Blades Styling */
+.modui-aperture-blade {
+  fill: url(#blade-grad-light);
+  stroke: rgba(255, 255, 255, 0.4);
+  stroke-width: 0.6;
+  transition: d 0.1s linear;
+}
+
+/* Revealed Content Container */
+.modui-aperture-reveal-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: clip-path 0.08s linear;
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* Default Subject Content inside Aperture */
+.modui-aperture-default-subject {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #F8FAFC;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  background: radial-gradient(circle at center, #1E293B 0%, #090D16 100%);
+}
+
+.modui-subject-reticle {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border: 1px dashed rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.modui-subject-core-pill {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #38BDF8;
+  margin-bottom: 0.25rem;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.modui-subject-caption {
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+
+/* F-Stop Step Selector Buttons */
+.modui-fstop-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 1.25rem;
+  max-width: 320px;
+}
+
+.modui-fstop-btn {
+  padding: 0.35rem 0.65rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm, 6px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #FFFFFF;
+  color: var(--text-secondary, #475569);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.modui-fstop-btn:hover {
+  background: #F1F5F9;
+  color: var(--text-primary, #0F172A);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.modui-fstop-btn--active {
+  background: var(--accent-primary, #365CF5);
+  color: #FFFFFF;
+  border-color: var(--accent-primary, #365CF5);
+  box-shadow: 0 2px 8px rgba(54, 92, 245, 0.35);
+}
+
+/* ==========================================================================
+   THEME VARIANTS
+   ========================================================================== */
+
+/* 1. Studio Silver (Default Light Theme) */
+.modui-aperture--studio-silver .modui-barrel-outer {
+  fill: #E2E8F0;
+  stroke: #CBD5E1;
+}
+
+.modui-aperture--studio-silver .modui-barrel-middle {
+  fill: #F8FAFC;
+  stroke: #E2E8F0;
+}
+
+.modui-aperture--studio-silver .modui-barrel-inner {
+  fill: #1E293B;
+}
+
+.modui-aperture--studio-silver .modui-aperture-blade {
+  fill: url(#blade-grad-light);
+  stroke: rgba(255, 255, 255, 0.45);
+}
+
+/* 2. Matte Obsidian (Stealth Dark Titanium) */
+.modui-aperture--matte-obsidian {
+  color: #F8FAFC;
+}
+
+.modui-aperture--matte-obsidian .modui-aperture-hud-item {
+  color: #94A3B8;
+}
+
+.modui-aperture--matte-obsidian .modui-aperture-hud-fstop {
+  background: rgba(6, 182, 212, 0.12);
+  color: #06B6D4;
+  border-color: rgba(6, 182, 212, 0.3);
+  box-shadow: 0 1px 6px rgba(6, 182, 212, 0.2);
+}
+
+.modui-aperture--matte-obsidian .modui-barrel-outer {
+  fill: #0F172A;
+  stroke: #1E293B;
+}
+
+.modui-aperture--matte-obsidian .modui-barrel-middle {
+  fill: #1E293B;
+  stroke: #334155;
+}
+
+.modui-aperture--matte-obsidian .modui-barrel-inner {
+  fill: #020617;
+  stroke: #0F172A;
+}
+
+.modui-aperture--matte-obsidian .modui-barrel-tick {
+  stroke: #475569;
+}
+
+.modui-aperture--matte-obsidian .modui-barrel-tick--major {
+  stroke: #06B6D4;
+}
+
+.modui-aperture--matte-obsidian .modui-aperture-blade {
+  fill: url(#blade-grad-obsidian);
+  stroke: rgba(255, 255, 255, 0.15);
+}
+
+.modui-aperture--matte-obsidian .modui-fstop-btn {
+  background: #0F172A;
+  color: #94A3B8;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.modui-aperture--matte-obsidian .modui-fstop-btn:hover {
+  background: #1E293B;
+  color: #F8FAFC;
+}
+
+.modui-aperture--matte-obsidian .modui-fstop-btn--active {
+  background: #06B6D4;
+  color: #020617;
+  border-color: #06B6D4;
+  box-shadow: 0 2px 10px rgba(6, 182, 212, 0.4);
+}
+
+/* 3. Classic Brass (Vintage Leica Gold/Bronze) */
+.modui-aperture--classic-brass .modui-barrel-outer {
+  fill: #78350F;
+  stroke: #92400E;
+}
+
+.modui-aperture--classic-brass .modui-barrel-middle {
+  fill: #B45309;
+  stroke: #D97706;
+}
+
+.modui-aperture--classic-brass .modui-barrel-inner {
+  fill: #291507;
+  stroke: #451A03;
+}
+
+.modui-aperture--classic-brass .modui-barrel-tick {
+  stroke: #D97706;
+}
+
+.modui-aperture--classic-brass .modui-barrel-tick--major {
+  stroke: #FDE68A;
+}
+
+.modui-aperture--classic-brass .modui-aperture-blade {
+  fill: url(#blade-grad-brass);
+  stroke: rgba(254, 243, 199, 0.35);
+}
+
+.modui-aperture--classic-brass .modui-aperture-hud-fstop {
+  background: rgba(217, 119, 6, 0.15);
+  color: #D97706;
+  border-color: rgba(217, 119, 6, 0.35);
+}
+
+.modui-aperture--classic-brass .modui-fstop-btn--active {
+  background: #D97706;
+  color: #FFFBEB;
+  border-color: #D97706;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.4);
+}
+
+/* 4. Cyber Neon (Futuristic Laser Optics) */
+.modui-aperture--cyber-neon .modui-barrel-outer {
+  fill: #090D16;
+  stroke: #082F49;
+}
+
+.modui-aperture--cyber-neon .modui-barrel-middle {
+  fill: #0C1527;
+  stroke: #0284C7;
+}
+
+.modui-aperture--cyber-neon .modui-barrel-inner {
+  fill: #020617;
+  stroke: #00F5FF;
+}
+
+.modui-aperture--cyber-neon .modui-barrel-tick {
+  stroke: #0284C7;
+}
+
+.modui-aperture--cyber-neon .modui-barrel-tick--major {
+  stroke: #00F5FF;
+}
+
+.modui-aperture--cyber-neon .modui-aperture-blade {
+  fill: url(#blade-grad-cyber);
+  stroke: rgba(0, 245, 255, 0.4);
+}
+
+.modui-aperture--cyber-neon .modui-aperture-hud-fstop {
+  background: rgba(0, 245, 255, 0.15);
+  color: #00F5FF;
+  border-color: rgba(0, 245, 255, 0.4);
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.25);
+}
+
+.modui-aperture--cyber-neon .modui-fstop-btn--active {
+  background: #00F5FF;
+  color: #020617;
+  border-color: #00F5FF;
+  box-shadow: 0 0 12px rgba(0, 245, 255, 0.5);
+}

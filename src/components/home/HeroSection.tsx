@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { AnimatedButton } from '../ui/button';
 import { KineticText } from '../ui/motion/KineticText';
-import { NumberTicker } from '../ui/counter';
-import { BeforeAfterSlider } from '../ui/slider';
-import { Badge } from '../ui/badge';
 import { trackGithubClick, trackPreviewOpen, trackCopyCode } from '../../lib/analytics';
 import './HeroSection.css';
 
@@ -12,7 +9,7 @@ interface HeroSectionProps {
   children?: React.ReactNode;
 }
 
-type ExperimentTab = 'buttons' | 'typography' | 'showcase' | 'motion';
+type ExperimentTab = 'buttons' | 'typography';
 type MotionMode = 'restrained' | 'expressive';
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }) => {
@@ -23,7 +20,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
   const [buttonLoading, setButtonLoading] = useState(false);
   const [kineticText, setKineticText] = useState('Interfaces with character.');
   const [kineticKey, setKineticKey] = useState(0);
-  const [tickerValue, setTickerValue] = useState(2048);
   const [copiedSnippet, setCopiedSnippet] = useState(false);
 
   // Typewriter effect state
@@ -180,7 +176,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
     setButtonLoading(false);
     setKineticText('Interfaces with character.');
     setKineticKey((k) => k + 1);
-    setTickerValue(2048);
   };
 
   const handleButtonClick = () => {
@@ -195,11 +190,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
     setKineticKey((k) => k + 1);
   };
 
-  const handleRollTicker = () => {
-    const delta = Math.floor(Math.random() * 320) + 80;
-    setTickerValue((prev) => prev + delta);
-  };
-
   // Active code snippet for playground bottom code preview
   const getActiveCodeSnippet = () => {
     switch (selectedTab) {
@@ -209,10 +199,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
 </AnimatedButton>`;
       case 'typography':
         return `<KineticText text="${kineticText}" interactiveWave={true} />`;
-      case 'showcase':
-        return `<BeforeAfterSlider aspectRatio="16/10" mode="drag" />`;
-      case 'motion':
-        return `<NumberTicker value={${tickerValue}} duration={${motionMode === 'expressive' ? '1.2' : '0.6'}} />`;
     }
   };
 
@@ -337,30 +323,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
                 >
                   Typography
                 </button>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={selectedTab === 'showcase'}
-                  className={`modui-tab-btn ${selectedTab === 'showcase' ? 'modui-tab-btn--active' : ''}`}
-                  onClick={() => {
-                    setSelectedTab('showcase');
-                    trackPreviewOpen({ component: 'slider', mode: 'interactive_stage' });
-                  }}
-                >
-                  Showcase
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={selectedTab === 'motion'}
-                  className={`modui-tab-btn ${selectedTab === 'motion' ? 'modui-tab-btn--active' : ''}`}
-                  onClick={() => {
-                    setSelectedTab('motion');
-                    trackPreviewOpen({ component: 'counter', mode: 'interactive_stage' });
-                  }}
-                >
-                  Motion
-                </button>
               </div>
 
               {/* Utility Controls: Motion Mode Toggle + Reset */}
@@ -395,17 +357,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
 
             {/* Live Interactive Stage Area */}
             <div className={`modui-playground-stage modui-playground-stage--${motionMode}`}>
-              {/* Contextual guidance indicator */}
-              <div className="modui-stage-guidance">
-                <span className="modui-guidance-badge">Interactive Canvas</span>
-                <span className="modui-guidance-hint">
-                  {selectedTab === 'buttons' && 'Click buttons to trigger springs and loading feedback'}
-                  {selectedTab === 'typography' && 'Click presets or trigger wave to watch character physics'}
-                  {selectedTab === 'showcase' && 'Drag divider horizontally to inspect subpixel clipping'}
-                  {selectedTab === 'motion' && 'Roll counter to test tabular font figures and velocity'}
-                </span>
-              </div>
-
               {/* TAB 1: Animated Buttons Demonstration */}
               {selectedTab === 'buttons' && (
                 <div className="modui-demo-buttons-wrap">
@@ -439,17 +390,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
                     >
                       <span>Radial Ripple</span>
                     </AnimatedButton>
-                  </div>
-
-                  <div className="modui-demo-subpanel">
-                    <div className="modui-subpanel-metrics">
-                      <span className="modui-subpanel-item">
-                        <strong>Events:</strong> {buttonClicks} interactions logged
-                      </span>
-                      <span className="modui-subpanel-item">
-                        <strong>Physics:</strong> {motionMode === 'expressive' ? 'Spring (stiffness: 300, damping: 18)' : 'Subtle (160ms cubic-bezier)'}
-                      </span>
-                    </div>
                   </div>
                 </div>
               )}
@@ -497,75 +437,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
                         <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
                       </svg>
                     </button>
-                  </div>
-                </div>
-              )}
-
-              {/* TAB 3: Dual-Layer Showcase Demonstration */}
-              {selectedTab === 'showcase' && (
-                <div className="modui-demo-showcase-wrap">
-                  <BeforeAfterSlider
-                    aspectRatio="16 / 9"
-                    variant="light"
-                    mode="drag"
-                    soundEnabled={false}
-                    initialPosition={50}
-                    showLabels={true}
-                    beforeLabel="Component Tokens"
-                    afterLabel="Compiled Render"
-                    style={{
-                      maxHeight: '190px',
-                      width: '100%',
-                      borderRadius: '8px',
-                      border: '1px solid var(--border-default)',
-                    }}
-                  />
-                  <div className="modui-showcase-caption">
-                    <span>Interactive Split Canvas: Drag divider horizontally to evaluate subpixel masking accuracy.</span>
-                  </div>
-                </div>
-              )}
-
-              {/* TAB 4: Motion & Physics Counter */}
-              {selectedTab === 'motion' && (
-                <div className="modui-demo-motion-wrap">
-                  <div className="modui-motion-counter-box">
-                    <div className="modui-counter-metric-label">TELEMETRY COUNTER</div>
-                    <div className="modui-counter-display">
-                      <NumberTicker
-                        value={tickerValue}
-                        duration={motionMode === 'expressive' ? 1.2 : 0.6}
-                        className="modui-hero-number-ticker"
-                      />
-                      <span className="modui-counter-unit">ops/sec</span>
-                    </div>
-
-                    <div className="modui-counter-badges">
-                      <Badge variant="success" dot={true}>
-                        <span>Optimal Velocity</span>
-                      </Badge>
-                      <Badge variant="default">
-                        <span>Tabular Digits</span>
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <div className="modui-motion-actions">
-                    <button
-                      type="button"
-                      className="modui-roll-btn"
-                      onClick={handleRollTicker}
-                    >
-                      <span>+ Roll Value</span>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="16 3 21 3 21 8" />
-                        <line x1="4" y1="20" x2="21" y2="3" />
-                        <polyline points="21 16 21 21 16 21" />
-                        <line x1="15" y1="15" x2="21" y2="21" />
-                        <line x1="4" y1="4" x2="9" y2="9" />
-                      </svg>
-                    </button>
-                    <span className="modui-motion-hint">Smooth ease-out velocity curves</span>
                   </div>
                 </div>
               )}
