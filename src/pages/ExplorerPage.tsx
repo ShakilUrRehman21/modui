@@ -14,6 +14,7 @@ import { CyberStreamMatrix } from '../components/ui/matrix';
 import { CausticRippleSurface } from '../components/ui/caustic-surface';
 import { NeuralClothMesh } from '../components/ui/cloth';
 import { ApertureIrisLens } from '../components/ui/aperture';
+import { ChromaticPrismCard } from '../components/ui/prism';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -462,6 +463,19 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         showFStops={false}
                         soundEnabled={false}
                         style={{ transform: 'scale(0.48)', transformOrigin: 'center center' }}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'chromatic-prism-card' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.25rem' }}>
+                      <ChromaticPrismCard
+                        variant="sapphire-crystal"
+                        category="QUARTZ // 01"
+                        serialNumber="SPECIMEN 01"
+                        compact={true}
+                        soundEnabled={false}
+                        maxTilt={10}
                       />
                     </div>
                   )}

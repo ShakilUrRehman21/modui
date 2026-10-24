@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-74%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-81%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (14 Primitives)
+## Published Modules (15 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Chromatic Prism Specimen Card** | 3D & Showcase | Optical quartz crystal card, 3D perspective gyro tilt, dynamic incident glare vector, subpixel RGB chromatic dispersion, millimeter vernier rule, and crystal chime haptics | `src/components/ui/prism` |
 | **Mechanical Aperture Iris Lens** | 3D & Showcase | Precision optical camera iris, interlocking curved blades, rotary knurled ring drag, standard f-stops (f/1.4 - f/22), synthesized Web Audio brass leaf ratchet ticks, and dynamic SVG polygon clipping | `src/components/ui/aperture` |
 | **Neural Cloth Mesh** | 3D & Showcase | 2D physical Verlet integration particle lattice, elastic structural constraints, 3D facet normal lighting, pointer turbulence wake, and harmonic breeze whoosh | `src/components/ui/cloth` |
 | **Caustic Ripple Surface** | 3D & Showcase | 2D discrete wave propagation, real-time sunlight caustic light refraction, ambient idle raindrops, and synthesized acoustic droplet haptics | `src/components/ui/caustic-surface` |
@@ -84,7 +85,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ### Automated Test Suite
 
-Run the full Vitest suite (all 74 unit tests):
+Run the full Vitest suite (all 81 unit tests):
 
 ```bash
 npm test
