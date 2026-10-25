@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-81%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-88%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (15 Primitives)
+## Published Modules (16 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Filmstrip Gallery** | 3D & Showcase | Continuous 35mm cinematographic film reel gallery, calibrated sprocket perforations, pointer drag momentum scrub, frame elevation micro-interactions, full-bleed lightbox modal inspection, and synthesized analog ratchet & shutter haptics | `src/components/ui/filmstrip` |
 | **Chromatic Prism Specimen Card** | 3D & Showcase | Optical quartz crystal card, 3D perspective gyro tilt, dynamic incident glare vector, subpixel RGB chromatic dispersion, millimeter vernier rule, and crystal chime haptics | `src/components/ui/prism` |
 | **Mechanical Aperture Iris Lens** | 3D & Showcase | Precision optical camera iris, interlocking curved blades, rotary knurled ring drag, standard f-stops (f/1.4 - f/22), synthesized Web Audio brass leaf ratchet ticks, and dynamic SVG polygon clipping | `src/components/ui/aperture` |
 | **Neural Cloth Mesh** | 3D & Showcase | 2D physical Verlet integration particle lattice, elastic structural constraints, 3D facet normal lighting, pointer turbulence wake, and harmonic breeze whoosh | `src/components/ui/cloth` |

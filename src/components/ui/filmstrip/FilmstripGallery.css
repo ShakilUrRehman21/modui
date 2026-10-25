@@ -1,0 +1,530 @@
+/* ==========================================================================
+   ModUI Filmstrip Gallery Component Styles (Vanilla CSS)
+   Clean, Minimal, Light Creative Studio Standard
+   ========================================================================== */
+
+.modui-filmstrip-gallery {
+  --filmstrip-bg: #FFFFFF;
+  --filmstrip-border: #E4E1D9;
+  --filmstrip-rail-bg: #F7F5F0;
+  --filmstrip-rail-border: #EAE6DE;
+  --filmstrip-hole-bg: #E3DFD4;
+  --filmstrip-frame-bg: #FFFFFF;
+  --filmstrip-frame-border: #E8E5DD;
+  --filmstrip-accent: var(--accent-primary, #365CF5);
+  --filmstrip-text: #20201E;
+  --filmstrip-text-muted: #696963;
+  --filmstrip-font-sans: var(--font-sans, 'Manrope', 'Inter', -apple-system, sans-serif);
+  --filmstrip-font-mono: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace);
+
+  position: relative;
+  width: 100%;
+  background: var(--filmstrip-bg);
+  border: 1px solid var(--filmstrip-border);
+  border-radius: var(--radius-lg, 10px);
+  overflow: hidden;
+  box-shadow: 0 4px 16px -2px rgba(32, 32, 30, 0.05), 0 1px 3px rgba(32, 32, 30, 0.03);
+  transition: border-color var(--transition-normal, 0.25s ease), box-shadow var(--transition-normal, 0.25s ease);
+  user-select: none;
+  font-family: var(--filmstrip-font-sans);
+}
+
+/* --------------------------------------------------------------------------
+   Themes
+   -------------------------------------------------------------------------- */
+
+/* 1. Studio Light (Default - ModUI Signature Off-White & Cobalt) */
+.modui-filmstrip-theme-studio-light {
+  --filmstrip-bg: #FFFFFF;
+  --filmstrip-border: #E4E1D9;
+  --filmstrip-rail-bg: #F6F4EE;
+  --filmstrip-rail-border: #EBE7DF;
+  --filmstrip-hole-bg: #E2DDD2;
+  --filmstrip-frame-bg: #FFFFFF;
+  --filmstrip-frame-border: #E8E5DC;
+  --filmstrip-accent: #365CF5;
+  --filmstrip-text: #20201E;
+  --filmstrip-text-muted: #696963;
+}
+
+/* 2. Warm Editorial (Architectural Linen & Coral) */
+.modui-filmstrip-theme-warm-editorial {
+  --filmstrip-bg: #FAF8F3;
+  --filmstrip-border: #ECE7DC;
+  --filmstrip-rail-bg: #F2EEE3;
+  --filmstrip-rail-border: #E5DFD1;
+  --filmstrip-hole-bg: #DDD6C6;
+  --filmstrip-frame-bg: #FFFFFF;
+  --filmstrip-frame-border: #ECE7DC;
+  --filmstrip-accent: #FF735E;
+  --filmstrip-text: #282420;
+  --filmstrip-text-muted: #7A746B;
+}
+
+/* 3. Minimal Mono (Pure White & Charcoal) */
+.modui-filmstrip-theme-minimal-mono {
+  --filmstrip-bg: #FFFFFF;
+  --filmstrip-border: #E5E7EB;
+  --filmstrip-rail-bg: #F9FAFB;
+  --filmstrip-rail-border: #F3F4F6;
+  --filmstrip-hole-bg: #E5E7EB;
+  --filmstrip-frame-bg: #FFFFFF;
+  --filmstrip-frame-border: #E5E7EB;
+  --filmstrip-accent: #111827;
+  --filmstrip-text: #111827;
+  --filmstrip-text-muted: #6B7280;
+}
+
+/* 4. Cinema Dark (35mm Noir Acetate) */
+.modui-filmstrip-theme-cinema-dark {
+  --filmstrip-bg: #0F131C;
+  --filmstrip-border: rgba(255, 255, 255, 0.08);
+  --filmstrip-rail-bg: #090C13;
+  --filmstrip-rail-border: rgba(255, 255, 255, 0.06);
+  --filmstrip-hole-bg: #020306;
+  --filmstrip-frame-bg: #151A26;
+  --filmstrip-frame-border: rgba(255, 255, 255, 0.08);
+  --filmstrip-accent: #365CF5;
+  --filmstrip-text: #FFFFFF;
+  --filmstrip-text-muted: #94A3B8;
+}
+
+/* --------------------------------------------------------------------------
+   35mm Perforated Sprocket Rails
+   -------------------------------------------------------------------------- */
+
+.modui-filmstrip-sprocket-rail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 16px;
+  background: var(--filmstrip-rail-bg);
+  border-bottom: 1px solid var(--filmstrip-rail-border);
+  overflow: hidden;
+  z-index: 2;
+}
+
+.modui-filmstrip-sprocket-rail-bottom {
+  border-bottom: none;
+  border-top: 1px solid var(--filmstrip-rail-border);
+}
+
+.modui-filmstrip-sprockets {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  pointer-events: none;
+}
+
+.modui-filmstrip-hole {
+  flex: 0 0 12px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--filmstrip-hole-bg);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* --------------------------------------------------------------------------
+   Header Bar
+   -------------------------------------------------------------------------- */
+
+.modui-filmstrip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px 4px 20px;
+}
+
+.modui-filmstrip-counter {
+  font-family: var(--filmstrip-font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--filmstrip-text-muted);
+}
+
+.modui-filmstrip-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modui-filmstrip-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm, 6px);
+  background: #FFFFFF;
+  border: 1px solid var(--filmstrip-border);
+  color: var(--filmstrip-text);
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.16s ease);
+}
+
+.modui-filmstrip-nav-btn:hover:not(:disabled) {
+  border-color: var(--filmstrip-accent);
+  color: var(--filmstrip-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.modui-filmstrip-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   Track & Frames
+   -------------------------------------------------------------------------- */
+
+.modui-filmstrip-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 16px 20px;
+  scrollbar-width: none;
+  cursor: grab;
+  position: relative;
+}
+
+.modui-filmstrip-track::-webkit-scrollbar {
+  display: none;
+}
+
+.modui-filmstrip-track.modui-filmstrip-is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+.modui-filmstrip-frame {
+  flex: 0 0 280px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--filmstrip-frame-bg);
+  border: 1px solid var(--filmstrip-frame-border);
+  border-radius: var(--radius-md, 8px);
+  padding: 6px;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.2s ease;
+  outline: none;
+}
+
+.modui-filmstrip-frame:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px -4px rgba(32, 32, 30, 0.1), 0 2px 6px -1px rgba(32, 32, 30, 0.04);
+  border-color: var(--filmstrip-accent);
+  z-index: 3;
+}
+
+.modui-filmstrip-frame-active {
+  border-color: var(--filmstrip-accent);
+}
+
+.modui-filmstrip-frame:focus-visible {
+  outline: 2px solid var(--filmstrip-accent);
+  outline-offset: 2px;
+}
+
+/* Media Container */
+.modui-filmstrip-media-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-sm, 6px);
+  overflow: hidden;
+  background: #EAE7DF;
+}
+
+.modui-filmstrip-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.modui-filmstrip-frame:hover .modui-filmstrip-image {
+  transform: scale(1.05);
+}
+
+.modui-filmstrip-media-fallback {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #E5E1D8 0%, #D8D3C8 100%);
+  z-index: 0;
+}
+
+/* Clean Frame Number Pill */
+.modui-filmstrip-frame-num {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  font-family: var(--filmstrip-font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs, 4px);
+  background: rgba(0, 0, 0, 0.6);
+  color: #FFFFFF;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+/* Frame Caption */
+.modui-filmstrip-frame-caption {
+  padding: 8px 4px 4px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modui-filmstrip-frame-title {
+  font-family: var(--filmstrip-font-sans);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--filmstrip-text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+.modui-filmstrip-frame-cat {
+  font-family: var(--filmstrip-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--filmstrip-accent);
+}
+
+/* --------------------------------------------------------------------------
+   Compact Mode (Tailored for Explorer Card 230px Stage)
+   -------------------------------------------------------------------------- */
+
+.modui-filmstrip-compact {
+  height: 185px;
+  max-height: 185px;
+  width: 100%;
+  border-radius: var(--radius-md, 8px);
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.modui-filmstrip-compact .modui-filmstrip-sprocket-rail {
+  height: 14px;
+  padding: 0 10px;
+}
+
+.modui-filmstrip-compact .modui-filmstrip-sprockets {
+  gap: 10px;
+}
+
+.modui-filmstrip-compact .modui-filmstrip-hole {
+  flex: 0 0 9px;
+  height: 5px;
+  border-radius: 1.5px;
+}
+
+.modui-filmstrip-compact .modui-filmstrip-track {
+  gap: 10px;
+  padding: 6px 10px;
+  height: calc(100% - 28px);
+  align-items: center;
+}
+
+.modui-filmstrip-compact .modui-filmstrip-frame {
+  flex: 0 0 150px;
+  height: 100%;
+  padding: 4px;
+  border-radius: var(--radius-sm, 6px);
+}
+
+.modui-filmstrip-compact .modui-filmstrip-frame:hover {
+  transform: translateY(-2px);
+}
+
+.modui-filmstrip-compact .modui-filmstrip-media-container {
+  height: 84px;
+  aspect-ratio: auto;
+  border-radius: 4px;
+}
+
+.modui-filmstrip-compact .modui-filmstrip-frame-caption {
+  padding: 4px 2px 0 2px;
+}
+
+.modui-filmstrip-compact .modui-filmstrip-frame-title {
+  font-size: 0.75rem;
+}
+
+.modui-filmstrip-compact .modui-filmstrip-frame-cat {
+  font-size: 0.625rem;
+}
+
+/* --------------------------------------------------------------------------
+   Lightbox Modal
+   -------------------------------------------------------------------------- */
+
+.modui-filmstrip-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(32, 32, 30, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: modui-filmstrip-fade-in 0.2s ease-out;
+}
+
+@keyframes modui-filmstrip-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modui-filmstrip-lightbox-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  max-height: 85vh;
+  background: #FFFFFF;
+  border: 1px solid var(--filmstrip-border);
+  border-radius: var(--radius-lg, 10px);
+  overflow: hidden;
+  box-shadow: 0 24px 50px -12px rgba(32, 32, 30, 0.25);
+  display: flex;
+  flex-direction: column;
+}
+
+.modui-filmstrip-lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-pill, 9999px);
+  background: #FFFFFF;
+  border: 1px solid var(--filmstrip-border);
+  color: var(--filmstrip-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all var(--transition-fast, 0.16s ease);
+}
+
+.modui-filmstrip-lightbox-close:hover {
+  background: var(--filmstrip-rail-bg);
+  border-color: var(--filmstrip-accent);
+  color: var(--filmstrip-accent);
+}
+
+.modui-filmstrip-lightbox-content {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modui-filmstrip-lightbox-image-wrap {
+  position: relative;
+  background: #F7F5F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 340px;
+}
+
+.modui-filmstrip-lightbox-image {
+  width: 100%;
+  height: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+}
+
+.modui-filmstrip-lightbox-meta-panel {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #FFFFFF;
+  border-left: 1px solid var(--filmstrip-border);
+}
+
+.modui-filmstrip-lightbox-cat {
+  font-family: var(--filmstrip-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--filmstrip-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.modui-filmstrip-lightbox-title {
+  font-family: var(--filmstrip-font-sans);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--filmstrip-text);
+  margin: 0;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.modui-filmstrip-lightbox-desc {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--filmstrip-text-muted);
+  margin: 0;
+}
+
+.modui-filmstrip-lightbox-footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--filmstrip-border);
+}
+
+.modui-filmstrip-lightbox-hint {
+  font-family: var(--filmstrip-font-mono);
+  font-size: 0.6875rem;
+  color: var(--filmstrip-text-muted);
+}
+
+.modui-filmstrip-lightbox-hint kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  background: var(--filmstrip-rail-bg);
+  border: 1px solid var(--filmstrip-border);
+  border-radius: var(--radius-xs, 4px);
+  color: var(--filmstrip-text);
+  margin: 0 2px;
+}
+
+@media (max-width: 768px) {
+  .modui-filmstrip-lightbox-content {
+    grid-template-columns: 1fr;
+  }
+  .modui-filmstrip-lightbox-meta-panel {
+    border-left: none;
+    border-top: 1px solid var(--filmstrip-border);
+    padding: 16px;
+  }
+  .modui-filmstrip-frame {
+    flex: 0 0 220px;
+  }
+}

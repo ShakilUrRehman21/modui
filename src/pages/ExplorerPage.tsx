@@ -15,6 +15,7 @@ import { CausticRippleSurface } from '../components/ui/caustic-surface';
 import { NeuralClothMesh } from '../components/ui/cloth';
 import { ApertureIrisLens } from '../components/ui/aperture';
 import { ChromaticPrismCard } from '../components/ui/prism';
+import { FilmstripGallery } from '../components/ui/filmstrip';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -476,6 +477,16 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         compact={true}
                         soundEnabled={false}
                         maxTilt={10}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'filmstrip-gallery' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <FilmstripGallery
+                        variant="studio-light"
+                        compact={true}
+                        soundEnabled={false}
                       />
                     </div>
                   )}
