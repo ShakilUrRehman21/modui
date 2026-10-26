@@ -26,6 +26,8 @@ import { ChromaticPrismCard } from '../components/ui/prism';
 import type { PrismVariant } from '../components/ui/prism';
 import { FilmstripGallery } from '../components/ui/filmstrip';
 import type { FilmstripVariant } from '../components/ui/filmstrip';
+import { CardStack } from '../components/ui/card-stack';
+import type { CardStackVariant } from '../components/ui/card-stack';
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { trackCopyCode, trackGithubClick, trackPreviewOpen } from '../lib/analytics';
 import './ComponentDetailPage.css';
@@ -148,6 +150,12 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [filmstripSound, setFilmstripSound] = useState<boolean>(true);
   const [filmstripLightbox, setFilmstripLightbox] = useState<boolean>(true);
   const [filmstripActiveFrame, setFilmstripActiveFrame] = useState<string>('Monolith Horizon');
+
+  // Playground state for CardStack
+  const [cardStackVariant, setCardStackVariant] = useState<CardStackVariant>('studio-light');
+  const [cardStackFanOut, setCardStackFanOut] = useState<boolean>(true);
+  const [cardStackSound, setCardStackSound] = useState<boolean>(true);
+  const [cardStackActiveTitle, setCardStackActiveTitle] = useState<string>('Fluid Kinetic Springs');
 
   // File viewer state inside Code tab
   const [selectedFile, setSelectedFile] = useState<'tsx' | 'css' | 'usage'>('tsx');
@@ -836,6 +844,24 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                   35mm Cinematography Reel: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{filmstripActiveFrame}</span>
                   <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
                     Drag horizontally to scrub the reel. Click any frame to inspect in lightbox modal.
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Stage for CardStack */}
+            {slug === 'card-stack' && (
+              <div style={{ width: '100%', maxWidth: '540px', margin: '0 auto', padding: '1.5rem 0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <CardStack
+                  variant={cardStackVariant}
+                  fanOutOnHover={cardStackFanOut}
+                  soundEnabled={cardStackSound}
+                  onCardChange={(item) => setCardStackActiveTitle(item.title)}
+                />
+                <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                  Active Deck Card: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{cardStackActiveTitle}</span>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                    Click the top card or press Space / Arrow keys to cycle through the stack. Hover over the deck to fan out.
                   </div>
                 </div>
               </div>
@@ -1879,6 +1905,53 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                       onChange={(e) => setFilmstripSound(e.target.checked)}
                     />
                     <span>Synthesized Sprocket & Shutter Haptics</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Playground Controls for CardStack */}
+          {slug === 'card-stack' && (
+            <div className="modui-controls-panel">
+              <div className="modui-control-group">
+                <label className="modui-control-label">Surface Finish</label>
+                <select
+                  className="modui-control-select"
+                  value={cardStackVariant}
+                  onChange={(e) => setCardStackVariant(e.target.value as CardStackVariant)}
+                >
+                  <option value="studio-light">Studio Light (ModUI Standard)</option>
+                  <option value="warm-editorial">Warm Editorial (Linen & Coral)</option>
+                  <option value="glass-frost">Glass Frost (Specular Blur)</option>
+                  <option value="cinema-dark">Cinema Dark (35mm Slate)</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Physics & Motion</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={cardStackFanOut}
+                      onChange={(e) => setCardStackFanOut(e.target.checked)}
+                    />
+                    <span>Rotational Fan Spread on Hover</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Acoustics</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={cardStackSound}
+                      onChange={(e) => setCardStackSound(e.target.checked)}
+                    />
+                    <span>Web Audio Paper Flick Haptics</span>
                   </label>
                 </div>
               </div>

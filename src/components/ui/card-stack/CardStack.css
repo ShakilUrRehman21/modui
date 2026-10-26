@@ -1,0 +1,427 @@
+/* ==========================================================================
+   ModUI Card Stack Component Styles (Vanilla CSS)
+   Clean, Minimal, Light Creative Studio Standard
+   ========================================================================== */
+
+.modui-card-stack-wrap {
+  --card-bg: #FFFFFF;
+  --card-border: #E4E1D9;
+  --card-shadow: 0 14px 34px -4px rgba(32, 32, 30, 0.08), 0 4px 12px -2px rgba(32, 32, 30, 0.03);
+  --card-accent: var(--accent-primary, #365CF5);
+  --card-text-primary: #20201E;
+  --card-text-muted: #696963;
+  --card-badge-bg: rgba(54, 92, 245, 0.08);
+  --card-badge-color: #365CF5;
+  --card-badge-border: rgba(54, 92, 245, 0.2);
+  --card-font-sans: var(--font-sans, 'Manrope', 'Inter', -apple-system, sans-serif);
+  --card-font-mono: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  user-select: none;
+  font-family: var(--card-font-sans);
+  outline: none;
+}
+
+.modui-card-stack-wrap:focus-visible {
+  outline: 2px solid var(--card-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-lg, 10px);
+}
+
+/* --------------------------------------------------------------------------
+   Theme Variations
+   -------------------------------------------------------------------------- */
+
+/* 1. Studio Light (Default - ModUI Light Studio Standard) */
+.modui-card-stack-theme-studio-light {
+  --card-bg: #FFFFFF;
+  --card-border: #E4E1D9;
+  --card-shadow: 0 16px 36px -4px rgba(32, 32, 30, 0.08), 0 4px 12px -2px rgba(32, 32, 30, 0.03);
+  --card-accent: #365CF5;
+  --card-text-primary: #20201E;
+  --card-text-muted: #696963;
+  --card-badge-bg: rgba(54, 92, 245, 0.08);
+  --card-badge-color: #365CF5;
+  --card-badge-border: rgba(54, 92, 245, 0.2);
+}
+
+/* 2. Warm Editorial (Linen Canvas & Coral Accent) */
+.modui-card-stack-theme-warm-editorial {
+  --card-bg: #FAF8F3;
+  --card-border: #ECE7DC;
+  --card-shadow: 0 16px 34px -4px rgba(40, 36, 32, 0.08);
+  --card-accent: #FF735E;
+  --card-text-primary: #282420;
+  --card-text-muted: #7A746B;
+  --card-badge-bg: rgba(255, 115, 94, 0.08);
+  --card-badge-color: #FF735E;
+  --card-badge-border: rgba(255, 115, 94, 0.25);
+}
+
+/* 3. Glass Frost (Frosted Glass Specular) */
+.modui-card-stack-theme-glass-frost {
+  --card-bg: rgba(255, 255, 255, 0.88);
+  --card-border: rgba(255, 255, 255, 0.65);
+  --card-shadow: 0 18px 40px -4px rgba(32, 32, 30, 0.1);
+  --card-accent: #365CF5;
+  --card-text-primary: #1A1D20;
+  --card-text-muted: #5A6068;
+  --card-badge-bg: rgba(54, 92, 245, 0.1);
+  --card-badge-color: #365CF5;
+  --card-badge-border: rgba(54, 92, 245, 0.25);
+}
+
+.modui-card-stack-theme-glass-frost .modui-card-stack-item {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* 4. Cinema Dark (35mm Noir Charcoal) */
+.modui-card-stack-theme-cinema-dark {
+  --card-bg: #161922;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.7);
+  --card-accent: #365CF5;
+  --card-text-primary: #FFFFFF;
+  --card-text-muted: #94A3B8;
+  --card-badge-bg: rgba(54, 92, 245, 0.18);
+  --card-badge-color: #60A5FA;
+  --card-badge-border: rgba(54, 92, 245, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   Stack Stage & 3D Layering
+   -------------------------------------------------------------------------- */
+
+.modui-card-stack-stage {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  perspective: 1000px;
+}
+
+.modui-card-stack-item {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  border-radius: var(--radius-lg, 10px);
+  padding: 1.5rem 1.65rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  transform-origin: center bottom;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, box-shadow 0.35s ease;
+  will-change: transform, opacity;
+}
+
+/* Stack Offsets */
+.modui-card-stack-item[style*="--stack-offset: 0"] {
+  transform: translateY(0px) scale(1) rotate(0deg);
+  opacity: 1;
+  cursor: pointer;
+}
+
+.modui-card-stack-item[style*="--stack-offset: 1"] {
+  transform: translateY(14px) scale(0.95) rotate(0deg);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.modui-card-stack-item[style*="--stack-offset: 2"] {
+  transform: translateY(28px) scale(0.90) rotate(0deg);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.modui-card-stack-item[style*="--stack-offset: 3"] {
+  transform: translateY(42px) scale(0.85) rotate(0deg);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* Hover Fan Spread */
+.modui-card-stack-hover-fan:hover .modui-card-stack-item[style*="--stack-offset: 0"] {
+  transform: translateY(-8px) scale(1) rotate(0deg);
+  box-shadow: 0 20px 42px -6px rgba(32, 32, 30, 0.12);
+}
+
+.modui-card-stack-hover-fan:hover .modui-card-stack-item[style*="--stack-offset: 1"] {
+  transform: translateY(14px) scale(0.96) rotate(2deg);
+}
+
+.modui-card-stack-hover-fan:hover .modui-card-stack-item[style*="--stack-offset: 2"] {
+  transform: translateY(32px) scale(0.92) rotate(-2deg);
+}
+
+.modui-card-stack-hover-fan:hover .modui-card-stack-item[style*="--stack-offset: 3"] {
+  transform: translateY(48px) scale(0.88) rotate(3deg);
+}
+
+/* Fling Animation on Cycle */
+.modui-card-stack-item--flinging {
+  transform: translateX(115%) rotate(12deg) scale(0.95) !important;
+  opacity: 0 !important;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease !important;
+}
+
+/* --------------------------------------------------------------------------
+   Card Interior Content
+   -------------------------------------------------------------------------- */
+
+.modui-card-stack-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+
+.modui-card-stack-badge {
+  font-family: var(--card-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--card-badge-bg);
+  color: var(--card-badge-color);
+  border: 1px solid var(--card-badge-border);
+}
+
+.modui-card-stack-counter {
+  font-family: var(--card-font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--card-text-muted);
+}
+
+.modui-card-stack-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+}
+
+.modui-card-stack-title {
+  font-family: var(--card-font-sans);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--card-text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.modui-card-stack-desc {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--card-text-muted);
+  margin: 0;
+}
+
+.modui-card-stack-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.25rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--card-border);
+}
+
+.modui-card-stack-author {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.modui-card-stack-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--card-badge-bg);
+  color: var(--card-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid var(--card-badge-border);
+}
+
+.modui-card-stack-author-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.modui-card-stack-author-name {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--card-text-primary);
+}
+
+.modui-card-stack-author-role {
+  font-size: 0.6875rem;
+  color: var(--card-text-muted);
+}
+
+.modui-card-stack-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill, 9999px);
+  background: transparent;
+  border: 1px solid var(--card-border);
+  font-family: var(--card-font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--card-accent);
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.16s ease);
+}
+
+.modui-card-stack-action-btn:hover {
+  background: var(--card-badge-bg);
+  border-color: var(--card-accent);
+  transform: translateX(2px);
+}
+
+/* --------------------------------------------------------------------------
+   Controls & Dot Indicators
+   -------------------------------------------------------------------------- */
+
+.modui-card-stack-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1.5rem;
+}
+
+.modui-card-stack-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm, 6px);
+  background: #FFFFFF;
+  border: 1px solid var(--card-border);
+  color: var(--card-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.16s ease);
+}
+
+.modui-card-stack-nav-btn:hover {
+  border-color: var(--card-accent);
+  color: var(--card-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.modui-card-stack-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modui-card-stack-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--card-border);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--transition-fast, 0.16s ease);
+}
+
+.modui-card-stack-dot:hover {
+  background: var(--card-accent);
+  opacity: 0.7;
+}
+
+.modui-card-stack-dot--active {
+  width: 22px;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--card-accent);
+}
+
+/* --------------------------------------------------------------------------
+   Compact Mode (Optimized for Explorer Card Stage 230px)
+   -------------------------------------------------------------------------- */
+
+.modui-card-stack-compact {
+  max-width: 320px;
+}
+
+.modui-card-stack-compact .modui-card-stack-stage {
+  height: 155px;
+}
+
+.modui-card-stack-compact .modui-card-stack-item {
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-md, 8px);
+}
+
+.modui-card-stack-compact .modui-card-stack-item[style*="--stack-offset: 1"] {
+  transform: translateY(8px) scale(0.96);
+}
+
+.modui-card-stack-compact .modui-card-stack-item[style*="--stack-offset: 2"] {
+  transform: translateY(16px) scale(0.92);
+}
+
+.modui-card-stack-compact .modui-card-stack-item[style*="--stack-offset: 3"] {
+  transform: translateY(24px) scale(0.88);
+}
+
+.modui-card-stack-compact .modui-card-stack-hover-fan:hover .modui-card-stack-item[style*="--stack-offset: 0"] {
+  transform: translateY(-4px) scale(1);
+}
+
+.modui-card-stack-compact .modui-card-stack-hover-fan:hover .modui-card-stack-item[style*="--stack-offset: 1"] {
+  transform: translateY(8px) scale(0.96) rotate(1.5deg);
+}
+
+.modui-card-stack-compact .modui-card-stack-hover-fan:hover .modui-card-stack-item[style*="--stack-offset: 2"] {
+  transform: translateY(18px) scale(0.92) rotate(-1.5deg);
+}
+
+.modui-card-stack-compact .modui-card-stack-header {
+  margin-bottom: 0.45rem;
+}
+
+.modui-card-stack-compact .modui-card-stack-badge {
+  font-size: 0.58rem;
+  padding: 2px 7px;
+}
+
+.modui-card-stack-compact .modui-card-stack-counter {
+  font-size: 0.65rem;
+}
+
+.modui-card-stack-compact .modui-card-stack-title {
+  font-size: 0.95rem;
+}
+
+.modui-card-stack-compact .modui-card-stack-desc {
+  font-size: 0.78rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
