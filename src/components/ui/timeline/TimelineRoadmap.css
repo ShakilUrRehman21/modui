@@ -1,0 +1,397 @@
+/* ==========================================================================
+   ModUI Timeline Roadmap Component Styles (Vanilla CSS)
+   Clean, Minimal, Light Creative Studio Standard
+   ========================================================================== */
+
+.modui-timeline-roadmap {
+  --timeline-accent: var(--accent-primary, #365CF5);
+  --timeline-spine-track: #EAE6DF;
+  --timeline-spine-fill: var(--timeline-accent);
+  --timeline-card-bg: #FFFFFF;
+  --timeline-card-border: var(--border-default, #E4E1D9);
+  --timeline-card-hover-border: var(--timeline-accent);
+  --timeline-card-shadow: 0 4px 16px -2px rgba(32, 32, 30, 0.05), 0 1px 3px rgba(32, 32, 30, 0.03);
+  --timeline-card-hover-shadow: 0 12px 28px -4px rgba(32, 32, 30, 0.09), 0 2px 6px -1px rgba(32, 32, 30, 0.04);
+  --timeline-text: #20201E;
+  --timeline-text-muted: #696963;
+  --timeline-font-sans: var(--font-sans, 'Manrope', 'Inter', -apple-system, sans-serif);
+  --timeline-font-mono: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace);
+
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--timeline-font-sans);
+  outline: none;
+  user-select: none;
+}
+
+.modui-timeline-roadmap:focus-visible {
+  outline: 2px solid var(--timeline-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-md, 8px);
+}
+
+/* --------------------------------------------------------------------------
+   Themes
+   -------------------------------------------------------------------------- */
+
+/* 1. Studio Light (Default - ModUI Light Studio Standard) */
+.modui-timeline-theme-studio-light {
+  --timeline-accent: #365CF5;
+  --timeline-spine-track: #EAE6DE;
+  --timeline-spine-fill: #365CF5;
+  --timeline-card-bg: #FFFFFF;
+  --timeline-card-border: #E4E1D9;
+  --timeline-text: #20201E;
+  --timeline-text-muted: #696963;
+}
+
+/* 2. Warm Editorial (Linen Canvas & Coral Accent) */
+.modui-timeline-theme-warm-editorial {
+  --timeline-accent: #FF735E;
+  --timeline-spine-track: #E8E2D5;
+  --timeline-spine-fill: #FF735E;
+  --timeline-card-bg: #FAF8F3;
+  --timeline-card-border: #ECE7DC;
+  --timeline-text: #282420;
+  --timeline-text-muted: #7A746B;
+}
+
+/* 3. Minimal Mono (Pure White & Charcoal) */
+.modui-timeline-theme-minimal-mono {
+  --timeline-accent: #111827;
+  --timeline-spine-track: #E5E7EB;
+  --timeline-spine-fill: #111827;
+  --timeline-card-bg: #FFFFFF;
+  --timeline-card-border: #E5E7EB;
+  --timeline-text: #111827;
+  --timeline-text-muted: #6B7280;
+}
+
+/* 4. Cinema Dark (35mm Noir Charcoal) */
+.modui-timeline-theme-cinema-dark {
+  --timeline-accent: #365CF5;
+  --timeline-spine-track: rgba(255, 255, 255, 0.1);
+  --timeline-spine-fill: #365CF5;
+  --timeline-card-bg: #151922;
+  --timeline-card-border: rgba(255, 255, 255, 0.08);
+  --timeline-text: #FFFFFF;
+  --timeline-text-muted: #94A3B8;
+}
+
+/* --------------------------------------------------------------------------
+   Vertical Layout (Default)
+   -------------------------------------------------------------------------- */
+
+.modui-timeline-vertical {
+  padding-left: 24px;
+}
+
+.modui-timeline-vertical .modui-timeline-spine-track {
+  position: absolute;
+  top: 18px;
+  bottom: 24px;
+  left: 31px;
+  width: 2px;
+  background: var(--timeline-spine-track);
+  border-radius: 9999px;
+  z-index: 1;
+}
+
+.modui-timeline-vertical .modui-timeline-spine-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--timeline-spine-fill);
+  border-radius: 9999px;
+  transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-timeline-vertical .modui-timeline-milestones {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.modui-timeline-vertical .modui-timeline-milestone {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+}
+
+/* Interactive Node Marker */
+.modui-timeline-node {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid var(--timeline-spine-track);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all var(--transition-fast, 0.16s ease);
+  flex-shrink: 0;
+}
+
+.modui-timeline-node-core {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: transparent;
+  transition: all var(--transition-fast, 0.16s ease);
+}
+
+.modui-timeline-node--passed {
+  border-color: var(--timeline-accent);
+}
+
+.modui-timeline-node--passed .modui-timeline-node-core {
+  background: var(--timeline-accent);
+}
+
+.modui-timeline-node--active {
+  border-color: var(--timeline-accent);
+  box-shadow: 0 0 0 4px rgba(54, 92, 245, 0.15);
+  transform: scale(1.15);
+}
+
+.modui-timeline-node--active .modui-timeline-node-core {
+  background: var(--timeline-accent);
+}
+
+/* Milestone Card */
+.modui-timeline-card {
+  flex: 1;
+  background: var(--timeline-card-bg);
+  border: 1px solid var(--timeline-card-border);
+  border-radius: var(--radius-md, 8px);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--timeline-card-shadow);
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.2s ease;
+}
+
+.modui-timeline-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--timeline-card-hover-shadow);
+  border-color: var(--timeline-card-hover-border);
+}
+
+.modui-timeline-milestone--active .modui-timeline-card {
+  border-color: var(--timeline-accent);
+  box-shadow: 0 8px 24px -4px rgba(54, 92, 245, 0.12), 0 2px 6px -1px rgba(32, 32, 30, 0.04);
+}
+
+/* Card Header */
+.modui-timeline-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+}
+
+.modui-timeline-date {
+  font-family: var(--timeline-font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--timeline-text-muted);
+  letter-spacing: 0.04em;
+}
+
+.modui-timeline-status {
+  font-family: var(--timeline-font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill, 9999px);
+}
+
+.modui-timeline-status--shipped {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.modui-timeline-status--in-progress {
+  background: rgba(54, 92, 245, 0.08);
+  color: #365CF5;
+  border: 1px solid rgba(54, 92, 245, 0.25);
+}
+
+.modui-timeline-status--planned {
+  background: rgba(142, 141, 134, 0.1);
+  color: #787770;
+  border: 1px solid rgba(142, 141, 134, 0.2);
+}
+
+/* Card Body */
+.modui-timeline-title {
+  font-family: var(--timeline-font-sans);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--timeline-text);
+  margin: 0 0 0.3rem 0;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+
+.modui-timeline-desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--timeline-text-muted);
+  margin: 0;
+}
+
+.modui-timeline-tags {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 6px;
+}
+
+.modui-timeline-tag {
+  font-family: var(--timeline-font-mono);
+  font-size: 0.65rem;
+  padding: 2px 7px;
+  border-radius: var(--radius-xs, 4px);
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--timeline-card-border);
+  color: var(--timeline-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Horizontal Layout
+   -------------------------------------------------------------------------- */
+
+.modui-timeline-horizontal {
+  padding: 10px 0;
+}
+
+.modui-timeline-horizontal .modui-timeline-spine-track {
+  position: absolute;
+  top: 17px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: var(--timeline-spine-track);
+  border-radius: 9999px;
+  z-index: 1;
+}
+
+.modui-timeline-horizontal .modui-timeline-spine-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--timeline-spine-fill);
+  border-radius: 9999px;
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-timeline-horizontal .modui-timeline-milestones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.modui-timeline-horizontal .modui-timeline-milestone {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.modui-timeline-horizontal .modui-timeline-node {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.modui-timeline-horizontal .modui-timeline-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   Compact Mode (Tailored for Explorer Stage 230px)
+   -------------------------------------------------------------------------- */
+
+.modui-timeline-compact {
+  height: 175px;
+  max-height: 175px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.modui-timeline-compact .modui-timeline-spine-track {
+  top: 13px;
+  left: 16px;
+  right: 16px;
+}
+
+.modui-timeline-compact .modui-timeline-milestones {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.modui-timeline-compact .modui-timeline-node {
+  width: 14px;
+  height: 14px;
+  margin-top: 6px;
+  margin-left: 8px;
+}
+
+.modui-timeline-compact .modui-timeline-node-core {
+  width: 5px;
+  height: 5px;
+}
+
+.modui-timeline-compact .modui-timeline-card {
+  padding: 0.55rem 0.65rem;
+  border-radius: 6px;
+}
+
+.modui-timeline-compact .modui-timeline-card-header {
+  margin-bottom: 0.2rem;
+}
+
+.modui-timeline-compact .modui-timeline-date {
+  font-size: 0.65rem;
+}
+
+.modui-timeline-compact .modui-timeline-status {
+  font-size: 0.55rem;
+  padding: 1px 5px;
+}
+
+.modui-timeline-compact .modui-timeline-title {
+  font-size: 0.78rem;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modui-timeline-compact .modui-timeline-desc {
+  font-size: 0.68rem;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 0.2rem;
+}

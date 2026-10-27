@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-96%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-104%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (17 Primitives)
+## Published Modules (18 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Timeline Roadmap** | 3D & Showcase | Continuous progress spine, interactive milestone cards with status indicators (Shipped, In Progress, Planned), dual vertical/horizontal layouts, and synthesized acoustic latch haptics | `src/components/ui/timeline` |
 | **Card Stack** | 3D & Showcase | Layered 3D card deck, calculated perspective offsets, smooth rotational fan spread on hover, tactile card fling spring physics, and synthesized paper flick audio haptics | `src/components/ui/card-stack` |
 | **Filmstrip Gallery** | 3D & Showcase | Continuous 35mm cinematographic film reel gallery, calibrated sprocket perforations, pointer drag momentum scrub, frame elevation micro-interactions, full-bleed lightbox modal inspection, and synthesized analog ratchet & shutter haptics | `src/components/ui/filmstrip` |
 | **Chromatic Prism Specimen Card** | 3D & Showcase | Optical quartz crystal card, 3D perspective gyro tilt, dynamic incident glare vector, subpixel RGB chromatic dispersion, millimeter vernier rule, and crystal chime haptics | `src/components/ui/prism` |
