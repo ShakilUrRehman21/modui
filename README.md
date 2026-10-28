@@ -41,10 +41,10 @@ ModUI is an open-source collection of production-grade, highly interactive React
 | **Animated Button** | Buttons and Actions | Shimmer light pass, neon glow pulse, water ripple waves, magnetic cursor tracking, and arrow slides | `src/components/ui/button` |
 | **Pulse Badge** | Status & Indicators | Live radar beacon pulse, compact status indicator tokens, and WCAG AA contrast compliance | `src/components/ui/badge` |
 | **Kinetic Text** | Typography & Motion | Character-level GSAP split-text, real-time mouse proximity wave elevation, and kinetic character physics | `src/components/ui/motion` |
-| **Number Ticker** | Typography & Motion | High-velocity spring rolling counter with tabular font figures, comma separators, and velocity damping | `src/components/ui/counter` |
+| **Number Ticker** | Typography & Motion | High-velocity rolling counter with tabular font figures, comma separators, and velocity damping | `src/components/ui/counter` |
 | **Fluid Elastic Accordion** | 3D & Showcase | Non-linear spring expansion, dynamic liquid SVG bezier edge boundary deformation, and horizontal vs vertical layout | `src/components/ui/accordion` |
 | **Before-After Slider** | 3D & Showcase | Hardware-accelerated clip-path masking, tactile circular glass handle, dual orientation, and center-snap haptic tick | `src/components/ui/slider` |
-| **Tactile Floating Dock** | 3D & Showcase | macOS-inspired action dock with parabolic icon scaling, tactile hover lift, keyboard shortcuts, and accessible ARIA roles | `src/components/ui/dock` |
+| **Tactile Floating Dock** | 3D & Showcase | macOS-inspired  dock with parabolic icon scaling, tactile hover lift, keyboard shortcuts, and accessible ARIA roles | `src/components/ui/dock` |
 | **Cylindrical Carousel** | 3D & Showcase | 3D perspective carousel with rotational drag, depth-of-field blur, and click-to-focus card orientation | `src/components/ui/carousel` |
 
 ---
