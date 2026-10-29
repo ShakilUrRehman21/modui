@@ -30,6 +30,8 @@ import { CardStack } from '../components/ui/card-stack';
 import type { CardStackVariant } from '../components/ui/card-stack';
 import { TimelineRoadmap } from '../components/ui/timeline';
 import type { TimelineVariant, TimelineOrientation } from '../components/ui/timeline';
+import { NeuralGraph } from '../components/ui/neural-graph';
+import type { NeuralGraphVariant } from '../components/ui/neural-graph';
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { trackCopyCode, trackGithubClick, trackPreviewOpen } from '../lib/analytics';
 import './ComponentDetailPage.css';
@@ -164,6 +166,12 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [timelineOrientation, setTimelineOrientation] = useState<TimelineOrientation>('vertical');
   const [timelineSound, setTimelineSound] = useState<boolean>(true);
   const [timelineActiveTitle, setTimelineActiveTitle] = useState<string>('Dynamic Design Tokens');
+
+  // Playground state for NeuralGraph
+  const [neuralVariant, setNeuralVariant] = useState<NeuralGraphVariant>('studio-light');
+  const [neuralSound, setNeuralSound] = useState<boolean>(true);
+  const [neuralAutoPulse, setNeuralAutoPulse] = useState<boolean>(true);
+  const [neuralSelectedNodeTitle, setNeuralSelectedNodeTitle] = useState<string>('Semantic Nexus');
 
   // File viewer state inside Code tab
   const [selectedFile, setSelectedFile] = useState<'tsx' | 'css' | 'usage'>('tsx');
@@ -888,6 +896,24 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                   Active Milestone: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{timelineActiveTitle}</span>
                   <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
                     Click any milestone node or card, or use keyboard arrow keys to navigate the continuous progress spine.
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Stage for NeuralGraph */}
+            {slug === 'neural-graph' && (
+              <div style={{ width: '100%', maxWidth: '960px', margin: '0 auto', padding: '1rem 0', display: 'flex', flexDirection: 'column' }}>
+                <NeuralGraph
+                  variant={neuralVariant}
+                  soundEnabled={neuralSound}
+                  autoPulse={neuralAutoPulse}
+                  onSelectNode={(node) => setNeuralSelectedNodeTitle(node ? node.label : 'None')}
+                />
+                <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                  Focused Node: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{neuralSelectedNodeTitle}</span>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                    Drag nodes to stretch spring constraints, click nodes to fire synaptic action potentials, or drag canvas background to pan & wheel to zoom.
                   </div>
                 </div>
               </div>
@@ -2023,6 +2049,47 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                       onChange={(e) => setTimelineSound(e.target.checked)}
                     />
                     <span>Web Audio Latch Haptics</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Playground Controls for NeuralGraph */}
+          {slug === 'neural-graph' && (
+            <div className="modui-controls-panel">
+              <div className="modui-control-group">
+                <label className="modui-control-label">Surface Finish</label>
+                <select
+                  className="modui-control-select"
+                  value={neuralVariant}
+                  onChange={(e) => setNeuralVariant(e.target.value as NeuralGraphVariant)}
+                >
+                  <option value="studio-light">Studio Light (ModUI Standard)</option>
+                  <option value="dark-slate">Dark Slate (Cyber Graphite)</option>
+                  <option value="warm-editorial">Warm Editorial (Linen & Terracotta)</option>
+                  <option value="quantum-violet">Quantum Violet (Bioluminescent)</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Acoustics & Simulation</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={neuralSound}
+                      onChange={(e) => setNeuralSound(e.target.checked)}
+                    />
+                    <span>Web Audio Micro-Tonal Chimes</span>
+                  </label>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={neuralAutoPulse}
+                      onChange={(e) => setNeuralAutoPulse(e.target.checked)}
+                    />
+                    <span>Ambient Synapse Pulses</span>
                   </label>
                 </div>
               </div>

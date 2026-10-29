@@ -18,6 +18,7 @@ import { ChromaticPrismCard } from '../components/ui/prism';
 import { FilmstripGallery } from '../components/ui/filmstrip';
 import { CardStack } from '../components/ui/card-stack';
 import { TimelineRoadmap } from '../components/ui/timeline';
+import { NeuralGraph } from '../components/ui/neural-graph';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -509,6 +510,17 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         variant="studio-light"
                         compact={true}
                         soundEnabled={false}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'neural-graph' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <NeuralGraph
+                        variant="studio-light"
+                        compact={true}
+                        soundEnabled={false}
+                        autoPulse={true}
                       />
                     </div>
                   )}

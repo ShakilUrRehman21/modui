@@ -1,0 +1,497 @@
+/* ==========================================================================
+   ModUI Synaptic Neural Graph Component Styles (Vanilla CSS)
+   Creative Studio Standard: Pure CSS Custom Properties & Zero External Runtime
+   ========================================================================== */
+
+.modui-neural-graph {
+  --mod-neural-bg: #F8F7F2;
+  --mod-neural-border: var(--border-default, #E4E1D9);
+  --mod-neural-text: var(--text-primary, #20201E);
+  --mod-neural-text-muted: var(--text-secondary, #696963);
+  --mod-neural-accent: var(--accent-primary, #365CF5);
+  --mod-neural-hud-bg: rgba(255, 255, 255, 0.88);
+  --mod-neural-hud-border: #E4E1D9;
+  --mod-neural-card-shadow: 0 10px 30px -4px rgba(32, 32, 30, 0.08), 0 2px 8px -1px rgba(32, 32, 30, 0.04);
+  --mod-neural-font-sans: var(--font-sans, 'Manrope', 'Inter', -apple-system, sans-serif);
+  --mod-neural-font-mono: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace);
+
+  position: relative;
+  width: 100%;
+  height: 520px;
+  min-height: 400px;
+  background-color: var(--mod-neural-bg);
+  border: 1px solid var(--mod-neural-border);
+  border-radius: var(--radius-xl, 14px);
+  overflow: hidden;
+  box-shadow: var(--mod-neural-card-shadow);
+  font-family: var(--mod-neural-font-sans);
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+  outline: none;
+  transition: border-color 200ms ease;
+}
+
+.modui-neural-graph:active {
+  cursor: grabbing;
+}
+
+.modui-neural-graph:focus-visible {
+  border-color: var(--mod-neural-accent);
+  box-shadow: 0 0 0 3px rgba(54, 92, 245, 0.18), var(--mod-neural-card-shadow);
+}
+
+/* --------------------------------------------------------------------------
+   Themes
+   -------------------------------------------------------------------------- */
+
+/* 1. Studio Light (Default ModUI Standard) */
+.modui-neural-graph--studio-light {
+  --mod-neural-bg: #F8F7F2;
+  --mod-neural-border: #E4E1D9;
+  --mod-neural-text: #20201E;
+  --mod-neural-text-muted: #696963;
+  --mod-neural-accent: #365CF5;
+  --mod-neural-hud-bg: rgba(255, 255, 255, 0.88);
+  --mod-neural-hud-border: #E4E1D9;
+}
+
+/* 2. Dark Slate (Cyber Deep Graphite) */
+.modui-neural-graph--dark-slate {
+  --mod-neural-bg: #0F1219;
+  --mod-neural-border: rgba(255, 255, 255, 0.12);
+  --mod-neural-text: #F8FAFC;
+  --mod-neural-text-muted: #94A3B8;
+  --mod-neural-accent: #38BDF8;
+  --mod-neural-hud-bg: rgba(15, 18, 25, 0.88);
+  --mod-neural-hud-border: rgba(255, 255, 255, 0.14);
+}
+
+/* 3. Warm Editorial (Linen & Terracotta) */
+.modui-neural-graph--warm-editorial {
+  --mod-neural-bg: #F5F2EB;
+  --mod-neural-border: #E8E2D5;
+  --mod-neural-text: #282420;
+  --mod-neural-text-muted: #7A746B;
+  --mod-neural-accent: #FF735E;
+  --mod-neural-hud-bg: rgba(250, 248, 243, 0.9);
+  --mod-neural-hud-border: #E8E2D5;
+}
+
+/* 4. Quantum Violet (Deep Obsidian & Bioluminescent Purple) */
+.modui-neural-graph--quantum-violet {
+  --mod-neural-bg: #0A0914;
+  --mod-neural-border: rgba(168, 85, 247, 0.25);
+  --mod-neural-text: #FAF5FF;
+  --mod-neural-text-muted: #C084FC;
+  --mod-neural-accent: #A855F7;
+  --mod-neural-hud-bg: rgba(10, 9, 20, 0.88);
+  --mod-neural-hud-border: rgba(168, 85, 247, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   Canvas Layer
+   -------------------------------------------------------------------------- */
+
+.modui-neural-graph__canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Telemetry HUD Header
+   -------------------------------------------------------------------------- */
+
+.modui-neural-hud {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--mod-neural-hud-bg);
+  border: 1px solid var(--mod-neural-hud-border);
+  border-radius: var(--radius-lg, 10px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px -2px rgba(32, 32, 30, 0.05);
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.modui-neural-hud__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modui-neural-hud__pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background-color: var(--mod-neural-accent);
+  box-shadow: 0 0 8px var(--mod-neural-accent);
+  animation: modui-pulse-beacon 1.8s infinite ease-in-out;
+}
+
+@keyframes modui-pulse-beacon {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.4;
+  }
+}
+
+.modui-neural-hud__title {
+  font-family: var(--mod-neural-font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--mod-neural-text);
+  text-transform: uppercase;
+}
+
+.modui-neural-hud__chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modui-neural-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  background: rgba(125, 125, 125, 0.08);
+  border: 1px solid rgba(125, 125, 125, 0.12);
+  border-radius: var(--radius-sm, 6px);
+  font-family: var(--mod-neural-font-mono);
+  font-size: 0.6875rem;
+}
+
+.modui-neural-chip__key {
+  color: var(--mod-neural-text-muted);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.modui-neural-chip__val {
+  color: var(--mod-neural-accent);
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   Floating Bottom Controls Bar
+   -------------------------------------------------------------------------- */
+
+.modui-neural-controls {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  background: var(--mod-neural-hud-bg);
+  border: 1px solid var(--mod-neural-hud-border);
+  border-radius: var(--radius-pill, 9999px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px -4px rgba(32, 32, 30, 0.08);
+  pointer-events: auto;
+  z-index: 10;
+  max-width: calc(100% - 28px);
+  overflow-x: auto;
+}
+
+.modui-neural-filters {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.modui-neural-filter-btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 4px 9px;
+  border-radius: var(--radius-pill, 9999px);
+  font-family: var(--mod-neural-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--mod-neural-text-muted);
+  cursor: pointer;
+  transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.modui-neural-filter-btn:hover {
+  color: var(--mod-neural-text);
+  background: rgba(125, 125, 125, 0.1);
+}
+
+.modui-neural-filter-btn--active {
+  background: var(--mod-neural-text);
+  color: var(--mod-neural-bg);
+}
+
+.modui-neural-filter-btn--active:hover {
+  background: var(--mod-neural-text);
+  color: var(--mod-neural-bg);
+}
+
+.modui-neural-action-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-left: 1px solid var(--mod-neural-hud-border);
+  padding-left: 8px;
+}
+
+.modui-neural-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  background: rgba(125, 125, 125, 0.08);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill, 9999px);
+  font-family: var(--mod-neural-font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--mod-neural-text);
+  cursor: pointer;
+  transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.modui-neural-action-btn:hover {
+  background: rgba(125, 125, 125, 0.16);
+  transform: translateY(-1px);
+}
+
+.modui-neural-action-btn:active {
+  transform: translateY(0);
+}
+
+.modui-neural-action-btn--primary {
+  background: var(--mod-neural-accent);
+  color: #FFFFFF;
+}
+
+.modui-neural-action-btn--primary:hover {
+  background: var(--mod-neural-accent);
+  filter: brightness(1.1);
+  box-shadow: 0 2px 10px rgba(54, 92, 245, 0.35);
+}
+
+.modui-neural-action-btn--active {
+  color: var(--mod-neural-accent);
+  border-color: rgba(54, 92, 245, 0.3);
+  background: rgba(54, 92, 245, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   Floating Node Inspector Panel
+   -------------------------------------------------------------------------- */
+
+.modui-neural-inspector {
+  position: absolute;
+  top: 60px;
+  right: 14px;
+  width: 250px;
+  background: var(--mod-neural-hud-bg);
+  border: 1px solid var(--mod-neural-hud-border);
+  border-radius: var(--radius-lg, 10px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 12px 30px -4px rgba(32, 32, 30, 0.12), 0 2px 6px rgba(32, 32, 30, 0.04);
+  padding: 12px 14px;
+  pointer-events: auto;
+  z-index: 15;
+  animation: modui-slide-down 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modui-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modui-neural-inspector__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--mod-neural-hud-border);
+}
+
+.modui-neural-inspector__indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.modui-neural-inspector__meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.modui-neural-inspector__id {
+  display: block;
+  font-family: var(--mod-neural-font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--mod-neural-text-muted);
+}
+
+.modui-neural-inspector__title {
+  margin: 2px 0 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--mod-neural-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modui-neural-inspector__close {
+  appearance: none;
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--mod-neural-text-muted);
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.modui-neural-inspector__close:hover {
+  color: var(--mod-neural-text);
+}
+
+.modui-neural-inspector__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.modui-neural-inspector__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.modui-neural-inspector__label {
+  color: var(--mod-neural-text-muted);
+  font-weight: 500;
+}
+
+.modui-neural-inspector__value {
+  font-family: var(--mod-neural-font-mono);
+  font-weight: 600;
+  color: var(--mod-neural-text);
+}
+
+.modui-neural-inspector__actions {
+  display: flex;
+}
+
+.modui-neural-inspector__pulse-btn {
+  width: 100%;
+  appearance: none;
+  background: var(--mod-neural-accent);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-sm, 6px);
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--mod-neural-font-sans);
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.modui-neural-inspector__pulse-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 2px 8px rgba(54, 92, 245, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   Compact Mode (Optimized for Explorer Showcase Cards)
+   -------------------------------------------------------------------------- */
+
+.modui-neural-graph--compact {
+  height: 220px;
+  min-height: 200px;
+  border-radius: var(--radius-md, 8px);
+  box-shadow: none;
+  border: 1px solid var(--border-subtle, #EFECE5);
+  cursor: default;
+}
+
+.modui-neural-graph--compact:active {
+  cursor: default;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Rules
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .modui-neural-graph {
+    height: 440px;
+  }
+
+  .modui-neural-hud__chips {
+    display: none;
+  }
+
+  .modui-neural-controls {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: var(--radius-lg, 10px);
+    bottom: 10px;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .modui-neural-action-group {
+    border-left: none;
+    border-top: 1px solid var(--mod-neural-hud-border);
+    padding-left: 0;
+    padding-top: 6px;
+    justify-content: center;
+  }
+
+  .modui-neural-inspector {
+    left: 14px;
+    right: 14px;
+    width: auto;
+    top: 56px;
+  }
+}
+

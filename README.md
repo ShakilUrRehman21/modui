@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (18 Primitives)
+## Published Modules (19 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Synaptic Neural Graph** | 3D & Showcase | Force-directed synaptic canvas lattice, Coulomb repulsion and Hooke spring tension, real-time action potential wave propagation, interactive node dragging, cluster filtering, and synthesized micro-tonal Web Audio haptics | `src/components/ui/neural-graph` |
 | **Timeline Roadmap** | 3D & Showcase | Continuous progress spine, interactive milestone cards with status indicators (Shipped, In Progress, Planned), dual vertical/horizontal layouts, and synthesized acoustic latch haptics | `src/components/ui/timeline` |
 | **Card Stack** | 3D & Showcase | Layered 3D card deck, calculated perspective offsets, smooth rotational fan spread on hover, tactile card fling spring physics, and synthesized paper flick audio haptics | `src/components/ui/card-stack` |
 | **Filmstrip Gallery** | 3D & Showcase | Continuous 35mm cinematographic film reel gallery, calibrated sprocket perforations, pointer drag momentum scrub, frame elevation micro-interactions, full-bleed lightbox modal inspection, and synthesized analog ratchet & shutter haptics | `src/components/ui/filmstrip` |
