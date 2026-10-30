@@ -7,6 +7,27 @@ interface StudioSectionProps {
   onNavigate: (path: string) => void;
 }
 
+let sharedAudioCtx: AudioContext | null = null;
+
+function getSharedAudioContext(): AudioContext | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (!AudioContextClass) return null;
+    if (!sharedAudioCtx || sharedAudioCtx.state === 'suspended') {
+      sharedAudioCtx = new AudioContextClass();
+    }
+    if (sharedAudioCtx.state === 'suspended') {
+      sharedAudioCtx.resume();
+    }
+    return sharedAudioCtx;
+  } catch {
+    return null;
+  }
+}
+
 export const StudioSection: React.FC<StudioSectionProps> = ({ onNavigate }) => {
   const [stageKineticText, setStageKineticText] = useState('Modular UI, crafted with character.');
   const [kineticWaveKey, setKineticWaveKey] = useState(0);
@@ -15,9 +36,8 @@ export const StudioSection: React.FC<StudioSectionProps> = ({ onNavigate }) => {
   const playClickSound = (pitch = 720) => {
     if (!soundEnabled) return;
     try {
-      const AudioCtxClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (!AudioCtxClass) return;
-      const ctx = new AudioCtxClass();
+      const ctx = getSharedAudioContext();
+      if (!ctx) return;
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sine';

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useRef, useState, useCallback, useMemo, useId } from 'react';
 import './ApertureIrisLens.css';
 
 export type ApertureVariant = 'studio-silver' | 'matte-obsidian' | 'classic-brass' | 'cyber-neon';
@@ -323,10 +323,11 @@ export const ApertureIrisLens: React.FC<ApertureIrisLensProps> = ({
     }
   };
 
-  // Unique ID for SVG definitions
+  // Unique ID for SVG definitions using stable React 19 useId hook
+  const rawId = useId();
   const clipId = useMemo(
-    () => `modui-iris-clip-${Math.random().toString(36).slice(2, 8)}`,
-    []
+    () => `modui-iris-clip-${rawId.replace(/:/g, '')}`,
+    [rawId]
   );
 
   return (

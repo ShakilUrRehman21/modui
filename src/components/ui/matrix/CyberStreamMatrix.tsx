@@ -86,12 +86,32 @@ const THEMES: Record<MatrixVariant, MatrixThemeColors> = {
   },
 };
 
+let sharedAudioCtx: AudioContext | null = null;
+
+function getSharedAudioContext(): AudioContext | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (!AudioContextClass) return null;
+    if (!sharedAudioCtx || sharedAudioCtx.state === 'suspended') {
+      sharedAudioCtx = new AudioContextClass();
+    }
+    if (sharedAudioCtx.state === 'suspended') {
+      sharedAudioCtx.resume();
+    }
+    return sharedAudioCtx;
+  } catch {
+    return null;
+  }
+}
+
 // Web Audio micro-chirp synthesis on particle burst
 const playMatrixChirp = (freq = 1200) => {
   try {
-    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
+    const ctx = getSharedAudioContext();
+    if (!ctx) return;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
@@ -108,7 +128,6 @@ const playMatrixChirp = (freq = 1200) => {
 
     osc.start();
     osc.stop(ctx.currentTime + 0.038);
-    osc.onended = () => ctx.close();
   } catch {
     // Audio restricted or uninitialized
   }

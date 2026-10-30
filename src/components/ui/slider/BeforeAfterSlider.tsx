@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import './BeforeAfterSlider.css';
 
 export type SliderOrientation = 'horizontal' | 'vertical';
@@ -40,12 +40,32 @@ export interface BeforeAfterSliderProps extends Omit<React.HTMLAttributes<HTMLDi
   borderRadius?: string;
 }
 
+let sharedAudioCtx: AudioContext | null = null;
+
+function getSharedAudioContext(): AudioContext | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (!AudioContextClass) return null;
+    if (!sharedAudioCtx || sharedAudioCtx.state === 'suspended') {
+      sharedAudioCtx = new AudioContextClass();
+    }
+    if (sharedAudioCtx.state === 'suspended') {
+      sharedAudioCtx.resume();
+    }
+    return sharedAudioCtx;
+  } catch {
+    return null;
+  }
+}
+
 // Lightweight synthesized acoustic micro-tick for divider center snap
 const playDividerHaptic = (freq: number = 520, duration: number = 0.03) => {
   try {
-    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
+    const ctx = getSharedAudioContext();
+    if (!ctx) return;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
@@ -62,7 +82,6 @@ const playDividerHaptic = (freq: number = 520, duration: number = 0.03) => {
 
     osc.start();
     osc.stop(ctx.currentTime + duration);
-    setTimeout(() => ctx.close().catch(() => {}), (duration + 0.1) * 1000);
   } catch {
     // Ignore autoplay limits
   }

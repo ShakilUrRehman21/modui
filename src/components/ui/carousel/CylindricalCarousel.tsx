@@ -109,7 +109,10 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
   // Rotation state in degrees
   const [rotation, setRotation] = useState(0);
   const rotationRef = useRef(0);
-  rotationRef.current = rotation;
+
+  useEffect(() => {
+    rotationRef.current = rotation;
+  }, [rotation]);
 
   // Active index
   const [activeIndex, setActiveIndex] = useState(0);

@@ -7,6 +7,8 @@ interface FooterProps {
   onNavigate: (path: string) => void;
 }
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer className="modui-footer">
@@ -75,7 +77,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       </div>
 
       <div className="modui-container modui-footer-sub">
-        <span>© {new Date().getFullYear()} ModUI. Built for contemporary creative developers.</span>
+        <span>© {CURRENT_YEAR} ModUI. Built for contemporary creative developers.</span>
         <span>Open source. MIT Licensed.</span>
       </div>
     </footer>
