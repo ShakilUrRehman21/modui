@@ -1,0 +1,831 @@
+/* ==========================================================================
+   ModUI Studio Reel-to-Reel Tape Deck Component Styles (Vanilla CSS)
+   Aesthetic: Dieter Rams / Teenage Engineering / Studio Precision Hardware
+   Zero External Runtime Dependencies • Standard CSS Custom Properties
+   ========================================================================== */
+
+.modui-reel-deck {
+  --mod-deck-bg: #FFFFFF;
+  --mod-deck-bay-bg: #F4F2EC;
+  --mod-deck-border: var(--border-default, #E4E1D9);
+  --mod-deck-border-subtle: #EBE8E0;
+  --mod-deck-text: var(--text-primary, #20201E);
+  --mod-deck-text-muted: var(--text-secondary, #696963);
+  --mod-deck-accent: var(--accent-primary, #365CF5);
+  --mod-deck-danger: #FF4A36;
+  --mod-deck-tape-color: #24201E;
+  --mod-deck-vu-bg: #FFFDF7;
+  --mod-deck-vu-border: #DCD8CE;
+  --mod-deck-vu-glow: rgba(255, 230, 160, 0.4);
+  --mod-deck-key-bg: #F8F7F2;
+  --mod-deck-key-border: #DCD8CE;
+  --mod-deck-shadow: 0 12px 36px -4px rgba(32, 32, 30, 0.08), 0 2px 8px -1px rgba(32, 32, 30, 0.04);
+  --mod-deck-font-sans: var(--font-sans, 'Manrope', 'Inter', -apple-system, sans-serif);
+  --mod-deck-font-mono: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace);
+
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  background-color: var(--mod-deck-bg);
+  border: 1px solid var(--mod-deck-border);
+  border-radius: var(--radius-xl, 14px);
+  padding: 16px;
+  box-shadow: var(--mod-deck-shadow);
+  font-family: var(--mod-deck-font-sans);
+  user-select: none;
+  outline: none;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+  box-sizing: border-box;
+}
+
+.modui-reel-deck:focus-visible {
+  border-color: var(--mod-deck-accent);
+  box-shadow: 0 0 0 3px rgba(54, 92, 245, 0.16), var(--mod-deck-shadow);
+}
+
+/* --------------------------------------------------------------------------
+   Themes
+   -------------------------------------------------------------------------- */
+
+/* 1. Studio Light (Default ModUI Standard) */
+.modui-reel-deck--studio-light {
+  --mod-deck-bg: #FFFFFF;
+  --mod-deck-bay-bg: #F4F2EC;
+  --mod-deck-border: #E4E1D9;
+  --mod-deck-text: #20201E;
+  --mod-deck-text-muted: #696963;
+  --mod-deck-accent: #365CF5;
+  --mod-deck-vu-bg: #FFFDF7;
+  --mod-deck-vu-border: #DCD8CE;
+  --mod-deck-vu-glow: rgba(255, 230, 160, 0.35);
+  --mod-deck-key-bg: #F8F7F2;
+}
+
+/* 2. Dark Slate (Mastering Suite 35mm Slate) */
+.modui-reel-deck--dark-slate {
+  --mod-deck-bg: #12151D;
+  --mod-deck-bay-bg: #0C0E14;
+  --mod-deck-border: rgba(255, 255, 255, 0.12);
+  --mod-deck-border-subtle: rgba(255, 255, 255, 0.08);
+  --mod-deck-text: #F8FAFC;
+  --mod-deck-text-muted: #94A3B8;
+  --mod-deck-accent: #38BDF8;
+  --mod-deck-tape-color: #0E0D0C;
+  --mod-deck-vu-bg: #1A1F2C;
+  --mod-deck-vu-border: rgba(255, 255, 255, 0.14);
+  --mod-deck-vu-glow: rgba(56, 189, 248, 0.25);
+  --mod-deck-key-bg: #1A1F2C;
+  --mod-deck-key-border: rgba(255, 255, 255, 0.12);
+}
+
+/* 3. Warm Editorial (Linen & Walnut Accent) */
+.modui-reel-deck--warm-editorial {
+  --mod-deck-bg: #FAF8F3;
+  --mod-deck-bay-bg: #F0EDE4;
+  --mod-deck-border: #E8E2D5;
+  --mod-deck-border-subtle: #DDD6C7;
+  --mod-deck-text: #282420;
+  --mod-deck-text-muted: #7A746B;
+  --mod-deck-accent: #FF735E;
+  --mod-deck-vu-bg: #FFFBF0;
+  --mod-deck-vu-border: #E2DACB;
+  --mod-deck-vu-glow: rgba(255, 180, 80, 0.4);
+  --mod-deck-key-bg: #F5F1E8;
+}
+
+/* 4. Minimal Mono (Dieter Rams High Contrast Bauhaus) */
+.modui-reel-deck--minimal-mono {
+  --mod-deck-bg: #FFFFFF;
+  --mod-deck-bay-bg: #F2F2F2;
+  --mod-deck-border: #E5E7EB;
+  --mod-deck-border-subtle: #D1D5DB;
+  --mod-deck-text: #111827;
+  --mod-deck-text-muted: #6B7280;
+  --mod-deck-accent: #111827;
+  --mod-deck-vu-bg: #FFFFFF;
+  --mod-deck-vu-border: #E5E7EB;
+  --mod-deck-vu-glow: transparent;
+  --mod-deck-key-bg: #FAFAFA;
+}
+
+/* --------------------------------------------------------------------------
+   1. Header Bar: Brand & Tape Speed
+   -------------------------------------------------------------------------- */
+
+.modui-tape-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--mod-deck-border);
+  margin-bottom: 14px;
+}
+
+.modui-tape-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modui-tape-brand__badge {
+  display: inline-block;
+  padding: 3px 7px;
+  background-color: var(--mod-deck-accent);
+  color: #FFFFFF;
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-radius: var(--radius-xs, 4px);
+  text-transform: uppercase;
+}
+
+.modui-tape-brand__model {
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--mod-deck-text-muted);
+}
+
+.modui-tape-top-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modui-tape-speed-toggle {
+  display: inline-flex;
+  padding: 2px;
+  background: var(--mod-deck-bay-bg);
+  border: 1px solid var(--mod-deck-border);
+  border-radius: var(--radius-sm, 6px);
+  gap: 2px;
+}
+
+.modui-tape-speed-btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 3px 8px;
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--mod-deck-text-muted);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 140ms ease;
+}
+
+.modui-tape-speed-btn:hover {
+  color: var(--mod-deck-text);
+}
+
+.modui-tape-speed-btn--active {
+  background: var(--mod-deck-bg);
+  color: var(--mod-deck-accent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  font-weight: 700;
+}
+
+.modui-tape-audio-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm, 6px);
+  background: var(--mod-deck-bay-bg);
+  border: 1px solid var(--mod-deck-border);
+  color: var(--mod-deck-text-muted);
+  cursor: pointer;
+  transition: all 140ms ease;
+}
+
+.modui-tape-audio-btn:hover {
+  color: var(--mod-deck-text);
+}
+
+.modui-tape-audio-btn--active {
+  color: var(--mod-deck-accent);
+  border-color: rgba(54, 92, 245, 0.3);
+  background: rgba(54, 92, 245, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   2. Main Inset Tape Bay
+   -------------------------------------------------------------------------- */
+
+.modui-tape-bay {
+  position: relative;
+  width: 100%;
+  height: 230px;
+  background: var(--mod-deck-bay-bg);
+  border: 1px solid var(--mod-deck-border);
+  border-radius: var(--radius-lg, 10px);
+  overflow: hidden;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  box-sizing: border-box;
+}
+
+/* Dynamic SVG Tape Ribbon */
+.modui-tape-ribbon-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.modui-tape-path {
+  fill: none;
+  stroke: var(--mod-deck-tape-color);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.92;
+}
+
+.modui-tape-path--running {
+  animation: modui-tape-flutter 1.2s infinite ease-in-out alternate;
+}
+
+@keyframes modui-tape-flutter {
+  0% {
+    stroke-width: 4.5;
+  }
+  100% {
+    stroke-width: 4.8;
+  }
+}
+
+/* Dual Spools (Supply & Take-Up) */
+.modui-tape-reel {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 9999px;
+  cursor: grab;
+  touch-action: none;
+  z-index: 2;
+  transition: transform 60ms linear;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  outline: none;
+}
+
+.modui-tape-reel:focus-visible {
+  box-shadow: 0 0 0 3px var(--mod-deck-accent), 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.modui-tape-reel--dragging {
+  cursor: grabbing;
+}
+
+.modui-tape-reel__flange {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: repeating-radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.95) 0px,
+    rgba(240, 240, 240, 0.95) 2px,
+    rgba(220, 220, 220, 0.95) 4px
+  );
+  border: 2px solid #CDC9BE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.modui-tape-reel__pack {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #181514 30%, #2A2522 90%);
+  border: 1px solid #111;
+  transition: width 100ms linear, height 100ms linear;
+  pointer-events: none;
+}
+
+.modui-tape-reel__spoke {
+  position: absolute;
+  width: 24px;
+  height: 100%;
+  background: var(--mod-deck-bay-bg);
+  border-left: 1px solid #CDC9BE;
+  border-right: 1px solid #CDC9BE;
+  pointer-events: none;
+}
+
+.modui-tape-reel__spoke--1 {
+  transform: rotate(0deg);
+}
+
+.modui-tape-reel__spoke--2 {
+  transform: rotate(60deg);
+}
+
+.modui-tape-reel__spoke--3 {
+  transform: rotate(120deg);
+}
+
+.modui-tape-reel__hub {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #E6E4DC, #B8B4AA);
+  border: 2px solid #8E8A82;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 2px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.modui-tape-reel__center-pin {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: #3A3834;
+  border: 1px solid #20201E;
+}
+
+/* Center Magnetic Heads Assembly */
+.modui-tape-heads {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+}
+
+.modui-tape-heads__plate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #EAE7DF 0%, #D8D4C8 100%);
+  border: 1px solid #CDC9BE;
+  border-radius: var(--radius-sm, 6px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.modui-tape-roller {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #CDC9BE 30%, #8E8A82 100%);
+  border: 1px solid #5C5852;
+}
+
+.modui-tape-roller--spinning {
+  animation: modui-roller-spin 400ms infinite linear;
+}
+
+@keyframes modui-roller-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.modui-tape-head-unit {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.modui-tape-head {
+  width: 12px;
+  height: 20px;
+  border-radius: 2px;
+  background: #20201E;
+  border: 1px solid #111;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.modui-tape-head--record {
+  border-top: 2px solid var(--mod-deck-danger);
+}
+
+.modui-tape-head--play {
+  border-top: 2px solid var(--mod-deck-accent);
+}
+
+.modui-tape-capstan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: transform 160ms ease;
+}
+
+.modui-tape-capstan--engaged {
+  transform: translateY(2px);
+}
+
+.modui-tape-capstan__shaft {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #B8B4AA;
+  border: 1px solid #444;
+}
+
+.modui-tape-capstan__roller {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: #1A1A18;
+  border: 1px solid #111;
+}
+
+.modui-tape-heads__label {
+  margin-top: 6px;
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--mod-deck-text-muted);
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   3. Lower Console: Twin Ballistic VU Meters & Telemetry
+   -------------------------------------------------------------------------- */
+
+.modui-tape-console {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--mod-deck-bay-bg);
+  border: 1px solid var(--mod-deck-border);
+  border-radius: var(--radius-lg, 10px);
+}
+
+.modui-tape-vu-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modui-tape-vu-meter {
+  flex: 1;
+  background: var(--mod-deck-vu-bg);
+  border: 1px solid var(--mod-deck-vu-border);
+  border-radius: var(--radius-sm, 6px);
+  padding: 8px 10px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.04), 0 0 12px var(--mod-deck-vu-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.modui-tape-vu-meter__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.modui-tape-vu-meter__channel {
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--mod-deck-text-muted);
+}
+
+.modui-tape-vu-peak {
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: rgba(125, 125, 125, 0.15);
+  color: var(--mod-deck-text-muted);
+  transition: all 80ms ease;
+}
+
+.modui-tape-vu-peak--active {
+  background: var(--mod-deck-danger);
+  color: #FFFFFF;
+  box-shadow: 0 0 6px var(--mod-deck-danger);
+}
+
+.modui-tape-vu-meter__dial {
+  position: relative;
+  height: 52px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2px;
+}
+
+.modui-tape-vu-scale {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.modui-tape-vu-mark {
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  color: var(--mod-deck-text-muted);
+}
+
+.modui-tape-vu-mark--0,
+.modui-tape-vu-mark--3 {
+  color: var(--mod-deck-danger);
+}
+
+.modui-tape-vu-needle {
+  position: absolute;
+  bottom: 0;
+  width: 1.5px;
+  height: 44px;
+  background: #20201E;
+  transform-origin: bottom center;
+  transition: transform 40ms linear;
+  z-index: 2;
+}
+
+.modui-tape-vu-pivot {
+  position: absolute;
+  bottom: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: #20201E;
+  z-index: 3;
+}
+
+/* Center Mechanical Counter & Metadata */
+.modui-tape-telemetry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modui-tape-counter-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.modui-tape-counter-digits {
+  display: inline-block;
+  background: #15181E;
+  color: #FFFFFF;
+  font-family: var(--mod-deck-font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 4px 8px;
+  border-radius: var(--radius-xs, 4px);
+  border: 1px solid #333;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.modui-tape-counter-reset {
+  appearance: none;
+  background: transparent;
+  border: none;
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  color: var(--mod-deck-text-muted);
+  cursor: pointer;
+  padding: 1px 4px;
+}
+
+.modui-tape-counter-reset:hover {
+  color: var(--mod-deck-text);
+}
+
+.modui-tape-track-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+}
+
+.modui-tape-track-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--mod-deck-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modui-tape-track-artist {
+  font-size: 0.6875rem;
+  color: var(--mod-deck-text-muted);
+}
+
+.modui-tape-track-time {
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--mod-deck-accent);
+  margin-top: 2px;
+}
+
+.modui-tape-track-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.modui-tape-track-btn {
+  appearance: none;
+  background: var(--mod-deck-bg);
+  border: 1px solid var(--mod-deck-border);
+  border-radius: var(--radius-xs, 4px);
+  padding: 2px 6px;
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--mod-deck-text-muted);
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.modui-tape-track-btn:hover {
+  color: var(--mod-deck-text);
+}
+
+.modui-tape-track-btn--active {
+  background: var(--mod-deck-text);
+  color: var(--mod-deck-bg);
+  border-color: var(--mod-deck-text);
+}
+
+/* --------------------------------------------------------------------------
+   4. Bottom Piano-Key Transport Bar
+   -------------------------------------------------------------------------- */
+
+.modui-tape-transport {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.modui-tape-key {
+  appearance: none;
+  height: 48px;
+  background: var(--mod-deck-key-bg);
+  border: 1px solid var(--mod-deck-key-border);
+  border-radius: var(--radius-sm, 6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 120ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 3px 0 #C8C4B8, 0 4px 8px rgba(0, 0, 0, 0.04);
+}
+
+.modui-tape-key:hover {
+  background: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 #C8C4B8, 0 6px 12px rgba(0, 0, 0, 0.06);
+}
+
+.modui-tape-key:active,
+.modui-tape-key--active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 1px 0 #C8C4B8, inset 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+  border-color: var(--mod-deck-accent);
+}
+
+.modui-tape-key--play.modui-tape-key--active {
+  border-color: var(--mod-deck-accent);
+  background: rgba(54, 92, 245, 0.06);
+}
+
+.modui-tape-key--play.modui-tape-key--active .modui-tape-key__icon,
+.modui-tape-key--play.modui-tape-key--active .modui-tape-key__label {
+  color: var(--mod-deck-accent);
+}
+
+.modui-tape-key--rec.modui-tape-key--active {
+  border-color: var(--mod-deck-danger);
+  background: rgba(255, 74, 54, 0.06);
+}
+
+.modui-tape-key__icon {
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--mod-deck-text);
+}
+
+.modui-tape-key__label {
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--mod-deck-text-muted);
+}
+
+.modui-tape-key__rec-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--mod-deck-danger);
+  box-shadow: 0 0 4px var(--mod-deck-danger);
+}
+
+/* --------------------------------------------------------------------------
+   Compact Mode (Optimized for Explorer Page Cards)
+   -------------------------------------------------------------------------- */
+
+.modui-reel-deck--compact {
+  max-width: 100%;
+  padding: 10px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.modui-reel-deck--compact .modui-tape-header,
+.modui-reel-deck--compact .modui-tape-console {
+  display: none;
+}
+
+.modui-reel-deck--compact .modui-tape-bay {
+  height: 150px;
+  padding: 10px 16px;
+}
+
+.modui-reel-deck--compact .modui-tape-reel {
+  width: 105px;
+  height: 105px;
+}
+
+.modui-reel-deck--compact .modui-tape-transport {
+  margin-top: 8px;
+  gap: 4px;
+}
+
+.modui-reel-deck--compact .modui-tape-key {
+  height: 36px;
+}
+
+.modui-reel-deck--compact .modui-tape-key__label {
+  font-size: 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Layout
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  .modui-reel-deck {
+    padding: 12px;
+  }
+
+  .modui-tape-bay {
+    height: 180px;
+    padding: 10px 14px;
+  }
+
+  .modui-tape-reel {
+    width: 120px;
+    height: 120px;
+  }
+
+  .modui-tape-console {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .modui-tape-transport {
+    gap: 4px;
+  }
+
+  .modui-tape-key {
+    height: 42px;
+  }
+}
+

@@ -32,6 +32,8 @@ import { TimelineRoadmap } from '../components/ui/timeline';
 import type { TimelineVariant, TimelineOrientation } from '../components/ui/timeline';
 import { NeuralGraph } from '../components/ui/neural-graph';
 import type { NeuralGraphVariant } from '../components/ui/neural-graph';
+import { ReelTapeDeck } from '../components/ui/tape-deck';
+import type { ReelTapeDeckVariant, TapeSpeed } from '../components/ui/tape-deck';
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { trackCopyCode, trackGithubClick, trackPreviewOpen } from '../lib/analytics';
 import './ComponentDetailPage.css';
@@ -172,6 +174,12 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [neuralSound, setNeuralSound] = useState<boolean>(true);
   const [neuralAutoPulse, setNeuralAutoPulse] = useState<boolean>(true);
   const [neuralSelectedNodeTitle, setNeuralSelectedNodeTitle] = useState<string>('Semantic Nexus');
+
+  // Playground state for ReelTapeDeck
+  const [deckVariant, setDeckVariant] = useState<ReelTapeDeckVariant>('studio-light');
+  const [deckSpeed, setDeckSpeed] = useState<TapeSpeed>('15');
+  const [deckSound, setDeckSound] = useState<boolean>(true);
+  const [deckTransport, setDeckTransport] = useState<string>('stop');
 
   // File viewer state inside Code tab
   const [selectedFile, setSelectedFile] = useState<'tsx' | 'css' | 'usage'>('tsx');
@@ -902,6 +910,24 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
             )}
 
             {/* Stage for NeuralGraph */}
+            {/* Stage for ReelTapeDeck */}
+            {slug === 'reel-tape-deck' && (
+              <div style={{ width: '100%', maxWidth: '720px', margin: '0 auto', padding: '1rem 0', display: 'flex', flexDirection: 'column' }}>
+                <ReelTapeDeck
+                  variant={deckVariant}
+                  speed={deckSpeed}
+                  soundEnabled={deckSound}
+                  onTransportChange={(state) => setDeckTransport(state)}
+                />
+                <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                  Transport Status: <span style={{ color: 'var(--accent-primary)', fontWeight: 700, textTransform: 'uppercase' }}>{deckTransport}</span>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                    Click PLAY, REW, FFWD or drag either tape spool directly to scrub audio. Watch the twin ballistic VU meters dance in real time.
+                  </div>
+                </div>
+              </div>
+            )}
+
             {slug === 'neural-graph' && (
               <div style={{ width: '100%', maxWidth: '960px', margin: '0 auto', padding: '1rem 0', display: 'flex', flexDirection: 'column' }}>
                 <NeuralGraph
@@ -2049,6 +2075,52 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                       onChange={(e) => setTimelineSound(e.target.checked)}
                     />
                     <span>Web Audio Latch Haptics</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Playground Controls for ReelTapeDeck */}
+          {slug === 'reel-tape-deck' && (
+            <div className="modui-controls-panel">
+              <div className="modui-control-group">
+                <label className="modui-control-label">Chassis Finish</label>
+                <select
+                  className="modui-control-select"
+                  value={deckVariant}
+                  onChange={(e) => setDeckVariant(e.target.value as ReelTapeDeckVariant)}
+                >
+                  <option value="studio-light">Studio Light (ModUI Cream & Cobalt)</option>
+                  <option value="dark-slate">Dark Slate (Mastering Suite)</option>
+                  <option value="warm-editorial">Warm Editorial (Linen & Brass)</option>
+                  <option value="minimal-mono">Minimal Mono (Dieter Rams Bauhaus)</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Tape Speed (IPS)</label>
+                <select
+                  className="modui-control-select"
+                  value={deckSpeed}
+                  onChange={(e) => setDeckSpeed(e.target.value as TapeSpeed)}
+                >
+                  <option value="15">15 IPS (Studio High-Fidelity)</option>
+                  <option value="7.5">7.5 IPS (Standard Reel)</option>
+                  <option value="3.75">3.75 IPS (Extended Play)</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Acoustics</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={deckSound}
+                      onChange={(e) => setDeckSound(e.target.checked)}
+                    />
+                    <span>Web Audio Capstan & Solenoids</span>
                   </label>
                 </div>
               </div>

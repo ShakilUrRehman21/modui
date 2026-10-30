@@ -19,6 +19,7 @@ import { FilmstripGallery } from '../components/ui/filmstrip';
 import { CardStack } from '../components/ui/card-stack';
 import { TimelineRoadmap } from '../components/ui/timeline';
 import { NeuralGraph } from '../components/ui/neural-graph';
+import { ReelTapeDeck } from '../components/ui/tape-deck';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -507,6 +508,16 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'timeline-roadmap' && (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <TimelineRoadmap
+                        variant="studio-light"
+                        compact={true}
+                        soundEnabled={false}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'reel-tape-deck' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <ReelTapeDeck
                         variant="studio-light"
                         compact={true}
                         soundEnabled={false}

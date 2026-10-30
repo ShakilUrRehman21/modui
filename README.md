@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-104%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-123%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (19 Primitives)
+## Published Modules (20 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Studio Reel-to-Reel Tape Deck** | 3D & Showcase | Dual rotating spools with dynamic tape pack thickness physics, twin ballistic galvanometer VU meters, tactile piano-key transport, manual scrub, and synthesized capstan motor hum & solenoid acoustics | `src/components/ui/tape-deck` |
 | **Synaptic Neural Graph** | 3D & Showcase | Force-directed synaptic canvas lattice, Coulomb repulsion and Hooke spring tension, real-time action potential wave propagation, interactive node dragging, cluster filtering, and synthesized micro-tonal Web Audio haptics | `src/components/ui/neural-graph` |
 | **Timeline Roadmap** | 3D & Showcase | Continuous progress spine, interactive milestone cards with status indicators (Shipped, In Progress, Planned), dual vertical/horizontal layouts, and synthesized acoustic latch haptics | `src/components/ui/timeline` |
 | **Card Stack** | 3D & Showcase | Layered 3D card deck, calculated perspective offsets, smooth rotational fan spread on hover, tactile card fling spring physics, and synthesized paper flick audio haptics | `src/components/ui/card-stack` |
