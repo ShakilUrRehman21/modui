@@ -9,12 +9,18 @@ import ComponentDetailPage from './pages/ComponentDetailPage';
 import DocsPage from './pages/DocsPage';
 import CommandPaletteModal from './components/common/CommandPaletteModal';
 import { Analytics } from '@vercel/analytics/react';
+import { updatePageSeo } from './lib/seo';
 
 export function App() {
-  // Routing state
+  // Clean HTML5 Routing state
   const [currentPath, setCurrentPath] = useState<string>(() => {
+    if (typeof window === 'undefined') return '/';
+    // Backwards compatibility: migrate legacy hash routing to clean path
     const hash = window.location.hash.replace(/^#/, '');
-    return hash || window.location.pathname || '/';
+    if (hash && hash.startsWith('/')) {
+      return hash;
+    }
+    return window.location.pathname || '/';
   });
 
   // Command palette state
@@ -42,11 +48,21 @@ export function App() {
     document.documentElement.setAttribute('data-theme', 'light');
   }, []);
 
-  // Synchronize route changes
+  // Migrate legacy hash URLs on mount if present
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash && window.location.hash.startsWith('#/')) {
+      const clean = window.location.hash.replace(/^#/, '');
+      window.history.replaceState(null, '', clean);
+      setCurrentPath(clean);
+    }
+  }, []);
+
+  // Synchronize route changes (HTML5 popstate)
   useEffect(() => {
     const handleLocationChange = () => {
       const hash = window.location.hash.replace(/^#/, '');
-      setCurrentPath(hash || window.location.pathname || '/');
+      const path = (hash && hash.startsWith('/')) ? hash : (window.location.pathname || '/');
+      setCurrentPath(path);
       if (lenisRef.current) {
         lenisRef.current.scrollTo(0, { immediate: true });
       } else {
@@ -55,10 +71,8 @@ export function App() {
     };
 
     window.addEventListener('popstate', handleLocationChange);
-    window.addEventListener('hashchange', handleLocationChange);
     return () => {
       window.removeEventListener('popstate', handleLocationChange);
-      window.removeEventListener('hashchange', handleLocationChange);
     };
   }, []);
 
@@ -74,8 +88,63 @@ export function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Top-level SEO synchronization
+  useEffect(() => {
+    const cleanPath = currentPath.split('?')[0];
+
+    if (cleanPath === '/' || cleanPath === '') {
+      updatePageSeo({
+        title: 'ModUI — Crafted React UI Components, Audio DSP & Micro-Interactions',
+        description: 'ModUI is a thoughtfully crafted collection of 21+ modular React components, Web Audio DSP, and expressive interactions with zero runtime CSS dependencies.',
+        canonicalPath: '/',
+        keywords: [
+          'react components',
+          'ui library',
+          'framer motion',
+          'audio dsp',
+          'micro interactions',
+          'accessible react components',
+          'tape deck react',
+          '3d carousel',
+        ],
+      });
+    } else if (cleanPath === '/components') {
+      updatePageSeo({
+        title: 'Components Catalog — 21+ Interactive React Primitives | ModUI',
+        description: 'Explore all 21 production-ready React components with zero CSS dependencies. Featuring audio players, 3D cylindrical carousels, spring physics accordions, and interactive dials.',
+        canonicalPath: '/components',
+        keywords: [
+          'react component catalog',
+          'ui primitives',
+          'interactive react components',
+          'open source ui',
+        ],
+      });
+    } else if (cleanPath.startsWith('/docs')) {
+      updatePageSeo({
+        title: 'Documentation & Architecture Guide — ModUI',
+        description: 'Architecture principles, copy-paste workflow, design tokens, theming system, and accessibility guidelines for ModUI components.',
+        canonicalPath: '/docs',
+        keywords: [
+          'modui documentation',
+          'react component architecture',
+          'design tokens',
+          'accessibility standards',
+        ],
+      });
+    }
+  }, [currentPath]);
+
+  // Clean HTML5 Navigation
   const navigate = (path: string) => {
-    window.location.hash = path;
+    if (typeof window !== 'undefined') {
+      if (window.location.pathname !== path) {
+        window.history.pushState(null, '', path);
+      }
+      if (window.location.hash) {
+        window.history.replaceState(null, '', path);
+      }
+    }
     setCurrentPath(path);
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, { immediate: true });

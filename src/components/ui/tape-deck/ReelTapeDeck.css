@@ -757,30 +757,37 @@
 }
 
 /* --------------------------------------------------------------------------
-   Compact Mode (Optimized for Explorer Page Cards)
+   Compact Mode (Optimized for Embedded Previews)
    -------------------------------------------------------------------------- */
 
 .modui-reel-deck--compact {
-  max-width: 100%;
+  max-width: 580px;
   padding: 10px;
-  border: none;
-  box-shadow: none;
-  background: transparent;
+  border-radius: var(--radius-lg, 10px);
 }
 
-.modui-reel-deck--compact .modui-tape-header,
-.modui-reel-deck--compact .modui-tape-console {
-  display: none;
+.modui-reel-deck--compact .modui-tape-header {
+  padding-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .modui-reel-deck--compact .modui-tape-bay {
-  height: 150px;
-  padding: 10px 16px;
+  height: 180px;
+  padding: 8px 12px;
 }
 
 .modui-reel-deck--compact .modui-tape-reel {
-  width: 105px;
-  height: 105px;
+  width: 110px;
+  height: 110px;
+}
+
+.modui-reel-deck--compact .modui-tape-console {
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.modui-reel-deck--compact .modui-tape-vu-meter {
+  padding: 6px 8px;
 }
 
 .modui-reel-deck--compact .modui-tape-transport {
@@ -793,7 +800,7 @@
 }
 
 .modui-reel-deck--compact .modui-tape-key__label {
-  font-size: 0.5rem;
+  font-size: 0.55rem;
 }
 
 /* --------------------------------------------------------------------------

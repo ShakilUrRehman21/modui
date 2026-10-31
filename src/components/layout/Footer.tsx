@@ -23,13 +23,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </p>
           </div>
           <div className="modui-footer-cta-actions">
-            <button
+            <a
+              href="/components"
               className="modui-cta-btn"
-              onClick={() => onNavigate('/components')}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('/components');
+              }}
+              style={{ textDecoration: 'none' }}
             >
               <span>Explore All Components</span>
               <span style={{ marginLeft: '0.4rem' }}>→</span>
-            </button>
+            </a>
             <a
               href="https://github.com/ShakilUrRehman21/modui"
               target="_blank"
@@ -55,15 +60,36 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </div>
 
         <div className="modui-footer-nav">
-          <button className="modui-footer-link" onClick={() => onNavigate('/')}>
+          <a
+            href="/"
+            className="modui-footer-link"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('/');
+            }}
+          >
             Overview
-          </button>
-          <button className="modui-footer-link" onClick={() => onNavigate('/components')}>
+          </a>
+          <a
+            href="/components"
+            className="modui-footer-link"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('/components');
+            }}
+          >
             Components
-          </button>
-          <button className="modui-footer-link" onClick={() => onNavigate('/docs')}>
+          </a>
+          <a
+            href="/docs"
+            className="modui-footer-link"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('/docs');
+            }}
+          >
             Documentation
-          </button>
+          </a>
           <a
             href="https://github.com/ShakilUrRehman21/modui"
             target="_blank"

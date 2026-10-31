@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (20 Primitives)
+## Published Modules (21 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Instagram Story Timeline** | 3D & Showcase | Authentic Instagram-style story reel with 9:16 smartphone viewport card, top segmented progress bars, 3D desktop carousel stage, tap navigation, press-to-pause, interactive voting polls, emoji reaction sliders, music visualizer stickers, and flying heart physics | `src/components/ui/story-timeline` |
 | **Studio Reel-to-Reel Tape Deck** | 3D & Showcase | Dual rotating spools with dynamic tape pack thickness physics, twin ballistic galvanometer VU meters, tactile piano-key transport, manual scrub, and synthesized capstan motor hum & solenoid acoustics | `src/components/ui/tape-deck` |
 | **Synaptic Neural Graph** | 3D & Showcase | Force-directed synaptic canvas lattice, Coulomb repulsion and Hooke spring tension, real-time action potential wave propagation, interactive node dragging, cluster filtering, and synthesized micro-tonal Web Audio haptics | `src/components/ui/neural-graph` |
 | **Timeline Roadmap** | 3D & Showcase | Continuous progress spine, interactive milestone cards with status indicators (Shipped, In Progress, Planned), dual vertical/horizontal layouts, and synthesized acoustic latch haptics | `src/components/ui/timeline` |

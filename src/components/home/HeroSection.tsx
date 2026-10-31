@@ -248,16 +248,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
 
           {/* Action CTAs */}
           <div className="modui-hero-actions">
-            <button
+            <a
+              href="/components"
               className="modui-cta-btn"
-              onClick={() => onNavigate('/components')}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('/components');
+              }}
+              style={{ textDecoration: 'none' }}
             >
               <span>Explore Components</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="modui-cta-btn-arrow">
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />
               </svg>
-            </button>
+            </a>
 
             <a
               href="https://github.com/ShakilUrRehman21/modui"
@@ -474,13 +479,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
                   )}
                 </button>
 
-                <button
-                  type="button"
+                <a
+                  href="/components"
                   className="modui-code-inspect-link"
-                  onClick={() => onNavigate(`/components`)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('/components');
+                  }}
+                  style={{ textDecoration: 'none' }}
                 >
                   <span>Inspect All ↗</span>
-                </button>
+                </a>
               </div>
             </div>
           </div>

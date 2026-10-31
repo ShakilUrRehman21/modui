@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { updatePageSeo, generateComponentJsonLd } from '../lib/seo';
 import { AnimatedButton } from '../components/ui/button';
 import type { ButtonVariant, ButtonSize } from '../components/ui/button';
 import { KineticText } from '../components/ui/motion/KineticText';
@@ -34,6 +35,8 @@ import { NeuralGraph } from '../components/ui/neural-graph';
 import type { NeuralGraphVariant } from '../components/ui/neural-graph';
 import { ReelTapeDeck } from '../components/ui/tape-deck';
 import type { ReelTapeDeckVariant, TapeSpeed } from '../components/ui/tape-deck';
+import { StoryTimeline } from '../components/ui/story-timeline';
+import type { StoryTimelineVariant } from '../components/ui/story-timeline';
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { trackCopyCode, trackGithubClick, trackPreviewOpen } from '../lib/analytics';
 import './ComponentDetailPage.css';
@@ -48,6 +51,32 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   onNavigate,
 }) => {
   const component = COMPONENT_REGISTRY.find((c) => c.slug === slug);
+
+  // Dynamic SEO metadata & JSON-LD Rich Snippet for Google Search
+  useEffect(() => {
+    if (component) {
+      updatePageSeo({
+        title: `${component.name} — ModUI React Component`,
+        description: `${component.description} Drop-in React component with interactive live preview, TypeScript definitions, and zero external CSS dependencies.`,
+        canonicalPath: `/components/${component.slug}`,
+        keywords: [
+          'react ' + component.slug,
+          component.name,
+          component.category,
+          'react component',
+          'copy paste ui',
+          ...(component.tags || []),
+        ],
+        jsonLd: generateComponentJsonLd(component),
+      });
+    } else {
+      updatePageSeo({
+        title: 'Component Not Found — ModUI',
+        description: 'The requested ModUI component could not be found in the registry.',
+        canonicalPath: `/components/${slug}`,
+      });
+    }
+  }, [component, slug]);
 
   // Playground state for AnimatedButton
   const [btnVariant, setBtnVariant] = useState<ButtonVariant>('shimmer');
@@ -180,6 +209,12 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [deckSpeed, setDeckSpeed] = useState<TapeSpeed>('15');
   const [deckSound, setDeckSound] = useState<boolean>(true);
   const [deckTransport, setDeckTransport] = useState<string>('stop');
+
+  // Playground state for StoryTimeline (Instagram Stories)
+  const [storyVariant, setStoryVariant] = useState<StoryTimelineVariant>('instagram-dark');
+  const [storySound, setStorySound] = useState<boolean>(true);
+  const [storyAutoPlay, setStoryAutoPlay] = useState<boolean>(true);
+  const [storyActiveTitle, setStoryActiveTitle] = useState<string>('The Brass Dial Experiment');
 
   // File viewer state inside Code tab
   const [selectedFile, setSelectedFile] = useState<'tsx' | 'css' | 'usage'>('tsx');
@@ -923,6 +958,24 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                   Transport Status: <span style={{ color: 'var(--accent-primary)', fontWeight: 700, textTransform: 'uppercase' }}>{deckTransport}</span>
                   <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
                     Click PLAY, REW, FFWD or drag either tape spool directly to scrub audio. Watch the twin ballistic VU meters dance in real time.
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Stage for StoryTimeline (Instagram Stories) */}
+            {slug === 'story-timeline' && (
+              <div style={{ width: '100%', maxWidth: '880px', margin: '0 auto', padding: '1rem 0', display: 'flex', flexDirection: 'column' }}>
+                <StoryTimeline
+                  variant={storyVariant}
+                  soundEnabled={storySound}
+                  autoPlay={storyAutoPlay}
+                  onStoryChange={(st) => setStoryActiveTitle(st.title)}
+                />
+                <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                  Active Story: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{storyActiveTitle}</span>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                    Tap right half to advance, tap left half to go back. Press and hold to pause (just like Instagram). Vote in polls and tap ❤️ to send flying hearts!
                   </div>
                 </div>
               </div>
@@ -2121,6 +2174,52 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                       onChange={(e) => setDeckSound(e.target.checked)}
                     />
                     <span>Web Audio Capstan & Solenoids</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {slug === 'story-timeline' && (
+            <div className="modui-controls-panel">
+              <div className="modui-control-group">
+                <label className="modui-control-label">Aesthetic Theme</label>
+                <select
+                  className="modui-control-select"
+                  value={storyVariant}
+                  onChange={(e) => setStoryVariant(e.target.value as StoryTimelineVariant)}
+                >
+                  <option value="instagram-dark">Instagram Dark (OLED Black & Neon Aura)</option>
+                  <option value="editorial-paper">Editorial Paper (Swiss Minimalist)</option>
+                  <option value="cyber-neon">Cyber Neon (Electric Cyan & Magenta)</option>
+                  <option value="studio-mono">Studio Mono (Matte Carbon & White)</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Playback</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={storyAutoPlay}
+                      onChange={(e) => setStoryAutoPlay(e.target.checked)}
+                    />
+                    <span>Auto-Advance Segmented Progress</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Acoustics</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={storySound}
+                      onChange={(e) => setStorySound(e.target.checked)}
+                    />
+                    <span>Web Audio Taps, Voting Pops & Heart Chimes</span>
                   </label>
                 </div>
               </div>

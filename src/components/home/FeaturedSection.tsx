@@ -168,7 +168,18 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                 {/* 2. Structured Card Information */}
                 <div className="modui-card-body">
                   <div className="modui-card-header-row">
-                    <h3 className="modui-card-name">{comp.name}</h3>
+                    <h3 className="modui-card-name">
+                      <a
+                        href={`/components/${comp.slug}`}
+                        style={{ color: 'inherit', textDecoration: 'none' }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onNavigate(`/components/${comp.slug}`);
+                        }}
+                      >
+                        {comp.name}
+                      </a>
+                    </h3>
 
                     {/* Quick Snippet Copy */}
                     <button
@@ -211,13 +222,23 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                       ))}
                     </div>
 
-                    <span className="modui-card-inspect-cta">
+                    <a
+                      href={`/components/${comp.slug}`}
+                      className="modui-card-inspect-cta"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onNavigate(`/components/${comp.slug}`);
+                      }}
+                      style={{ textDecoration: 'none' }}
+                      title={`Inspect ${comp.name} component`}
+                    >
                       <span>Inspect & Code</span>
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12" />
                         <polyline points="12 5 19 12 12 19" />
                       </svg>
-                    </span>
+                    </a>
                   </div>
                 </div>
               </div>

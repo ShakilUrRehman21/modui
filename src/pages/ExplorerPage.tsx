@@ -20,6 +20,7 @@ import { CardStack } from '../components/ui/card-stack';
 import { TimelineRoadmap } from '../components/ui/timeline';
 import { NeuralGraph } from '../components/ui/neural-graph';
 import { ReelTapeDeck } from '../components/ui/tape-deck';
+import { StoryTimeline } from '../components/ui/story-timeline';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -516,11 +517,26 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'reel-tape-deck' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                      <div style={{ width: '260px', height: '185px', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ width: '580px', position: 'absolute', transform: 'scale(0.39)', transformOrigin: 'center center' }}>
+                          <ReelTapeDeck
+                            variant="studio-light"
+                            soundEnabled={false}
+                            autoPlay={true}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {comp.slug === 'story-timeline' && (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <ReelTapeDeck
-                        variant="studio-light"
+                      <StoryTimeline
+                        variant="instagram-dark"
                         compact={true}
                         soundEnabled={false}
+                        autoPlay={true}
                       />
                     </div>
                   )}
@@ -539,7 +555,18 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
 
                 {/* 2. Structured Card Information */}
                 <div className="modui-card-content">
-                  <h3 className="modui-card-title">{comp.name}</h3>
+                  <h3 className="modui-card-title">
+                    <a
+                      href={`/components/${comp.slug}`}
+                      style={{ color: 'inherit', textDecoration: 'none' }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onNavigate(`/components/${comp.slug}`);
+                      }}
+                    >
+                      {comp.name}
+                    </a>
+                  </h3>
                   <p className="modui-card-description">{comp.description}</p>
 
                   <div className="modui-card-action-bar">

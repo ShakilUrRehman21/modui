@@ -52,35 +52,51 @@ export const Navbar: React.FC<NavbarProps> = ({
       <header className="modui-navbar-wrapper">
         <div className="modui-navbar-pill">
           {/* Brand Logo */}
-          <button
+          <a
+            href="/"
             className="modui-brand-btn"
-            onClick={() => handleNavClick('/')}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('/');
+            }}
             aria-label="ModUI Home"
           >
             <span className="modui-brand-text">ModUI</span>
             <span className="modui-brand-badge">LAB</span>
-          </button>
+          </a>
 
           {/* Desktop Center Nav Links */}
           <nav className="modui-nav-center" aria-label="Main Navigation">
-            <button
+            <a
+              href="/"
               className={`modui-nav-link ${currentPath === '/' ? 'modui-nav-link--active' : ''}`}
-              onClick={() => handleNavClick('/')}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('/');
+              }}
             >
               <span>Overview</span>
-            </button>
-            <button
+            </a>
+            <a
+              href="/components"
               className={`modui-nav-link ${currentPath.startsWith('/components') ? 'modui-nav-link--active' : ''}`}
-              onClick={() => handleNavClick('/components')}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('/components');
+              }}
             >
               <span>Components</span>
-            </button>
-            <button
+            </a>
+            <a
+              href="/docs"
               className={`modui-nav-link ${currentPath === '/docs' ? 'modui-nav-link--active' : ''}`}
-              onClick={() => handleNavClick('/docs')}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('/docs');
+              }}
             >
               <span>Documentation</span>
-            </button>
+            </a>
           </nav>
 
           {/* Right Actions */}
@@ -144,24 +160,36 @@ export const Navbar: React.FC<NavbarProps> = ({
           />
           <div className="modui-mobile-drawer" role="dialog" aria-modal="true">
             <div className="modui-mobile-nav-links">
-              <button
+              <a
+                href="/"
                 className={`modui-mobile-link ${currentPath === '/' ? 'modui-mobile-link--active' : ''}`}
-                onClick={() => handleNavClick('/')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick('/');
+                }}
               >
                 <span>Overview</span>
-              </button>
-              <button
+              </a>
+              <a
+                href="/components"
                 className={`modui-mobile-link ${currentPath.startsWith('/components') ? 'modui-mobile-link--active' : ''}`}
-                onClick={() => handleNavClick('/components')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick('/components');
+                }}
               >
                 <span>Components</span>
-              </button>
-              <button
+              </a>
+              <a
+                href="/docs"
                 className={`modui-mobile-link ${currentPath === '/docs' ? 'modui-mobile-link--active' : ''}`}
-                onClick={() => handleNavClick('/docs')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick('/docs');
+                }}
               >
                 <span>Documentation</span>
-              </button>
+              </a>
               <button
                 className="modui-mobile-link modui-mobile-search-link"
                 onClick={handleSearchClick}

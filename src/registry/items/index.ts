@@ -19,6 +19,7 @@ import { cardStackItem } from './card-stack';
 import { timelineRoadmapItem } from './timeline-roadmap';
 import { neuralGraphItem } from './neural-graph';
 import { reelTapeDeckItem } from './reel-tape-deck';
+import { storyTimelineItem } from './story-timeline';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -41,4 +42,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   timelineRoadmapItem,
   neuralGraphItem,
   reelTapeDeckItem,
+  storyTimelineItem,
 ];
