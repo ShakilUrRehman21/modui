@@ -1,0 +1,744 @@
+/* ==========================================================================
+   ModUI — Polaroid Gallery Component
+   Tactile, physics-driven Polaroid tabletop gallery & portfolio showcase.
+   Features 3D flip, film development chemistry, and paper acoustics.
+   ========================================================================== */
+
+/* Main Container */
+.modui-polaroid,
+.modui-polaroid-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  border-radius: var(--radius-lg, 10px);
+  border: 1px solid var(--border-default, #E4E1D9);
+  background: var(--bg-surface, #FFFFFF);
+  overflow: hidden;
+  user-select: none;
+  transition: background-color var(--transition-normal, 260ms ease),
+              border-color var(--transition-normal, 260ms ease);
+}
+
+/* ==========================================================================
+   Variants
+   ========================================================================== */
+.modui-polaroid--studio-classic {
+  background: #F8F7F2;
+  border-color: var(--border-default, #E4E1D9);
+}
+
+.modui-polaroid--dark-room {
+  background: #151619;
+  border-color: #27282D;
+  color: #F8F7F2;
+}
+
+.modui-polaroid--vintage-sepia {
+  background: #F4EFE6;
+  border-color: #E2DAC8;
+}
+
+.modui-polaroid--minimal-mono {
+  background: #FAFAFA;
+  border-color: #E5E5E5;
+}
+
+/* ==========================================================================
+   Studio Control Bar / Toolbar
+   ========================================================================== */
+.modui-polaroid-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-subtle, #EFECE5);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10;
+  gap: 12px;
+}
+
+.modui-polaroid--dark-room .modui-polaroid-toolbar {
+  background: rgba(21, 22, 25, 0.85);
+  border-bottom-color: #27282D;
+}
+
+.modui-polaroid-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modui-polaroid-brand__badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs, 4px);
+  background: var(--text-primary, #20201E);
+  color: #FFFFFF;
+}
+
+.modui-polaroid--dark-room .modui-polaroid-brand__badge {
+  background: #365CF5;
+  color: #FFFFFF;
+}
+
+.modui-polaroid-brand__title {
+  font-family: var(--font-display, sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary, #696963);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-brand__title {
+  color: #A3A39C;
+}
+
+.modui-polaroid-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Layout Mode Toggle (Scatter vs Grid) */
+.modui-polaroid-mode-toggle {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: var(--radius-sm, 6px);
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-subtle, #EFECE5);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-mode-toggle {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: #27282D;
+}
+
+.modui-polaroid-toggle-btn {
+  padding: 5px 12px;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #696963);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition-fast, 160ms ease);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-toggle-btn {
+  color: #A3A39C;
+}
+
+.modui-polaroid-toggle-btn:hover {
+  color: var(--text-primary, #20201E);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-toggle-btn:hover {
+  color: #FFFFFF;
+}
+
+.modui-polaroid-toggle-btn--active {
+  background: #FFFFFF;
+  color: var(--text-primary, #20201E);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-toggle-btn--active {
+  background: #27282D;
+  color: #FFFFFF;
+}
+
+/* Toolbar Action Buttons */
+.modui-polaroid-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--radius-sm, 6px);
+  border: 1px solid var(--border-default, #E4E1D9);
+  background: #FFFFFF;
+  color: var(--text-primary, #20201E);
+  cursor: pointer;
+  transition: all var(--transition-fast, 160ms ease);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-action-btn {
+  background: #202125;
+  border-color: #33353B;
+  color: #F8F7F2;
+}
+
+.modui-polaroid-action-btn:hover {
+  border-color: var(--border-strong, #CDC9BE);
+  background: var(--bg-surface-subtle, #F2EFEB);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-action-btn:hover {
+  background: #2A2B31;
+}
+
+.modui-polaroid-action-btn--develop {
+  background: var(--text-primary, #20201E);
+  color: #FFFFFF;
+  border-color: var(--text-primary, #20201E);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-action-btn--develop {
+  background: var(--accent-primary, #365CF5);
+  border-color: var(--accent-primary, #365CF5);
+  color: #FFFFFF;
+}
+
+.modui-polaroid-action-btn--develop:hover {
+  background: #000000;
+  border-color: #000000;
+}
+
+.modui-polaroid--dark-room .modui-polaroid-action-btn--develop:hover {
+  background: #294AD6;
+  border-color: #294AD6;
+}
+
+.modui-polaroid-shutter-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FF5D47;
+  box-shadow: 0 0 6px #FF5D47;
+  animation: polaroidPulse 2s infinite ease-in-out;
+}
+
+@keyframes polaroidPulse {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ==========================================================================
+   Photo Stage (Scatter vs Grid)
+   ========================================================================== */
+.modui-polaroid-stage {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  box-sizing: border-box;
+  padding: 32px 24px;
+  touch-action: none;
+  overflow: hidden;
+}
+
+/* Background Subtle Studio Grid / Mat */
+.modui-polaroid--scatter .modui-polaroid-stage {
+  background-image: 
+    radial-gradient(circle, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.modui-polaroid--dark-room.modui-polaroid--scatter .modui-polaroid-stage {
+  background-image: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+/* Grid Layout Mode */
+.modui-polaroid--grid .modui-polaroid-stage {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 28px;
+  padding: 36px 32px;
+  min-height: auto;
+  align-items: start;
+  justify-items: center;
+}
+
+/* Compact Mode (for component explorer preview cards) */
+.modui-polaroid--compact .modui-polaroid-stage {
+  min-height: 200px;
+  height: 200px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.modui-polaroid--compact .modui-polaroid-card {
+  width: 140px;
+  height: 175px;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 6px 18px -3px rgba(32, 32, 30, 0.12);
+}
+
+.modui-polaroid--compact .modui-polaroid-card:nth-child(2) {
+  transform: rotate(3deg);
+}
+
+.modui-polaroid--compact .modui-polaroid-card:nth-child(1) {
+  transform: rotate(-3deg);
+}
+
+.modui-polaroid--compact .modui-polaroid-card:nth-child(n+3) {
+  display: none;
+}
+
+/* ==========================================================================
+   Polaroid Card & 3D Flipper
+   ========================================================================== */
+.modui-polaroid-card {
+  width: 250px;
+  height: 310px;
+  perspective: 1200px;
+  cursor: grab;
+  outline: none;
+  transition: box-shadow var(--transition-normal, 260ms ease),
+              transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, left, top;
+}
+
+.modui-polaroid-card:focus-visible {
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px var(--accent-primary, #365CF5), 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.modui-polaroid-card.is-dragging {
+  cursor: grabbing !important;
+  transition: none !important;
+}
+
+.modui-polaroid--grid .modui-polaroid-card {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  cursor: pointer;
+}
+
+.modui-polaroid--grid .modui-polaroid-card:hover {
+  transform: translateY(-6px) scale(1.02) !important;
+}
+
+/* Washi Paper Tape Strip */
+.modui-polaroid-washi-tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 72px;
+  height: 22px;
+  border-radius: 1px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+  pointer-events: none;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0.85;
+}
+
+/* 3D Flipper Container */
+.modui-polaroid-flipper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modui-polaroid-card.is-flipped .modui-polaroid-flipper {
+  transform: rotateY(180deg);
+}
+
+/* Common Card Face Styling (Front & Back) */
+.modui-polaroid-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #FFFFFF;
+  border-radius: 4px;
+  box-shadow: 
+    0 12px 32px -4px rgba(32, 32, 30, 0.14),
+    0 3px 8px -1px rgba(32, 32, 30, 0.08),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modui-polaroid-card.is-dragging .modui-polaroid-face {
+  box-shadow: 
+    0 24px 48px -6px rgba(32, 32, 30, 0.22),
+    0 8px 16px -2px rgba(32, 32, 30, 0.12),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.modui-polaroid--vintage-sepia .modui-polaroid-face {
+  background: #FCF8F2;
+}
+
+/* Front Face */
+.modui-polaroid-face--front {
+  padding: 12px 12px 14px 12px;
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.modui-polaroid--compact .modui-polaroid-face--front {
+  padding: 8px 8px 10px 8px;
+}
+
+/* Back Face */
+.modui-polaroid-face--back {
+  padding: 18px 16px;
+  transform: rotateY(180deg);
+  background: #FAF8F5;
+  background-image: 
+    radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+.modui-polaroid--dark-room .modui-polaroid-face--back {
+  background: #24252A;
+  color: #F8F7F2;
+}
+
+/* Flip Icon Button */
+.modui-polaroid-flip-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #20201E;
+  cursor: pointer;
+  z-index: 12;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: all var(--transition-fast, 160ms ease);
+}
+
+.modui-polaroid-card:hover .modui-polaroid-flip-btn,
+.modui-polaroid-card:focus-visible .modui-polaroid-flip-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.modui-polaroid-flip-btn:hover {
+  background: #FFFFFF;
+  color: var(--accent-primary, #365CF5);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   Photo Frame & Chemistry Film Development
+   ========================================================================== */
+.modui-polaroid-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #111215;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.modui-polaroid-card.is-portrait .modui-polaroid-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.modui-polaroid--compact .modui-polaroid-frame {
+  aspect-ratio: 1 / 1;
+}
+
+.modui-polaroid-photo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 1.8s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-polaroid-photo.is-developing {
+  animation: developChemistry 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes developChemistry {
+  0% {
+    filter: blur(12px) contrast(160%) brightness(1.7) grayscale(90%);
+    opacity: 0.2;
+  }
+  35% {
+    filter: blur(6px) contrast(130%) brightness(1.3) grayscale(40%);
+    opacity: 0.6;
+  }
+  75% {
+    filter: blur(2px) contrast(110%) brightness(1.05) grayscale(10%);
+    opacity: 0.9;
+  }
+  100% {
+    filter: blur(0px) contrast(100%) brightness(1) grayscale(0%);
+    opacity: 1;
+  }
+}
+
+.modui-polaroid-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Graphic Placeholder Art (when no image URL is provided) */
+.modui-polaroid-placeholder-art {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.modui-polaroid-art-tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+  margin-bottom: 6px;
+}
+
+.modui-polaroid-art-title {
+  margin: 0;
+  font-family: var(--font-display, sans-serif);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.modui-polaroid--compact .modui-polaroid-art-title {
+  font-size: 11px;
+}
+
+/* Film Vignette & Chemical Fog */
+.modui-polaroid-vignette {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+.modui-polaroid-chemical-fog {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Polaroid Bottom White Margin (Handwritten Caption & Metadata)
+   ========================================================================== */
+.modui-polaroid-caption-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding-top: 10px;
+  box-sizing: border-box;
+}
+
+.modui-polaroid-caption-row {
+  margin-bottom: 6px;
+}
+
+.modui-polaroid-caption-text {
+  font-family: 'Caveat', 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #242529;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.modui-polaroid--compact .modui-polaroid-caption-text {
+  font-size: 11px;
+  -webkit-line-clamp: 1;
+}
+
+.modui-polaroid-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+.modui-polaroid-tag-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-primary, #365CF5);
+}
+
+.modui-polaroid-date-stamp {
+  font-family: var(--font-mono, monospace);
+  font-size: 8.5px;
+  color: var(--text-tertiary, #8E8D86);
+  letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
+   Back Face (Archival Ink Stamp, Specs & Client Notes)
+   ========================================================================== */
+.modui-polaroid-back-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.modui-polaroid-stamp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  padding: 6px 12px;
+  border: 1.5px dashed rgba(180, 50, 50, 0.7);
+  border-radius: 4px;
+  color: rgba(180, 50, 50, 0.85);
+  transform: rotate(-3deg);
+}
+
+.modui-polaroid-stamp__circle {
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.modui-polaroid-stamp__date {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.modui-polaroid-back-specs {
+  margin: 14px 0 10px 0;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 4px;
+  border-left: 2px solid var(--accent-primary, #365CF5);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-back-specs {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.modui-polaroid-spec-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary, #8E8D86);
+  margin-bottom: 2px;
+}
+
+.modui-polaroid-spec-val {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-primary, #20201E);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-spec-val {
+  color: #F8F7F2;
+}
+
+.modui-polaroid-back-note {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.modui-polaroid-back-note p {
+  margin: 0;
+  font-family: 'Caveat', 'Segoe Print', cursive;
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: #4A4A46;
+}
+
+.modui-polaroid--dark-room .modui-polaroid-back-note p {
+  color: #C8C5BD;
+}
+
+.modui-polaroid-back-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  color: var(--text-tertiary, #8E8D86);
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 640px) {
+  .modui-polaroid-stage {
+    min-height: 440px;
+    padding: 16px 12px;
+  }
+
+  .modui-polaroid-card {
+    width: 210px;
+    height: 270px;
+  }
+
+  .modui-polaroid-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 14px;
+  }
+
+  .modui-polaroid-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

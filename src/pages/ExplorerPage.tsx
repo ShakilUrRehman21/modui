@@ -21,6 +21,7 @@ import { TimelineRoadmap } from '../components/ui/timeline';
 import { NeuralGraph } from '../components/ui/neural-graph';
 import { ReelTapeDeck } from '../components/ui/tape-deck';
 import { StoryTimeline } from '../components/ui/story-timeline';
+import { Polaroid } from '../components/ui/polaroid';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -537,6 +538,16 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         compact={true}
                         soundEnabled={false}
                         autoPlay={true}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'polaroid' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Polaroid
+                        compact={true}
+                        soundEnabled={false}
+                        variant="studio-classic"
                       />
                     </div>
                   )}
