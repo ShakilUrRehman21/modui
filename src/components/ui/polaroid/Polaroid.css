@@ -263,19 +263,20 @@
 
 /* Compact Mode (for component explorer preview cards) */
 .modui-polaroid--compact .modui-polaroid-stage {
-  min-height: 200px;
-  height: 200px;
-  padding: 12px;
+  min-height: 165px;
+  height: 165px;
+  padding: 8px;
+  margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
   overflow: hidden;
 }
 
 .modui-polaroid--compact .modui-polaroid-card {
-  width: 140px;
-  height: 175px;
+  width: 120px;
+  height: 155px;
   cursor: pointer;
   flex-shrink: 0;
   box-shadow: 0 6px 18px -3px rgba(32, 32, 30, 0.12);

@@ -841,11 +841,12 @@
 }
 
 .story-timeline-compact .story-phone-frame {
-  width: 130px;
-  height: 205px;
-  border-radius: 18px;
-  padding: 0.5rem 0.55rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  width: 110px;
+  height: 164px;
+  border-radius: 14px;
+  padding: 0.4rem 0.45rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  margin-top: 12px;
 }
 
 .story-timeline-compact .story-progress-strip {

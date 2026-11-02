@@ -199,18 +199,18 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 0.75rem 1rem;
+  padding: 2.25rem 0.75rem 0.75rem 0.75rem;
 }
 
 .modui-card-stage-meta {
   position: absolute;
-  top: 0.75rem;
-  left: 0.85rem;
-  right: 0.85rem;
+  top: 0.65rem;
+  left: 0.75rem;
+  right: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 5;
+  z-index: 30;
   pointer-events: none;
 }
 
@@ -218,13 +218,16 @@
   font-family: var(--font-mono);
   font-size: 0.625rem;
   font-weight: 700;
-  padding: 0.15rem 0.45rem;
+  padding: 0.2rem 0.5rem;
   border-radius: var(--radius-xs);
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: var(--text-secondary);
   border: 1px solid var(--border-default);
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  box-shadow: 0 1px 3px rgba(32, 32, 30, 0.06);
 }
 
 .modui-card-ver-tag {
@@ -232,6 +235,11 @@
   font-size: 0.625rem;
   font-weight: 600;
   color: var(--text-tertiary);
+  background: rgba(255, 255, 255, 0.75);
+  padding: 0.15rem 0.4rem;
+  border-radius: var(--radius-xs);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 /* Card Body Content Below Preview */
