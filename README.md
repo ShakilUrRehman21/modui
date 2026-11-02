@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (22 Primitives)
+## Published Modules (23 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Magnetic Project List** | 3D & Showcase | High-density editorial case study index with velocity-damped 3D cursor-following floating preview card, dynamic tilt physics, deliverable chips, and synthesized Web Audio micro-haptic ticks | `src/components/ui/magnetic-project-list` |
 | **Polaroid Gallery** | 3D & Showcase | Tactile tabletop gallery with organic draggable scatter & toss physics, 3D card flipping between front photo and archival back metadata, authentic chemical film development animation, washi paper tape strips, and synthesized mechanical camera shutter acoustics | `src/components/ui/polaroid` |
 | **Instagram Story Timeline** | 3D & Showcase | Authentic Instagram-style story reel with 9:16 smartphone viewport card, top segmented progress bars, 3D desktop carousel stage, tap navigation, press-to-pause, interactive voting polls, emoji reaction sliders, music visualizer stickers, and flying heart physics | `src/components/ui/story-timeline` |
 | **Studio Reel-to-Reel Tape Deck** | 3D & Showcase | Dual rotating spools with dynamic tape pack thickness physics, twin ballistic galvanometer VU meters, tactile piano-key transport, manual scrub, and synthesized capstan motor hum & solenoid acoustics | `src/components/ui/tape-deck` |

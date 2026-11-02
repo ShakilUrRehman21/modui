@@ -21,6 +21,7 @@ import { neuralGraphItem } from './neural-graph';
 import { reelTapeDeckItem } from './reel-tape-deck';
 import { storyTimelineItem } from './story-timeline';
 import { polaroidItem } from './polaroid';
+import { magneticProjectListItem } from './magnetic-project-list';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -45,4 +46,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   reelTapeDeckItem,
   storyTimelineItem,
   polaroidItem,
+  magneticProjectListItem,
 ];
