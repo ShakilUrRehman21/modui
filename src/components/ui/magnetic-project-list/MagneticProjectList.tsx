@@ -155,9 +155,7 @@ export const MagneticProjectList: React.FC<MagneticProjectListProps> = ({
   style,
   ...rest
 }) => {
-  const [activeProject, setActiveProject] = useState<ProjectItem | null>(
-    compact ? projects[0] || null : null
-  );
+  const [activeProject, setActiveProject] = useState<ProjectItem | null>(null);
   const [cardPos, setCardPos] = useState({ x: 0, y: 0 });
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
@@ -166,7 +164,7 @@ export const MagneticProjectList: React.FC<MagneticProjectListProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const lastMousePos = useRef({ x: 0, y: 0, time: 0 });
 
-  // Mouse Move tracking with velocity tilt
+  // Mouse Move tracking with intelligent boundary clamping & left/right flipping
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
       if (compact) return;
@@ -178,22 +176,35 @@ export const MagneticProjectList: React.FC<MagneticProjectListProps> = ({
 
       lastMousePos.current = { x: e.clientX, y: e.clientY, time: now };
 
-      // Calculate cursor position relative to container
       const containerRect = containerRef.current?.getBoundingClientRect();
       if (!containerRect) return;
 
-      const posX = e.clientX - containerRect.left + 24;
-      const posY = e.clientY - containerRect.top - 80;
+      const cardWidth = 290;
+      const cardHeight = 220;
 
-      setCardPos({ x: posX, y: posY });
+      const relX = e.clientX - containerRect.left;
+      const relY = e.clientY - containerRect.top;
+
+      // Smart flipping: if mouse is on the right 55% of the container, show card to the LEFT
+      const isRightSide = relX > (containerRect.width * 0.52);
+      let targetX = isRightSide ? relX - cardWidth - 20 : relX + 24;
+
+      // Clamp X strictly within container boundaries
+      targetX = Math.max(12, Math.min(containerRect.width - cardWidth - 12, targetX));
+
+      // Clamp Y safely
+      let targetY = relY - (cardHeight * 0.45);
+      targetY = Math.max(10, Math.min(containerRect.height - cardHeight - 10, targetY));
+
+      setCardPos({ x: targetX, y: targetY });
 
       if (enableVelocityTilt) {
-        // Velocity: pixels per millisecond
-        const velX = (dx / dt) * 12;
-        const velY = (dy / dt) * 12;
+        // Calculate velocity-driven 3D tilt
+        const velX = (dx / dt) * 14;
+        const velY = (dy / dt) * 14;
 
-        const targetTiltX = Math.max(-16, Math.min(16, -velY * 1.5));
-        const targetTiltY = Math.max(-16, Math.min(16, velX * 1.5));
+        const targetTiltX = Math.max(-15, Math.min(15, -velY * 1.4));
+        const targetTiltY = Math.max(-15, Math.min(15, velX * 1.4));
 
         setTilt({ x: targetTiltX, y: targetTiltY });
       }
@@ -201,7 +212,7 @@ export const MagneticProjectList: React.FC<MagneticProjectListProps> = ({
     [compact, enableVelocityTilt]
   );
 
-  // Smooth tilt decay back to rest
+  // Smooth tilt relaxation back to 0
   useEffect(() => {
     if (compact || !enableVelocityTilt) return;
 
@@ -271,9 +282,9 @@ export const MagneticProjectList: React.FC<MagneticProjectListProps> = ({
     [handleRowClick, handleRowMouseEnter, projects]
   );
 
-  const displayedProject = useMemo(() => {
-    return activeProject || (compact ? projects[0] : null);
-  }, [activeProject, compact, projects]);
+  const primaryProject = useMemo(() => {
+    return activeProject || projects[0] || null;
+  }, [activeProject, projects]);
 
   return (
     <div
@@ -286,137 +297,161 @@ export const MagneticProjectList: React.FC<MagneticProjectListProps> = ({
       onMouseLeave={handleContainerMouseLeave}
       {...rest}
     >
-      {/* Top Header / Metadata Bar */}
+      {/* ================= STANDARD FULL MODE ================= */}
       {!compact && (
-        <div className="modui-project-list__header">
-          <div className="modui-project-list__brand">
-            <span className="modui-project-list__badge">SELECTED WORK</span>
-            <span className="modui-project-list__count">({projects.length} CASE STUDIES)</span>
+        <>
+          {/* Top Header / Metadata Bar */}
+          <div className="modui-project-list__header">
+            <div className="modui-project-list__brand">
+              <span className="modui-project-list__badge">SELECTED WORK</span>
+              <span className="modui-project-list__count">({projects.length} CASE STUDIES)</span>
+            </div>
+            <div className="modui-project-list__hint">
+              <span>HOVER TO INSPECT</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
           </div>
-          <div className="modui-project-list__hint">
-            <span>HOVER TO INSPECT</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+
+          {/* Main Project Rows */}
+          <div className="modui-project-list__rows" role="list">
+            {projects.map((project, idx) => {
+              const isActive = activeProject?.id === project.id;
+              const isSelected = selectedProjectId === project.id;
+
+              return (
+                <div
+                  key={project.id}
+                  className={`modui-project-row ${isActive ? 'is-active' : ''} ${isSelected ? 'is-selected' : ''}`}
+                  role="listitem"
+                  tabIndex={0}
+                  onMouseEnter={() => handleRowMouseEnter(project)}
+                  onClick={() => handleRowClick(project)}
+                  onKeyDown={(e) => handleKeyDown(e, project, idx)}
+                  aria-label={`Project ${project.index}: ${project.title}, ${project.client}. Press Enter to view case study.`}
+                >
+                  <div className="modui-project-row__left">
+                    <span className="modui-project-row__index">{project.index}</span>
+                    <div className="modui-project-row__title-wrap">
+                      <h3 className="modui-project-row__title">{project.title}</h3>
+                      <span className="modui-project-row__client">{project.client}</span>
+                    </div>
+                  </div>
+
+                  <div className="modui-project-row__right">
+                    <span className="modui-project-row__category">{project.category}</span>
+                    <span className="modui-project-row__year">{project.year}</span>
+                    <span className="modui-project-row__arrow" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="7" y1="17" x2="17" y2="7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
+
+          {/* Floating Cursor-Following Preview Card */}
+          {activeProject && (
+            <div
+              className={`modui-floating-card ${isVisible ? 'is-visible' : ''}`}
+              style={{
+                left: `${cardPos.x}px`,
+                top: `${cardPos.y}px`,
+                transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isVisible ? 1 : 0.88})`,
+              }}
+              aria-hidden="true"
+            >
+              <div
+                className="modui-floating-card__media"
+                style={{
+                  background: activeProject.gradient || 'linear-gradient(135deg, #1e1b4b, #312e81)',
+                }}
+              >
+                {activeProject.imageUrl ? (
+                  <img
+                    src={activeProject.imageUrl}
+                    alt={activeProject.title}
+                    className="modui-floating-card__img"
+                  />
+                ) : (
+                  <div className="modui-floating-card__art-placeholder">
+                    <div className="modui-floating-card__art-chip">{activeProject.category}</div>
+                    <div className="modui-floating-card__art-year">{activeProject.year}</div>
+                  </div>
+                )}
+                <div className="modui-floating-card__glare" />
+              </div>
+
+              <div className="modui-floating-card__content">
+                <div className="modui-floating-card__header">
+                  <span className="modui-floating-card__tag">{activeProject.category}</span>
+                  <span className="modui-floating-card__index">SPECIMEN #{activeProject.index}</span>
+                </div>
+                <h4 className="modui-floating-card__title">{activeProject.title}</h4>
+                <p className="modui-floating-card__desc">{activeProject.description}</p>
+
+                {activeProject.deliverables && (
+                  <div className="modui-floating-card__pills">
+                    {activeProject.deliverables.slice(0, 2).map((deliv, i) => (
+                      <span key={i} className="modui-floating-card__pill">
+                        {deliv}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </>
       )}
 
-      {/* Main Project Rows Table/List */}
-      <div className="modui-project-list__rows" role="list">
-        {projects.slice(0, compact ? 3 : projects.length).map((project, idx) => {
-          const isActive = displayedProject?.id === project.id;
-          const isSelected = selectedProjectId === project.id;
-
-          return (
-            <div
-              key={project.id}
-              className={`modui-project-row ${isActive ? 'is-active' : ''} ${isSelected ? 'is-selected' : ''}`}
-              role="listitem"
-              tabIndex={0}
-              onMouseEnter={() => handleRowMouseEnter(project)}
-              onClick={() => handleRowClick(project)}
-              onKeyDown={(e) => handleKeyDown(e, project, idx)}
-              aria-label={`Project ${project.index}: ${project.title}, ${project.client}. Press Enter to view case study.`}
-            >
-              {/* Left Column: Number & Title */}
-              <div className="modui-project-row__left">
-                <span className="modui-project-row__index">{project.index}</span>
-                <div className="modui-project-row__title-wrap">
-                  <h3 className="modui-project-row__title">{project.title}</h3>
-                  <span className="modui-project-row__client">{project.client}</span>
-                </div>
-              </div>
-
-              {/* Right Column: Category & Year */}
-              <div className="modui-project-row__right">
-                <span className="modui-project-row__category">{project.category}</span>
-                <span className="modui-project-row__year">{project.year}</span>
-                <span className="modui-project-row__arrow" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7" />
-                    <polyline points="7 7 17 7 17 17" />
-                  </svg>
-                </span>
-              </div>
+      {/* ================= COMPACT EXPLORER CARD MODE =================
+          Tailored specifically for the 230px catalog card on /components
+          Displays the signature 3D floating preview card proudly in the center! */}
+      {compact && primaryProject && (
+        <div className="modui-compact-stage" aria-hidden="true">
+          {/* Subtle Background Rows */}
+          <div className="modui-compact-bg-rows">
+            <div className="modui-compact-bg-row">
+              <span className="modui-compact-bg-idx">01</span>
+              <span className="modui-compact-bg-title">Aether Sound Core</span>
+              <span className="modui-compact-bg-tag">2026</span>
             </div>
-          );
-        })}
-      </div>
-
-      {/* Floating Cursor-Following Preview Card (Standard Mode) */}
-      {!compact && displayedProject && (
-        <div
-          className={`modui-floating-card ${isVisible ? 'is-visible' : ''}`}
-          style={{
-            left: `${cardPos.x}px`,
-            top: `${cardPos.y}px`,
-            transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isVisible ? 1 : 0.88})`,
-          }}
-          aria-hidden="true"
-        >
-          {/* Card Artwork / Gradient Canvas */}
-          <div
-            className="modui-floating-card__media"
-            style={{
-              background: displayedProject.gradient || 'linear-gradient(135deg, #1e1b4b, #312e81)',
-            }}
-          >
-            {displayedProject.imageUrl ? (
-              <img
-                src={displayedProject.imageUrl}
-                alt={displayedProject.title}
-                className="modui-floating-card__img"
-              />
-            ) : (
-              <div className="modui-floating-card__art-placeholder">
-                <div className="modui-floating-card__art-chip">{displayedProject.category}</div>
-                <div className="modui-floating-card__art-year">{displayedProject.year}</div>
-              </div>
-            )}
-
-            {/* Specular Glare Reflection Overlay */}
-            <div className="modui-floating-card__glare" />
+            <div className="modui-compact-bg-row modui-compact-bg-row--dim">
+              <span className="modui-compact-bg-idx">02</span>
+              <span className="modui-compact-bg-title">Chronos Spatial Watch</span>
+              <span className="modui-compact-bg-tag">2026</span>
+            </div>
           </div>
 
-          {/* Card Bottom Meta Bar */}
-          <div className="modui-floating-card__content">
-            <div className="modui-floating-card__header">
-              <span className="modui-floating-card__tag">
-                {displayedProject.category}
-              </span>
-              <span className="modui-floating-card__index">
-                SPECIMEN #{displayedProject.index}
-              </span>
+          {/* Elevated Signature Floating Specimen Card */}
+          <div className="modui-compact-floating-card">
+            <div
+              className="modui-compact-card-media"
+              style={{
+                background: primaryProject.gradient || 'linear-gradient(135deg, #1e1b4b, #312e81)',
+              }}
+            >
+              <div className="modui-compact-card-top">
+                <span className="modui-compact-card-chip">{primaryProject.category}</span>
+                <span className="modui-compact-card-spec">#{primaryProject.index}</span>
+              </div>
+              <div className="modui-compact-card-title">{primaryProject.title}</div>
+              <div className="modui-floating-card__glare" />
             </div>
-            <h4 className="modui-floating-card__title">{displayedProject.title}</h4>
-            <p className="modui-floating-card__desc">{displayedProject.description}</p>
 
-            {/* Deliverable Micro-Pills */}
-            {displayedProject.deliverables && (
-              <div className="modui-floating-card__pills">
-                {displayedProject.deliverables.slice(0, 2).map((deliv, i) => (
-                  <span key={i} className="modui-floating-card__pill">
-                    {deliv}
-                  </span>
+            <div className="modui-compact-card-bottom">
+              <div className="modui-compact-card-client">{primaryProject.client}</div>
+              <div className="modui-compact-card-pills">
+                {primaryProject.deliverables?.slice(0, 2).map((d, i) => (
+                  <span key={i} className="modui-compact-card-pill">{d}</span>
                 ))}
               </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Pinned Card Preview for Compact Mode (Catalog Explorer Card on /components) */}
-      {compact && displayedProject && (
-        <div className="modui-compact-preview-card" aria-hidden="true">
-          <div
-            className="modui-compact-preview-card__art"
-            style={{
-              background: displayedProject.gradient || 'linear-gradient(135deg, #1e1b4b, #312e81)',
-            }}
-          >
-            <div className="modui-compact-preview-card__badge">{displayedProject.category}</div>
-            <span className="modui-compact-preview-card__title">{displayedProject.title}</span>
+            </div>
           </div>
         </div>
       )}

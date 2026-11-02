@@ -101,3 +101,4 @@ export function PortfolioWorkSection() {
     'Full keyboard accessibility (ArrowDown, ArrowUp, Enter, Space) and ARIA roles',
   ],
 };
+

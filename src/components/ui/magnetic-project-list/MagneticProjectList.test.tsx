@@ -130,7 +130,8 @@ describe('MagneticProjectList Component', () => {
     expect(root).toHaveClass('modui-project-list--compact');
     expect(screen.queryByText('SELECTED WORK')).not.toBeInTheDocument();
 
-    const compactPreviewCard = container.querySelector('.modui-compact-preview-card');
+    const compactPreviewCard = container.querySelector('.modui-compact-floating-card');
     expect(compactPreviewCard).toBeInTheDocument();
   });
 });
+
