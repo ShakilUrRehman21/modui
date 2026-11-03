@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import React from 'react';
 import { InfiniteCanvasGallery, DEFAULT_CANVAS_ITEMS } from './InfiniteCanvasGallery';
 
@@ -102,4 +102,81 @@ describe('InfiniteCanvasGallery Component', () => {
     rerender(<InfiniteCanvasGallery variant="editorial-paper" />);
     expect(container.querySelector('.modui-infinite-gallery--editorial-paper')).toBeDefined();
   });
+
+  it('opens inspected image lightbox modal when inspect button is clicked', () => {
+    const handleInspect = vi.fn();
+    render(<InfiniteCanvasGallery onInspectItem={handleInspect} />);
+
+    // Click on Inspect hint for the first item
+    const inspectBtn = screen.getByRole('button', { name: /inspect kroma optical caustics/i });
+    expect(inspectBtn).toBeDefined();
+    fireEvent.click(inspectBtn);
+
+    // Modal dialog should be rendered
+    const modal = screen.getByRole('dialog', { name: /inspected image: kroma optical caustics/i });
+    expect(modal).toBeDefined();
+    expect(handleInspect).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Kroma Optical Caustics',
+      })
+    );
+
+    // Check inspected image is present within dialog
+    const inspectedImg = within(modal).getByRole('img');
+    expect(inspectedImg).toBeDefined();
+    expect(inspectedImg.getAttribute('alt')).toBe('Kroma Optical Caustics');
+  });
+
+  it('navigates next and previous items inside the inspected modal', () => {
+    render(<InfiniteCanvasGallery />);
+
+    // Open first item
+    const inspectBtn = screen.getByRole('button', { name: /inspect kroma optical caustics/i });
+    fireEvent.click(inspectBtn);
+
+    const modal = screen.getByRole('dialog');
+
+    // Click Next Image button
+    const nextBtn = within(modal).getByRole('button', { name: /next image/i });
+    fireEvent.click(nextBtn);
+
+    // Should now display second item (Aether Spatial Studio) inside dialog
+    const nextImg = within(screen.getByRole('dialog')).getByRole('img');
+    expect(nextImg.getAttribute('alt')).toBe('Aether Spatial Studio');
+
+    // Click Prev Image button
+    const prevBtn = within(modal).getByRole('button', { name: /previous image/i });
+    fireEvent.click(prevBtn);
+
+    // Should return to first item
+    const prevImg = within(screen.getByRole('dialog')).getByRole('img');
+    expect(prevImg.getAttribute('alt')).toBe('Kroma Optical Caustics');
+  });
+
+  it('closes inspected image modal when close button is clicked or Escape is pressed', () => {
+    const handleInspect = vi.fn();
+    const { container } = render(<InfiniteCanvasGallery onInspectItem={handleInspect} />);
+
+    // Open first item
+    const inspectBtn = screen.getByRole('button', { name: /inspect kroma optical caustics/i });
+    fireEvent.click(inspectBtn);
+    expect(screen.getByRole('dialog')).toBeDefined();
+
+    // Click close button
+    const closeBtn = screen.getByRole('button', { name: /close image inspection/i });
+    fireEvent.click(closeBtn);
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(handleInspect).toHaveBeenLastCalledWith(null);
+
+    // Open again and test Escape key
+    fireEvent.click(inspectBtn);
+    expect(screen.getByRole('dialog')).toBeDefined();
+
+    const galleryEl = container.querySelector('.modui-infinite-gallery');
+    if (galleryEl) {
+      fireEvent.keyDown(galleryEl, { key: 'Escape' });
+      expect(screen.queryByRole('dialog')).toBeNull();
+    }
+  });
 });
+

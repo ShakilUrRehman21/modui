@@ -5,3 +5,4 @@ export type {
   CanvasGalleryItem,
   CanvasGalleryVariant,
 } from './InfiniteCanvasGallery';
+

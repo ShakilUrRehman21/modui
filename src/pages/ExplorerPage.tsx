@@ -128,7 +128,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                 }}
               >
                 {/* 1. Hero Live Component Preview Canvas */}
-                <div className="modui-card-preview-stage" onClick={(e) => e.stopPropagation()}>
+                <div className="modui-card-preview-stage">
                   <div className="modui-card-stage-meta">
                     <span className="modui-card-cat-badge">{comp.category}</span>
                     <span className="modui-card-ver-tag">v{comp.version}</span>

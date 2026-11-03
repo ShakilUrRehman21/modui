@@ -96,6 +96,16 @@ export function CreativeSpatialShowcase() {
       description: 'Callback fired when a gallery item card is clicked.',
     },
     {
+      name: 'inspectedItem',
+      type: 'CanvasGalleryItem | null',
+      description: 'Active inspected gallery item opened in the high-resolution lightbox modal (controlled mode).',
+    },
+    {
+      name: 'onInspectItem',
+      type: '(item: CanvasGalleryItem | null) => void',
+      description: 'Callback fired when an item is inspected or dismissed from the lightbox modal.',
+    },
+    {
       name: 'onItemHover',
       type: '(item: CanvasGalleryItem | null) => void',
       description: 'Callback fired when hovered card changes or resets on mouse leave.',
@@ -124,3 +134,4 @@ export function CreativeSpatialShowcase() {
     'Compact explorer mode with miniature cards calibrated specifically for catalog cards',
   ],
 };
+

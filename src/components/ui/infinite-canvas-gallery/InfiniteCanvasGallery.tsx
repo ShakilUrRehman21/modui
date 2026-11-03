@@ -39,6 +39,10 @@ export interface InfiniteCanvasGalleryProps extends Omit<React.HTMLAttributes<HT
   onItemHover?: (item: CanvasGalleryItem | null) => void;
   /** Callback fired on pan or velocity update */
   onPositionChange?: (pos: { x: number; y: number; speed: number }) => void;
+  /** Active inspected gallery item (controlled mode) */
+  inspectedItem?: CanvasGalleryItem | null;
+  /** Callback fired when an item is inspected or dismissed */
+  onInspectItem?: (item: CanvasGalleryItem | null) => void;
 }
 
 export const DEFAULT_CANVAS_ITEMS: CanvasGalleryItem[] = [
@@ -185,6 +189,8 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
   soundEnabled = true,
   compact = false,
   initialPosition,
+  inspectedItem: controlledInspectedItem,
+  onInspectItem,
   onItemClick,
   onItemHover,
   onPositionChange,
@@ -200,6 +206,11 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [activeItem, setActiveItem] = useState<CanvasGalleryItem | null>(null);
 
+  // Inspected Item Lightbox State
+  const [internalInspectedItem, setInternalInspectedItem] = useState<CanvasGalleryItem | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const inspected = controlledInspectedItem !== undefined ? controlledInspectedItem : internalInspectedItem;
+
   // Drag tracking refs
   const dragRef = useRef({
     startX: 0,
@@ -208,6 +219,7 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
     lastY: 0,
     lastTime: 0,
     isPointerDown: false,
+    hasDragged: false,
   });
 
   // Grid dimensions
@@ -296,7 +308,16 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
   }, [friction, velocity, onPositionChange]);
 
   // Pointer Down
+  // Pointer Down (Drag Start Candidate)
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (inspected) return; // Prevent canvas dragging while inspected image modal is active
+
+    // Bypass canvas drag tracking if user clicked on action buttons or inspect hints
+    const target = e.target as HTMLElement;
+    if (target.closest('.modui-card-inspect-hint') || target.closest('button')) {
+      return;
+    }
+
     dragRef.current = {
       startX: e.clientX,
       startY: e.clientY,
@@ -304,27 +325,36 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
       lastY: e.clientY,
       lastTime: performance.now(),
       isPointerDown: true,
+      hasDragged: false,
     };
-    setIsDragging(true);
     setVelocity({ x: 0, y: 0 });
-
-    if (viewportRef.current) {
-      try {
-        viewportRef.current.setPointerCapture(e.pointerId);
-      } catch {
-        // Pointer capture may fail on certain browsers
-      }
-    }
-  }, []);
+  }, [inspected]);
 
   // Pointer Move
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!dragRef.current.isPointerDown) return;
 
-    const now = performance.now();
-    const dt = Math.max(1, now - dragRef.current.lastTime);
     const dx = e.clientX - dragRef.current.lastX;
     const dy = e.clientY - dragRef.current.lastY;
+    const totalDist = Math.hypot(e.clientX - dragRef.current.startX, e.clientY - dragRef.current.startY);
+
+    // Enforce 4px drag deadzone so mouse clicks do not inadvertently trigger panning
+    if (!dragRef.current.hasDragged) {
+      if (totalDist < 4) return;
+      dragRef.current.hasDragged = true;
+      setIsDragging(true);
+
+      if (viewportRef.current) {
+        try {
+          viewportRef.current.setPointerCapture(e.pointerId);
+        } catch {
+          // Pointer capture may fail on certain browsers
+        }
+      }
+    }
+
+    const now = performance.now();
+    const dt = Math.max(1, now - dragRef.current.lastTime);
 
     setPan((prev) => ({
       x: prev.x + dx,
@@ -345,6 +375,7 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
   const handlePointerUp = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       if (dragRef.current.isPointerDown) {
+        const wasDragged = dragRef.current.hasDragged;
         dragRef.current.isPointerDown = false;
         setIsDragging(false);
 
@@ -356,7 +387,7 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
           }
         }
 
-        if (Math.hypot(velocity.x, velocity.y) > 6) {
+        if (wasDragged && Math.hypot(velocity.x, velocity.y) > 6) {
           playTickSound(900, 0.03);
         }
       }
@@ -364,9 +395,79 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
     [velocity, playTickSound]
   );
 
-  // Keyboard Navigation
+  // Inspect Modal Open / Close Handlers
+  const handleInspect = useCallback(
+    (item: CanvasGalleryItem) => {
+      if (compact) return; // Do not open modal in compact preview mode
+      setInternalInspectedItem(item);
+      if (onInspectItem) onInspectItem(item);
+      playTickSound(1800, 0.04);
+    },
+    [compact, onInspectItem, playTickSound]
+  );
+
+  const handleCloseInspect = useCallback(() => {
+    setInternalInspectedItem(null);
+    setIsFullscreen(false);
+    if (onInspectItem) onInspectItem(null);
+    playTickSound(900, 0.03);
+  }, [onInspectItem, playTickSound]);
+
+  const currentIndex = inspected ? items.findIndex((it) => it.id === inspected.id) : -1;
+
+  const handlePrevInspect = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      if (!inspected || items.length === 0) return;
+      const prevIdx = (currentIndex - 1 + items.length) % items.length;
+      const nextItem = items[prevIdx];
+      setInternalInspectedItem(nextItem);
+      if (onInspectItem) onInspectItem(nextItem);
+      playTickSound(1400, 0.02);
+    },
+    [inspected, items, currentIndex, onInspectItem, playTickSound]
+  );
+
+  const handleNextInspect = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      if (!inspected || items.length === 0) return;
+      const nextIdx = (currentIndex + 1) % items.length;
+      const nextItem = items[nextIdx];
+      setInternalInspectedItem(nextItem);
+      if (onInspectItem) onInspectItem(nextItem);
+      playTickSound(1400, 0.02);
+    },
+    [inspected, items, currentIndex, onInspectItem, playTickSound]
+  );
+
+  // Keyboard Navigation (Arrow Keys + Home + Escape/Arrows for Inspector)
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (inspected) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          handleCloseInspect();
+          return;
+        }
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          handlePrevInspect();
+          return;
+        }
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          handleNextInspect();
+          return;
+        }
+        if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          setIsFullscreen((prev) => !prev);
+          return;
+        }
+        return;
+      }
+
       const step = e.shiftKey ? 80 : 35;
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
@@ -395,7 +496,7 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
         playTickSound(800, 0.03);
       }
     },
-    [playTickSound]
+    [inspected, handleCloseInspect, handlePrevInspect, handleNextInspect, playTickSound]
   );
 
   // Center Origin Handler
@@ -428,14 +529,16 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
     if (onItemHover) onItemHover(null);
   }, [onItemHover]);
 
-  // Card Click
+  // Card Click: Open Inspected High-Res Lightbox Modal
   const handleCardClick = useCallback(
     (e: React.MouseEvent, item: CanvasGalleryItem) => {
       e.stopPropagation();
+      if (dragRef.current.hasDragged) return;
       playTickSound(1600, 0.025);
       if (onItemClick) onItemClick(item);
+      handleInspect(item);
     },
-    [playTickSound, onItemClick]
+    [playTickSound, onItemClick, handleInspect]
   );
 
   // Render cards computed positions
@@ -510,11 +613,26 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
               onMouseEnter={() => handleCardMouseEnter(item)}
               onMouseLeave={handleCardMouseLeave}
               onClick={(e) => handleCardClick(e, item)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleInspect(item);
+                }
+              }}
               role="button"
               tabIndex={0}
               aria-label={`${item.title} - ${item.category}`}
             >
-              <div className="modui-card-media-wrap">
+              <div
+                className="modui-card-media-wrap"
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleInspect(item);
+                }}
+              >
                 <img
                   src={item.imageUrl}
                   alt={item.title}
@@ -530,7 +648,29 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
                 <div className="modui-card-title-label">{item.title}</div>
                 <div className="modui-card-meta-row">
                   <span className="modui-card-index-spec">#{item.index}</span>
-                  <span className="modui-card-inspect-hint">Inspect →</span>
+                  <span
+                    className="modui-card-inspect-hint"
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Inspect ${item.title}`}
+                    onPointerDown={(e) => {
+                      e.stopPropagation();
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      handleInspect(item);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleInspect(item);
+                      }
+                    }}
+                  >
+                    Inspect →
+                  </span>
                 </div>
               </div>
             </div>
@@ -617,6 +757,122 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
           </div>
           <div className="modui-compact-action-hint">
             <span>Drag to Pan</span>
+          </div>
+        </div>
+      )}
+
+      {/* ================= INSPECTED IMAGE LIGHTBOX MODAL ================= */}
+      {inspected && (
+        <div
+          className={`modui-gallery-inspector-modal ${isFullscreen ? 'modui-gallery-inspector-modal--fullscreen' : ''}`}
+          onClick={handleCloseInspect}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Inspected Image: ${inspected.title}`}
+        >
+          <div
+            className="modui-gallery-inspector-dialog"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header HUD */}
+            <div className="modui-inspector-header">
+              <div className="modui-inspector-header-left">
+                <span className="modui-inspector-index">#{inspected.index}</span>
+                <span className="modui-inspector-cat-pill">{inspected.category}</span>
+                <span className="modui-inspector-tag-badge">{inspected.tag}</span>
+              </div>
+              <div className="modui-inspector-header-actions">
+                <button
+                  type="button"
+                  className="modui-inspector-action-btn"
+                  onClick={() => setIsFullscreen((prev) => !prev)}
+                  title={isFullscreen ? 'Exit Fullscreen (F)' : 'Fullscreen View (F)'}
+                  aria-label={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen View'}
+                >
+                  {isFullscreen ? (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="4 14 10 14 10 20" />
+                      <polyline points="20 10 14 10 14 4" />
+                      <line x1="14" y1="10" x2="21" y2="3" />
+                      <line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                  ) : (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="15 3 21 3 21 9" />
+                      <polyline points="9 21 3 21 3 15" />
+                      <line x1="21" y1="3" x2="14" y2="10" />
+                      <line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  className="modui-inspector-action-btn modui-inspector-close-btn"
+                  onClick={handleCloseInspect}
+                  title="Close Inspector (Esc)"
+                  aria-label="Close image inspection"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Image Viewport */}
+            <div className="modui-inspector-media-stage">
+              <button
+                type="button"
+                className="modui-inspector-nav-btn modui-inspector-nav-btn--prev"
+                onClick={handlePrevInspect}
+                title="Previous Image (←)"
+                aria-label="Previous Image"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+
+              <img
+                src={inspected.imageUrl}
+                alt={inspected.title}
+                className="modui-inspector-img"
+              />
+
+              <button
+                type="button"
+                className="modui-inspector-nav-btn modui-inspector-nav-btn--next"
+                onClick={handleNextInspect}
+                title="Next Image (→)"
+                aria-label="Next Image"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Modal Footer Info */}
+            <div className="modui-inspector-footer">
+              <div className="modui-inspector-footer-main">
+                <div className="modui-inspector-title-row">
+                  <h3 className="modui-inspector-title">{inspected.title}</h3>
+                  <span className="modui-inspector-year-pill">{inspected.year}</span>
+                </div>
+                {inspected.description && (
+                  <p className="modui-inspector-desc">{inspected.description}</p>
+                )}
+              </div>
+              <div className="modui-inspector-footer-meta">
+                <span className="modui-inspector-counter">
+                  {currentIndex + 1} / {items.length}
+                </span>
+                <span className="modui-inspector-keys-hint">
+                  ← / → to navigate · Esc to close
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       )}
