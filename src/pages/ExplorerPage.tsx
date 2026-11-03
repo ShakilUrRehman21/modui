@@ -23,6 +23,7 @@ import { ReelTapeDeck } from '../components/ui/tape-deck';
 import { StoryTimeline } from '../components/ui/story-timeline';
 import { Polaroid } from '../components/ui/polaroid';
 import { MagneticProjectList } from '../components/ui/magnetic-project-list';
+import { InfiniteCanvasGallery } from '../components/ui/infinite-canvas-gallery';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -553,6 +554,16 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                     </div>
                   )}
 
+{comp.slug === 'infinite-canvas-gallery' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px' }}>
+                      <InfiniteCanvasGallery
+                        compact={true}
+                        soundEnabled={false}
+                        variant="studio-light"
+                      />
+                    </div>
+                  )}
+
                   {comp.slug === 'magnetic-project-list' && (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px' }}>
                       <MagneticProjectList
@@ -583,6 +594,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       style={{ color: 'inherit', textDecoration: 'none' }}
                       onClick={(e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         onNavigate(`/components/${comp.slug}`);
                       }}
                     >

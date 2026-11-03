@@ -22,6 +22,7 @@ import { reelTapeDeckItem } from './reel-tape-deck';
 import { storyTimelineItem } from './story-timeline';
 import { polaroidItem } from './polaroid';
 import { magneticProjectListItem } from './magnetic-project-list';
+import { infiniteCanvasGalleryItem } from './infinite-canvas-gallery';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -47,4 +48,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   storyTimelineItem,
   polaroidItem,
   magneticProjectListItem,
+  infiniteCanvasGalleryItem,
 ];

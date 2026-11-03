@@ -446,6 +446,10 @@
   justify-content: center;
   overflow: hidden;
   border-radius: 8px;
+  perspective: 700px;
+  transform-style: preserve-3d;
+  isolation: isolate;
+  pointer-events: none;
 }
 
 /* Background Rows (Subtle Context) */
@@ -506,15 +510,18 @@
     0 18px 36px -6px rgba(32, 32, 30, 0.22),
     0 4px 12px -2px rgba(32, 32, 30, 0.12),
     inset 0 0 0 1px rgba(0, 0, 0, 0.06);
-  transform: perspective(700px) rotateX(-2deg) rotateY(3deg) translateY(-2px);
+  transform: rotateX(-2deg) rotateY(3deg) translateY(-2px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform, box-shadow;
   transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
-  cursor: pointer;
 }
 
+.modui-featured-card:hover .modui-compact-floating-card,
 .modui-project-list--compact:hover .modui-compact-floating-card {
-  transform: perspective(700px) rotateX(0deg) rotateY(0deg) translateY(-6px) scale(1.03);
+  transform: rotateX(0deg) rotateY(0deg) translateY(-5px) scale(1.02);
   box-shadow: 
     0 24px 44px -6px rgba(32, 32, 30, 0.28),
     0 8px 16px -2px rgba(32, 32, 30, 0.16),

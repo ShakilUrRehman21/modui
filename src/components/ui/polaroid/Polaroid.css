@@ -272,6 +272,8 @@
   justify-content: center;
   gap: 14px;
   overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
 }
 
 .modui-polaroid--compact .modui-polaroid-card {
