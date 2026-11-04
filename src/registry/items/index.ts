@@ -23,6 +23,7 @@ import { storyTimelineItem } from './story-timeline';
 import { polaroidItem } from './polaroid';
 import { magneticProjectListItem } from './magnetic-project-list';
 import { infiniteCanvasGalleryItem } from './infinite-canvas-gallery';
+import { spatialGalleryItem } from './spatial-gallery';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -49,4 +50,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   polaroidItem,
   magneticProjectListItem,
   infiniteCanvasGalleryItem,
+  spatialGalleryItem,
 ];

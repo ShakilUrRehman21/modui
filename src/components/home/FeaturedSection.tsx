@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { COMPONENT_REGISTRY } from '../../registry/components';
-import { NeuralClothMesh } from '../ui/cloth';
-import { FluidElasticAccordion } from '../ui/accordion';
-import { RotaryJogWheel } from '../ui/rotary';
+import { InfiniteCanvasGallery } from '../ui/infinite-canvas-gallery';
+import { MagneticProjectList } from '../ui/magnetic-project-list';
+import { SpatialGallery } from '../ui/spatial-gallery';
 import { trackPreviewOpen, trackCopyCode } from '../../lib/analytics';
 import './FeaturedSection.css';
 
@@ -12,9 +12,9 @@ interface FeaturedSectionProps {
 
 // Strictly showcase 3 flagship primitives on the Home Page
 const FEATURED_SLUGS = [
-  'neural-cloth-mesh',
-  'rotary-jog-wheel',
-  'fluid-elastic-accordion',
+  'infinite-canvas-gallery',
+  'magnetic-project-list',
+  'spatial-gallery',
 ];
 
 export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) => {
@@ -89,77 +89,38 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                     <span className="modui-card-ver-badge">v{comp.version}</span>
                   </div>
 
-                  {/* NeuralClothMesh Live Stage */}
-                  {comp.slug === 'neural-cloth-mesh' && (
-                    <div style={{ width: '100%', height: '100%', minHeight: '190px', borderRadius: '8px', overflow: 'hidden', position: 'relative' }}>
-                      <NeuralClothMesh
-                        variant="studio-silk"
-                        renderMode="wireframe"
-                        pinMode="curtain"
-                        windStrength={0}
-                        gravity={0.10}
+                  {/* InfiniteCanvasGallery Live Stage */}
+                  {comp.slug === 'infinite-canvas-gallery' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px' }}>
+                      <InfiniteCanvasGallery
                         compact={true}
                         soundEnabled={false}
-                        style={{ width: '100%', height: '100%', minHeight: '190px' }}
-                      >
-                        <div
-                          style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            padding: '0.35rem 0.75rem',
-                            background: 'rgba(255,255,255,0.92)',
-                            backdropFilter: 'blur(8px)',
-                            border: '1px solid rgba(0,0,0,0.08)',
-                            borderRadius: '999px',
-                            fontSize: '0.68rem',
-                            fontWeight: 600,
-                            letterSpacing: '0.08em',
-                            color: '#1a1a1a',
-                            boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
-                            pointerEvents: 'none',
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          VERLET // WIREFRAME
-                        </div>
-                      </NeuralClothMesh>
-                    </div>
-                  )}
-
-                  {/* RotaryJogWheel Live Stage */}
-                  {comp.slug === 'rotary-jog-wheel' && (
-                    <div className="modui-stage-center" style={{ padding: '0.75rem 1rem' }}>
-                      <RotaryJogWheel
-                        size="sm"
-                        defaultValue={64}
-                        min={0}
-                        max={100}
-                        variant="metallic"
-                        mode="bounded"
-                        soundEnabled={false}
-                        sublabel="LEVEL"
+                        variant="studio-light"
                       />
                     </div>
                   )}
 
-                  {/* FluidElasticAccordion Live Stage */}
-                  {comp.slug === 'fluid-elastic-accordion' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', padding: '0.75rem 1rem' }}>
-                      <FluidElasticAccordion
-                        items={[
-                          { id: '1', number: '01', title: 'Spatial', subtitle: 'WebGL 3D', color: '#365CF5', tag: 'Core' },
-                          { id: '2', number: '02', title: 'Rotary', subtitle: 'Haptics', color: '#FF735E', tag: 'Audio' },
-                          { id: '3', number: '03', title: 'Physics', subtitle: 'Spring Mesh', color: '#10B981', tag: 'Motion' },
-                        ]}
-                        defaultActiveId="1"
-                        orientation="horizontal"
-                        variant="light"
-                        trigger="hover"
+                  {/* MagneticProjectList Live Stage */}
+                  {comp.slug === 'magnetic-project-list' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px' }}>
+                      <MagneticProjectList
+                        compact={true}
                         soundEnabled={false}
-                        expandedRatio={2.5}
-                        style={{ height: '160px', minHeight: '160px', width: '100%', borderRadius: '6px' }}
+                        variant="studio-light"
+                      />
+                    </div>
+                  )}
+
+                  {/* SpatialGallery Live Stage */}
+                  {comp.slug === 'spatial-gallery' && (
+                    <div style={{ width: '100%', height: '100%', minHeight: '190px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <SpatialGallery
+                        compact={true}
+                        soundEnabled={false}
+                        variant="studio-light"
+                        autoPlay={true}
+                        autoPlayInterval={3200}
+                        showReflection={true}
                       />
                     </div>
                   )}

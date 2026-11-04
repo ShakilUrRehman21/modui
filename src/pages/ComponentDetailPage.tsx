@@ -44,6 +44,8 @@ import type { ProjectListVariant } from '../components/ui/magnetic-project-list'
 import { InfiniteCanvasGallery } from '../components/ui/infinite-canvas-gallery';
 import type { CanvasGalleryVariant } from '../components/ui/infinite-canvas-gallery';
 import { COMPONENT_REGISTRY } from '../registry/components';
+import { SpatialGallery } from '../components/ui/spatial-gallery';
+import type { SpatialGalleryVariant } from '../components/ui/spatial-gallery';
 import { trackCopyCode, trackGithubClick, trackPreviewOpen } from '../lib/analytics';
 import './ComponentDetailPage.css';
 
@@ -242,6 +244,15 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [polaroidDraggable, setPolaroidDraggable] = useState<boolean>(true);
   const [polaroidSound, setPolaroidSound] = useState<boolean>(true);
   const [polaroidActiveTitle, setPolaroidActiveTitle] = useState<string>('Zurich Haptics Lab');
+
+  // Playground state for SpatialGallery
+  const [spatialVariant, setSpatialVariant] = useState<SpatialGalleryVariant>('studio-light');
+  const [spatialReflection, setSpatialReflection] = useState<boolean>(true);
+  const [spatialControls, setSpatialControls] = useState<boolean>(true);
+  const [spatialHUD, setSpatialHUD] = useState<boolean>(true);
+  const [spatialSound, setSpatialSound] = useState<boolean>(true);
+  const [spatialAutoPlay, setSpatialAutoPlay] = useState<boolean>(false);
+  const [spatialActiveTitle, setSpatialActiveTitle] = useState<string>('Aura Chromatica');
 
   // File viewer state inside Code tab
   const [selectedFile, setSelectedFile] = useState<'tsx' | 'css' | 'usage'>('tsx');
@@ -1003,6 +1014,28 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                   Active Story: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{storyActiveTitle}</span>
                   <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
                     Tap right half to advance, tap left half to go back. Press and hold to pause (just like Instagram). Vote in polls and tap ❤️ to send flying hearts!
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Stage for SpatialGallery */}
+            {slug === 'spatial-gallery' && (
+              <div style={{ width: '100%', maxWidth: '960px', margin: '0 auto', padding: '1rem 0', display: 'flex', flexDirection: 'column' }}>
+                <SpatialGallery
+                  variant={spatialVariant}
+                  showReflection={spatialReflection}
+                  showControls={spatialControls}
+                  showHUD={spatialHUD}
+                  soundEnabled={spatialSound}
+                  autoPlay={spatialAutoPlay}
+                  onSelect={(item) => setSpatialActiveTitle(item.title)}
+                  onItemClick={(item) => setSpatialActiveTitle(`${item.title} (Inspected)`)}
+                />
+                <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                  Active Spatial Node: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{spatialActiveTitle}</span>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                    Drag horizontally or wheel scrub to orbit the 3D cylindrical ribbon. Click the active card or press Enter to inspect in high-resolution lightbox modal.
                   </div>
                 </div>
               </div>
@@ -2307,6 +2340,77 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                       onChange={(e) => setStorySound(e.target.checked)}
                     />
                     <span>Web Audio Taps, Voting Pops & Heart Chimes</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Playground Controls for SpatialGallery */}
+          {slug === 'spatial-gallery' && (
+            <div className="modui-controls-panel">
+              <div className="modui-control-group">
+                <label className="modui-control-label">Aesthetic Finish</label>
+                <select
+                  className="modui-control-select"
+                  value={spatialVariant}
+                  onChange={(e) => setSpatialVariant(e.target.value as SpatialGalleryVariant)}
+                >
+                  <option value="studio-dark">Studio Dark (Titanium Alloy)</option>
+                  <option value="studio-light">Studio Light (Gallery Porcelain)</option>
+                  <option value="minimal-mono">Minimal Mono (Brutalist Contrast)</option>
+                  <option value="cyber-cyan">Cyber Cyan (Neon Telemetry)</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">3D Environment Options</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={spatialReflection}
+                      onChange={(e) => setSpatialReflection(e.target.checked)}
+                    />
+                    <span>Ground Mirror Floor Reflection</span>
+                  </label>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={spatialHUD}
+                      onChange={(e) => setSpatialHUD(e.target.checked)}
+                    />
+                    <span>Top Telemetry HUD Overlay</span>
+                  </label>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={spatialControls}
+                      onChange={(e) => setSpatialControls(e.target.checked)}
+                    />
+                    <span>Navigation Arrows & Slide Dots</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Interactivity & Playback</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={spatialSound}
+                      onChange={(e) => setSpatialSound(e.target.checked)}
+                    />
+                    <span>Web Audio Acoustic Spatial Clicks</span>
+                  </label>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={spatialAutoPlay}
+                      onChange={(e) => setSpatialAutoPlay(e.target.checked)}
+                    />
+                    <span>Auto-Play Continuous Orbit</span>
                   </label>
                 </div>
               </div>

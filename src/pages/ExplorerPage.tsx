@@ -24,6 +24,7 @@ import { StoryTimeline } from '../components/ui/story-timeline';
 import { Polaroid } from '../components/ui/polaroid';
 import { MagneticProjectList } from '../components/ui/magnetic-project-list';
 import { InfiniteCanvasGallery } from '../components/ui/infinite-canvas-gallery';
+import { SpatialGallery } from '../components/ui/spatial-gallery';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -554,7 +555,20 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                     </div>
                   )}
 
-{comp.slug === 'infinite-canvas-gallery' && (
+                  {comp.slug === 'spatial-gallery' && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <SpatialGallery
+                        compact={true}
+                        soundEnabled={false}
+                        variant="studio-light"
+                        autoPlay={true}
+                        autoPlayInterval={3200}
+                        showReflection={true}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'infinite-canvas-gallery' && (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px' }}>
                       <InfiniteCanvasGallery
                         compact={true}

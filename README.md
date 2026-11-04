@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (24 Primitives)
+## Published Modules (25 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Spatial Gallery** | 3D & Showcase | 3D cylindrical spatial ribbon showcase with real-time ground mirror reflections, specular active glare, touch/drag scrubbing with deadzone protection, wheel scrub, procedural Web Audio acoustic clicks, and high-resolution inspection modal | `src/components/ui/spatial-gallery` |
 | **Infinite Canvas Gallery** | 3D & Showcase | 360° infinite draggable media canvas with momentum fling physics, continuous friction decay, toroidal seamless coordinate wrapping, live mini-radar HUD, and Web Audio acoustic micro-haptics | `src/components/ui/infinite-canvas-gallery` |
 | **Magnetic Project List** | 3D & Showcase | High-density editorial case study index with velocity-damped 3D cursor-following floating preview card, dynamic tilt physics, deliverable chips, and synthesized Web Audio micro-haptic ticks | `src/components/ui/magnetic-project-list` |
 | **Polaroid Gallery** | 3D & Showcase | Tactile tabletop gallery with organic draggable scatter & toss physics, 3D card flipping between front photo and archival back metadata, authentic chemical film development animation, washi paper tape strips, and synthesized mechanical camera shutter acoustics | `src/components/ui/polaroid` |
