@@ -1,241 +1,274 @@
 /* ==========================================================================
-   ModUI — Light Creative Studio Architectural Spec Sheet Styles
+   ModUI — Architectural Rigor (Scroll-Pinned Sequential Storytelling)
    ========================================================================== */
 
-.modui-specs-section {
-  padding: 6rem 0 7rem;
+.modui-specs-pinned-section {
+  padding: 7rem 0 9rem;
   background: var(--bg-app);
   border-top: 1px solid var(--border-default);
+  border-bottom: 1px solid var(--border-default);
   position: relative;
 }
 
-.modui-specs-header {
-  text-align: center;
-  max-width: 720px;
-  margin: 0 auto 4rem;
+.modui-specs-pinned-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 4.5rem;
+  align-items: flex-start;
 }
 
-.modui-specs-title {
+/* ==========================================================================
+   Left Column: Sticky Section Head & Interactive Step Navigator
+   ========================================================================== */
+
+.modui-specs-left-sticky {
+  position: sticky;
+  top: 110px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modui-specs-eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary, #365CF5);
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  margin-bottom: 1.25rem;
+  width: fit-content;
+}
+
+.modui-specs-pinned-title {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 4.25vw, 3.25rem);
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
   color: var(--text-primary);
-  margin-bottom: 0.85rem;
   line-height: 1.15;
+  margin-bottom: 1rem;
 }
 
-.modui-specs-desc {
+.modui-specs-pinned-desc {
   font-size: 1.05rem;
   color: var(--text-secondary);
   line-height: 1.65;
+  max-width: 480px;
 }
 
-/* Stacked Cards Container */
-.modui-stacked-cards-list {
-  position: relative;
+/* Step Indicator Pills */
+.modui-specs-step-indicator {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  max-width: 1040px;
-  margin: 0 auto;
+  gap: 0.85rem;
+  margin-top: 2.25rem;
 }
 
-/* Individual Stacked Card */
-.modui-stacked-card {
-  position: sticky;
-  top: calc(84px + var(--card-index, 0) * 24px);
-  z-index: calc(var(--card-index, 0) + 1);
+.modui-step-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.modui-step-pill:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.modui-step-pill--active {
+  color: var(--accent-primary, #365CF5) !important;
+  background: #EFF6FF !important;
+  border-color: #BFDBFE !important;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(54, 92, 245, 0.08);
+}
+
+.modui-step-num {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid currentColor;
+}
+
+.modui-step-name {
+  flex: 1;
+}
+
+/* ==========================================================================
+   Right Column: Sequential Deck of Cards
+   ========================================================================== */
+
+.modui-specs-right-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  position: relative;
+}
+
+.modui-spec-deck-card {
   background: #FFFFFF;
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: 2.25rem 2.5rem;
-  box-shadow: 0 10px 30px -6px rgba(32, 32, 30, 0.08), 0 2px 6px -1px rgba(32, 32, 30, 0.04);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  box-shadow: 0 14px 34px -8px rgba(18, 20, 24, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.35s ease, 
+              box-shadow 0.25s ease, 
+              border-color 0.2s ease;
+  z-index: 2;
 }
 
-.modui-stacked-card:hover {
+.modui-spec-deck-card:hover {
   border-color: var(--accent-primary);
-  box-shadow: 0 16px 36px -6px rgba(54, 92, 245, 0.12), 0 4px 12px -2px rgba(32, 32, 30, 0.06);
+  box-shadow: 0 20px 48px -8px rgba(54, 92, 245, 0.15), 0 0 0 1px var(--accent-primary);
 }
 
-/* Card Header */
-.modui-stacked-card-header {
+.modui-spec-deck-card-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 1.25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.15rem;
+  padding-bottom: 0.95rem;
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.modui-stacked-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-}
-
-.modui-stacked-card-num {
+.modui-spec-deck-card-cat {
   font-family: var(--font-mono);
-  font-size: 1.15rem;
+  font-size: 0.8125rem;
   font-weight: 800;
-  color: var(--accent-primary);
-  letter-spacing: -0.02em;
+  color: var(--accent-primary, #365CF5);
+  letter-spacing: 0.04em;
 }
 
-.modui-stacked-card-sep {
-  color: var(--border-strong);
-  font-family: var(--font-mono);
-}
-
-.modui-stacked-card-category {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--text-secondary);
-}
-
-.modui-stacked-card-status {
+.modui-spec-deck-card-status {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.65rem;
-  border-radius: var(--radius-sm);
-  background: var(--bg-surface-subtle);
-  border: 1px solid var(--border-default);
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #10B981;
 }
 
-.modui-status-dot {
+.modui-status-dot-green {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: #10B981;
+  box-shadow: 0 0 6px #10B981;
 }
 
-.modui-status-text {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-/* Card Body */
-.modui-stacked-card-body {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.95fr);
-  gap: 2.5rem;
-  align-items: center;
-}
-
-.modui-stacked-card-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.modui-stacked-card-title {
+.modui-spec-deck-card-title {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.025em;
   color: var(--text-primary);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.65rem;
 }
 
-.modui-stacked-card-text {
+.modui-spec-deck-card-text {
   font-size: 0.9375rem;
+  line-height: 1.65;
   color: var(--text-secondary);
-  line-height: 1.6;
   margin-bottom: 1.5rem;
 }
 
-.modui-stacked-card-tags {
+.modui-spec-deck-metric-box {
+  background: #F8F8F5;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 1.15rem 1.45rem;
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  transition: all var(--transition-fast);
 }
 
-.modui-tag-chip {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  padding: 0.25rem 0.55rem;
-  border-radius: var(--radius-xs);
+.modui-spec-deck-card:hover .modui-spec-deck-metric-box {
   background: #FFFFFF;
-  border: 1px solid var(--border-default);
-  color: var(--text-primary);
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 16px rgba(54, 92, 245, 0.08);
 }
 
-/* Metric Box */
-.modui-stacked-card-metric-box {
-  background: #FAF9F5;
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  padding: 1.75rem;
+.modui-spec-deck-metric-meta {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 0.15rem;
 }
 
-.modui-metric-num {
+.modui-spec-deck-metric-label {
   font-family: var(--font-mono);
-  font-size: clamp(2.25rem, 3.5vw, 2.85rem);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.modui-spec-deck-metric-detail {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.modui-spec-deck-metric-val {
+  font-family: var(--font-mono);
+  font-size: 1.85rem;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: var(--accent-primary);
-  line-height: 1;
-  margin-bottom: 0.4rem;
+  color: var(--accent-primary, #365CF5);
 }
 
-.modui-metric-sub {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 0.35rem;
-}
+/* ==========================================================================
+   Mobile & Responsive Rules
+   ========================================================================== */
 
-.modui-metric-detail {
-  font-size: 0.8125rem;
-  color: var(--text-secondary);
-  line-height: 1.45;
-}
-
-@media (max-width: 860px) {
-  .modui-stacked-card-body {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.75rem;
+@media (max-width: 900px) {
+  .modui-specs-pinned-section {
+    padding: 5rem 0 6rem;
   }
 
-  .modui-stacked-card {
-    padding: 1.5rem;
-    min-width: 0;
-    max-width: 100%;
-    box-sizing: border-box;
+  .modui-specs-pinned-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .modui-specs-left-sticky {
+    position: static;
+  }
+
+  .modui-spec-deck-card {
+    position: static;
+    padding: 1.75rem;
   }
 }
 
-@media (max-width: 640px) {
-  .modui-specs-section {
-    padding: 4rem 0 4.5rem;
+@media (max-width: 540px) {
+  .modui-spec-deck-card {
+    padding: 1.35rem;
   }
 
-  .modui-specs-header {
-    margin-bottom: 2.25rem;
-  }
-
-  .modui-stacked-card {
-    padding: 1.25rem 1rem;
-    top: calc(72px + var(--card-index, 0) * 12px);
-  }
-
-  .modui-stacked-card-header {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .modui-metric-num {
-    font-size: 2.25rem;
+  .modui-spec-deck-metric-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
 }

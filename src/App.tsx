@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
+import './App.css';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
@@ -27,7 +28,7 @@ export function App() {
   const [isCmdkOpen, setIsCmdkOpen] = useState(false);
   const lenisRef = useRef<Lenis | null>(null);
 
-  // Initialize Lenis smooth scrolling
+  // Initialize Lenis smooth scrolling and synchronize top scroll progress line
   useEffect(() => {
     const lenis = new Lenis({
       autoRaf: true,
@@ -37,7 +38,31 @@ export function App() {
     });
     lenisRef.current = lenis;
 
+    const updateScrollProgress = (scrollY?: number) => {
+      const currentY = typeof scrollY === 'number' ? scrollY : window.scrollY;
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalScroll <= 0) return;
+      const progress = (currentY / totalScroll) * 100;
+      const bar = document.getElementById('modui-scroll-progress-line');
+      if (bar) {
+        bar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+      }
+    };
+
+    const handleLenisScroll = (e: { scroll: number }) => {
+      updateScrollProgress(e.scroll);
+    };
+
+    const handleWindowScroll = () => {
+      updateScrollProgress(window.scrollY);
+    };
+
+    lenis.on('scroll', handleLenisScroll);
+    window.addEventListener('scroll', handleWindowScroll, { passive: true });
+
     return () => {
+      lenis.off('scroll', handleLenisScroll);
+      window.removeEventListener('scroll', handleWindowScroll);
       lenis.destroy();
       lenisRef.current = null;
     };
@@ -182,6 +207,9 @@ export function App() {
 
   return (
     <div className="modui-app-layout" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* Top Hairline Scroll Progress Bar (Zero text) */}
+      <div id="modui-scroll-progress-line" aria-hidden="true" />
+
       <Navbar
         currentPath={currentPath}
         onNavigate={navigate}

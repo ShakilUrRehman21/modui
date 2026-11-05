@@ -613,53 +613,74 @@ export const ReelTapeDeck: React.FC<ReelTapeDeckProps> = ({
       onKeyDown={handleKeyDown}
       {...rest}
     >
-      {/* 1. Header Bar: Studio Brand & Speed Select */}
-      <div className="modui-tape-header">
-        <div className="modui-tape-brand">
-          <span className="modui-tape-brand__badge">STUDIO DECK</span>
-          <span className="modui-tape-brand__model">MODUI RT-1500 MASTERING CONSOLE</span>
+      {/* 1. Header Bar: Studio Brand & Speed Select (or Compact Header) */}
+      {compact ? (
+        <div className="modui-tape-compact-bar">
+          <div className="modui-tape-compact-status">
+            <span className={`modui-tape-compact-dot ${transportState === 'play' ? 'modui-tape-compact-dot--active' : ''}`} />
+            <span className="modui-tape-compact-title">MODUI RT-1500 // {tapeSpeed} IPS</span>
+          </div>
+          <div className="modui-tape-compact-controls">
+            <span className="modui-tape-compact-counter">{counterDisplay}</span>
+            <button
+              type="button"
+              className="modui-tape-compact-play-btn"
+              onClick={() => setTransport(transportState === 'play' ? 'pause' : 'play')}
+              title={transportState === 'play' ? 'Pause Tape (Space)' : 'Play Tape (Space)'}
+              aria-label={transportState === 'play' ? 'Pause Tape' : 'Play Tape'}
+            >
+              {transportState === 'play' ? '❚❚' : '▶'}
+            </button>
+          </div>
         </div>
-
-        <div className="modui-tape-top-controls">
-          {/* Speed Selector */}
-          <div className="modui-tape-speed-toggle" role="group" aria-label="Tape Speed (IPS)">
-            {(['3.75', '7.5', '15'] as TapeSpeed[]).map((s) => (
-              <button
-                key={s}
-                type="button"
-                className={`modui-tape-speed-btn ${tapeSpeed === s ? 'modui-tape-speed-btn--active' : ''}`}
-                onClick={() => setTapeSpeed(s)}
-                title={`Set Tape Speed to ${s} Inches Per Second`}
-              >
-                {s} IPS
-              </button>
-            ))}
+      ) : (
+        <div className="modui-tape-header">
+          <div className="modui-tape-brand">
+            <span className="modui-tape-brand__badge">STUDIO DECK</span>
+            <span className="modui-tape-brand__model">MODUI RT-1500 MASTERING CONSOLE</span>
           </div>
 
-          {/* Audio Mute/Unmute */}
-          <button
-            type="button"
-            className={`modui-tape-audio-btn ${!isMuted ? 'modui-tape-audio-btn--active' : ''}`}
-            onClick={() => setIsMuted(!isMuted)}
-            title={isMuted ? 'Unmute Synthesized Tape Audio' : 'Mute Synthesized Tape Audio'}
-            aria-label={isMuted ? 'Unmute Synthesized Tape Audio' : 'Mute Synthesized Tape Audio'}
-          >
-            {!isMuted ? (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-              </svg>
-            ) : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                <line x1="23" y1="9" x2="17" y2="15" />
-                <line x1="17" y1="9" x2="23" y2="15" />
-              </svg>
-            )}
-          </button>
+          <div className="modui-tape-top-controls">
+            {/* Speed Selector */}
+            <div className="modui-tape-speed-toggle" role="group" aria-label="Tape Speed (IPS)">
+              {(['3.75', '7.5', '15'] as TapeSpeed[]).map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  className={`modui-tape-speed-btn ${tapeSpeed === s ? 'modui-tape-speed-btn--active' : ''}`}
+                  onClick={() => setTapeSpeed(s)}
+                  title={`Set Tape Speed to ${s} Inches Per Second`}
+                >
+                  {s} IPS
+                </button>
+              ))}
+            </div>
+
+            {/* Audio Mute/Unmute */}
+            <button
+              type="button"
+              className={`modui-tape-audio-btn ${!isMuted ? 'modui-tape-audio-btn--active' : ''}`}
+              onClick={() => setIsMuted(!isMuted)}
+              title={isMuted ? 'Unmute Synthesized Tape Audio' : 'Mute Synthesized Tape Audio'}
+              aria-label={isMuted ? 'Unmute Synthesized Tape Audio' : 'Mute Synthesized Tape Audio'}
+            >
+              {!isMuted ? (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <line x1="23" y1="9" x2="17" y2="15" />
+                  <line x1="17" y1="9" x2="23" y2="15" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 2. Main Tape Bay: Dual Spools & Head Block */}
       <div className="modui-tape-bay">
@@ -755,167 +776,171 @@ export const ReelTapeDeck: React.FC<ReelTapeDeckProps> = ({
         </div>
       </div>
 
-      {/* 3. Lower Console: Twin Ballistic VU Meters & Mechanical Counter */}
-      <div className="modui-tape-console">
-        {/* Twin VU Meters Block */}
-        <div className="modui-tape-vu-container">
-          {/* Channel L */}
-          <div className="modui-tape-vu-meter" aria-label={`Channel 1 VU Level: ${Math.round(vuLeftDb)} dB`}>
-            <div className="modui-tape-vu-meter__top">
-              <span className="modui-tape-vu-meter__channel">CH 1 // L</span>
-              <span className={`modui-tape-vu-peak ${isPeakLeft ? 'modui-tape-vu-peak--active' : ''}`}>PEAK</span>
-            </div>
-            <div className="modui-tape-vu-meter__dial">
-              {/* Scale Arc Graphics */}
-              <div className="modui-tape-vu-scale">
-                <span className="modui-tape-vu-mark modui-tape-vu-mark--20">-20</span>
-                <span className="modui-tape-vu-mark modui-tape-vu-mark--10">-10</span>
-                <span className="modui-tape-vu-mark modui-tape-vu-mark--5">-5</span>
-                <span className="modui-tape-vu-mark modui-tape-vu-mark--0">0</span>
-                <span className="modui-tape-vu-mark modui-tape-vu-mark--3">+3</span>
+      {/* 3. Lower Console: Twin Ballistic VU Meters & Mechanical Counter (Hidden in Compact Preview) */}
+      {!compact && (
+        <div className="modui-tape-console">
+          {/* Twin VU Meters Block */}
+          <div className="modui-tape-vu-container">
+            {/* Channel L */}
+            <div className="modui-tape-vu-meter" aria-label={`Channel 1 VU Level: ${Math.round(vuLeftDb)} dB`}>
+              <div className="modui-tape-vu-meter__top">
+                <span className="modui-tape-vu-meter__channel">CH 1 // L</span>
+                <span className={`modui-tape-vu-peak ${isPeakLeft ? 'modui-tape-vu-peak--active' : ''}`}>PEAK</span>
               </div>
-              {/* Ballistic Needle */}
-              <div
-                className="modui-tape-vu-needle"
-                style={{ transform: `rotate(${dbToAngle(vuLeftDb)}deg)` }}
-              />
-              <div className="modui-tape-vu-pivot" />
-            </div>
-          </div>
-
-          {/* Channel R */}
-          <div className="modui-tape-vu-meter" aria-label={`Channel 2 VU Level: ${Math.round(vuRightDb)} dB`}>
-            <div className="modui-tape-vu-meter__top">
-              <span className="modui-tape-vu-meter__channel">CH 2 // R</span>
-              <span className={`modui-tape-vu-peak ${isPeakRight ? 'modui-tape-vu-peak--active' : ''}`}>PEAK</span>
-            </div>
-            <div className="modui-tape-vu-meter__dial">
-              <div className="modui-tape-vu-scale">
-                <span className="modui-tape-vu-mark modui-tape-vu-mark--20">-20</span>
-                <span className="modui-tape-vu-mark modui-tape-vu-mark--10">-10</span>
-                <span className="modui-tape-vu-mark modui-tape-vu-mark--5">-5</span>
-                <span className="modui-tape-vu-mark modui-tape-vu-mark--0">0</span>
-                <span className="modui-tape-vu-mark modui-tape-vu-mark--3">+3</span>
+              <div className="modui-tape-vu-meter__dial">
+                {/* Scale Arc Graphics */}
+                <div className="modui-tape-vu-scale">
+                  <span className="modui-tape-vu-mark modui-tape-vu-mark--20">-20</span>
+                  <span className="modui-tape-vu-mark modui-tape-vu-mark--10">-10</span>
+                  <span className="modui-tape-vu-mark modui-tape-vu-mark--5">-5</span>
+                  <span className="modui-tape-vu-mark modui-tape-vu-mark--0">0</span>
+                  <span className="modui-tape-vu-mark modui-tape-vu-mark--3">+3</span>
+                </div>
+                {/* Ballistic Needle */}
+                <div
+                  className="modui-tape-vu-needle"
+                  style={{ transform: `rotate(${dbToAngle(vuLeftDb)}deg)` }}
+                />
+                <div className="modui-tape-vu-pivot" />
               </div>
-              <div
-                className="modui-tape-vu-needle"
-                style={{ transform: `rotate(${dbToAngle(vuRightDb)}deg)` }}
-              />
-              <div className="modui-tape-vu-pivot" />
             </div>
-          </div>
-        </div>
 
-        {/* Center Status, Tape Counter, & Track Dymo Tape */}
-        <div className="modui-tape-telemetry">
-          {/* Mechanical 4-Digit Odometer Counter */}
-          <div className="modui-tape-counter-box">
-            <span className="modui-tape-counter-digits" aria-live="off">
-              {counterDisplay}
-            </span>
-            <button
-              type="button"
-              className="modui-tape-counter-reset"
-              onClick={handleResetCounter}
-              title="Reset tape counter to 0000"
-            >
-              RESET
-            </button>
-          </div>
-
-          {/* Track Label Card */}
-          <div className="modui-tape-track-label">
-            <div className="modui-tape-track-title">{currentTrack.title}</div>
-            <div className="modui-tape-track-artist">{currentTrack.artist}</div>
-            <div className="modui-tape-track-time">
-              {formatTime(currentTimeSec)} / {formatTime(currentTrack.duration)}
+            {/* Channel R */}
+            <div className="modui-tape-vu-meter" aria-label={`Channel 2 VU Level: ${Math.round(vuRightDb)} dB`}>
+              <div className="modui-tape-vu-meter__top">
+                <span className="modui-tape-vu-meter__channel">CH 2 // R</span>
+                <span className={`modui-tape-vu-peak ${isPeakRight ? 'modui-tape-vu-peak--active' : ''}`}>PEAK</span>
+              </div>
+              <div className="modui-tape-vu-meter__dial">
+                <div className="modui-tape-vu-scale">
+                  <span className="modui-tape-vu-mark modui-tape-vu-mark--20">-20</span>
+                  <span className="modui-tape-vu-mark modui-tape-vu-mark--10">-10</span>
+                  <span className="modui-tape-vu-mark modui-tape-vu-mark--5">-5</span>
+                  <span className="modui-tape-vu-mark modui-tape-vu-mark--0">0</span>
+                  <span className="modui-tape-vu-mark modui-tape-vu-mark--3">+3</span>
+                </div>
+                <div
+                  className="modui-tape-vu-needle"
+                  style={{ transform: `rotate(${dbToAngle(vuRightDb)}deg)` }}
+                />
+                <div className="modui-tape-vu-pivot" />
+              </div>
             </div>
           </div>
 
-          {/* Track Selector Tabs */}
-          <div className="modui-tape-track-selector">
-            {tracks.map((t, idx) => (
+          {/* Center Status, Tape Counter, & Track Dymo Tape */}
+          <div className="modui-tape-telemetry">
+            {/* Mechanical 4-Digit Odometer Counter */}
+            <div className="modui-tape-counter-box">
+              <span className="modui-tape-counter-digits" aria-live="off">
+                {counterDisplay}
+              </span>
               <button
-                key={t.id}
                 type="button"
-                className={`modui-tape-track-btn ${idx === currentTrackIndex ? 'modui-tape-track-btn--active' : ''}`}
-                onClick={() => handleSelectTrack(idx)}
+                className="modui-tape-counter-reset"
+                onClick={handleResetCounter}
+                title="Reset tape counter to 0000"
               >
-                TK {idx + 1}
+                RESET
               </button>
-            ))}
+            </div>
+
+            {/* Track Label Card */}
+            <div className="modui-tape-track-label">
+              <div className="modui-tape-track-title">{currentTrack.title}</div>
+              <div className="modui-tape-track-artist">{currentTrack.artist}</div>
+              <div className="modui-tape-track-time">
+                {formatTime(currentTimeSec)} / {formatTime(currentTrack.duration)}
+              </div>
+            </div>
+
+            {/* Track Selector Tabs */}
+            <div className="modui-tape-track-selector">
+              {tracks.map((t, idx) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  className={`modui-tape-track-btn ${idx === currentTrackIndex ? 'modui-tape-track-btn--active' : ''}`}
+                  onClick={() => handleSelectTrack(idx)}
+                >
+                  TK {idx + 1}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* 4. Bottom Piano-Key Transport Bar */}
-      <div className="modui-tape-transport" role="toolbar" aria-label="Tape Transport Controls">
-        <button
-          type="button"
-          className={`modui-tape-key ${transportState === 'rewind' ? 'modui-tape-key--active' : ''}`}
-          onClick={() => setTransport(transportState === 'rewind' ? 'stop' : 'rewind')}
-          title="Rewind (ArrowLeft)"
-          aria-label="Rewind"
-        >
-          <span className="modui-tape-key__icon">◀◀</span>
-          <span className="modui-tape-key__label">REW</span>
-        </button>
+      {/* 4. Bottom Piano-Key Transport Bar (Hidden in Compact Preview) */}
+      {!compact && (
+        <div className="modui-tape-transport" role="toolbar" aria-label="Tape Transport Controls">
+          <button
+            type="button"
+            className={`modui-tape-key ${transportState === 'rewind' ? 'modui-tape-key--active' : ''}`}
+            onClick={() => setTransport(transportState === 'rewind' ? 'stop' : 'rewind')}
+            title="Rewind (ArrowLeft)"
+            aria-label="Rewind"
+          >
+            <span className="modui-tape-key__icon">◀◀</span>
+            <span className="modui-tape-key__label">REW</span>
+          </button>
 
-        <button
-          type="button"
-          className={`modui-tape-key ${transportState === 'stop' ? 'modui-tape-key--active' : ''}`}
-          onClick={() => setTransport('stop')}
-          title="Stop Transport (Escape)"
-          aria-label="Stop Transport"
-        >
-          <span className="modui-tape-key__icon">■</span>
-          <span className="modui-tape-key__label">STOP</span>
-        </button>
+          <button
+            type="button"
+            className={`modui-tape-key ${transportState === 'stop' ? 'modui-tape-key--active' : ''}`}
+            onClick={() => setTransport('stop')}
+            title="Stop Transport (Escape)"
+            aria-label="Stop Transport"
+          >
+            <span className="modui-tape-key__icon">■</span>
+            <span className="modui-tape-key__label">STOP</span>
+          </button>
 
-        <button
-          type="button"
-          className={`modui-tape-key ${transportState === 'pause' ? 'modui-tape-key--active' : ''}`}
-          onClick={() => setTransport(transportState === 'pause' ? 'play' : 'pause')}
-          title="Pause (Space)"
-          aria-label="Pause"
-        >
-          <span className="modui-tape-key__icon">❚❚</span>
-          <span className="modui-tape-key__label">PAUSE</span>
-        </button>
+          <button
+            type="button"
+            className={`modui-tape-key ${transportState === 'pause' ? 'modui-tape-key--active' : ''}`}
+            onClick={() => setTransport(transportState === 'pause' ? 'play' : 'pause')}
+            title="Pause (Space)"
+            aria-label="Pause"
+          >
+            <span className="modui-tape-key__icon">❚❚</span>
+            <span className="modui-tape-key__label">PAUSE</span>
+          </button>
 
-        <button
-          type="button"
-          className={`modui-tape-key modui-tape-key--play ${transportState === 'play' ? 'modui-tape-key--active' : ''}`}
-          onClick={() => setTransport(transportState === 'play' ? 'pause' : 'play')}
-          title="Play (Space)"
-          aria-label="Play"
-        >
-          <span className="modui-tape-key__icon">▶</span>
-          <span className="modui-tape-key__label">PLAY</span>
-        </button>
+          <button
+            type="button"
+            className={`modui-tape-key modui-tape-key--play ${transportState === 'play' ? 'modui-tape-key--active' : ''}`}
+            onClick={() => setTransport(transportState === 'play' ? 'pause' : 'play')}
+            title="Play (Space)"
+            aria-label="Play"
+          >
+            <span className="modui-tape-key__icon">▶</span>
+            <span className="modui-tape-key__label">PLAY</span>
+          </button>
 
-        <button
-          type="button"
-          className={`modui-tape-key ${transportState === 'fast-forward' ? 'modui-tape-key--active' : ''}`}
-          onClick={() => setTransport(transportState === 'fast-forward' ? 'stop' : 'fast-forward')}
-          title="Fast Forward (ArrowRight)"
-          aria-label="Fast Forward"
-        >
-          <span className="modui-tape-key__icon">▶▶</span>
-          <span className="modui-tape-key__label">FFWD</span>
-        </button>
+          <button
+            type="button"
+            className={`modui-tape-key ${transportState === 'fast-forward' ? 'modui-tape-key--active' : ''}`}
+            onClick={() => setTransport(transportState === 'fast-forward' ? 'stop' : 'fast-forward')}
+            title="Fast Forward (ArrowRight)"
+            aria-label="Fast Forward"
+          >
+            <span className="modui-tape-key__icon">▶▶</span>
+            <span className="modui-tape-key__label">FFWD</span>
+          </button>
 
-        <button
-          type="button"
-          className={`modui-tape-key modui-tape-key--rec ${transportState === 'record' ? 'modui-tape-key--active' : ''}`}
-          onClick={() => setTransport(transportState === 'record' ? 'stop' : 'record')}
-          title="Arm Record (R)"
-          aria-label="Record"
-        >
-          <span className="modui-tape-key__rec-dot" />
-          <span className="modui-tape-key__label">REC</span>
-        </button>
-      </div>
+          <button
+            type="button"
+            className={`modui-tape-key modui-tape-key--rec ${transportState === 'record' ? 'modui-tape-key--active' : ''}`}
+            onClick={() => setTransport(transportState === 'record' ? 'stop' : 'record')}
+            title="Arm Record (R)"
+            aria-label="Record"
+          >
+            <span className="modui-tape-key__rec-dot" />
+            <span className="modui-tape-key__label">REC</span>
+          </button>
+        </div>
+      )}
 
       {children}
     </div>

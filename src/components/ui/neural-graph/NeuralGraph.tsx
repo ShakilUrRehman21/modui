@@ -407,13 +407,20 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
     simNodesRef.current = buildInitialNodes(rawNodes);
   }, [customNodes, customEdges, buildInitialNodes]);
 
-  // Camera Pan and Zoom state
+  // Camera Pan and Zoom state (scaled comfortably when in compact preview mode)
   const cameraRef = useRef<{ x: number; y: number; zoom: number; targetZoom: number }>({
     x: 0,
     y: 0,
-    zoom: 1,
-    targetZoom: 1,
+    zoom: compact ? 0.44 : 1,
+    targetZoom: compact ? 0.44 : 1,
   });
+
+  // Re-sync camera zoom when compact mode changes
+  useEffect(() => {
+    const target = compact ? 0.44 : 1;
+    cameraRef.current.zoom = target;
+    cameraRef.current.targetZoom = target;
+  }, [compact]);
 
   const isPanningRef = useRef<boolean>(false);
   const panStartRef = useRef<{ x: number; y: number; camX: number; camY: number }>({
@@ -481,12 +488,12 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
   const handleResetCamera = useCallback(() => {
     cameraRef.current.x = 0;
     cameraRef.current.y = 0;
-    cameraRef.current.zoom = 1;
-    cameraRef.current.targetZoom = 1;
+    cameraRef.current.zoom = compact ? 0.44 : 1;
+    cameraRef.current.targetZoom = compact ? 0.44 : 1;
     if (isAudioActive) {
       playReleaseDetent();
     }
-  }, [isAudioActive]);
+  }, [compact, isAudioActive]);
 
   // Main Canvas Physics & Rendering Loop
   useEffect(() => {
@@ -503,8 +510,10 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
 
     const handleResize = () => {
       const rect = container.getBoundingClientRect();
-      width = Math.max(rect.width, 280);
-      height = Math.max(rect.height, 240);
+      const minW = compact ? 200 : 280;
+      const minH = compact ? 120 : 240;
+      width = Math.max(Math.round(rect.width), minW);
+      height = Math.max(Math.round(rect.height), minH);
 
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = width * dpr;
@@ -676,12 +685,12 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
 
         if (isHighlighted) {
           ctx.strokeStyle = palette.edgeActive;
-          ctx.lineWidth = 2.2;
+          ctx.lineWidth = compact ? 2.8 : 2.2;
           ctx.globalAlpha = 0.95;
         } else if (matchesFilter) {
           ctx.strokeStyle = palette.edgeBase;
-          ctx.lineWidth = Math.max(1, (edge.weight || 0.8) * 1.8);
-          ctx.globalAlpha = 0.8;
+          ctx.lineWidth = Math.max(compact ? 1.5 : 1, (edge.weight || 0.8) * (compact ? 2.4 : 1.8));
+          ctx.globalAlpha = 0.85;
         } else {
           ctx.strokeStyle = palette.edgeBase;
           ctx.lineWidth = 1;
@@ -702,20 +711,22 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
         const py = n1.y + (n2.y - n1.y) * p.progress;
 
         // Glowing outer photon bloom
-        const grad = ctx.createRadialGradient(px, py, 0, px, py, 9);
+        const pulseBloom = 9 * (compact ? 1.35 : 1);
+        const grad = ctx.createRadialGradient(px, py, 0, px, py, pulseBloom);
         grad.addColorStop(0, p.color);
         grad.addColorStop(0.5, p.color);
         grad.addColorStop(1, 'transparent');
 
         ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.arc(px, py, 9, 0, Math.PI * 2);
+        ctx.arc(px, py, pulseBloom, 0, Math.PI * 2);
         ctx.fill();
 
         // Crisp photon core
+        const coreRadius = 2.5 * (compact ? 1.3 : 1);
         ctx.fillStyle = '#FFFFFF';
         ctx.beginPath();
-        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.arc(px, py, coreRadius, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -736,7 +747,7 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
         const nodeColor = clusterConfig.color;
         const matchesFilter = activeClusterFilter === 'all' || node.cluster === activeClusterFilter;
 
-        const baseRadius = node.radius || 12;
+        const baseRadius = (node.radius || 12) * (compact ? 1.35 : 1);
         const currentRadius = isHovered || isSelected ? baseRadius * 1.3 : baseRadius;
 
         ctx.save();

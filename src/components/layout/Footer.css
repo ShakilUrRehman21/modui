@@ -1,29 +1,67 @@
-.modui-footer-link, .modui-cta-btn { text-decoration: none; }
 /* ==========================================================================
    ModUI — Light Creative Studio Footer Styles
+   Scroll-Triggered Motion & High-Fidelity Entrance
    ========================================================================== */
 
 .modui-footer {
-  background: #FFFFFF;
+  background: var(--bg-app, #F8F7F2);
   border-top: 1px solid var(--border-default);
   padding: 5rem 0 2.5rem;
   color: var(--text-secondary);
   margin-top: auto;
 }
 
-/* Closing CTA Card */
+/* Closing CTA Card with Scroll-Triggered Entrance */
 .modui-footer-cta-card {
-  background: #FAF9F5;
+  position: relative;
+  background: #FFFFFF;
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  padding: 3rem 2.5rem;
+  border-radius: var(--radius-xl, 16px);
+  padding: 3.5rem 3rem;
   margin-bottom: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 2.5rem;
   flex-wrap: wrap;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 10px 30px -4px rgba(32, 32, 30, 0.05), 0 2px 6px -1px rgba(32, 32, 30, 0.03);
+  overflow: hidden;
+
+  /* Scroll Reveal Initial State */
+  opacity: 0;
+  transform: translateY(48px) scale(0.96);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 240ms ease,
+    box-shadow 240ms ease;
+  will-change: opacity, transform;
+}
+
+/* Subtle architectural top hairline accent */
+.modui-footer-cta-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(54, 92, 245, 0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.modui-footer-cta-card.modui-in-view {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+.modui-footer-cta-card.modui-in-view::before {
+  opacity: 1;
+}
+
+.modui-footer-cta-card:hover {
+  border-color: rgba(54, 92, 245, 0.3);
+  box-shadow: 0 18px 40px -8px rgba(54, 92, 245, 0.09), 0 4px 12px -2px rgba(32, 32, 30, 0.03);
 }
 
 .modui-footer-cta-content {
@@ -33,12 +71,29 @@
 }
 
 .modui-footer-cta-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--accent-primary);
-  margin-bottom: 0.5rem;
+  background: rgba(54, 92, 245, 0.06);
+  border: 1px solid rgba(54, 92, 245, 0.16);
+  border-radius: var(--radius-pill, 9999px);
+  padding: 0.25rem 0.75rem;
+  width: fit-content;
+  margin-bottom: 0.75rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.12s,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+}
+
+.modui-footer-cta-card.modui-in-view .modui-footer-cta-eyebrow {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .modui-footer-cta-title {
@@ -48,23 +103,102 @@
   letter-spacing: -0.03em;
   color: var(--text-primary);
   line-height: 1.15;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.65rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.18s,
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.18s;
+}
+
+.modui-footer-cta-card.modui-in-view .modui-footer-cta-title {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .modui-footer-cta-desc {
-  font-size: 0.9375rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   line-height: 1.6;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.24s,
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.24s;
+}
+
+.modui-footer-cta-card.modui-in-view .modui-footer-cta-desc {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .modui-footer-cta-actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
   flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(18px) scale(0.97);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
 }
 
-/* Footer Main Inner */
+.modui-footer-cta-card.modui-in-view .modui-footer-cta-actions {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.modui-footer-cta-actions .modui-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent-primary, #365CF5);
+  color: #FFFFFF;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius-md, 8px);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  box-shadow: 0 4px 14px rgba(54, 92, 245, 0.28);
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  text-decoration: none;
+}
+
+.modui-footer-cta-actions .modui-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(54, 92, 245, 0.36);
+  background: #2B4FD6;
+}
+
+.modui-footer-cta-actions .modui-cta-btn .modui-btn-arrow {
+  display: inline-block;
+  margin-left: 0.4rem;
+  transition: transform 180ms ease;
+}
+
+.modui-footer-cta-actions .modui-cta-btn:hover .modui-btn-arrow {
+  transform: translateX(4px);
+}
+
+.modui-footer-cta-actions .modui-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #FFFFFF;
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius-md, 8px);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.modui-footer-cta-actions .modui-secondary-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--text-primary);
+  background: #F8F7F2;
+}
+
+/* Footer Main Inner with Scroll Entrance */
 .modui-footer-inner {
   display: flex;
   align-items: center;
@@ -73,6 +207,30 @@
   border-bottom: 1px solid var(--border-subtle);
   flex-wrap: wrap;
   gap: 1.5rem;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s,
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
+}
+
+.modui-footer-inner.modui-in-view {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+
+  .modui-footer-cta-card,
+  .modui-footer-cta-eyebrow,
+  .modui-footer-cta-title,
+  .modui-footer-cta-desc,
+  .modui-footer-cta-actions,
+  .modui-footer-inner {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 .modui-footer-brand {
@@ -124,6 +282,7 @@
   gap: 0.25rem;
   transition: color var(--transition-fast);
   cursor: pointer;
+  text-decoration: none;
 }
 
 .modui-footer-link:hover {

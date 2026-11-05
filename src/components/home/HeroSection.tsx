@@ -225,14 +225,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
             ==================================================================== */}
         <div className="modui-hero-left">
           {/* Eyebrow Label */}
-          <div className="modui-hero-eyebrow">
+          <div className="modui-hero-eyebrow modui-reveal">
             <span className="modui-eyebrow-dot" />
             <span className="modui-eyebrow-text">MODUI // CREATIVE PLAYGROUND</span>
             <span className="modui-eyebrow-tag">REACT COMPONENT LIBRARY</span>
           </div>
 
           {/* Strong Editorial Headline with Typing Effect */}
-          <h1 className="modui-hero-headline">
+          <h1 className="modui-hero-headline modui-reveal modui-delay-1">
             A little more life <br />
             in <span className="modui-hero-headline-accent">
               {typedText}
@@ -241,13 +241,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
           </h1>
 
           {/* Concise Supporting Sentence */}
-          <p className="modui-hero-support">
+          <p className="modui-hero-support modui-reveal modui-delay-2">
             A curated collection of modular React primitives designed with expressive interactions,
             physics-informed motion, and zero runtime overhead. Copy directly into your codebase.
           </p>
 
           {/* Action CTAs */}
-          <div className="modui-hero-actions">
+          <div className="modui-hero-actions modui-reveal modui-delay-3">
             <a
               href="/components"
               className="modui-cta-btn"
@@ -279,7 +279,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
           </div>
 
           {/* Quick Technical Guarantee Specs */}
-          <div className="modui-hero-specs-row">
+          <div className="modui-hero-specs-row modui-reveal modui-delay-4">
             <div className="modui-spec-chip">
               <span className="modui-spec-chip-dot" />
               <span>Zero external bundle bloat</span>
@@ -298,7 +298,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, children }
         {/* ====================================================================
             RIGHT COLUMN: The Live Interactive Component Playground (No Tilt)
             ==================================================================== */}
-        <div className="modui-hero-right">
+        <div className="modui-hero-right modui-reveal modui-scale-up modui-delay-2">
           <div className="modui-playground-card">
             {/* Top Toolbar: Experiment Tabs & Controls */}
             <div className="modui-playground-header">

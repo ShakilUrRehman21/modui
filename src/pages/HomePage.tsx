@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import {
   HeroSection,
-  StudioSection,
+  MetricsRibbon,
   FeaturedSection,
   StackedCardsSection,
   SandboxSection,
 } from '../components/home';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import './HomePage.css';
 
 interface HomePageProps {
@@ -13,6 +14,9 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
+  // Activate universal scroll-triggered slide-in, fade-in, and graceful fade-out
+  useScrollReveal();
+
   // Fluid cursor tracking spotlight
   useEffect(() => {
     const handlePointerMove = (e: MouseEvent) => {
@@ -28,13 +32,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* 1. Creative Playground Hero Section */}
       <HeroSection onNavigate={onNavigate} />
 
-      {/* 2. Featured 3-Card Showcase Grid */}
+      {/* 2. Organized Architectural Metrics Ribbon */}
+      <MetricsRibbon />
+
+      {/* 3. Featured 3-Card Showcase Grid */}
       <FeaturedSection onNavigate={onNavigate} />
 
-      {/* 3. Architectural Spec Sheet (Sticky Stacked Cards on Scroll) */}
+      {/* 4. Architectural Spec Sheet (Sticky Stacked Cards on Scroll) */}
       <StackedCardsSection onNavigate={onNavigate} />
 
-      {/* 4. Developer Architectural Sandbox & Code Terminal */}
+      {/* 5. Developer Architectural Sandbox & Code Terminal */}
       <SandboxSection onNavigate={onNavigate} />
     </div>
   );

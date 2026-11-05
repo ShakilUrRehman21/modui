@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import { updatePageSeo, generateComponentJsonLd } from '../lib/seo';
 import { AnimatedButton } from '../components/ui/button';
 import type { ButtonVariant, ButtonSize } from '../components/ui/button';
@@ -46,7 +47,7 @@ import type { CanvasGalleryVariant } from '../components/ui/infinite-canvas-gall
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { SpatialGallery } from '../components/ui/spatial-gallery';
 import type { SpatialGalleryVariant } from '../components/ui/spatial-gallery';
-import { trackCopyCode, trackGithubClick, trackPreviewOpen } from '../lib/analytics';
+import { trackCopyCode, trackGithubClick } from '../lib/analytics';
 import './ComponentDetailPage.css';
 
 interface ComponentDetailPageProps {
@@ -59,6 +60,9 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   onNavigate,
 }) => {
   const component = COMPONENT_REGISTRY.find((c) => c.slug === slug);
+
+  // Activate scroll-triggered reveals for documentation & tabs sections
+  useScrollReveal({ rootMargin: '0px 0px -40px 0px', enableOutTop: false });
 
   // Dynamic SEO metadata & JSON-LD Rich Snippet for Google Search
   useEffect(() => {
@@ -167,7 +171,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [clothPinMode, setClothPinMode] = useState<ClothPinMode>('curtain');
   const [clothGravity, setClothGravity] = useState<number>(0.10);
   const [clothWind, setClothWind] = useState<number>(0);
-  const [clothStiffness, setClothStiffness] = useState<number>(2);
+  const [clothStiffness] = useState<number>(2);
   const [clothSound, setClothSound] = useState<boolean>(true);
 
   // Playground state for ApertureIrisLens
@@ -2615,7 +2619,8 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
           )}
         </div>
 
-        {/* Main Tabs Navigation */}
+        {/* Main Tabs Navigation & Documentation Section */}
+        <div className="modui-detail-tabs-section modui-reveal modui-scale-up">
           <div className="modui-detail-tabs-bar" role="tablist">
             <button
               className={`modui-detail-tab-btn ${activeTab === 'code' ? 'modui-detail-tab-btn--active' : ''}`}
@@ -2751,7 +2756,8 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
           )}
         </div>
       </div>
-      );
+    </div>
+  );
 };
 
-      export default ComponentDetailPage;
+export default ComponentDetailPage;

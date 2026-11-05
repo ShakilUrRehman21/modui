@@ -11,7 +11,7 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
   const [bottomActiveTab, setBottomActiveTab] = useState<'tsx' | 'css' | 'usage'>('tsx');
   const [bottomCopied, setBottomCopied] = useState(false);
   const [cliCopied, setCliCopied] = useState(false);
-  const [pkgManager, setPkgManager] = useState<'npm' | 'pnpm' | 'bun'>('npm');
+  const [pkgManager, setPkgManager] = useState<'npm' | 'pnpm' | 'bun' | 'yarn'>('npm');
 
   const buttonData = COMPONENT_REGISTRY.find((c) => c.slug === 'animated-button');
 
@@ -60,8 +60,8 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
       <div className="modui-container">
         <div className="modui-sandbox-grid">
           {/* Left Column: Architecture Blueprint & Quick Install */}
-          <div className="modui-sandbox-left">
-            <div className="modui-eyebrow">MODUI ARCHITECTURE</div>
+          <div className="modui-sandbox-left modui-reveal modui-slide-left">
+            <div className="modui-eyebrow">DOCUMENTATION & INTEGRATION // ARCHITECTURE</div>
             <h2 className="modui-sandbox-title">
               Direct integration. Zero boilerplate.
             </h2>
@@ -73,7 +73,7 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
             <div className="modui-install-terminal-box">
               <div className="modui-install-pkg-tabs">
                 <span className="modui-terminal-badge">React Peer Deps</span>
-                {(['npm', 'pnpm', 'bun'] as const).map((pm) => (
+                {(['npm', 'pnpm', 'bun', 'yarn'] as const).map((pm) => (
                   <button
                     key={pm}
                     type="button"
@@ -89,6 +89,7 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
                   {pkgManager === 'npm' && 'npm install lucide-react canvas-confetti'}
                   {pkgManager === 'pnpm' && 'pnpm add lucide-react canvas-confetti'}
                   {pkgManager === 'bun' && 'bun add lucide-react canvas-confetti'}
+                  {pkgManager === 'yarn' && 'yarn add lucide-react canvas-confetti'}
                 </code>
                 <button
                   type="button"
@@ -99,7 +100,9 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
                         ? 'npm install lucide-react canvas-confetti'
                         : pkgManager === 'pnpm'
                         ? 'pnpm add lucide-react canvas-confetti'
-                        : 'bun add lucide-react canvas-confetti',
+                        : pkgManager === 'bun'
+                        ? 'bun add lucide-react canvas-confetti'
+                        : 'yarn add lucide-react canvas-confetti',
                       'Peer Dependency Command'
                     )
                   }
@@ -154,19 +157,25 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
               </div>
             </div>
 
-            <div style={{ marginTop: '2rem' }}>
+            <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
               <button
-                onClick={() => onNavigate('/components')}
+                onClick={() => onNavigate('/docs')}
                 className="modui-cta-btn"
               >
-                <span>Browse All Components</span>
+                <span>Read Full Documentation</span>
                 <span style={{ marginLeft: '0.4rem' }}>→</span>
+              </button>
+              <button
+                onClick={() => onNavigate('/components')}
+                className="modui-secondary-btn"
+              >
+                <span>Browse Components</span>
               </button>
             </div>
           </div>
 
           {/* Right Column: Code Terminal & File Tabs */}
-          <div className="modui-sandbox-right">
+          <div className="modui-sandbox-right modui-reveal modui-slide-right">
             <div className="modui-sandbox-console-card">
               <div className="modui-console-tabs-bar">
                 <div className="modui-console-window-dots">

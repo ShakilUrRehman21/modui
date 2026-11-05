@@ -26,6 +26,7 @@ import { MagneticProjectList } from '../components/ui/magnetic-project-list';
 import { InfiniteCanvasGallery } from '../components/ui/infinite-canvas-gallery';
 import { SpatialGallery } from '../components/ui/spatial-gallery';
 import { trackPreviewOpen } from '../lib/analytics';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import './ExplorerPage.css';
 
 interface ExplorerPageProps {
@@ -39,6 +40,34 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'All');
+
+  useScrollReveal();
+
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rotX = ((y - cy) / cy) * -4;
+    const rotY = ((x - cx) / cx) * 4;
+    card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(2px)`;
+    const glare = card.querySelector('.modui-card-glare') as HTMLElement;
+    if (glare) {
+      glare.style.opacity = '1';
+      glare.style.background = `radial-gradient(circle at ${(x / rect.width) * 100}% ${(y / rect.height) * 100}%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 65%)`;
+    }
+  };
+
+  const handleCardMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+    const glare = card.querySelector('.modui-card-glare') as HTMLElement;
+    if (glare) {
+      glare.style.opacity = '0';
+    }
+  };
 
   const filteredComponents = useMemo(() => {
     return COMPONENT_REGISTRY.filter((comp) => {
@@ -122,21 +151,20 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
             {filteredComponents.map((comp) => (
               <div
                 key={comp.id}
-                className="modui-featured-card"
+                className="modui-featured-card modui-reveal modui-scale-up"
+                onMouseMove={handleCardMouseMove}
+                onMouseLeave={handleCardMouseLeave}
                 onClick={() => {
                   trackPreviewOpen({ component: comp.slug, mode: 'card_preview' });
                   onNavigate(`/components/${comp.slug}`);
                 }}
               >
+                <div className="modui-card-glare" aria-hidden="true" />
+
                 {/* 1. Hero Live Component Preview Canvas */}
                 <div className="modui-card-preview-stage">
-                  <div className="modui-card-stage-meta">
-                    <span className="modui-card-cat-badge">{comp.category}</span>
-                    <span className="modui-card-ver-tag">v{comp.version}</span>
-                  </div>
-
                   {comp.slug === 'animated-button' && (
-                    <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
                       <AnimatedButton variant="shimmer" size="sm">
                         Shimmer
                       </AnimatedButton>
@@ -150,7 +178,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'badge' && (
-                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', maxWidth: '240px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, auto)', gap: '0.65rem', justifyContent: 'center', alignItems: 'center' }}>
                       <Badge variant="accent" dot pulse>
                         Live Pulse
                       </Badge>
@@ -158,7 +186,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         Operational
                       </Badge>
                       <Badge variant="cyan">
-                        v2.4
+                        v2.4 Ready
                       </Badge>
                       <Badge variant="warning" dot>
                         Syncing
@@ -167,24 +195,34 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'kinetic-text' && (
-                    <div style={{ textAlign: 'center', padding: '0.5rem', color: 'var(--text-primary)', pointerEvents: 'auto', fontSize: '1.25rem', fontWeight: 700 }}>
-                      <KineticText text="Interactive Wave" interactiveWave={true} />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', textAlign: 'center', width: '100%', pointerEvents: 'auto' }}>
+                      <div style={{ fontSize: '1.45rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
+                        <KineticText text="Interactive Wave" interactiveWave={true} />
+                      </div>
+                      <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', background: 'rgba(54, 92, 245, 0.08)', padding: '0.2rem 0.6rem', border: '1px solid rgba(54, 92, 245, 0.18)', borderRadius: '999px' }}>
+                        HOVER OVER CHARACTERS
+                      </span>
                     </div>
                   )}
 
                   {comp.slug === 'number-ticker' && (
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.6rem' }}>
-                      <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
-                        <NumberTicker value={1420} prefix="$" suffix="/mo" />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.45rem', background: '#FFFFFF', padding: '0.85rem 1.4rem', borderRadius: '12px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)' }}>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.65rem' }}>
+                        <div style={{ fontSize: '2.1rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', letterSpacing: '-0.03em' }}>
+                          <NumberTicker value={1420} prefix="$" suffix="/mo" />
+                        </div>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#10B981', background: 'rgba(16, 185, 129, 0.12)', padding: '0.15rem 0.5rem', borderRadius: '999px', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
+                          +24.8%
+                        </span>
                       </div>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#10B981', background: 'rgba(16, 185, 129, 0.12)', padding: '0.15rem 0.45rem', borderRadius: '999px', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
-                        +24.8%
+                      <span style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em' }}>
+                        REVENUE METRIC // 60 FPS
                       </span>
                     </div>
                   )}
 
                   {comp.slug === 'cylindrical-carousel' && (
-                    <div style={{ width: '100%', height: '160px', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '280px', height: '170px', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <CylindricalCarousel
                         items={[
                           { id: '1', title: 'Spatial Studio', tag: 'Core', color: '#365CF5', badge: 'v2.1' },
@@ -193,8 +231,8 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                           { id: '4', title: 'Vector Scope', tag: 'Audio', color: '#F1E99B' },
                         ]}
                         radius={110}
-                        cardWidth={115}
-                        cardHeight={135}
+                        cardWidth={110}
+                        cardHeight={130}
                         perspective={380}
                         tiltAngle={-4}
                         showControls={false}
@@ -202,13 +240,13 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         showDragHint={false}
                         autoplay={true}
                         autoplaySpeed={15}
-                        style={{ minHeight: '160px', height: '160px' }}
+                        style={{ minHeight: '170px', height: '170px' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'floating-dock' && (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
                       <FloatingDock
                         items={[
                           {
@@ -271,7 +309,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'radial-orbit-hub' && (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '160px', height: '160px', flexShrink: 0 }}>
                       <RadialOrbitHub
                         items={[
                           {
@@ -316,8 +354,8 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                             ),
                           },
                         ]}
-                        radius={48}
-                        defaultOpen={false}
+                        radius={52}
+                        defaultOpen={true}
                         variant="glass"
                         showLabels={false}
                         soundEnabled={false}
@@ -326,7 +364,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'fluid-elastic-accordion' && (
-                    <div style={{ width: '100%', height: '160px', overflow: 'hidden', display: 'flex', alignItems: 'center', padding: '0 0.5rem' }}>
+                    <div style={{ width: '100%', maxWidth: '300px', height: '155px', overflow: 'hidden', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
                       <FluidElasticAccordion
                         items={[
                           { id: '1', number: '01', title: 'Spatial', subtitle: 'WebGL 3D', color: '#365CF5', tag: 'Core' },
@@ -338,14 +376,14 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         variant="light"
                         trigger="hover"
                         soundEnabled={false}
-                        expandedRatio={2.5}
-                        style={{ height: '145px', minHeight: '145px', width: '100%', borderRadius: '6px' }}
+                        expandedRatio={2.2}
+                        style={{ height: '145px', minHeight: '145px', width: '100%', borderRadius: '8px' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'before-after-slider' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 0.75rem' }}>
+                    <div style={{ width: '100%', maxWidth: '280px', height: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <BeforeAfterSlider
                         aspectRatio="16 / 10"
                         variant="light"
@@ -353,16 +391,16 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         soundEnabled={false}
                         initialPosition={50}
                         showLabels={true}
-                        style={{ width: '100%', maxHeight: '155px', borderRadius: '6px' }}
+                        style={{ width: '100%', maxHeight: '160px', borderRadius: '8px', boxShadow: '0 4px 16px rgba(15, 23, 42, 0.08)' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'rotary-jog-wheel' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '160px', height: '160px', flexShrink: 0 }}>
                       <RotaryJogWheel
-                        size="sm"
-                        defaultValue={48}
+                        size="md"
+                        defaultValue={58}
                         min={0}
                         max={100}
                         variant="metallic"
@@ -374,51 +412,29 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'cyber-stream-matrix' && (
-                    <div style={{ width: '100%', height: '160px', borderRadius: '6px', overflow: 'hidden', position: 'relative' }}>
+                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', borderRadius: '8px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
                       <CyberStreamMatrix
                         variant="studio-light"
                         charset="hex"
-                        speed={0.5}
+                        speed={0.6}
                         density={1}
                         glow={true}
                         soundEnabled={false}
                         style={{ width: '100%', height: '100%' }}
-                      >
-                        <div
-                          style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            padding: '0.35rem 0.75rem',
-                            background: 'rgba(255,255,255,0.88)',
-                            backdropFilter: 'blur(8px)',
-                            border: '1px solid rgba(0,0,0,0.08)',
-                            borderRadius: '999px',
-                            fontSize: '0.68rem',
-                            fontWeight: 600,
-                            letterSpacing: '0.08em',
-                            color: '#1a1a1a',
-                            boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
-                            pointerEvents: 'none',
-                          }}
-                        >
-                          CANVAS // STREAM
-                        </div>
-                      </CyberStreamMatrix>
+                      />
                     </div>
                   )}
 
                   {comp.slug === 'caustic-ripple-surface' && (
-                    <div style={{ width: '100%', height: '160px', borderRadius: '6px', overflow: 'hidden', position: 'relative' }}>
+                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', borderRadius: '8px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
                       <CausticRippleSurface
                         variant="porcelain"
                         compact={true}
                         damping={0.97}
-                        refractionStrength={2.0}
+                        refractionStrength={2.2}
                         dropletRadius={3}
                         rainEnabled={true}
-                        rainInterval={2800}
+                        rainInterval={2400}
                         soundEnabled={false}
                         style={{ width: '100%', height: '100%' }}
                       />
@@ -426,59 +442,36 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'neural-cloth-mesh' && (
-                    <div style={{ width: '100%', height: '160px', borderRadius: '6px', overflow: 'hidden', position: 'relative' }}>
+                    <div style={{ width: '100%', maxWidth: '280px', height: '175px', borderRadius: '8px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
                       <NeuralClothMesh
                         variant="studio-silk"
                         renderMode="wireframe"
                         pinMode="curtain"
-                        gravity={0.10}
-                        windStrength={0}
+                        gravity={0.12}
+                        windStrength={0.02}
                         compact={true}
                         soundEnabled={false}
-                        style={{ width: '100%', height: '100%', minHeight: '160px' }}
-                      >
-                        <div
-                          style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            padding: '0.35rem 0.75rem',
-                            background: 'rgba(255,255,255,0.92)',
-                            backdropFilter: 'blur(8px)',
-                            border: '1px solid rgba(0,0,0,0.08)',
-                            borderRadius: '999px',
-                            fontSize: '0.68rem',
-                            fontWeight: 600,
-                            letterSpacing: '0.08em',
-                            color: '#1a1a1a',
-                            boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
-                            pointerEvents: 'none',
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          VERLET // WIREFRAME
-                        </div>
-                      </NeuralClothMesh>
+                        style={{ width: '100%', height: '100%' }}
+                      />
                     </div>
                   )}
 
                   {comp.slug === 'aperture-iris-lens' && (
-                    <div style={{ width: '100%', height: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                    <div style={{ width: '160px', height: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
                       <ApertureIrisLens
                         variant="studio-silver"
                         bladesCount={9}
-                        defaultValue={0.55}
+                        defaultValue={0.52}
                         compact={true}
                         showFStops={false}
                         soundEnabled={false}
-                        style={{ transform: 'scale(0.48)', transformOrigin: 'center center' }}
+                        style={{ transform: 'scale(0.55)', transformOrigin: 'center center' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'chromatic-prism-card' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.25rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <ChromaticPrismCard
                         variant="sapphire-crystal"
                         category="QUARTZ // 01"
@@ -491,7 +484,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'filmstrip-gallery' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '100%', maxWidth: '300px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <FilmstripGallery
                         variant="studio-light"
                         compact={true}
@@ -501,7 +494,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'card-stack' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '100%', maxWidth: '280px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <CardStack
                         variant="studio-light"
                         compact={true}
@@ -511,31 +504,31 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'timeline-roadmap' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <TimelineRoadmap
-                        variant="studio-light"
-                        compact={true}
-                        soundEnabled={false}
-                      />
-                    </div>
-                  )}
-
-                  {comp.slug === 'reel-tape-deck' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                      <div style={{ width: '260px', height: '185px', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <div style={{ width: '580px', position: 'absolute', transform: 'scale(0.39)', transformOrigin: 'center center' }}>
-                          <ReelTapeDeck
-                            variant="studio-light"
-                            soundEnabled={false}
-                            autoPlay={true}
-                          />
-                        </div>
+                    <div style={{ width: '100%', maxWidth: '300px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+                      <div style={{ width: '310px', transform: 'scale(0.88)', transformOrigin: 'center center' }}>
+                        <TimelineRoadmap
+                          variant="studio-light"
+                          compact={true}
+                          soundEnabled={false}
+                        />
                       </div>
                     </div>
                   )}
 
+                  {comp.slug === 'reel-tape-deck' && (
+                    <div style={{ width: '100%', maxWidth: '310px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <ReelTapeDeck
+                        variant="studio-light"
+                        compact={true}
+                        soundEnabled={false}
+                        autoPlay={true}
+                        style={{ width: '100%' }}
+                      />
+                    </div>
+                  )}
+
                   {comp.slug === 'story-timeline' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '100%', maxWidth: '280px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <StoryTimeline
                         variant="instagram-dark"
                         compact={true}
@@ -546,7 +539,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'polaroid' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '100%', maxWidth: '280px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <Polaroid
                         compact={true}
                         soundEnabled={false}
@@ -556,7 +549,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'spatial-gallery' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <SpatialGallery
                         compact={true}
                         soundEnabled={false}
@@ -569,7 +562,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'infinite-canvas-gallery' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px' }}>
+                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <InfiniteCanvasGallery
                         compact={true}
                         soundEnabled={false}
@@ -579,7 +572,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'magnetic-project-list' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px' }}>
+                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <MagneticProjectList
                         compact={true}
                         soundEnabled={false}
@@ -589,12 +582,13 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'neural-graph' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '100%', maxWidth: '300px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative' }}>
                       <NeuralGraph
                         variant="studio-light"
                         compact={true}
                         soundEnabled={false}
                         autoPulse={true}
+                        style={{ width: '100%', height: '100%' }}
                       />
                     </div>
                   )}
@@ -618,16 +612,8 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   <p className="modui-card-description">{comp.description}</p>
 
                   <div className="modui-card-action-bar">
-                    <div className="modui-card-tags-mini">
-                      {comp.tags?.slice(0, 2).map((t) => (
-                        <span key={t} className="modui-card-tag-pill">
-                          #{t}
-                        </span>
-                      ))}
-                    </div>
-
-                    <span className="modui-card-cta-link">
-                      <span>Inspect</span>
+                    <span className="modui-card-cta-link" style={{ marginLeft: 'auto' }}>
+                      <span>Inspect Component</span>
                       <svg className="modui-card-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12" />
                         <polyline points="12 5 19 12 12 19" />

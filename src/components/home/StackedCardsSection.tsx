@@ -1,173 +1,167 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './StackedCardsSection.css';
 
 interface StackedCardsSectionProps {
-  onNavigate: (path: string) => void;
+  onNavigate?: (path: string) => void;
 }
 
+interface SpecItem {
+  id: string;
+  stepNum: string;
+  stepTitle: string;
+  headerCategory: string;
+  statusText: string;
+  title: string;
+  description: string;
+  metricLabel: string;
+  metricDetail: string;
+  metricValue: string;
+}
+
+const SPEC_ITEMS: SpecItem[] = [
+  {
+    id: 'spec-step-1',
+    stepNum: '01',
+    stepTitle: 'Zero Runtime Bloat',
+    headerCategory: '01 / FOUNDATION',
+    statusText: 'Production Ready',
+    title: 'Pure React 19 & CSS Math',
+    description:
+      'Zero external animation bloat or oversized bundles. Every motion equation is computed with CSS transforms and native React state.',
+    metricLabel: 'BUNDLE IMPACT',
+    metricDetail: 'No 3rd-party baggage',
+    metricValue: '0 KB',
+  },
+  {
+    id: 'spec-step-2',
+    stepNum: '02',
+    stepTitle: 'Complete Source Ownership',
+    headerCategory: '02 / ARCHITECTURE',
+    statusText: '100% Owned',
+    title: 'Direct Source Code Ownership',
+    description:
+      'Drop files directly into your codebase. You retain 100% control over design tokens, CSS styling, responsive breakpoints, and ARIA attributes.',
+    metricLabel: 'CODE TRANSPARENCY',
+    metricDetail: 'Full inspection rights',
+    metricValue: '100%',
+  },
+  {
+    id: 'spec-step-3',
+    stepNum: '03',
+    stepTitle: 'Hardware-Accelerated 60 FPS',
+    headerCategory: '03 / PERFORMANCE',
+    statusText: 'Silky Smooth',
+    title: 'Hardware Compositing',
+    description:
+      'Strictly uses GPU-promoted layer operations (transform, opacity). Zero layout reflows, zero paint bottlenecks during rapid scrolling.',
+    metricLabel: 'REFRESH TARGET',
+    metricDetail: 'Zero dropped frames',
+    metricValue: '60 FPS',
+  },
+];
+
 export const StackedCardsSection: React.FC<StackedCardsSectionProps> = () => {
+  const [activeStep, setActiveStep] = useState(0);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Synchronize active step indicator as user scrolls through the cards
+  useEffect(() => {
+    const handleScroll = () => {
+      cardRefs.current.forEach((card, index) => {
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        // Trigger active step when the card enters the upper focal zone
+        if (rect.top <= 260 && rect.bottom >= 180) {
+          setActiveStep(index);
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToCard = (index: number) => {
+    setActiveStep(index);
+    const card = cardRefs.current[index];
+    if (card) {
+      const topOffset = card.getBoundingClientRect().top + window.scrollY - 130;
+      window.scrollTo({ top: topOffset, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section className="modui-specs-section">
+    <section className="modui-specs-pinned-section" id="architecture-specs">
       <div className="modui-container">
-        <div className="modui-specs-header">
-          <div className="modui-eyebrow">ARCHITECTURAL SPEC SHEET</div>
-          <h2 className="modui-specs-title">Engineered for Production Rigor</h2>
-          <p className="modui-specs-desc">
-            ModUI removes brittle npm abstractions, bloated component libraries, and vendor lock-in.
-            You own 100% of the code, tokens, and markup.
-          </p>
-        </div>
+        <div className="modui-specs-pinned-grid">
 
-        <div className="modui-stacked-cards-list">
-          {/* Spec Card 1: Pure React & CSS Foundation */}
-          <div className="modui-stacked-card" style={{ '--card-index': 0 } as React.CSSProperties}>
-            <div className="modui-stacked-card-header">
-              <div className="modui-stacked-card-meta">
-                <span className="modui-stacked-card-num">01</span>
-                <span className="modui-stacked-card-sep">/</span>
-                <span className="modui-stacked-card-category">FOUNDATION</span>
-              </div>
-              <div className="modui-stacked-card-status">
-                <span className="modui-status-dot" />
-                <span className="modui-status-text">Production Grade</span>
-              </div>
+          {/* Left Column: Pinned Sticky Information & Step Indicator */}
+          <div className="modui-specs-left-sticky modui-reveal modui-slide-left">
+            <div className="modui-specs-eyebrow-pill">
+              ENGINEERING INTEGRITY
             </div>
 
-            <div className="modui-stacked-card-body">
-              <div className="modui-stacked-card-content">
-                <h3 className="modui-stacked-card-title">Pure React & CSS Foundation</h3>
-                <p className="modui-stacked-card-text">
-                  Zero heavy runtime dependencies. Built strictly on React 19 and modern CSS tokens with subpixel accuracy.
-                  Never worry about bundle bloat or dependency deprecations breaking your UI.
-                </p>
-                <div className="modui-stacked-card-tags">
-                  <span className="modui-tag-chip">React 19</span>
-                  <span className="modui-tag-chip">Pure CSS</span>
-                  <span className="modui-tag-chip">TypeScript 5+</span>
-                  <span className="modui-tag-chip">Zero Bundle Overhead</span>
-                </div>
-              </div>
+            <h2 className="modui-specs-pinned-title">
+              Built for Real Production
+            </h2>
 
-              <div className="modui-stacked-card-metric-box">
-                <div className="modui-metric-num">0 KB</div>
-                <div className="modui-metric-sub">Runtime Dependencies</div>
-                <div className="modui-metric-detail">Pure React & standard CSS3 transforms</div>
-              </div>
+            <p className="modui-specs-pinned-desc">
+              No fragile dependencies. As you scroll down, each architectural guarantee locks into place while the previous card gracefully fades out.
+            </p>
+
+            {/* Step Navigation Indicator */}
+            <div className="modui-specs-step-indicator" role="tablist" aria-label="Architecture guarantees">
+              {SPEC_ITEMS.map((item, idx) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeStep === idx}
+                  className={`modui-step-pill ${activeStep === idx ? 'modui-step-pill--active' : ''}`}
+                  onClick={() => scrollToCard(idx)}
+                >
+                  <span className="modui-step-num">{item.stepNum}</span>
+                  <span className="modui-step-name">{item.stepTitle}</span>
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Spec Card 2: Complete Code Ownership */}
-          <div className="modui-stacked-card" style={{ '--card-index': 1 } as React.CSSProperties}>
-            <div className="modui-stacked-card-header">
-              <div className="modui-stacked-card-meta">
-                <span className="modui-stacked-card-num">02</span>
-                <span className="modui-stacked-card-sep">/</span>
-                <span className="modui-stacked-card-category">ARCHITECTURE</span>
-              </div>
-              <div className="modui-stacked-card-status">
-                <span className="modui-status-dot" />
-                <span className="modui-status-text">Source Transparent</span>
-              </div>
-            </div>
+          {/* Right Column: Sequential Deck of Cards (Slide-In, Pin, and Graceful Fade-Out) */}
+          <div className="modui-specs-right-deck">
+            {SPEC_ITEMS.map((item, idx) => (
+              <div
+                key={item.id}
+                ref={(el) => { cardRefs.current[idx] = el; }}
+                className={`modui-spec-deck-card modui-reveal modui-delay-${idx + 1}`}
+                style={{ top: `${110 + idx * 18}px` }}
+              >
+                <div className="modui-spec-deck-card-head">
+                  <span className="modui-spec-deck-card-cat">{item.headerCategory}</span>
+                  <span className="modui-spec-deck-card-status">
+                    <span className="modui-status-dot-green" />
+                    <span>{item.statusText}</span>
+                  </span>
+                </div>
 
-            <div className="modui-stacked-card-body">
-              <div className="modui-stacked-card-content">
-                <h3 className="modui-stacked-card-title">Complete Code Ownership</h3>
-                <p className="modui-stacked-card-text">
-                  No npm lock-in, no black-box packages. Copy self-contained components directly into your codebase.
-                  Full control to tweak easing curves, styling tokens, ARIA bindings, and layout behavior.
-                </p>
-                <div className="modui-stacked-card-tags">
-                  <span className="modui-tag-chip">Direct Copy</span>
-                  <span className="modui-tag-chip">Self Contained</span>
-                  <span className="modui-tag-chip">No Vendor Lock-in</span>
-                  <span className="modui-tag-chip">Customizable</span>
+                <h3 className="modui-spec-deck-card-title">{item.title}</h3>
+                <p className="modui-spec-deck-card-text">{item.description}</p>
+
+                <div className="modui-spec-deck-metric-box">
+                  <div className="modui-spec-deck-metric-meta">
+                    <div className="modui-spec-deck-metric-label">{item.metricLabel}</div>
+                    <div className="modui-spec-deck-metric-detail">{item.metricDetail}</div>
+                  </div>
+                  <div className="modui-spec-deck-metric-val">{item.metricValue}</div>
                 </div>
               </div>
-
-              <div className="modui-stacked-card-metric-box">
-                <div className="modui-metric-num">100%</div>
-                <div className="modui-metric-sub">Code Ownership</div>
-                <div className="modui-metric-detail">Direct file drop into your existing design system</div>
-              </div>
-            </div>
+            ))}
           </div>
 
-          {/* Spec Card 3: Hardware-Accelerated Motion */}
-          <div className="modui-stacked-card" style={{ '--card-index': 2 } as React.CSSProperties}>
-            <div className="modui-stacked-card-header">
-              <div className="modui-stacked-card-meta">
-                <span className="modui-stacked-card-num">03</span>
-                <span className="modui-stacked-card-sep">/</span>
-                <span className="modui-stacked-card-category">PERFORMANCE</span>
-              </div>
-              <div className="modui-stacked-card-status">
-                <span className="modui-status-dot" />
-                <span className="modui-status-text">GPU Accelerated</span>
-              </div>
-            </div>
-
-            <div className="modui-stacked-card-body">
-              <div className="modui-stacked-card-content">
-                <h3 className="modui-stacked-card-title">Hardware-Accelerated Motion</h3>
-                <p className="modui-stacked-card-text">
-                  Animations run strictly on GPU compositor layers using transform and opacity.
-                  Engineered for seamless 120 FPS high refresh rates on ProMotion and mobile displays.
-                </p>
-                <div className="modui-stacked-card-tags">
-                  <span className="modui-tag-chip">Compositor Layer</span>
-                  <span className="modui-tag-chip">Zero Layout Thrash</span>
-                  <span className="modui-tag-chip">Subpixel Easing</span>
-                  <span className="modui-tag-chip">Mobile Optimized</span>
-                </div>
-              </div>
-
-              <div className="modui-stacked-card-metric-box">
-                <div className="modui-metric-num">120 FPS</div>
-                <div className="modui-metric-sub">Fluid Compositing</div>
-                <div className="modui-metric-detail">Zero CPU layout thrashing during animations</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Spec Card 4: Accessible by Default */}
-          <div className="modui-stacked-card" style={{ '--card-index': 3 } as React.CSSProperties}>
-            <div className="modui-stacked-card-header">
-              <div className="modui-stacked-card-meta">
-                <span className="modui-stacked-card-num">04</span>
-                <span className="modui-stacked-card-sep">/</span>
-                <span className="modui-stacked-card-category">ACCESSIBILITY</span>
-              </div>
-              <div className="modui-stacked-card-status">
-                <span className="modui-status-dot" />
-                <span className="modui-status-text">Standards Compliant</span>
-              </div>
-            </div>
-
-            <div className="modui-stacked-card-body">
-              <div className="modui-stacked-card-content">
-                <h3 className="modui-stacked-card-title">Accessible by Default</h3>
-                <p className="modui-stacked-card-text">
-                  Fully keyboard navigable with visible focus indicators, semantic HTML5 elements,
-                  WAI-ARIA compliance, and automatic prefers-reduced-motion media query dampening.
-                </p>
-                <div className="modui-stacked-card-tags">
-                  <span className="modui-tag-chip">WAI-ARIA AA</span>
-                  <span className="modui-tag-chip">Keyboard Nav</span>
-                  <span className="modui-tag-chip">Reduced Motion</span>
-                  <span className="modui-tag-chip">Screen Readers</span>
-                </div>
-              </div>
-
-              <div className="modui-stacked-card-metric-box">
-                <div className="modui-metric-num">100 / 100</div>
-                <div className="modui-metric-sub">Accessibility Score</div>
-                <div className="modui-metric-detail">Lighthouse verified WCAG AA compliance</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
   );
 };
+
+export default StackedCardsSection;

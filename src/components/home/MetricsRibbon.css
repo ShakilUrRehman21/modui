@@ -1,0 +1,71 @@
+/* ==========================================================================
+   ModUI — Organized Metrics Ribbon Styles
+   ========================================================================== */
+
+.modui-metrics-ribbon {
+  padding: 3rem 0;
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-default);
+  border-bottom: 1px solid var(--border-default);
+  position: relative;
+  z-index: 2;
+}
+
+.modui-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.modui-metric-card {
+  border-left: 2px solid var(--border-subtle);
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.modui-metric-card:hover {
+  border-left-color: var(--accent-primary);
+  transform: translateX(3px);
+}
+
+.modui-metric-val {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 3.2vw, 2.5rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.modui-metric-val--accent {
+  color: var(--accent-primary);
+}
+
+.modui-metric-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 900px) {
+  .modui-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .modui-metrics-ribbon {
+    padding: 2.25rem 0;
+  }
+
+  .modui-metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+

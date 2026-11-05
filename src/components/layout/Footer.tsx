@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Footer.css';
 import { trackGithubClick } from '../../lib/analytics';
 import { COMPONENT_REGISTRY } from '../../registry/components';
@@ -10,11 +10,54 @@ interface FooterProps {
 const CURRENT_YEAR = new Date().getFullYear();
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const ctaCardRef = useRef<HTMLDivElement>(null);
+  const footerInnerRef = useRef<HTMLDivElement>(null);
+
+  // Dedicated scroll-triggered entrance for footer CTA card and footer content
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const targets = [ctaCardRef.current, footerInnerRef.current].filter(Boolean) as HTMLElement[];
+
+    if (prefersReducedMotion) {
+      targets.forEach((el) => el.classList.add('modui-in-view'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const el = entry.target as HTMLElement;
+          if (entry.isIntersecting) {
+            el.classList.add('modui-in-view');
+          } else {
+            const rect = entry.boundingClientRect;
+            // Reset when scrolled back above so it can animate in again on scroll down
+            if (rect.top > window.innerHeight * 0.9) {
+              el.classList.remove('modui-in-view');
+            }
+          }
+        });
+      },
+      {
+        rootMargin: '0px 0px -40px 0px',
+        threshold: [0, 0.15, 0.5],
+      }
+    );
+
+    targets.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <footer className="modui-footer">
-      {/* Closing CTA Callout */}
+      {/* Closing CTA Callout with Scroll-Triggered Entrance */}
       <div className="modui-container">
-        <div className="modui-footer-cta-card">
+        <div ref={ctaCardRef} className="modui-footer-cta-card">
           <div className="modui-footer-cta-content">
             <span className="modui-footer-cta-eyebrow">READY TO DEPLOY</span>
             <h3 className="modui-footer-cta-title">Build interfaces that refuse to be boring.</h3>
@@ -33,7 +76,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               style={{ textDecoration: 'none' }}
             >
               <span>Explore All Components</span>
-              <span style={{ marginLeft: '0.4rem' }}>→</span>
+              <span className="modui-btn-arrow">→</span>
             </a>
             <a
               href="https://github.com/ShakilUrRehman21/modui"
@@ -48,7 +91,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      <div className="modui-container modui-footer-inner">
+      <div ref={footerInnerRef} className="modui-container modui-footer-inner">
         <div className="modui-footer-brand">
           <div className="modui-footer-logo-wrap">
             <span className="modui-footer-logo">ModUI</span>

@@ -1,5 +1,5 @@
 export { HeroSection } from './HeroSection';
-export { StudioSection } from './StudioSection';
+export { MetricsRibbon } from './MetricsRibbon';
 export { FeaturedSection } from './FeaturedSection';
 export { StackedCardsSection } from './StackedCardsSection';
 export { SandboxSection } from './SandboxSection';

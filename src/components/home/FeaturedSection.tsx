@@ -39,11 +39,37 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
     }, 2000);
   };
 
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rotX = ((y - cy) / cy) * -4.5;
+    const rotY = ((x - cx) / cx) * 4.5;
+    card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(4px)`;
+    const glare = card.querySelector('.modui-card-glare') as HTMLElement;
+    if (glare) {
+      glare.style.opacity = '1';
+      glare.style.background = `radial-gradient(circle at ${(x / rect.width) * 100}% ${(y / rect.height) * 100}%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 65%)`;
+    }
+  };
+
+  const handleCardMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+    const glare = card.querySelector('.modui-card-glare') as HTMLElement;
+    if (glare) {
+      glare.style.opacity = '0';
+    }
+  };
+
   return (
     <section className="modui-gallery-section" id="components-gallery">
       <div className="modui-container">
         {/* Section Header */}
-        <div className="modui-gallery-header">
+        <div className="modui-gallery-header modui-reveal">
           <div className="modui-gallery-eyebrow">
             <span className="modui-gallery-eyebrow-dot" />
             <span>FEATURED PRIMITIVES</span>
@@ -62,14 +88,18 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
 
         {/* 3-Card Featured Grid */}
         <div className="modui-gallery-grid">
-          {featuredComponents.map((comp) => {
+          {featuredComponents.map((comp, i) => {
             if (!comp) return null;
             const isCopied = copiedSlug === comp.slug;
+            const directionClass = i === 0 ? 'modui-slide-left' : i === 1 ? 'modui-scale-up' : 'modui-slide-right';
+            const delayClass = `modui-delay-${i + 1}`;
 
             return (
               <div
                 key={comp.slug}
-                className="modui-card-item"
+                className={`modui-card-item modui-reveal ${directionClass} ${delayClass}`}
+                onMouseMove={handleCardMouseMove}
+                onMouseLeave={handleCardMouseLeave}
                 onClick={() => {
                   trackPreviewOpen({
                     component: comp.slug,
@@ -79,19 +109,17 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                   onNavigate(`/components/${comp.slug}`);
                 }}
               >
+                <div className="modui-card-glare" aria-hidden="true" />
+
                 {/* 1. Component Live Canvas Stage */}
                 <div
                   className="modui-card-stage"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <div className="modui-card-stage-topbar">
-                    <span className="modui-card-cat-badge">{comp.category}</span>
-                    <span className="modui-card-ver-badge">v{comp.version}</span>
-                  </div>
 
                   {/* InfiniteCanvasGallery Live Stage */}
                   {comp.slug === 'infinite-canvas-gallery' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px' }}>
+                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <InfiniteCanvasGallery
                         compact={true}
                         soundEnabled={false}
@@ -102,7 +130,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
 
                   {/* MagneticProjectList Live Stage */}
                   {comp.slug === 'magnetic-project-list' && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px' }}>
+                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <MagneticProjectList
                         compact={true}
                         soundEnabled={false}
@@ -113,7 +141,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
 
                   {/* SpatialGallery Live Stage */}
                   {comp.slug === 'spatial-gallery' && (
-                    <div style={{ width: '100%', height: '100%', minHeight: '190px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <SpatialGallery
                         compact={true}
                         soundEnabled={false}
@@ -175,14 +203,6 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                   <p className="modui-card-desc">{comp.description}</p>
 
                   <div className="modui-card-footer">
-                    <div className="modui-card-tags">
-                      {comp.tags?.slice(0, 2).map((t) => (
-                        <span key={t} className="modui-card-tag">
-                          #{t}
-                        </span>
-                      ))}
-                    </div>
-
                     <a
                       href={`/components/${comp.slug}`}
                       className="modui-card-inspect-cta"
@@ -191,10 +211,10 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                         e.stopPropagation();
                         onNavigate(`/components/${comp.slug}`);
                       }}
-                      style={{ textDecoration: 'none' }}
+                      style={{ textDecoration: 'none', marginLeft: 'auto' }}
                       title={`Inspect ${comp.name} component`}
                     >
-                      <span>Inspect & Code</span>
+                      <span>Inspect Component</span>
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12" />
                         <polyline points="12 5 19 12 12 19" />
@@ -208,7 +228,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
         </div>
 
         {/* Bottom Banner to Explore All Components */}
-        <div className="modui-gallery-footer-banner">
+        <div className="modui-gallery-footer-banner modui-reveal modui-scale-up modui-delay-2">
           <div className="modui-gallery-footer-text">
             <h4 className="modui-gallery-footer-title">{`Looking for the remaining ${COMPONENT_REGISTRY.length - 3} components?`}</h4>
             <p className="modui-gallery-footer-desc">

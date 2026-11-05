@@ -284,6 +284,58 @@ select {
   margin-bottom: 0.5rem;
 }
 
+/* Fixed Top Reading Progress Bar (Hairline line, zero text) */
+#modui-scroll-progress-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #365CF5 0%, #60A5FA 50%, #365CF5 100%);
+  box-shadow: 0 0 10px rgba(54, 92, 245, 0.6);
+  z-index: 999999;
+  pointer-events: none;
+  transition: width 0.06s linear;
+}
+
+/* ==========================================================================
+   Scroll-Triggered Motion Engine (Slide In, Fade In, Fade Out on Scroll)
+   ========================================================================== */
+.modui-reveal {
+  opacity: 0;
+  transform: translateY(44px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.modui-reveal.modui-slide-left {
+  transform: translateX(-56px);
+}
+
+.modui-reveal.modui-slide-right {
+  transform: translateX(56px);
+}
+
+.modui-reveal.modui-scale-up {
+  transform: scale(0.92) translateY(32px);
+}
+
+.modui-reveal.modui-in-view {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) !important;
+}
+
+.modui-reveal.modui-out-top {
+  opacity: 0.22;
+  transform: translateY(-24px) scale(0.98);
+  filter: blur(0.5px);
+}
+
+.modui-delay-1 { transition-delay: 0.08s; }
+.modui-delay-2 { transition-delay: 0.16s; }
+.modui-delay-3 { transition-delay: 0.24s; }
+.modui-delay-4 { transition-delay: 0.32s; }
+
 /* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -293,5 +345,12 @@ select {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .modui-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    filter: none !important;
   }
 }

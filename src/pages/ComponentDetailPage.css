@@ -15,6 +15,29 @@
   box-sizing: border-box;
 }
 
+/* Platform-grade fluid page entrance motion */
+@keyframes modui-detail-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modui-detail-scale-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 .modui-breadcrumb {
   display: flex;
   align-items: center;
@@ -22,6 +45,7 @@
   font-size: 0.75rem;
   color: var(--text-tertiary);
   margin-bottom: 1.5rem;
+  animation: modui-detail-slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
 .modui-breadcrumb-link {
@@ -40,10 +64,11 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 1.5rem;
-  margin-bottom: 2.5rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--border-default);
+  margin-bottom: 2.25rem;
+  padding-bottom: 0;
+  border-bottom: none;
   flex-wrap: wrap;
+  animation: modui-detail-slide-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.08s backwards;
 }
 
 .modui-detail-title {
@@ -102,7 +127,14 @@
   background: #FFFFFF;
   overflow: hidden;
   margin-bottom: 3rem;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 10px 30px -4px rgba(32, 32, 30, 0.05), 0 2px 8px -1px rgba(32, 32, 30, 0.03);
+  animation: modui-detail-scale-enter 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.14s backwards;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.modui-studio-workbench:hover {
+  border-color: rgba(54, 92, 245, 0.25);
+  box-shadow: 0 16px 40px -8px rgba(54, 92, 245, 0.08), 0 2px 8px -1px rgba(32, 32, 30, 0.03);
 }
 
 .modui-canvas-stage {

@@ -761,46 +761,141 @@
    -------------------------------------------------------------------------- */
 
 .modui-reel-deck--compact {
-  max-width: 580px;
-  padding: 10px;
+  max-width: 320px;
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--mod-deck-bg);
+  border: 1px solid var(--mod-deck-border);
   border-radius: var(--radius-lg, 10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
 }
 
-.modui-reel-deck--compact .modui-tape-header {
-  padding-bottom: 6px;
-  margin-bottom: 8px;
+.modui-tape-compact-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding: 0 4px;
+}
+
+.modui-tape-compact-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modui-tape-compact-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: var(--mod-deck-text-muted);
+  transition: all 160ms ease;
+}
+
+.modui-tape-compact-dot--active {
+  background-color: #10B981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+
+.modui-tape-compact-title {
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--mod-deck-text);
+}
+
+.modui-tape-compact-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modui-tape-compact-counter {
+  font-family: var(--mod-deck-font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: #181614;
+  color: #FFFFFF;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.1em;
+}
+
+.modui-tape-compact-play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--mod-deck-border);
+  background: var(--mod-deck-bay-bg);
+  color: var(--mod-deck-text);
+  font-size: 0.62rem;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.modui-tape-compact-play-btn:hover {
+  background: var(--mod-deck-accent);
+  color: #FFFFFF;
+  border-color: var(--mod-deck-accent);
 }
 
 .modui-reel-deck--compact .modui-tape-bay {
-  height: 180px;
-  padding: 8px 12px;
+  height: 128px;
+  padding: 6px 12px;
+  border-radius: var(--radius-md, 8px);
 }
 
 .modui-reel-deck--compact .modui-tape-reel {
-  width: 110px;
-  height: 110px;
+  width: 96px;
+  height: 96px;
 }
 
-.modui-reel-deck--compact .modui-tape-console {
-  gap: 8px;
-  margin-top: 8px;
+.modui-reel-deck--compact .modui-tape-reel__spoke {
+  width: 15px;
 }
 
-.modui-reel-deck--compact .modui-tape-vu-meter {
-  padding: 6px 8px;
+.modui-reel-deck--compact .modui-tape-reel__hub {
+  width: 28px;
+  height: 28px;
 }
 
-.modui-reel-deck--compact .modui-tape-transport {
-  margin-top: 8px;
+.modui-reel-deck--compact .modui-tape-reel__center-pin {
+  width: 9px;
+  height: 9px;
+}
+
+.modui-reel-deck--compact .modui-tape-heads__plate {
+  padding: 4px 6px;
   gap: 4px;
 }
 
-.modui-reel-deck--compact .modui-tape-key {
-  height: 36px;
+.modui-reel-deck--compact .modui-tape-roller {
+  width: 10px;
+  height: 10px;
 }
 
-.modui-reel-deck--compact .modui-tape-key__label {
-  font-size: 0.55rem;
+.modui-reel-deck--compact .modui-tape-head {
+  width: 9px;
+  height: 15px;
+}
+
+.modui-reel-deck--compact .modui-tape-capstan__shaft {
+  width: 4px;
+  height: 4px;
+}
+
+.modui-reel-deck--compact .modui-tape-capstan__roller {
+  width: 10px;
+  height: 10px;
+}
+
+.modui-reel-deck--compact .modui-tape-heads__label {
+  display: none;
 }
 
 /* --------------------------------------------------------------------------
