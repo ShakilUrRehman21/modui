@@ -309,6 +309,36 @@
     0 2px 6px rgba(32, 32, 30, 0.04);
 }
 
+/* Dark theme overrides for slider stages */
+[data-theme="dark"] .modui-compare-slider {
+  background: var(--bg-surface);
+  border-color: var(--border-default);
+}
+
+[data-theme="dark"] .modui-slider-handle {
+  background: var(--bg-surface-elevated);
+  border-color: var(--border-strong);
+}
+
+[data-theme="dark"] .modui-slider-default-before {
+  background: #141720;
+}
+
+[data-theme="dark"] .modui-slider-blueprint-box {
+  background: rgba(25, 28, 38, 0.85);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .modui-slider-default-after {
+  background: radial-gradient(circle at 60% 40%, #172033 0%, #0E1118 85%);
+}
+
+[data-theme="dark"] .modui-slider-rendered-box {
+  background: #191C26;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.4);
+}
+
 .modui-slider-caustic-beam {
   width: 54%;
   height: 54%;

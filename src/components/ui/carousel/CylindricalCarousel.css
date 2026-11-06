@@ -17,6 +17,7 @@
   touch-action: pan-y;
   outline: none;
   perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
 }
 
 .modui-cylindrical-viewport:active {
@@ -42,6 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  will-change: transform;
 }
 
 /* Individual 3D Card */
@@ -54,7 +56,9 @@
   border-radius: var(--radius-lg, 0.75rem);
   box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
   backface-visibility: hidden;
-  will-change: transform, filter, opacity;
+  -webkit-backface-visibility: hidden;
+  transform-style: flat;
+  will-change: transform, opacity;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -128,7 +132,7 @@
 }
 
 .modui-cylindrical-art--pattern {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--bg-surface-subtle, linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%));
 }
 
 .modui-cylindrical-art-halo {
@@ -221,14 +225,14 @@
   height: 26px;
   border-radius: 9999px;
   border: 1px solid var(--border-subtle, #e2e8f0);
-  background: #ffffff;
+  background: var(--bg-surface, #ffffff);
   color: var(--text-secondary, #64748b);
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .modui-cylindrical-ctrl-btn:hover {
-  background: var(--bg-hover, #f8fafc);
+  background: var(--bg-surface-elevated, #f8fafc);
   color: var(--text-primary, #0f172a);
   border-color: var(--border-hover, #cbd5e1);
 }
@@ -295,4 +299,67 @@
   .modui-cylindrical-card {
     transition: none !important;
   }
+}
+
+.modui-cylindrical-viewport--autoplay .modui-cylindrical-card {
+  transition: none !important;
+}
+
+/* ==========================================================================
+   Dark Theme Enhancements
+   ========================================================================== */
+
+[data-theme="dark"] .modui-cylindrical-viewport {
+  --bg-card: var(--bg-surface-elevated, #161822);
+  --border-subtle: var(--border-default, rgba(255, 255, 255, 0.1));
+  --border-hover: rgba(255, 255, 255, 0.22);
+}
+
+[data-theme="dark"] .modui-cylindrical-card {
+  background: var(--bg-surface-elevated, #161822);
+  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
+  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.5), 0 4px 12px -2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .modui-cylindrical-card-body {
+  background: var(--bg-surface-elevated, #161822);
+}
+
+[data-theme="dark"] .modui-cylindrical-card-sheen {
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.35) 100%);
+}
+
+[data-theme="dark"] .modui-cylindrical-art {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .modui-cylindrical-art--pattern {
+  background: linear-gradient(135deg, #1C1F2B 0%, #13151E 100%);
+}
+
+[data-theme="dark"] .modui-cylindrical-controls {
+  background: rgba(20, 23, 33, 0.92);
+  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
+  box-shadow: 0 8px 24px -2px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] .modui-cylindrical-ctrl-btn {
+  background: #191B24;
+  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .modui-cylindrical-ctrl-btn:hover {
+  background: #252836;
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+[data-theme="dark"] .modui-cylindrical-drag-hint {
+  background: rgba(20, 23, 33, 0.90);
+  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
+  color: var(--text-secondary);
 }

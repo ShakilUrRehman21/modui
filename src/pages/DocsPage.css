@@ -23,7 +23,7 @@
   gap: 0.5rem;
   padding: 0.35rem 0.75rem;
   border-radius: var(--radius-sm);
-  background: #FFFFFF;
+  background: var(--bg-surface);
   border: 1px solid var(--border-default);
   box-shadow: var(--shadow-sm);
   font-family: var(--font-mono);
@@ -81,7 +81,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  background: #FFFFFF;
+  background: var(--bg-surface);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg, 12px);
   padding: 1.25rem 1rem;
@@ -138,12 +138,12 @@
 
 .modui-docs-nav-item:hover {
   color: var(--text-primary);
-  background: #FAF9F5;
+  background: var(--bg-surface-subtle);
 }
 
 .modui-docs-nav-item--active {
   color: var(--accent-primary) !important;
-  background: rgba(54, 92, 245, 0.07) !important;
+  background: rgba(54, 92, 245, 0.08) !important;
   font-weight: 600;
   border-left: 3px solid var(--accent-primary);
 }
@@ -167,7 +167,7 @@
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--accent-primary);
-  background: #FAF9F5;
+  background: var(--bg-surface-subtle);
   border-radius: var(--radius-sm);
   border: 1px solid rgba(54, 92, 245, 0.2);
   cursor: pointer;
@@ -190,7 +190,7 @@
 
 /* Studio Section Card */
 .modui-docs-card {
-  background: #FFFFFF;
+  background: var(--bg-surface);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-xl, 16px);
   box-shadow: 0 4px 24px -2px rgba(32, 32, 30, 0.03);
@@ -244,7 +244,7 @@
 .modui-docs-p code {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
-  background: #FAF9F5;
+  background: var(--bg-surface-subtle);
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
   color: var(--text-primary);
@@ -260,16 +260,17 @@
 }
 
 .modui-docs-callout-item {
-  background: #FAF9F5;
+  background: var(--bg-surface-subtle);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md, 8px);
   padding: 1.25rem;
-  transition: transform 200ms ease, border-color 200ms ease;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .modui-docs-callout-item:hover {
   transform: translateY(-2px);
-  border-color: rgba(54, 92, 245, 0.3);
+  border-color: rgba(54, 92, 245, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .modui-docs-callout-tag {
@@ -333,7 +334,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.85rem;
-  background: #FAF9F5;
+  background: var(--bg-surface-subtle);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md, 8px);
   padding: 1rem 1.25rem;
@@ -365,7 +366,7 @@
 }
 
 .modui-docs-step {
-  background: #FAF9F5;
+  background: var(--bg-surface-subtle);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md, 8px);
   padding: 1.25rem;
@@ -399,7 +400,7 @@
 .modui-docs-step p code {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  background: #FFFFFF;
+  background: var(--bg-surface-subtle);
   padding: 0.1rem 0.3rem;
   border-radius: 3px;
   border: 1px solid var(--border-default);
@@ -443,7 +444,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  background: #FAF9F5;
+  background: var(--bg-surface-subtle);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md, 8px);
   padding: 0.5rem 0.85rem;
@@ -477,7 +478,7 @@
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  background: #FAF9F5;
+  background: var(--bg-surface-subtle);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md, 8px);
   padding: 0.75rem;
@@ -579,7 +580,7 @@
 }
 
 .modui-docs-a11y-box {
-  background: #FAF9F5;
+  background: var(--bg-surface-subtle);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md, 8px);
   padding: 1.25rem;
@@ -619,7 +620,7 @@
 .modui-docs-a11y-desc code {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  background: #FFFFFF;
+  background: var(--bg-surface-subtle);
   padding: 0.1rem 0.35rem;
   border-radius: 3px;
   border: 1px solid var(--border-default);
@@ -644,7 +645,7 @@
 .modui-docs-ordered-list code {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
-  background: #FAF9F5;
+  background: var(--bg-surface-subtle);
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
   color: var(--text-primary);
@@ -786,7 +787,7 @@
     width: auto;
     padding: 0.4rem 0.85rem;
     border-radius: 9999px;
-    background: #FAF9F5;
+    background: var(--bg-surface-subtle);
     border: 1px solid var(--border-default);
     font-size: 0.8125rem;
     border-left: 1px solid var(--border-default) !important;

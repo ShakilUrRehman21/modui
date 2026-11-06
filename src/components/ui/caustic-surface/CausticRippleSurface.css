@@ -33,6 +33,18 @@
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
+[data-theme="dark"] .modui-caustic-surface {
+  --caustic-bg: #0C0E14;
+  --caustic-text: #F8FAFC;
+  --caustic-subtext: #94A3B8;
+  --caustic-light-color: rgba(56, 189, 248, 0.45);
+  --caustic-tint: rgba(56, 189, 248, 0.12);
+  --caustic-border: rgba(255, 255, 255, 0.12);
+  --caustic-badge-bg: rgba(15, 23, 42, 0.85);
+  --caustic-badge-text: #38BDF8;
+  --caustic-badge-border: rgba(56, 189, 248, 0.35);
+}
+
 .modui-caustic-surface--compact {
   height: 100% !important;
   min-height: 0 !important;

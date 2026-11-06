@@ -37,12 +37,13 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--accent-primary, #365CF5);
-  background: #EFF6FF;
-  border: 1px solid #BFDBFE;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
   padding: 0.35rem 0.85rem;
   border-radius: 20px;
   margin-bottom: 1.25rem;
   width: fit-content;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .modui-specs-pinned-title {
@@ -93,10 +94,10 @@
 
 .modui-step-pill--active {
   color: var(--accent-primary, #365CF5) !important;
-  background: #EFF6FF !important;
-  border-color: #BFDBFE !important;
+  background: rgba(54, 92, 245, 0.12) !important;
+  border-color: rgba(54, 92, 245, 0.35) !important;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(54, 92, 245, 0.08);
+  box-shadow: 0 2px 8px rgba(54, 92, 245, 0.15);
 }
 
 .modui-step-num {
@@ -124,7 +125,7 @@
 }
 
 .modui-spec-deck-card {
-  background: #FFFFFF;
+  background: var(--bg-surface);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   padding: 2.25rem 2.5rem;
@@ -194,7 +195,7 @@
 }
 
 .modui-spec-deck-metric-box {
-  background: #F8F8F5;
+  background: var(--bg-surface-subtle);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
   padding: 1.15rem 1.45rem;
@@ -205,7 +206,7 @@
 }
 
 .modui-spec-deck-card:hover .modui-spec-deck-metric-box {
-  background: #FFFFFF;
+  background: var(--bg-surface-elevated);
   border-color: var(--accent-primary);
   box-shadow: 0 4px 16px rgba(54, 92, 245, 0.08);
 }

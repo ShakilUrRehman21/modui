@@ -399,6 +399,24 @@
   overflow: hidden;
 }
 
+/* Dark mode theme adaptation */
+[data-theme="dark"] .modui-compact-bg-row {
+  background: var(--bg-surface-subtle, #1C1D24);
+  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
+}
+
+[data-theme="dark"] .modui-compact-floating-card {
+  background: var(--bg-surface, #131418);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 18px 36px -6px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .modui-floating-card {
+  background: #191B22;
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 48px -8px rgba(0, 0, 0, 0.7);
+}
+
 .modui-floating-card__pills {
   display: flex;
   flex-wrap: wrap;
@@ -517,6 +535,24 @@
   transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+}
+
+/* Dark mode theme adaptation */
+[data-theme="dark"] .modui-compact-bg-row {
+  background: var(--bg-surface-subtle, #1C1D24);
+  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
+}
+
+[data-theme="dark"] .modui-compact-floating-card {
+  background: var(--bg-surface, #131418);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 18px 36px -6px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .modui-floating-card {
+  background: #191B22;
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 48px -8px rgba(0, 0, 0, 0.7);
 }
 
 .modui-featured-card:hover .modui-compact-floating-card,

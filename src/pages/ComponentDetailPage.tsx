@@ -53,13 +53,17 @@ import './ComponentDetailPage.css';
 interface ComponentDetailPageProps {
   slug: string;
   onNavigate: (path: string) => void;
+  theme?: 'light' | 'dark';
 }
 
 export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   slug,
   onNavigate,
+  theme,
 }) => {
   const component = COMPONENT_REGISTRY.find((c) => c.slug === slug);
+
+  const isDark = theme ? theme === 'dark' : (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark');
 
   // Activate scroll-triggered reveals for documentation & tabs sections
   useScrollReveal({ rootMargin: '0px 0px -40px 0px', enableOutTop: false });
@@ -111,20 +115,20 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [carouselCount, setCarouselCount] = useState(6);
 
   // Playground state for FloatingDock
-  const [dockVariant, setDockVariant] = useState<'glass' | 'solid' | 'minimal' | 'dark'>('solid');
+  const [dockVariant, setDockVariant] = useState<'glass' | 'solid' | 'minimal' | 'dark'>(() => isDark ? 'dark' : 'solid');
   const [dockOrientation, setDockOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
   const [dockActiveId, setDockActiveId] = useState('home');
 
   // Playground state for RadialOrbitHub
   const [orbitRadius, setOrbitRadius] = useState(115);
   const [orbitMode, setOrbitMode] = useState<RadialOrbitMode>('circle');
-  const [orbitVariant, setOrbitVariant] = useState<RadialOrbitVariant>('glass');
+  const [orbitVariant, setOrbitVariant] = useState<RadialOrbitVariant>(() => isDark ? 'dark' : 'glass');
   const [orbitSound, setOrbitSound] = useState(true);
   const [orbitSelectedLabel, setOrbitSelectedLabel] = useState<string>('None (Click any node)');
 
   // Playground state for FluidElasticAccordion
   const [accordionOrientation, setAccordionOrientation] = useState<FluidAccordionOrientation>('horizontal');
-  const [accordionVariant, setAccordionVariant] = useState<FluidAccordionVariant>('light');
+  const [accordionVariant, setAccordionVariant] = useState<FluidAccordionVariant>(() => isDark ? 'dark' : 'light');
   const [accordionTrigger, setAccordionTrigger] = useState<FluidAccordionTrigger>('click');
   const [accordionSpring, setAccordionSpring] = useState<FluidAccordionSpring>('elastic');
   const [accordionSound, setAccordionSound] = useState(true);
@@ -134,14 +138,14 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   // Playground state for BeforeAfterSlider
   const [sliderOrientation, setSliderOrientation] = useState<SliderOrientation>('horizontal');
   const [sliderMode, setSliderMode] = useState<SliderInteraction>('drag');
-  const [sliderVariant, setSliderVariant] = useState<SliderVariant>('light');
+  const [sliderVariant, setSliderVariant] = useState<SliderVariant>(() => isDark ? 'dark' : 'light');
   const [sliderPosition, setSliderPosition] = useState(50);
   const [sliderLabels, setSliderLabels] = useState(true);
   const [sliderSound, setSliderSound] = useState(true);
 
   // Playground state for RotaryJogWheel
   const [rotaryValue, setRotaryValue] = useState(42);
-  const [rotaryVariant, setRotaryVariant] = useState<RotaryWheelVariant>('metallic');
+  const [rotaryVariant, setRotaryVariant] = useState<RotaryWheelVariant>(() => isDark ? 'dark' : 'metallic');
   const [rotaryMode, setRotaryMode] = useState<RotaryWheelMode>('bounded');
   const [rotarySize, setRotarySize] = useState<'sm' | 'md' | 'lg'>('md');
   const [rotaryFormat, setRotaryFormat] = useState<RotaryDisplayFormat>('value');
@@ -150,7 +154,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [rotarySnapping, setRotarySnapping] = useState(false);
 
   // Playground state for CyberStreamMatrix
-  const [matrixVariant, setMatrixVariant] = useState<MatrixVariant>('studio-light');
+  const [matrixVariant, setMatrixVariant] = useState<MatrixVariant>(() => isDark ? 'dark-obsidian' : 'studio-light');
   const [matrixCharset, setMatrixCharset] = useState<MatrixCharset>('hex');
   const [matrixSpeed, setMatrixSpeed] = useState<number>(0.5);
   const [matrixDensity, setMatrixDensity] = useState<number>(1);
@@ -158,7 +162,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [matrixSound, setMatrixSound] = useState<boolean>(true);
 
   // Playground state for CausticRippleSurface
-  const [causticVariant, setCausticVariant] = useState<CausticSurfaceVariant>('porcelain');
+  const [causticVariant, setCausticVariant] = useState<CausticSurfaceVariant>(() => isDark ? 'dark-obsidian' : 'porcelain');
   const [causticDamping, setCausticDamping] = useState<number>(0.98);
   const [causticRefraction, setCausticRefraction] = useState<number>(2.2);
   const [causticDropletRadius, setCausticDropletRadius] = useState<number>(4);
@@ -166,7 +170,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [causticSound, setCausticSound] = useState<boolean>(true);
 
   // Playground state for NeuralClothMesh
-  const [clothVariant, setClothVariant] = useState<ClothVariant>('studio-silk');
+  const [clothVariant, setClothVariant] = useState<ClothVariant>(() => isDark ? 'dark-obsidian' : 'studio-silk');
   const [clothRenderMode, setClothRenderMode] = useState<ClothRenderMode>('wireframe');
   const [clothPinMode, setClothPinMode] = useState<ClothPinMode>('curtain');
   const [clothGravity, setClothGravity] = useState<number>(0.10);
@@ -175,7 +179,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [clothSound, setClothSound] = useState<boolean>(true);
 
   // Playground state for ApertureIrisLens
-  const [apertureVariant, setApertureVariant] = useState<ApertureVariant>('studio-silver');
+  const [apertureVariant, setApertureVariant] = useState<ApertureVariant>(() => isDark ? 'matte-obsidian' : 'studio-silver');
   const [apertureBlades, setApertureBlades] = useState<number>(9);
   const [apertureValue, setApertureValue] = useState<number>(0.55);
   const [apertureSound, setApertureSound] = useState<boolean>(true);
@@ -183,7 +187,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [apertureFocal, setApertureFocal] = useState<string>('50mm');
 
   // Playground state for ChromaticPrismCard
-  const [prismVariant, setPrismVariant] = useState<PrismVariant>('sapphire-crystal');
+  const [prismVariant, setPrismVariant] = useState<PrismVariant>(() => isDark ? 'obsidian-prism' : 'sapphire-crystal');
   const [prismTilt, setPrismTilt] = useState<number>(14);
   const [prismInteractive, setPrismInteractive] = useState<boolean>(true);
   const [prismSound, setPrismSound] = useState<boolean>(true);
@@ -191,7 +195,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [prismActionClicked, setPrismActionClicked] = useState<number>(0);
 
   // Playground state for FilmstripGallery
-  const [filmstripVariant, setFilmstripVariant] = useState<FilmstripVariant>('studio-light');
+  const [filmstripVariant, setFilmstripVariant] = useState<FilmstripVariant>(() => isDark ? 'cinema-dark' : 'studio-light');
   const [filmstripSprockets, setFilmstripSprockets] = useState<boolean>(true);
   const [filmstripFrameNumbers, setFilmstripFrameNumbers] = useState<boolean>(true);
   const [filmstripSound, setFilmstripSound] = useState<boolean>(true);
@@ -199,37 +203,37 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [filmstripActiveFrame, setFilmstripActiveFrame] = useState<string>('Monolith Horizon');
 
   // Playground state for CardStack
-  const [cardStackVariant, setCardStackVariant] = useState<CardStackVariant>('studio-light');
+  const [cardStackVariant, setCardStackVariant] = useState<CardStackVariant>(() => isDark ? 'cinema-dark' : 'studio-light');
   const [cardStackFanOut, setCardStackFanOut] = useState<boolean>(true);
   const [cardStackSound, setCardStackSound] = useState<boolean>(true);
   const [cardStackActiveTitle, setCardStackActiveTitle] = useState<string>('Fluid Kinetic Springs');
 
   // Playground state for TimelineRoadmap
-  const [timelineVariant, setTimelineVariant] = useState<TimelineVariant>('studio-light');
+  const [timelineVariant, setTimelineVariant] = useState<TimelineVariant>(() => isDark ? 'cinema-dark' : 'studio-light');
   const [timelineOrientation, setTimelineOrientation] = useState<TimelineOrientation>('vertical');
   const [timelineSound, setTimelineSound] = useState<boolean>(true);
   const [timelineActiveTitle, setTimelineActiveTitle] = useState<string>('Dynamic Design Tokens');
 
   // Playground state for NeuralGraph
-  const [neuralVariant, setNeuralVariant] = useState<NeuralGraphVariant>('studio-light');
+  const [neuralVariant, setNeuralVariant] = useState<NeuralGraphVariant>(() => isDark ? 'dark-slate' : 'studio-light');
   const [neuralSound, setNeuralSound] = useState<boolean>(true);
   const [neuralAutoPulse, setNeuralAutoPulse] = useState<boolean>(true);
   const [neuralSelectedNodeTitle, setNeuralSelectedNodeTitle] = useState<string>('Semantic Nexus');
 
   // Playground state for ReelTapeDeck
-  const [deckVariant, setDeckVariant] = useState<ReelTapeDeckVariant>('studio-light');
+  const [deckVariant, setDeckVariant] = useState<ReelTapeDeckVariant>(() => isDark ? 'dark-slate' : 'studio-light');
   const [deckSpeed, setDeckSpeed] = useState<TapeSpeed>('15');
   const [deckSound, setDeckSound] = useState<boolean>(true);
   const [deckTransport, setDeckTransport] = useState<string>('stop');
 
   // Playground state for StoryTimeline (Instagram Stories)
-  const [storyVariant, setStoryVariant] = useState<StoryTimelineVariant>('instagram-dark');
+  const [storyVariant, setStoryVariant] = useState<StoryTimelineVariant>(() => isDark ? 'instagram-dark' : 'editorial-paper');
   const [storySound, setStorySound] = useState<boolean>(true);
   const [storyAutoPlay, setStoryAutoPlay] = useState<boolean>(true);
   const [storyActiveTitle, setStoryActiveTitle] = useState<string>('The Brass Dial Experiment');
 
   // Playground state for InfiniteCanvasGallery
-  const [canvasVariant, setCanvasVariant] = useState<CanvasGalleryVariant>('studio-light');
+  const [canvasVariant, setCanvasVariant] = useState<CanvasGalleryVariant>(() => isDark ? 'dark-slate' : 'studio-light');
   const [canvasMinimap, setCanvasMinimap] = useState<boolean>(true);
   const [canvasToolbar, setCanvasToolbar] = useState<boolean>(true);
   const [canvasSound, setCanvasSound] = useState<boolean>(true);
@@ -237,20 +241,20 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [canvasActiveTitle, setCanvasActiveTitle] = useState<string>('Kroma Optical Caustics');
 
   // Playground state for MagneticProjectList
-  const [projectListVariant, setProjectListVariant] = useState<ProjectListVariant>('studio-light');
+  const [projectListVariant, setProjectListVariant] = useState<ProjectListVariant>(() => isDark ? 'dark-slate' : 'studio-light');
   const [projectListSound, setProjectListSound] = useState<boolean>(true);
   const [projectListTilt, setProjectListTilt] = useState<boolean>(true);
   const [projectListActiveTitle, setProjectListActiveTitle] = useState<string>('Aether Sound Core');
 
   // Playground state for Polaroid
-  const [polaroidVariant, setPolaroidVariant] = useState<PolaroidVariant>('studio-classic');
+  const [polaroidVariant, setPolaroidVariant] = useState<PolaroidVariant>(() => isDark ? 'dark-room' : 'studio-classic');
   const [polaroidLayout, setPolaroidLayout] = useState<PolaroidLayoutMode>('scatter');
   const [polaroidDraggable, setPolaroidDraggable] = useState<boolean>(true);
   const [polaroidSound, setPolaroidSound] = useState<boolean>(true);
   const [polaroidActiveTitle, setPolaroidActiveTitle] = useState<string>('Zurich Haptics Lab');
 
   // Playground state for SpatialGallery
-  const [spatialVariant, setSpatialVariant] = useState<SpatialGalleryVariant>('studio-light');
+  const [spatialVariant, setSpatialVariant] = useState<SpatialGalleryVariant>(() => isDark ? 'studio-dark' : 'studio-light');
   const [spatialReflection, setSpatialReflection] = useState<boolean>(true);
   const [spatialControls, setSpatialControls] = useState<boolean>(true);
   const [spatialHUD, setSpatialHUD] = useState<boolean>(true);
@@ -264,6 +268,31 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
 
   // Main navigation tabs
   const [activeTab, setActiveTab] = useState<'code' | 'props' | 'a11y'>('code');
+
+  // Synchronize component playground variants when the global theme changes
+  useEffect(() => {
+    const isDark = theme === 'dark';
+    setDockVariant(isDark ? 'dark' : 'solid');
+    setOrbitVariant(isDark ? 'dark' : 'glass');
+    setAccordionVariant(isDark ? 'dark' : 'light');
+    setSliderVariant(isDark ? 'dark' : 'light');
+    setRotaryVariant(isDark ? 'dark' : 'metallic');
+    setMatrixVariant(isDark ? 'dark-obsidian' : 'studio-light');
+    setCausticVariant(isDark ? 'dark-obsidian' : 'porcelain');
+    setClothVariant(isDark ? 'dark-obsidian' : 'studio-silk');
+    setApertureVariant(isDark ? 'matte-obsidian' : 'studio-silver');
+    setPrismVariant(isDark ? 'obsidian-prism' : 'sapphire-crystal');
+    setFilmstripVariant(isDark ? 'cinema-dark' : 'studio-light');
+    setCardStackVariant(isDark ? 'cinema-dark' : 'studio-light');
+    setTimelineVariant(isDark ? 'cinema-dark' : 'studio-light');
+    setNeuralVariant(isDark ? 'dark-slate' : 'studio-light');
+    setDeckVariant(isDark ? 'dark-slate' : 'studio-light');
+    setStoryVariant(isDark ? 'instagram-dark' : 'editorial-paper');
+    setCanvasVariant(isDark ? 'dark-slate' : 'studio-light');
+    setProjectListVariant(isDark ? 'dark-slate' : 'studio-light');
+    setPolaroidVariant(isDark ? 'dark-room' : 'studio-classic');
+    setSpatialVariant(isDark ? 'studio-dark' : 'studio-light');
+  }, [theme]);
 
   if (!component) {
     return (
@@ -789,14 +818,14 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                       alignItems: 'center',
                       gap: '0.75rem',
                       padding: '1.5rem 2rem',
-                      background: matrixVariant === 'studio-light'
-                        ? 'rgba(255, 255, 255, 0.88)'
-                        : 'rgba(10, 15, 28, 0.82)',
+                      background: (isDark || matrixVariant !== 'studio-light')
+                        ? 'rgba(19, 20, 24, 0.88)'
+                        : 'rgba(255, 255, 255, 0.88)',
                       backdropFilter: 'blur(12px)',
                       borderRadius: '16px',
-                      border: matrixVariant === 'studio-light'
-                        ? '1px solid rgba(0, 0, 0, 0.08)'
-                        : '1px solid rgba(255, 255, 255, 0.12)',
+                      border: (isDark || matrixVariant !== 'studio-light')
+                        ? '1px solid rgba(255, 255, 255, 0.12)'
+                        : '1px solid rgba(0, 0, 0, 0.08)',
                       boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
                       textAlign: 'center',
                       pointerEvents: 'none',
@@ -819,7 +848,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                         fontFamily: 'var(--font-display)',
                         fontSize: '1.25rem',
                         fontWeight: 700,
-                        color: matrixVariant === 'studio-light' ? '#0F172A' : '#F8FAFC',
+                        color: (isDark || matrixVariant !== 'studio-light') ? 'var(--text-primary)' : '#0F172A',
                       }}
                     >
                       Hover to Repel &bull; Click to Burst
@@ -828,7 +857,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                       style={{
                         fontSize: '0.8125rem',
                         margin: 0,
-                        color: matrixVariant === 'studio-light' ? '#64748B' : '#94A3B8',
+                        color: (isDark || matrixVariant !== 'studio-light') ? 'var(--text-secondary)' : '#64748B',
                         maxWidth: '380px',
                         lineHeight: 1.5,
                       }}

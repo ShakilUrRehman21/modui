@@ -8,6 +8,7 @@ import './FeaturedSection.css';
 
 interface FeaturedSectionProps {
   onNavigate: (path: string) => void;
+  theme?: 'light' | 'dark';
 }
 
 // Strictly showcase 3 flagship primitives on the Home Page
@@ -17,8 +18,10 @@ const FEATURED_SLUGS = [
   'spatial-gallery',
 ];
 
-export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) => {
+export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, theme }) => {
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+
+  const isDark = theme ? theme === 'dark' : (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark');
 
   // Retrieve the 3 featured components from the registry
   const featuredComponents = FEATURED_SLUGS.map((slug) =>
@@ -123,7 +126,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                       <InfiniteCanvasGallery
                         compact={true}
                         soundEnabled={false}
-                        variant="studio-light"
+                        variant={isDark ? 'dark-slate' : 'studio-light'}
                       />
                     </div>
                   )}
@@ -134,7 +137,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                       <MagneticProjectList
                         compact={true}
                         soundEnabled={false}
-                        variant="studio-light"
+                        variant={isDark ? 'dark-slate' : 'studio-light'}
                       />
                     </div>
                   )}
@@ -145,7 +148,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate }) 
                       <SpatialGallery
                         compact={true}
                         soundEnabled={false}
-                        variant="studio-light"
+                        variant={isDark ? 'studio-dark' : 'studio-light'}
                         autoPlay={true}
                         autoPlayInterval={3200}
                         showReflection={true}

@@ -14,6 +14,7 @@
   --bg-surface: #FFFFFF;
   --bg-surface-elevated: #FFFFFF;
   --bg-surface-subtle: #F2EFEB;
+  --bg-navbar: rgba(255, 255, 255, 0.92);
   --bg-dark: #20201E;
   --bg-dark-surface: #2B2C28;
 
@@ -46,6 +47,12 @@
   --code-bg: #1B1C20;
   --code-text: #F8F7F2;
 
+  /* Grid & Stage overlays */
+  --grid-line-color: rgba(228, 225, 217, 0.45);
+  --stage-grid: rgba(0, 0, 0, 0.035);
+  --preview-stage-bg: #FAF9F6;
+  --preview-dot: #CBD5E1;
+
   /* Precise 6–8px corner radii for modern creative studio surfaces */
   --radius-xs: 4px;
   --radius-sm: 6px;
@@ -66,6 +73,74 @@
   --transition-fast: 160ms var(--ease-out-expo);
   --transition-normal: 260ms var(--ease-out-expo);
   --transition-glide: 450ms var(--ease-elastic);
+}
+
+/* ==========================================================================
+   ModUI Dark Obsidian & Graphite Studio Theme
+   Activated via [data-theme="dark"] on <html>
+   ========================================================================== */
+[data-theme="dark"],
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Dark Canvas & Elevated Obsidian Surfaces */
+  --bg-app: #0A0B0E;
+  --bg-surface: #131418;
+  --bg-surface-elevated: #191A20;
+  --bg-surface-subtle: #1C1D24;
+  --bg-navbar: rgba(18, 19, 24, 0.88);
+  --bg-dark: #0A0B0E;
+  --bg-dark-surface: #131418;
+
+  /* Clean Architectural Dark Borders */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-default: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.22);
+  --border-dark: rgba(255, 255, 255, 0.32);
+
+  /* High-Contrast Crisp Typography */
+  --text-primary: #F4F4F6;
+  --text-secondary: #9DA3AE;
+  --text-tertiary: #6B7280;
+  --text-inverse: #0A0B0E;
+  --text-dark-muted: #4B5563;
+
+  /* Luminous Cobalt & Studio Accents */
+  --accent-primary: #4F70FF;
+  --accent-primary-hover: #3C60F6;
+  --accent-subtle: rgba(79, 112, 255, 0.14);
+  --accent-border: rgba(79, 112, 255, 0.35);
+  --accent-glow: rgba(79, 112, 255, 0.25);
+
+  --color-cobalt: #4F70FF;
+  --color-coral: #FF735E;
+  --color-lilac: #DCD4FF;
+  --color-mint: #4ADE80;
+  --color-yellow: #FDE047;
+
+  /* Code Syntax Dark Panel */
+  --code-bg: #0D0E12;
+  --code-text: #E5E7EB;
+
+  /* Geometric Dark Grid & Canvas Overlays */
+  --grid-line-color: rgba(255, 255, 255, 0.038);
+  --stage-grid: rgba(255, 255, 255, 0.04);
+  --preview-stage-bg: #0D0E12;
+  --preview-dot: #2A2D37;
+
+  /* Ambient Occlusion & Luminescent Studio Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 18px -2px rgba(0, 0, 0, 0.55), 0 2px 6px -1px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px -4px rgba(0, 0, 0, 0.75), 0 4px 12px -2px rgba(0, 0, 0, 0.45);
+  --shadow-accent: 0 8px 24px -4px rgba(79, 112, 255, 0.35);
+}
+
+/* Silky smooth global theme cross-fade without layout jitter */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease !important;
 }
 
 /* Universal Reset & Complete Scrollbar Elimination */
@@ -119,10 +194,10 @@ body {
   overflow-x: clip;
   position: relative;
   background-color: var(--bg-app);
-  /* Studio fine geometric grid overlay on warm off-white canvas */
+  /* Studio fine geometric grid overlay on canvas */
   background-image:
-    linear-gradient(to right, rgba(228, 225, 217, 0.45) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(228, 225, 217, 0.45) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
   background-size: 36px 36px;
   background-repeat: repeat;
   color: var(--text-primary);
@@ -186,7 +261,7 @@ select {
   gap: 0.5rem;
   padding: 0.35rem 0.75rem;
   border-radius: var(--radius-sm);
-  background: #FFFFFF;
+  background: var(--bg-surface);
   color: var(--text-primary);
   border: 1px solid var(--border-default);
   font-family: var(--font-mono);
@@ -244,7 +319,7 @@ select {
   transform: translate(2px, -2px);
 }
 
-/* Secondary Button (Warm White Surface, 7px radius) */
+/* Secondary Button (Surface, 7px radius) */
 .modui-secondary-btn {
   display: inline-flex;
   align-items: center;
@@ -252,7 +327,7 @@ select {
   gap: 0.5rem;
   padding: 0.75rem 1.4rem;
   border-radius: var(--radius-md);
-  background: #FFFFFF;
+  background: var(--bg-surface);
   color: var(--text-primary);
   font-size: 0.9375rem;
   font-weight: 600;

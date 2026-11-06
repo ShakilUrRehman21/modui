@@ -11,9 +11,10 @@ import './HomePage.css';
 
 interface HomePageProps {
   onNavigate: (path: string) => void;
+  theme?: 'light' | 'dark';
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
+export const HomePage: React.FC<HomePageProps> = ({ onNavigate, theme }) => {
   // Activate universal scroll-triggered slide-in, fade-in, and graceful fade-out
   useScrollReveal();
 
@@ -36,7 +37,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <MetricsRibbon />
 
       {/* 3. Featured 3-Card Showcase Grid */}
-      <FeaturedSection onNavigate={onNavigate} />
+      <FeaturedSection onNavigate={onNavigate} theme={theme} />
 
       {/* 4. Architectural Spec Sheet (Sticky Stacked Cards on Scroll) */}
       <StackedCardsSection onNavigate={onNavigate} />

@@ -20,7 +20,7 @@
   width: 100%;
   max-width: 1120px;
   height: 52px;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--bg-navbar);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-default);
@@ -113,14 +113,14 @@
 .modui-search-btn:hover {
   border-color: var(--border-strong);
   color: var(--text-primary);
-  background: #FFFFFF;
+  background: var(--bg-surface);
 }
 
 .modui-search-kbd {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 600;
-  background: #FFFFFF;
+  background: var(--bg-surface-subtle);
   border: 1px solid var(--border-default);
   padding: 0.1rem 0.35rem;
   border-radius: 4px;
@@ -134,7 +134,7 @@
   padding: 0.4rem 0.75rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-default);
-  background: #FFFFFF;
+  background: var(--bg-surface);
   transition: all var(--transition-fast);
 }
 
@@ -142,6 +142,43 @@
   color: var(--text-primary);
   border-color: var(--border-strong);
   background: var(--bg-surface-subtle);
+}
+
+/* Theme Toggle Button */
+.modui-theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0;
+}
+
+.modui-theme-toggle-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  background: var(--bg-surface-subtle);
+  transform: translateY(-1px);
+}
+
+.modui-theme-icon {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+}
+
+.modui-theme-toggle-btn:hover .modui-theme-icon--sun {
+  color: #F59E0B;
+  transform: rotate(45deg);
+}
+
+.modui-theme-toggle-btn:hover .modui-theme-icon--moon {
+  color: #818CF8;
+  transform: rotate(-15deg);
 }
 
 .modui-cta-pill {
@@ -210,7 +247,7 @@
 .modui-mobile-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(32, 32, 30, 0.3);
+  background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(4px);
   z-index: 950;
 }
@@ -222,7 +259,7 @@
   right: 1rem;
   max-height: calc(100vh - 90px);
   overflow-y: auto;
-  background: #FFFFFF;
+  background: var(--bg-surface);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   padding: 1.25rem;
@@ -259,6 +296,23 @@
 .modui-mobile-link--active {
   background: rgba(54, 92, 245, 0.08) !important;
   color: var(--accent-primary) !important;
+}
+
+.modui-mobile-theme-btn {
+  margin-top: 0.25rem;
+  cursor: pointer;
+  border: 1px solid var(--border-subtle);
+}
+
+.modui-mobile-theme-pill {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
 }
 
 .modui-mobile-search-link {

@@ -46,6 +46,16 @@
   --timeline-text-muted: #696963;
 }
 
+[data-theme="dark"] .modui-timeline-theme-studio-light {
+  --timeline-accent: #4F70FF;
+  --timeline-spine-track: rgba(255, 255, 255, 0.1);
+  --timeline-spine-fill: #4F70FF;
+  --timeline-card-bg: #14151C;
+  --timeline-card-border: rgba(255, 255, 255, 0.12);
+  --timeline-text: #F4F4F6;
+  --timeline-text-muted: #9DA3AE;
+}
+
 /* 2. Warm Editorial (Linen Canvas & Coral Accent) */
 .modui-timeline-theme-warm-editorial {
   --timeline-accent: #FF735E;
@@ -129,7 +139,7 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #FFFFFF;
+  background: var(--timeline-card-bg, #FFFFFF);
   border: 2px solid var(--timeline-spine-track);
   display: flex;
   align-items: center;

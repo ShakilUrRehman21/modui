@@ -5,6 +5,7 @@ import './DocsPage.css';
 
 interface DocsPageProps {
   onNavigate?: (path: string) => void;
+  theme?: 'light' | 'dark';
 }
 
 interface NavItem {

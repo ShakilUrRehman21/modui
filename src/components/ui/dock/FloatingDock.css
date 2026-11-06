@@ -93,7 +93,7 @@
 
 /* 3. Solid Surface */
 .modui-dock--variant-solid {
-  background: #FFFFFF;
+  background: var(--bg-surface, #FFFFFF);
   border: 1px solid var(--border-default, #E2E8F0);
   box-shadow: 0 12px 30px -8px rgba(15, 23, 42, 0.09), 0 0 0 1px rgba(15, 23, 42, 0.04);
 }
@@ -315,3 +315,14 @@
     animation: none !important;
   }
 }
+
+/* Dark Theme Adjustments */
+[data-theme="dark"] .modui-dock-item-btn {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .modui-dock-item-btn:hover:not(.modui-dock-item--active) {
+  background: rgba(255, 255, 255, 0.08);
+  color: #F8FAFC;
+}
+

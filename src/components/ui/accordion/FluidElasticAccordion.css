@@ -444,6 +444,36 @@
   box-shadow: 0 2px 8px rgba(54, 92, 245, 0.25);
 }
 
+/* Dark mode fallback for Light variant */
+[data-theme="dark"] .modui-fluid-accordion--light {
+  background: var(--bg-surface);
+  border-color: var(--border-default);
+}
+
+[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-panel {
+  background: var(--bg-surface-subtle);
+  border-color: var(--border-default);
+}
+
+[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-panel--active {
+  background: var(--bg-surface-elevated);
+}
+
+[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-headline,
+[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-collapsed-title {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-description {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-num-pill {
+  color: var(--text-primary);
+  background: var(--bg-surface-elevated);
+  border-color: var(--border-default);
+}
+
 /* 2. Editorial (Warm Studio Paper & Clean Contrast) */
 .modui-fluid-accordion--editorial {
   background: #FAF9F5;

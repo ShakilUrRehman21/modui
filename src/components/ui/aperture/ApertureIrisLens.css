@@ -238,8 +238,8 @@
   font-size: 0.72rem;
   font-weight: 600;
   border-radius: var(--radius-sm, 6px);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: #FFFFFF;
+  border: 1px solid var(--border-default, rgba(0, 0, 0, 0.1));
+  background: var(--bg-surface, #FFFFFF);
   color: var(--text-secondary, #475569);
   cursor: pointer;
   transition: all 0.15s ease;
@@ -247,9 +247,9 @@
 }
 
 .modui-fstop-btn:hover {
-  background: #F1F5F9;
+  background: var(--bg-surface-subtle, #F1F5F9);
   color: var(--text-primary, #0F172A);
-  border-color: rgba(0, 0, 0, 0.2);
+  border-color: var(--border-strong, rgba(0, 0, 0, 0.2));
 }
 
 .modui-fstop-btn--active {

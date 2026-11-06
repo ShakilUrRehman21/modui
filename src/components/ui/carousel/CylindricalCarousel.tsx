@@ -75,14 +75,20 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
     if (!el) return;
 
     const updateDim = () => {
-      const rect = el.getBoundingClientRect();
-      setContainerDim({ width: rect.width, height: rect.height });
+      // Use clientWidth / clientHeight to measure layout bounds before CSS 3D transforms & card tilt
+      const w = Math.round(el.clientWidth);
+      const h = Math.round(el.clientHeight);
+      if (w > 0 && h > 0) {
+        setContainerDim((prev) => (prev.width === w && prev.height === h ? prev : { width: w, height: h }));
+      }
     };
 
     updateDim();
 
     if (typeof ResizeObserver !== 'undefined') {
-      const observer = new ResizeObserver(updateDim);
+      const observer = new ResizeObserver(() => {
+        updateDim();
+      });
       observer.observe(el);
       return () => observer.disconnect();
     } else {
@@ -103,7 +109,8 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
     const scaleY = (containerDim.height - verticalReserve) / requiredHeight;
 
     const fitScale = Math.min(scaleX, scaleY, 1);
-    return Math.max(fitScale, 0.28);
+    // Quantize to 3 decimals to eliminate fractional subpixel scaling jitter
+    return Math.max(Math.round(fitScale * 1000) / 1000, 0.28);
   }, [containerDim, radius, cardWidth, cardHeight, showControls, showDragHint]);
 
   // Rotation state in degrees
@@ -172,6 +179,21 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
     [items, onActiveChange]
   );
 
+  // Direct hardware transform helper for zero-overhead 60/120 FPS animation
+  const applyTransform = useCallback(
+    (deg: number) => {
+      if (cylinderRef.current) {
+        cylinderRef.current.style.transform = `scale(${autoScale}) translateZ(-${radius}px) rotateX(${tiltAngle}deg) rotateY(${deg}deg)`;
+      }
+    },
+    [autoScale, radius, tiltAngle]
+  );
+
+  // Sync direct transform whenever layout dimensions or autoScale update
+  useEffect(() => {
+    applyTransform(rotationRef.current);
+  }, [applyTransform]);
+
   // Snap to specific card index smoothly
   const snapToIndex = useCallback(
     (targetIndex: number) => {
@@ -193,20 +215,20 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
         const progress = Math.min(elapsed / duration, 1);
         const eased = easeOutCubic(progress);
         const nextRotation = startAngle + (destination - startAngle) * eased;
-
-        setRotation(nextRotation);
         rotationRef.current = nextRotation;
+        applyTransform(nextRotation);
 
         if (progress < 1) {
           rafIdRef.current = requestAnimationFrame(animateSnap);
         } else {
+          setRotation(nextRotation);
           updateActiveIndex(targetIndex);
         }
       };
 
       rafIdRef.current = requestAnimationFrame(animateSnap);
     },
-    [angleStep, normalizeAngle, updateActiveIndex]
+    [angleStep, normalizeAngle, updateActiveIndex, applyTransform]
   );
 
   // Run inertia animation after pointer release
@@ -218,24 +240,23 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
 
       if (Math.abs(velocityRef.current) > 0.04) {
         const nextRot = rotationRef.current + velocityRef.current;
-        setRotation(nextRot);
         rotationRef.current = nextRot;
-
-        const currentActive = computeActiveIndex(nextRot);
-        updateActiveIndex(currentActive);
+        applyTransform(nextRot);
 
         rafIdRef.current = requestAnimationFrame(stepInertia);
       } else {
         velocityRef.current = 0;
+        setRotation(rotationRef.current);
+        const nearest = computeActiveIndex(rotationRef.current);
+        updateActiveIndex(nearest);
         if (snapToNearest) {
-          const nearest = computeActiveIndex(rotationRef.current);
           snapToIndex(nearest);
         }
       }
     };
 
     rafIdRef.current = requestAnimationFrame(stepInertia);
-  }, [friction, snapToNearest, computeActiveIndex, updateActiveIndex, snapToIndex]);
+  }, [friction, snapToNearest, computeActiveIndex, updateActiveIndex, snapToIndex, applyTransform]);
 
   // Pointer event handlers for silky drag
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -265,17 +286,12 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
     const sensitivity = 0.35;
     const rotDelta = deltaX * sensitivity;
     const newRot = rotationRef.current + rotDelta;
-
-    setRotation(newRot);
     rotationRef.current = newRot;
+    applyTransform(newRot);
 
     velocityRef.current = (rotDelta / deltaTime) * 16.6;
-
     lastXRef.current = currentX;
     lastTimeRef.current = now;
-
-    const currentActive = computeActiveIndex(newRot);
-    updateActiveIndex(currentActive);
   };
 
   const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -290,9 +306,13 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
 
     if (Math.abs(velocityRef.current) > 0.08) {
       runInertia();
-    } else if (snapToNearest) {
+    } else {
+      setRotation(rotationRef.current);
       const nearest = computeActiveIndex(rotationRef.current);
-      snapToIndex(nearest);
+      updateActiveIndex(nearest);
+      if (snapToNearest) {
+        snapToIndex(nearest);
+      }
     }
   };
 
@@ -309,7 +329,7 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
     }
   };
 
-  // Autoplay loop
+  // Autoplay loop using direct GPU transforms (Zero React re-render overhead)
   useEffect(() => {
     if (!autoplay) return;
 
@@ -319,15 +339,13 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
     const animateAutoplay = (now: number) => {
       const delta = (now - lastTime) / 1000;
       lastTime = now;
+      const clampedDelta = Math.min(delta, 0.05);
 
       if (!isDraggingRef.current && !isHoveredRef.current) {
-        const step = autoplaySpeed * delta;
+        const step = autoplaySpeed * clampedDelta;
         const nextRot = rotationRef.current - step;
-        setRotation(nextRot);
         rotationRef.current = nextRot;
-
-        const currentActive = computeActiveIndex(nextRot);
-        updateActiveIndex(currentActive);
+        applyTransform(nextRot);
       }
 
       autoplayRaf = requestAnimationFrame(animateAutoplay);
@@ -336,7 +354,7 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
     autoplayRaf = requestAnimationFrame(animateAutoplay);
 
     return () => cancelAnimationFrame(autoplayRaf);
-  }, [autoplay, autoplaySpeed, computeActiveIndex, updateActiveIndex]);
+  }, [autoplay, autoplaySpeed, applyTransform]);
 
   // Clean up RAF on unmount
   useEffect(() => {
@@ -348,20 +366,10 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
   const halfWidth = cardWidth / 2;
   const halfHeight = cardHeight / 2;
 
-  // Precomputed card items with center-anchor transforms & depth-of-field
+  // Precomputed card items with rigid center-anchor 3D transforms
   const renderedCards = useMemo(() => {
     return items.map((item, index) => {
       const itemAngle = index * angleStep;
-      const angleDiff = normalizeAngle(itemAngle + rotation);
-
-      // Depth calculations: cosine normalized to 0 (back) -> 1 (front)
-      const rad = (angleDiff * Math.PI) / 180;
-      const zFactor = (Math.cos(rad) + 1) / 2;
-
-      const blurPx = (1 - zFactor) * 4;
-      const opacity = 0.35 + zFactor * 0.65;
-      const scale = 0.88 + zFactor * 0.12;
-
       const isCurrentActive = index === activeIndex;
 
       return {
@@ -374,19 +382,16 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
           height: `${cardHeight}px`,
           marginLeft: `-${halfWidth}px`,
           marginTop: `-${halfHeight}px`,
-          transform: `rotateY(${itemAngle}deg) translateZ(${radius}px) scale(${scale})`,
-          filter: `blur(${blurPx.toFixed(1)}px)`,
-          opacity: opacity.toFixed(2),
-          zIndex: Math.round(zFactor * 100),
+          transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
         } as React.CSSProperties,
       };
     });
-  }, [items, angleStep, rotation, normalizeAngle, cardWidth, cardHeight, halfWidth, halfHeight, radius, activeIndex]);
+  }, [items, angleStep, cardWidth, cardHeight, halfWidth, halfHeight, radius, activeIndex]);
 
   return (
     <div
       ref={containerRef}
-      className={`modui-cylindrical-viewport ${className}`}
+      className={`modui-cylindrical-viewport ${autoplay ? 'modui-cylindrical-viewport--autoplay' : ''} ${className}`}
       style={{
         perspective: `${perspective}px`,
         ...style,

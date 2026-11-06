@@ -68,10 +68,47 @@ export function App() {
     };
   }, []);
 
-  // Apply light creative playground theme
+  // Theme state: 'light' | 'dark' with localStorage & OS system preference sync
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window === 'undefined') return 'light';
+    const saved = localStorage.getItem('modui-theme');
+    if (saved === 'light' || saved === 'dark') {
+      return saved;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
+  });
+
+  // Apply theme to document root and synchronize color-scheme
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.style.colorScheme = theme;
+    localStorage.setItem('modui-theme', theme);
+  }, [theme]);
+
+  // Listen to OS system color scheme changes if user has not stored an explicit choice
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleMediaChange = (e: MediaQueryListEvent) => {
+      const explicit = localStorage.getItem('modui-theme');
+      if (!explicit) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    };
+    media.addEventListener('change', handleMediaChange);
+    return () => media.removeEventListener('change', handleMediaChange);
   }, []);
+
+  const toggleTheme = () => {
+    document.documentElement.classList.add('theme-transition');
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    setTimeout(() => {
+      document.documentElement.classList.remove('theme-transition');
+    }, 280);
+  };
 
   // Migrate legacy hash URLs on mount if present
   useEffect(() => {
@@ -183,26 +220,26 @@ export function App() {
     const cleanPath = currentPath.split('?')[0];
 
     if (cleanPath === '/' || cleanPath === '') {
-      return <HomePage onNavigate={navigate} />;
+      return <HomePage onNavigate={navigate} theme={theme} />;
     }
 
     if (cleanPath.startsWith('/components/')) {
       const slug = cleanPath.replace('/components/', '');
-      return <ComponentDetailPage slug={slug} onNavigate={navigate} />;
+      return <ComponentDetailPage slug={slug} onNavigate={navigate} theme={theme} />;
     }
 
     if (cleanPath === '/components') {
       const urlParams = new URLSearchParams(currentPath.includes('?') ? currentPath.split('?')[1] : '');
       const initialCat = urlParams.get('category') || undefined;
-      return <ExplorerPage initialCategory={initialCat} onNavigate={navigate} />;
+      return <ExplorerPage initialCategory={initialCat} onNavigate={navigate} theme={theme} />;
     }
 
     if (cleanPath === '/docs' || cleanPath.startsWith('/docs') || ['introduction', 'philosophy', 'tokens', 'accessibility', 'workflow', 'contributing'].includes(cleanPath)) {
-      return <DocsPage onNavigate={navigate} />;
+      return <DocsPage onNavigate={navigate} theme={theme} />;
     }
 
     // Default fallback
-    return <HomePage onNavigate={navigate} />;
+    return <HomePage onNavigate={navigate} theme={theme} />;
   };
 
   return (
@@ -214,6 +251,8 @@ export function App() {
         currentPath={currentPath}
         onNavigate={navigate}
         onOpenCommandPalette={() => setIsCmdkOpen(true)}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       <main style={{ flex: 1 }}>

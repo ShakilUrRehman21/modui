@@ -51,6 +51,18 @@
   --card-badge-border: rgba(54, 92, 245, 0.2);
 }
 
+[data-theme="dark"] .modui-card-stack-theme-studio-light {
+  --card-bg: #14151C;
+  --card-border: rgba(255, 255, 255, 0.12);
+  --card-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.7);
+  --card-accent: #4F70FF;
+  --card-text-primary: #F4F4F6;
+  --card-text-muted: #9DA3AE;
+  --card-badge-bg: rgba(79, 112, 255, 0.14);
+  --card-badge-color: #7090FF;
+  --card-badge-border: rgba(79, 112, 255, 0.3);
+}
+
 /* 2. Warm Editorial (Linen Canvas & Coral Accent) */
 .modui-card-stack-theme-warm-editorial {
   --card-bg: #FAF8F3;
@@ -317,7 +329,7 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius-sm, 6px);
-  background: #FFFFFF;
+  background: var(--card-bg, #FFFFFF);
   border: 1px solid var(--card-border);
   color: var(--card-text-primary);
   cursor: pointer;

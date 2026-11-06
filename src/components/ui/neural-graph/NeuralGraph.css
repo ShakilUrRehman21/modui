@@ -56,6 +56,16 @@
   --mod-neural-hud-border: #E4E1D9;
 }
 
+[data-theme="dark"] .modui-neural-graph--studio-light {
+  --mod-neural-bg: #0F1219;
+  --mod-neural-border: rgba(255, 255, 255, 0.12);
+  --mod-neural-text: #F8FAFC;
+  --mod-neural-text-muted: #94A3B8;
+  --mod-neural-accent: #38BDF8;
+  --mod-neural-hud-bg: rgba(15, 18, 25, 0.88);
+  --mod-neural-hud-border: rgba(255, 255, 255, 0.14);
+}
+
 /* 2. Dark Slate (Cyber Deep Graphite) */
 .modui-neural-graph--dark-slate {
   --mod-neural-bg: #0F1219;

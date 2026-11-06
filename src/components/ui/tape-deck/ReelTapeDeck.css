@@ -707,7 +707,7 @@
 }
 
 .modui-tape-key:hover {
-  background: #FFFFFF;
+  background: var(--mod-deck-key-bg, #FFFFFF);
   transform: translateY(-1px);
   box-shadow: 0 4px 0 #C8C4B8, 0 6px 12px rgba(0, 0, 0, 0.06);
 }

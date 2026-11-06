@@ -32,14 +32,18 @@ import './ExplorerPage.css';
 interface ExplorerPageProps {
   initialCategory?: string;
   onNavigate: (path: string) => void;
+  theme?: 'light' | 'dark';
 }
 
 export const ExplorerPage: React.FC<ExplorerPageProps> = ({
   initialCategory,
   onNavigate,
+  theme,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'All');
+
+  const isDark = theme ? theme === 'dark' : (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark');
 
   useScrollReveal();
 
@@ -206,7 +210,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'number-ticker' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.45rem', background: '#FFFFFF', padding: '0.85rem 1.4rem', borderRadius: '12px', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.45rem', background: 'var(--bg-surface-elevated)', padding: '0.85rem 1.4rem', borderRadius: '12px', border: '1px solid var(--border-default)', boxShadow: 'var(--shadow-sm)' }}>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.65rem' }}>
                         <div style={{ fontSize: '2.1rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', letterSpacing: '-0.03em' }}>
                           <NumberTicker value={1420} prefix="$" suffix="/mo" />
@@ -233,13 +237,13 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         radius={110}
                         cardWidth={110}
                         cardHeight={130}
-                        perspective={380}
+                        perspective={420}
                         tiltAngle={-4}
                         showControls={false}
                         showIndicators={false}
                         showDragHint={false}
                         autoplay={true}
-                        autoplaySpeed={15}
+                        autoplaySpeed={12}
                         style={{ minHeight: '170px', height: '170px' }}
                       />
                     </div>
@@ -303,7 +307,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                           },
                         ]}
                         baseSize={36}
-                        variant="solid"
+                        variant={isDark ? 'dark' : 'solid'}
                       />
                     </div>
                   )}
@@ -356,7 +360,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         ]}
                         radius={52}
                         defaultOpen={true}
-                        variant="glass"
+                        variant={isDark ? 'dark' : 'glass'}
                         showLabels={false}
                         soundEnabled={false}
                       />
@@ -373,7 +377,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         ]}
                         defaultActiveId="1"
                         orientation="horizontal"
-                        variant="light"
+                        variant={isDark ? 'dark' : 'light'}
                         trigger="hover"
                         soundEnabled={false}
                         expandedRatio={2.2}
@@ -386,7 +390,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                     <div style={{ width: '100%', maxWidth: '280px', height: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <BeforeAfterSlider
                         aspectRatio="16 / 10"
-                        variant="light"
+                        variant={isDark ? 'dark' : 'light'}
                         mode="drag"
                         soundEnabled={false}
                         initialPosition={50}
@@ -403,7 +407,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         defaultValue={58}
                         min={0}
                         max={100}
-                        variant="metallic"
+                        variant={isDark ? 'dark' : 'metallic'}
                         mode="bounded"
                         soundEnabled={false}
                         sublabel="VOL"
@@ -414,7 +418,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'cyber-stream-matrix' && (
                     <div style={{ width: '100%', maxWidth: '290px', height: '175px', borderRadius: '8px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
                       <CyberStreamMatrix
-                        variant="studio-light"
+                        variant={isDark ? 'dark-obsidian' : 'studio-light'}
                         charset="hex"
                         speed={0.6}
                         density={1}
@@ -428,7 +432,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'caustic-ripple-surface' && (
                     <div style={{ width: '100%', maxWidth: '290px', height: '175px', borderRadius: '8px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
                       <CausticRippleSurface
-                        variant="porcelain"
+                        variant={isDark ? 'dark-obsidian' : 'porcelain'}
                         compact={true}
                         damping={0.97}
                         refractionStrength={2.2}
@@ -444,7 +448,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'neural-cloth-mesh' && (
                     <div style={{ width: '100%', maxWidth: '280px', height: '175px', borderRadius: '8px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
                       <NeuralClothMesh
-                        variant="studio-silk"
+                        variant={isDark ? 'dark-obsidian' : 'studio-silk'}
                         renderMode="wireframe"
                         pinMode="curtain"
                         gravity={0.12}
@@ -459,7 +463,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'aperture-iris-lens' && (
                     <div style={{ width: '160px', height: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
                       <ApertureIrisLens
-                        variant="studio-silver"
+                        variant={isDark ? 'matte-obsidian' : 'studio-silver'}
                         bladesCount={9}
                         defaultValue={0.52}
                         compact={true}
@@ -473,7 +477,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'chromatic-prism-card' && (
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <ChromaticPrismCard
-                        variant="sapphire-crystal"
+                        variant={isDark ? 'obsidian-prism' : 'sapphire-crystal'}
                         category="QUARTZ // 01"
                         serialNumber="SPECIMEN 01"
                         compact={true}
@@ -486,7 +490,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'filmstrip-gallery' && (
                     <div style={{ width: '100%', maxWidth: '300px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <FilmstripGallery
-                        variant="studio-light"
+                        variant={isDark ? 'cinema-dark' : 'studio-light'}
                         compact={true}
                         soundEnabled={false}
                       />
@@ -496,7 +500,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'card-stack' && (
                     <div style={{ width: '100%', maxWidth: '280px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <CardStack
-                        variant="studio-light"
+                        variant={isDark ? 'cinema-dark' : 'studio-light'}
                         compact={true}
                         soundEnabled={false}
                       />
@@ -507,7 +511,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                     <div style={{ width: '100%', maxWidth: '300px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
                       <div style={{ width: '310px', transform: 'scale(0.88)', transformOrigin: 'center center' }}>
                         <TimelineRoadmap
-                          variant="studio-light"
+                          variant={isDark ? 'cinema-dark' : 'studio-light'}
                           compact={true}
                           soundEnabled={false}
                         />
@@ -518,7 +522,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'reel-tape-deck' && (
                     <div style={{ width: '100%', maxWidth: '310px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <ReelTapeDeck
-                        variant="studio-light"
+                        variant={isDark ? 'dark-slate' : 'studio-light'}
                         compact={true}
                         soundEnabled={false}
                         autoPlay={true}
@@ -530,7 +534,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'story-timeline' && (
                     <div style={{ width: '100%', maxWidth: '280px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <StoryTimeline
-                        variant="instagram-dark"
+                        variant={isDark ? 'instagram-dark' : 'editorial-paper'}
                         compact={true}
                         soundEnabled={false}
                         autoPlay={true}
@@ -543,7 +547,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       <Polaroid
                         compact={true}
                         soundEnabled={false}
-                        variant="studio-classic"
+                        variant={isDark ? 'dark-room' : 'studio-classic'}
                       />
                     </div>
                   )}
@@ -553,7 +557,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       <SpatialGallery
                         compact={true}
                         soundEnabled={false}
-                        variant="studio-light"
+                        variant={isDark ? 'studio-dark' : 'studio-light'}
                         autoPlay={true}
                         autoPlayInterval={3200}
                         showReflection={true}
@@ -566,7 +570,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       <InfiniteCanvasGallery
                         compact={true}
                         soundEnabled={false}
-                        variant="studio-light"
+                        variant={isDark ? 'dark-slate' : 'studio-light'}
                       />
                     </div>
                   )}
@@ -576,7 +580,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       <MagneticProjectList
                         compact={true}
                         soundEnabled={false}
-                        variant="studio-light"
+                        variant={isDark ? 'dark-slate' : 'studio-light'}
                       />
                     </div>
                   )}
@@ -584,7 +588,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'neural-graph' && (
                     <div style={{ width: '100%', maxWidth: '300px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative' }}>
                       <NeuralGraph
-                        variant="studio-light"
+                        variant={isDark ? 'dark-slate' : 'studio-light'}
                         compact={true}
                         soundEnabled={false}
                         autoPulse={true}

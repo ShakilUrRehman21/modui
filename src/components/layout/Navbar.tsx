@@ -6,12 +6,16 @@ interface NavbarProps {
   currentPath: string;
   onNavigate: (path: string) => void;
   onOpenCommandPalette: () => void;
+  theme?: 'light' | 'dark';
+  onToggleTheme?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentPath,
   onNavigate,
   onOpenCommandPalette,
+  theme = 'light',
+  onToggleTheme,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -126,6 +130,56 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>GitHub</span>
             </a>
 
+            {/* Theme Toggle Button */}
+            {onToggleTheme && (
+              <button
+                className="modui-theme-toggle-btn"
+                onClick={onToggleTheme}
+                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+                title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              >
+                {theme === 'dark' ? (
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="modui-theme-icon modui-theme-icon--sun"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2" />
+                    <path d="M12 20v2" />
+                    <path d="m4.93 4.93 1.41 1.41" />
+                    <path d="m17.66 17.66 1.41 1.41" />
+                    <path d="M2 12h2" />
+                    <path d="M20 12h2" />
+                    <path d="m6.34 17.66-1.41 1.41" />
+                    <path d="m19.07 4.93-1.41 1.41" />
+                  </svg>
+                ) : (
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="modui-theme-icon modui-theme-icon--moon"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                  </svg>
+                )}
+              </button>
+            )}
+
             <button
               className="modui-cta-pill"
               onClick={() => handleNavClick('/components')}
@@ -205,6 +259,37 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <span>GitHub Repository ↗</span>
               </a>
+
+              {onToggleTheme && (
+                <button
+                  className="modui-mobile-link modui-mobile-theme-btn"
+                  onClick={onToggleTheme}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    {theme === 'dark' ? (
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4" />
+                        <path d="M12 2v2" />
+                        <path d="M12 20v2" />
+                        <path d="m4.93 4.93 1.41 1.41" />
+                        <path d="m17.66 17.66 1.41 1.41" />
+                        <path d="M2 12h2" />
+                        <path d="M20 12h2" />
+                        <path d="m6.34 17.66-1.41 1.41" />
+                        <path d="m19.07 4.93-1.41 1.41" />
+                      </svg>
+                    ) : (
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                      </svg>
+                    )}
+                    <span>Appearance</span>
+                  </span>
+                  <span className="modui-mobile-theme-pill">
+                    {theme === 'dark' ? 'Dark' : 'Light'}
+                  </span>
+                </button>
+              )}
             </div>
 
             <div className="modui-mobile-drawer-footer">
