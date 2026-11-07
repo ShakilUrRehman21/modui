@@ -47,6 +47,8 @@ import type { CanvasGalleryVariant } from '../components/ui/infinite-canvas-gall
 import { COMPONENT_REGISTRY } from '../registry/components';
 import { SpatialGallery } from '../components/ui/spatial-gallery';
 import type { SpatialGalleryVariant } from '../components/ui/spatial-gallery';
+import { PageTurnBook } from '../components/ui/page-turn';
+import type { PageTurnVariant } from '../components/ui/page-turn';
 import { trackCopyCode, trackGithubClick } from '../lib/analytics';
 import './ComponentDetailPage.css';
 
@@ -262,6 +264,13 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
   const [spatialAutoPlay, setSpatialAutoPlay] = useState<boolean>(false);
   const [spatialActiveTitle, setSpatialActiveTitle] = useState<string>('Aura Chromatica');
 
+  // Playground state for PageTurnBook
+  const [bookVariant, setBookVariant] = useState<PageTurnVariant>(() => isDark ? 'dark-obsidian' : 'studio-editorial');
+  const [bookSound, setBookSound] = useState<boolean>(true);
+  const [bookAutoPlay, setBookAutoPlay] = useState<boolean>(false);
+  const [bookCurl, setBookCurl] = useState<boolean>(true);
+  const [bookActiveSpread, setBookActiveSpread] = useState<number>(0);
+
   // File viewer state inside Code tab
   const [selectedFile, setSelectedFile] = useState<'tsx' | 'css' | 'usage'>('tsx');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -292,6 +301,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
     setProjectListVariant(isDark ? 'dark-slate' : 'studio-light');
     setPolaroidVariant(isDark ? 'dark-room' : 'studio-classic');
     setSpatialVariant(isDark ? 'studio-dark' : 'studio-light');
+    setBookVariant(isDark ? 'dark-obsidian' : 'studio-editorial');
   }, [theme]);
 
   if (!component) {
@@ -1069,6 +1079,25 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                   Active Spatial Node: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{spatialActiveTitle}</span>
                   <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
                     Drag horizontally or wheel scrub to orbit the 3D cylindrical ribbon. Click the active card or press Enter to inspect in high-resolution lightbox modal.
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Stage for PageTurnBook */}
+            {slug === 'page-turn-book' && (
+              <div style={{ width: '100%', maxWidth: '860px', margin: '0 auto', padding: '1rem 0', display: 'flex', flexDirection: 'column' }}>
+                <PageTurnBook
+                  variant={bookVariant}
+                  soundEnabled={bookSound}
+                  autoPlay={bookAutoPlay}
+                  interactiveCurl={bookCurl}
+                  onPageChange={(spreadIdx) => setBookActiveSpread(spreadIdx)}
+                />
+                <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                  Current Spread: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>Spread {bookActiveSpread + 1}</span> (Pages {bookActiveSpread * 2 + 1} &amp; {bookActiveSpread * 2 + 2})
+                  <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                    Drag horizontally across pages or click corner curl to turn leaves. Use Left &amp; Right Arrow keys for keyboard flipping.
                   </div>
                 </div>
               </div>
@@ -2641,6 +2670,54 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
                       onChange={(e) => setNeuralAutoPulse(e.target.checked)}
                     />
                     <span>Ambient Synapse Pulses</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Playground Controls for PageTurnBook */}
+          {slug === 'page-turn-book' && (
+            <div className="modui-controls-panel">
+              <div className="modui-control-group">
+                <label className="modui-control-label">Aesthetic Edition</label>
+                <select
+                  className="modui-control-select"
+                  value={bookVariant}
+                  onChange={(e) => setBookVariant(e.target.value as PageTurnVariant)}
+                >
+                  <option value="studio-editorial">Studio Editorial (Warm Archival Paper)</option>
+                  <option value="dark-obsidian">Dark Obsidian (Carbon &amp; Luminous Cobalt)</option>
+                  <option value="blueprint">Blueprint Tech (Drafting Grid &amp; Cyan)</option>
+                </select>
+              </div>
+
+              <div className="modui-control-group">
+                <label className="modui-control-label">Interactive Paper Physics</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={bookCurl}
+                      onChange={(e) => setBookCurl(e.target.checked)}
+                    />
+                    <span>Corner Peel Curl Indicator</span>
+                  </label>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={bookSound}
+                      onChange={(e) => setBookSound(e.target.checked)}
+                    />
+                    <span>Web Audio Paper Rustle DSP</span>
+                  </label>
+                  <label className="modui-control-toggle">
+                    <input
+                      type="checkbox"
+                      checked={bookAutoPlay}
+                      onChange={(e) => setBookAutoPlay(e.target.checked)}
+                    />
+                    <span>Auto-Turn Spreads</span>
                   </label>
                 </div>
               </div>

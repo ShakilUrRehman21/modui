@@ -273,6 +273,22 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
+[data-theme="dark"] .modui-docs-callout-item {
+  background: #14151C;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .modui-docs-callout-item:hover {
+  background: #191A23;
+  border-color: rgba(79, 112, 255, 0.45);
+}
+
+[data-theme="dark"] .modui-docs-sidebar {
+  background: rgba(19, 20, 24, 0.94);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
 .modui-docs-callout-tag {
   font-family: var(--font-mono);
   font-size: 0.625rem;

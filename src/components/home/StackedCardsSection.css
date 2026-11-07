@@ -211,6 +211,36 @@
   box-shadow: 0 4px 16px rgba(54, 92, 245, 0.08);
 }
 
+[data-theme="dark"] .modui-spec-deck-card {
+  background: #13141B;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .modui-spec-deck-metric-box {
+  background: #181A24;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .modui-spec-deck-card:hover .modui-spec-deck-metric-box {
+  background: #1E202C;
+  border-color: rgba(79, 112, 255, 0.5);
+  box-shadow: 0 4px 16px rgba(79, 112, 255, 0.15);
+}
+
+[data-theme="dark"] .modui-specs-eyebrow-pill {
+  background: #13141B;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #4F70FF;
+}
+
+[data-theme="dark"] .modui-step-pill--active {
+  background: rgba(79, 112, 255, 0.16) !important;
+  border-color: rgba(79, 112, 255, 0.45) !important;
+  color: #4F70FF !important;
+  box-shadow: 0 2px 12px rgba(79, 112, 255, 0.25);
+}
+
 .modui-spec-deck-metric-meta {
   display: flex;
   flex-direction: column;

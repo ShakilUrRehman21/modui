@@ -1,0 +1,707 @@
+/* ==========================================================================
+   ModUI — 3D Interactive Page Turn / Paper Fold (PageTurnBook)
+   Hardware-accelerated 3D dual-spread book with tactile lighting & paper physics
+   ========================================================================== */
+
+.modui-page-turn-book {
+  --book-width: 740px;
+  --book-height: 450px;
+  --book-radius: 10px;
+  --paper-bg: #FAF8F2;
+  --paper-text: #1C1D1F;
+  --paper-subtext: #5A5C63;
+  --paper-border: #E6E2D8;
+  --paper-shadow: rgba(30, 24, 16, 0.12);
+  --spine-color: #365CF5;
+  --spine-glow: rgba(54, 92, 245, 0.25);
+  --accent-color: #365CF5;
+
+  width: 100%;
+  max-width: var(--book-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  user-select: none;
+}
+
+/* ==========================================================================
+   Visual Theme Variants
+   ========================================================================== */
+
+/* 1. Studio Editorial (Default Warm Archival Paper Grain) */
+.modui-page-turn--studio-editorial {
+  --paper-bg: #FAF8F2;
+  --paper-text: #1C1D1F;
+  --paper-subtext: #5A5C63;
+  --paper-border: #E6E2D8;
+  --paper-shadow: rgba(30, 24, 16, 0.12);
+  --spine-color: #365CF5;
+  --accent-color: #365CF5;
+}
+
+/* 2. Dark Obsidian (Deep Carbon & Luminescent Cobalt) */
+.modui-page-turn--dark-obsidian {
+  --paper-bg: #14151C;
+  --paper-text: #F4F4F6;
+  --paper-subtext: #9DA3AE;
+  --paper-border: rgba(255, 255, 255, 0.1);
+  --paper-shadow: rgba(0, 0, 0, 0.65);
+  --spine-color: #4F70FF;
+  --spine-glow: rgba(79, 112, 255, 0.45);
+  --accent-color: #4F70FF;
+}
+
+/* 3. Blueprint Tech (Cyan Drafting Grid) */
+.modui-page-turn--blueprint {
+  --paper-bg: #0B132B;
+  --paper-text: #E0FBFC;
+  --paper-subtext: #829AB1;
+  --paper-border: rgba(77, 208, 225, 0.22);
+  --paper-shadow: rgba(0, 0, 0, 0.6);
+  --spine-color: #00E5FF;
+  --spine-glow: rgba(0, 229, 255, 0.45);
+  --accent-color: #00E5FF;
+}
+
+/* Automatic Dark Mode Adaptation for Studio Editorial */
+[data-theme="dark"] .modui-page-turn--studio-editorial {
+  --paper-bg: #14151C;
+  --paper-text: #F1F2F5;
+  --paper-subtext: #969BA6;
+  --paper-border: rgba(255, 255, 255, 0.1);
+  --paper-shadow: rgba(0, 0, 0, 0.65);
+  --spine-color: #4F70FF;
+  --accent-color: #4F70FF;
+}
+
+/* ==========================================================================
+   Tabletop & 3D Stage Viewport
+   ========================================================================== */
+
+.modui-book-tabletop {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  perspective: 1800px;
+  padding: 1.5rem 0.5rem;
+}
+
+.modui-book-viewport {
+  width: 100%;
+  height: var(--book-height);
+  position: relative;
+  display: flex;
+  transform-style: preserve-3d;
+  box-shadow: 
+    0 24px 60px -12px var(--paper-shadow),
+    0 6px 18px -4px rgba(0, 0, 0, 0.1);
+  border-radius: var(--book-radius);
+  touch-action: pan-y;
+}
+
+/* ==========================================================================
+   Spine Binding & Center Crease
+   ========================================================================== */
+
+.modui-book-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 8px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.32) 0%,
+    rgba(0, 0, 0, 0.05) 35%,
+    var(--spine-color) 50%,
+    rgba(0, 0, 0, 0.05) 65%,
+    rgba(0, 0, 0, 0.32) 100%
+  );
+  z-index: 12;
+  pointer-events: none;
+  box-shadow: 0 0 12px var(--spine-glow, transparent);
+}
+
+.modui-book-spine-highlight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.35);
+  z-index: 13;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Static Pages (Left & Right Leafs with Full Mouse Click Navigation)
+   ========================================================================== */
+
+.modui-book-leaf {
+  width: 50%;
+  height: 100%;
+  position: relative;
+  background: var(--paper-bg);
+  border: 1px solid var(--paper-border);
+  box-sizing: border-box;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.modui-book-leaf:hover {
+  filter: brightness(0.995);
+}
+
+.modui-book-leaf--left {
+  border-radius: var(--book-radius) 0 0 var(--book-radius);
+  border-right: none;
+}
+
+.modui-book-leaf--right {
+  border-radius: 0 var(--book-radius) var(--book-radius) 0;
+  border-left: none;
+}
+
+/* Spine shadow ambient occlusion gradient */
+.modui-leaf-shadow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 36px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.modui-leaf-shadow--left {
+  right: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.14) 0%, transparent 100%);
+}
+
+.modui-leaf-shadow--right {
+  left: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.14) 0%, transparent 100%);
+}
+
+/* Page Surface: Elegant Minimalist Art-Book Layout */
+.modui-page-surface {
+  width: 100%;
+  height: 100%;
+  padding: 2.25rem 2.4rem;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modui-page-surface--blank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modui-page-watermark {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8125rem;
+  letter-spacing: 0.25em;
+  color: var(--paper-subtext);
+  opacity: 0.3;
+}
+
+/* Subtle, Minimal Top Folio (No noisy boxes or badges) */
+.modui-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.modui-page-chapter {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* Centered Generous Editorial Body Area */
+.modui-page-body-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.modui-page-title {
+  font-family: var(--font-display, var(--font-sans, sans-serif));
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--paper-text);
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.2rem;
+}
+
+.modui-page-subtitle {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  margin-top: -0.35rem;
+  letter-spacing: -0.01em;
+}
+
+.modui-page-prose {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--paper-subtext);
+  margin-top: 0.35rem;
+}
+
+.modui-page-quote {
+  border-left: 2px solid var(--accent-color);
+  padding-left: 0.85rem;
+  font-style: italic;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--paper-text);
+  margin-top: 0.75rem;
+  opacity: 0.88;
+}
+
+/* Minimalist Single-Line Folio Footer (Locked Baseline, Zero Noise) */
+.modui-page-footer {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 2rem;
+  right: 2rem;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.modui-page-folio {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--paper-subtext);
+  letter-spacing: 0.15em;
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   Tactile Curved Corner Dog-Ear Curl
+   ========================================================================== */
+
+.modui-corner-curl {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 52px;
+  height: 52px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  outline: none;
+  overflow: hidden;
+}
+
+.modui-corner-curl-dogear {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 28px 28px;
+  border-color: transparent transparent var(--paper-border) transparent;
+  border-bottom-right-radius: var(--book-radius);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(-3px -3px 4px rgba(0, 0, 0, 0.14));
+}
+
+.modui-corner-curl:hover .modui-corner-curl-dogear {
+  border-width: 0 0 44px 44px;
+  border-color: transparent transparent var(--accent-color) transparent;
+  filter: drop-shadow(-6px -6px 12px rgba(54, 92, 245, 0.3));
+}
+
+/* ==========================================================================
+   Dynamic Ambient Cast Shadows
+   ========================================================================== */
+
+.modui-leaf-cast-shadow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  pointer-events: none;
+  z-index: 18;
+  animation: modui-cast-shadow-pulse 0.72s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+}
+
+.modui-leaf-cast-shadow--right {
+  right: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.28) 0%, transparent 100%);
+}
+
+.modui-leaf-cast-shadow--left {
+  left: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.28) 0%, transparent 100%);
+}
+
+@keyframes modui-cast-shadow-pulse {
+  0% { opacity: 0; }
+  45% { opacity: 0.55; }
+  100% { opacity: 0; }
+}
+
+/* ==========================================================================
+   3D Dynamic Turning Leaf (Organic Curved Paper Geometry)
+   Soft, rounded bending edges instead of sharp stiff rectangles
+   ========================================================================== */
+
+.modui-turning-leaf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  z-index: 25;
+  pointer-events: none;
+  will-change: transform, box-shadow, border-radius;
+}
+
+/* Organic 3D Paper Fold Animations */
+.modui-turning-leaf--forward {
+  animation: modui-page-fold-forward 0.72s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+}
+
+.modui-turning-leaf--backward {
+  animation: modui-page-fold-backward 0.72s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+}
+
+@keyframes modui-page-fold-forward {
+  0% {
+    transform: rotateY(0deg) rotateZ(0deg) skewY(0deg) scaleX(1) translateZ(0);
+    border-radius: 0 var(--book-radius) var(--book-radius) 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  }
+  24% {
+    /* Edge curves and softens into dynamic paper arch */
+    transform: rotateY(-36deg) rotateZ(-3.8deg) skewY(-2.2deg) scaleX(0.97) translateZ(32px);
+    border-radius: 0 35px 35px 0 / 0 120px 120px 0;
+    box-shadow: -14px 12px 28px rgba(0, 0, 0, 0.18);
+  }
+  50% {
+    /* Apex arch: maximum cylindrical softness & curvature */
+    transform: rotateY(-90deg) rotateZ(-4.5deg) skewY(-3.8deg) scaleX(0.92) translateZ(52px);
+    border-radius: 0 45px 45px 0 / 0 160px 160px 0;
+    box-shadow: -24px 18px 46px rgba(0, 0, 0, 0.28);
+  }
+  76% {
+    /* Rolling over spine onto left side, uncurling smoothly */
+    transform: rotateY(-146deg) rotateZ(-1.8deg) skewY(-1.2deg) scaleX(0.96) translateZ(28px);
+    border-radius: 35px 0 0 35px / 120px 0 0 120px;
+    box-shadow: -14px 10px 24px rgba(0, 0, 0, 0.14);
+  }
+  92% {
+    /* Soft landing flutter */
+    transform: rotateY(-181deg) rotateZ(0.6deg) skewY(0.3deg) scaleX(1) translateZ(2px);
+    border-radius: var(--book-radius) 0 0 var(--book-radius);
+    box-shadow: -4px 6px 12px rgba(0, 0, 0, 0.06);
+  }
+  100% {
+    transform: rotateY(-180deg) rotateZ(0deg) skewY(0deg) scaleX(1) translateZ(0);
+    border-radius: var(--book-radius) 0 0 var(--book-radius);
+    box-shadow: none;
+  }
+}
+
+@keyframes modui-page-fold-backward {
+  0% {
+    transform: rotateY(-180deg) rotateZ(0deg) skewY(0deg) scaleX(1) translateZ(0);
+    border-radius: var(--book-radius) 0 0 var(--book-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  }
+  24% {
+    transform: rotateY(-144deg) rotateZ(3.8deg) skewY(2.2deg) scaleX(0.97) translateZ(32px);
+    border-radius: 35px 0 0 35px / 120px 0 0 120px;
+    box-shadow: 14px 12px 28px rgba(0, 0, 0, 0.18);
+  }
+  50% {
+    transform: rotateY(-90deg) rotateZ(4.5deg) skewY(3.8deg) scaleX(0.92) translateZ(52px);
+    border-radius: 45px 0 0 45px / 160px 0 0 160px;
+    box-shadow: 24px 18px 46px rgba(0, 0, 0, 0.28);
+  }
+  76% {
+    transform: rotateY(-34deg) rotateZ(1.8deg) skewY(1.2deg) scaleX(0.96) translateZ(28px);
+    border-radius: 0 35px 35px 0 / 0 120px 120px 0;
+    box-shadow: 14px 10px 24px rgba(0, 0, 0, 0.14);
+  }
+  92% {
+    transform: rotateY(1deg) rotateZ(-0.6deg) skewY(-0.3deg) scaleX(1) translateZ(2px);
+    border-radius: 0 var(--book-radius) var(--book-radius) 0;
+    box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.06);
+  }
+  100% {
+    transform: rotateY(0deg) rotateZ(0deg) skewY(0deg) scaleX(1) translateZ(0);
+    border-radius: 0 var(--book-radius) var(--book-radius) 0;
+    box-shadow: none;
+  }
+}
+
+.modui-turning-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--paper-bg);
+  border: 1px solid var(--paper-border);
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.modui-turning-face--front {
+  border-left: none;
+}
+
+.modui-turning-face--back {
+  border-right: none;
+  transform: rotateY(180deg);
+}
+
+/* Diffuse Feathered Specular Glare & Trough Shadow Sweep */
+.modui-paper-specular {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.12) 30%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(0, 0, 0, 0.16) 70%,
+    transparent 100%
+  );
+  mix-blend-mode: overlay;
+  animation: modui-specular-sweep 0.72s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+}
+
+@keyframes modui-specular-sweep {
+  0% { opacity: 0; transform: translateX(-15%); }
+  50% { opacity: 0.55; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(15%); }
+}
+
+/* ==========================================================================
+   Toolbar & Spread Progress Navigation
+   ========================================================================== */
+
+.modui-book-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.65rem 1.25rem;
+  background: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-default, #E4E1D9);
+  border-radius: var(--radius-pill, 9999px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+[data-theme="dark"] .modui-book-toolbar {
+  background: #14151C;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.modui-book-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary, #20201E);
+  background: transparent;
+  border: 1px solid var(--border-default, #E4E1D9);
+  border-radius: 9999px;
+  padding: 0.35rem 0.85rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+[data-theme="dark"] .modui-book-nav-btn {
+  color: #F4F4F6;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.modui-book-nav-btn:hover:not(:disabled) {
+  background: var(--accent-primary, #365CF5);
+  color: #FFFFFF;
+  border-color: var(--accent-primary, #365CF5);
+}
+
+.modui-book-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.modui-book-spread-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.modui-spread-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-strong, #CDC9BE);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-spread-dot:hover {
+  background: var(--accent-primary, #365CF5);
+  transform: scale(1.2);
+}
+
+.modui-spread-dot--active {
+  width: 22px;
+  border-radius: 4px;
+  background: var(--accent-primary, #365CF5);
+}
+
+.modui-book-page-counter {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary, #696963);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.modui-book-counter-current {
+  color: var(--accent-primary, #365CF5);
+}
+
+.modui-book-counter-sep {
+  opacity: 0.4;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints & Compact Mode
+   ========================================================================== */
+
+.modui-page-turn--compact {
+  --book-width: 250px;
+  --book-height: 150px;
+  --book-radius: 6px;
+  margin: 0 auto;
+}
+
+.modui-page-turn--compact .modui-book-tabletop {
+  padding: 0;
+  perspective: 1000px;
+}
+
+.modui-page-turn--compact .modui-page-surface {
+  padding: 0.85rem 0.75rem;
+}
+
+.modui-page-turn--compact .modui-page-title {
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  margin-bottom: 0.15rem;
+}
+
+.modui-page-turn--compact .modui-page-subtitle {
+  font-size: 0.5625rem;
+  margin-bottom: 0.2rem;
+}
+
+.modui-page-turn--compact .modui-page-prose {
+  font-size: 0.5rem;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.modui-page-turn--compact .modui-page-quote {
+  display: none;
+}
+
+.modui-page-turn--compact .modui-page-footer {
+  bottom: 0.4rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  height: 14px;
+}
+
+.modui-page-turn--compact .modui-page-folio {
+  font-size: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .modui-page-turn-book {
+    --book-height: 480px;
+  }
+
+  .modui-book-leaf--left {
+    display: none;
+  }
+
+  .modui-book-leaf--right {
+    width: 100%;
+    border-radius: var(--book-radius);
+    border-left: 1px solid var(--paper-border);
+  }
+
+  .modui-book-spine,
+  .modui-book-spine-highlight {
+    display: none;
+  }
+
+  .modui-page-surface {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .modui-turning-leaf {
+    width: 100%;
+  }
+
+  .modui-page-footer {
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+  }
+
+  .modui-book-toolbar {
+    padding: 0.5rem 0.85rem;
+  }
+}

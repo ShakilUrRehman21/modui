@@ -198,6 +198,28 @@
   gap: 1.5rem;
 }
 
+[data-theme="dark"] .modui-controls-panel {
+  background: #14151C;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .modui-studio-workbench {
+  background: #0E0F14;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .modui-canvas-stage {
+  background-color: #0E0F14;
+}
+
+[data-theme="dark"] .modui-control-input,
+[data-theme="dark"] .modui-control-select {
+  background: #191A22;
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #F4F4F6;
+}
+
 .modui-control-group {
   display: flex;
   flex-direction: column;

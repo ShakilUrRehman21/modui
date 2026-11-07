@@ -25,6 +25,7 @@ import { Polaroid } from '../components/ui/polaroid';
 import { MagneticProjectList } from '../components/ui/magnetic-project-list';
 import { InfiniteCanvasGallery } from '../components/ui/infinite-canvas-gallery';
 import { SpatialGallery } from '../components/ui/spatial-gallery';
+import { PageTurnBook } from '../components/ui/page-turn';
 import { trackPreviewOpen } from '../lib/analytics';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import './ExplorerPage.css';
@@ -210,16 +211,26 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'number-ticker' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.45rem', background: 'var(--bg-surface-elevated)', padding: '0.85rem 1.4rem', borderRadius: '12px', border: '1px solid var(--border-default)', boxShadow: 'var(--shadow-sm)' }}>
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '0.45rem',
+                      background: isDark ? '#14151C' : '#FFFFFF',
+                      padding: '0.85rem 1.4rem',
+                      borderRadius: '12px',
+                      border: isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid var(--border-default)',
+                      boxShadow: isDark ? '0 4px 20px rgba(0, 0, 0, 0.4)' : 'var(--shadow-sm)'
+                    }}>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.65rem' }}>
-                        <div style={{ fontSize: '2.1rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', letterSpacing: '-0.03em' }}>
+                        <div style={{ fontSize: '2.1rem', fontWeight: 800, color: isDark ? '#F4F4F6' : 'var(--text-primary)', fontFamily: 'var(--font-mono)', letterSpacing: '-0.03em' }}>
                           <NumberTicker value={1420} prefix="$" suffix="/mo" />
                         </div>
                         <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#10B981', background: 'rgba(16, 185, 129, 0.12)', padding: '0.15rem 0.5rem', borderRadius: '999px', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
                           +24.8%
                         </span>
                       </div>
-                      <span style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em' }}>
+                      <span style={{ fontSize: '0.65rem', fontWeight: 600, color: isDark ? '#9DA3AE' : 'var(--text-tertiary)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em' }}>
                         REVENUE METRIC // 60 FPS
                       </span>
                     </div>
@@ -561,6 +572,19 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         autoPlay={true}
                         autoPlayInterval={3200}
                         showReflection={true}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'page-turn-book' && (
+                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <PageTurnBook
+                        compact={true}
+                        variant={isDark ? 'dark-obsidian' : 'studio-editorial'}
+                        soundEnabled={false}
+                        autoPlay={true}
+                        autoPlayInterval={3200}
+                        interactiveCurl={false}
                       />
                     </div>
                   )}
