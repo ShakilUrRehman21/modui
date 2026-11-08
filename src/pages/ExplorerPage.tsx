@@ -26,6 +26,7 @@ import { MagneticProjectList } from '../components/ui/magnetic-project-list';
 import { InfiniteCanvasGallery } from '../components/ui/infinite-canvas-gallery';
 import { SpatialGallery } from '../components/ui/spatial-gallery';
 import { PageTurnBook } from '../components/ui/page-turn';
+import { PointCloudMorpher } from '../components/ui/point-cloud';
 import { trackPreviewOpen } from '../lib/analytics';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import './ExplorerPage.css';
@@ -585,6 +586,22 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         autoPlay={true}
                         autoPlayInterval={3200}
                         interactiveCurl={false}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'point-cloud-morpher' && (
+                    <div style={{ width: '100%', height: '185px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', overflow: 'hidden' }}>
+                      <PointCloudMorpher
+                        compact={true}
+                        theme={theme}
+                        topology="torus"
+                        variant={isDark ? 'cyber-violet' : 'deep-ice'}
+                        particleCount={450}
+                        showConstellations={false}
+                        soundEnabled={false}
+                        autoRotate={true}
+                        interactiveVortex={true}
                       />
                     </div>
                   )}

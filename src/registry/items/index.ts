@@ -25,6 +25,7 @@ import { magneticProjectListItem } from './magnetic-project-list';
 import { infiniteCanvasGalleryItem } from './infinite-canvas-gallery';
 import { spatialGalleryItem } from './spatial-gallery';
 import { pageTurnBookItem } from './page-turn-book';
+import { pointCloudMorpherItem } from './point-cloud-morpher';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -53,4 +54,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   infiniteCanvasGalleryItem,
   spatialGalleryItem,
   pageTurnBookItem,
+  pointCloudMorpherItem,
 ];
