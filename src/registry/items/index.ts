@@ -26,6 +26,7 @@ import { infiniteCanvasGalleryItem } from './infinite-canvas-gallery';
 import { spatialGalleryItem } from './spatial-gallery';
 import { pageTurnBookItem } from './page-turn-book';
 import { pointCloudMorpherItem } from './point-cloud-morpher';
+import { perspectiveTextRibbonItem } from './perspective-text-ribbon';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -55,4 +56,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   spatialGalleryItem,
   pageTurnBookItem,
   pointCloudMorpherItem,
+  perspectiveTextRibbonItem,
 ];

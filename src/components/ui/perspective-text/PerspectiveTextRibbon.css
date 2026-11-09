@@ -1,0 +1,458 @@
+/* ==========================================================================
+   ModUI — PerspectiveTextRibbon (3D Kinetic Typography Marquee) Stylesheet
+   ========================================================================== */
+
+.modui-perspective-ribbon-container {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  outline: none;
+}
+
+.modui-perspective-ribbon-container:focus-visible {
+  box-shadow: 0 0 0 2px #6366f1, 0 20px 45px rgba(0, 0, 0, 0.5);
+}
+
+/* ================= DARK THEME VARIANTS ================= */
+
+.modui-perspective-ribbon--cyber-indigo {
+  background: #08090d;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  --accent-color: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.5);
+}
+
+.modui-perspective-ribbon--matrix-emerald {
+  background: #060b08;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  --accent-color: #10b981;
+  --accent-glow: rgba(16, 185, 129, 0.5);
+}
+
+.modui-perspective-ribbon--solar-flame {
+  background: #0e0905;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  --accent-color: #f59e0b;
+  --accent-glow: rgba(245, 158, 11, 0.5);
+}
+
+.modui-perspective-ribbon--monochrome {
+  background: #090a0d;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  --accent-color: #f8fafc;
+  --accent-glow: rgba(255, 255, 255, 0.35);
+}
+
+/* ================= LIGHT THEME VARIANTS ================= */
+
+.modui-perspective-ribbon--theme-light,
+[data-theme="light"] .modui-perspective-ribbon-container {
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+}
+
+.modui-perspective-ribbon--theme-light.modui-perspective-ribbon--cyber-indigo,
+[data-theme="light"] .modui-perspective-ribbon--cyber-indigo {
+  background: #f8fafc;
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  --accent-color: #4f46e5;
+  --accent-glow: rgba(79, 70, 229, 0.28);
+}
+
+.modui-perspective-ribbon--theme-light.modui-perspective-ribbon--matrix-emerald,
+[data-theme="light"] .modui-perspective-ribbon--matrix-emerald {
+  background: #f4fbf7;
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  --accent-color: #059669;
+  --accent-glow: rgba(5, 150, 105, 0.28);
+}
+
+.modui-perspective-ribbon--theme-light.modui-perspective-ribbon--solar-flame,
+[data-theme="light"] .modui-perspective-ribbon--solar-flame {
+  background: #fffdf9;
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  --accent-color: #d97706;
+  --accent-glow: rgba(217, 119, 6, 0.28);
+}
+
+.modui-perspective-ribbon--theme-light.modui-perspective-ribbon--monochrome,
+[data-theme="light"] .modui-perspective-ribbon--monochrome {
+  background: #fcfcfd;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  --accent-color: #0f172a;
+  --accent-glow: rgba(15, 23, 42, 0.15);
+}
+
+/* ================= TOP HUD TELEMETRY BAR ================= */
+
+.modui-ribbon-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 10;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-hud,
+[data-theme="light"] .modui-ribbon-hud {
+  background: rgba(255, 255, 255, 0.82);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.modui-ribbon-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modui-ribbon-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  box-shadow: 0 0 8px var(--accent-glow);
+  animation: modui-ribbon-pulse 2s infinite ease-in-out;
+}
+
+@keyframes modui-ribbon-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.4); opacity: 1; }
+}
+
+.modui-ribbon-hud-title {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #f8fafc;
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-hud-title,
+[data-theme="light"] .modui-ribbon-hud-title {
+  color: #0f172a;
+}
+
+.modui-ribbon-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-stats,
+[data-theme="light"] .modui-ribbon-stats {
+  color: #64748b;
+}
+
+.modui-ribbon-divider {
+  opacity: 0.4;
+}
+
+/* ================= 3D VIEWPORT STAGE ================= */
+
+.modui-ribbon-viewport {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  perspective: 900px;
+  perspective-origin: center center;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.modui-ribbon-viewport:active {
+  cursor: grabbing;
+}
+
+.modui-ribbon-band {
+  display: flex;
+  width: max-content;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.05s linear;
+}
+
+.modui-ribbon-track {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding-right: 32px;
+  white-space: nowrap;
+}
+
+/* ================= TYPOGRAPHY ITEMS ================= */
+
+.modui-ribbon-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.modui-ribbon-item:hover {
+  transform: translateZ(20px) scale(1.05);
+}
+
+/* Solid Fill Item */
+.modui-ribbon-item--solid .modui-ribbon-text {
+  color: #ffffff;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-item--solid .modui-ribbon-text,
+[data-theme="light"] .modui-ribbon-item--solid .modui-ribbon-text {
+  color: #0f172a;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Outline Stroke Item */
+.modui-ribbon-item--outline .modui-ribbon-text {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+  text-shadow: none;
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-item--outline .modui-ribbon-text,
+[data-theme="light"] .modui-ribbon-item--outline .modui-ribbon-text {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(15, 23, 42, 0.4);
+}
+
+/* Accent Glow Item */
+.modui-ribbon-item--accent .modui-ribbon-text {
+  color: var(--accent-color);
+  text-shadow: 0 0 35px var(--accent-glow);
+}
+
+/* Tag Badge */
+.modui-ribbon-item-badge {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--accent-color);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: 999px;
+  vertical-align: middle;
+  transform: translateY(-8px);
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-item-badge,
+[data-theme="light"] .modui-ribbon-item-badge {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Geometric Separator */
+.modui-ribbon-separator {
+  font-size: 18px;
+  opacity: 0.4;
+  color: var(--accent-color);
+  margin-left: 12px;
+}
+
+/* Ambient Edge Vignettes */
+.modui-ribbon-vignette-left,
+.modui-ribbon-vignette-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.modui-ribbon-vignette-left {
+  left: 0;
+  background: linear-gradient(to right, #08090d 15%, transparent 100%);
+}
+
+.modui-ribbon-vignette-right {
+  right: 0;
+  background: linear-gradient(to left, #08090d 15%, transparent 100%);
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-vignette-left,
+[data-theme="light"] .modui-ribbon-vignette-left {
+  background: linear-gradient(to right, #f8fafc 15%, transparent 100%);
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-vignette-right,
+[data-theme="light"] .modui-ribbon-vignette-right {
+  background: linear-gradient(to left, #f8fafc 15%, transparent 100%);
+}
+
+/* ================= BOTTOM CONTROL TOOLBAR ================= */
+
+.modui-ribbon-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 10;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-toolbar,
+[data-theme="light"] .modui-ribbon-toolbar {
+  background: rgba(255, 255, 255, 0.85);
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.modui-ribbon-orientation-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.modui-ribbon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+}
+
+.modui-ribbon-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-btn,
+[data-theme="light"] .modui-ribbon-btn {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #475569;
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-btn:hover,
+[data-theme="light"] .modui-ribbon-btn:hover {
+  background: rgba(0, 0, 0, 0.07);
+  color: #0f172a;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.modui-ribbon-btn--active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 12px var(--accent-glow);
+  font-weight: 700;
+}
+
+.modui-perspective-ribbon--theme-light .modui-ribbon-btn--active,
+[data-theme="light"] .modui-ribbon-btn--active {
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.modui-ribbon-pause-btn {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ================= COMPACT CARD PREVIEW MODE ================= */
+
+.modui-perspective-ribbon--compact {
+  border-radius: 12px;
+  box-shadow: none;
+  height: 100%;
+}
+
+.modui-perspective-ribbon--compact .modui-ribbon-viewport {
+  height: 100%;
+  min-height: 140px;
+}
+
+.modui-perspective-ribbon--compact .modui-ribbon-item {
+  font-size: 26px;
+  gap: 10px;
+}
+
+.modui-perspective-ribbon--compact .modui-ribbon-track {
+  gap: 16px;
+  padding-right: 16px;
+}
+
+.modui-perspective-ribbon--compact .modui-ribbon-vignette-left,
+.modui-perspective-ribbon--compact .modui-ribbon-vignette-right {
+  width: 60px;
+}
+
+/* ================= RESPONSIVE ADJUSTMENTS ================= */
+
+@media (max-width: 768px) {
+  .modui-ribbon-item {
+    font-size: 38px;
+    gap: 12px;
+  }
+
+  .modui-ribbon-viewport {
+    height: 220px;
+  }
+
+  .modui-ribbon-stats {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .modui-ribbon-item {
+    font-size: 28px;
+    gap: 8px;
+  }
+
+  .modui-ribbon-viewport {
+    height: 180px;
+  }
+}
+
+/* Screen reader utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+

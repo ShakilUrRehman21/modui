@@ -27,8 +27,8 @@ import { InfiniteCanvasGallery } from '../components/ui/infinite-canvas-gallery'
 import { SpatialGallery } from '../components/ui/spatial-gallery';
 import { PageTurnBook } from '../components/ui/page-turn';
 import { PointCloudMorpher } from '../components/ui/point-cloud';
+import { PerspectiveTextRibbon } from '../components/ui/perspective-text';
 import { trackPreviewOpen } from '../lib/analytics';
-import { useScrollReveal } from '../hooks/useScrollReveal';
 import './ExplorerPage.css';
 
 interface ExplorerPageProps {
@@ -46,8 +46,6 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'All');
 
   const isDark = theme ? theme === 'dark' : (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark');
-
-  useScrollReveal();
 
   const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
@@ -157,7 +155,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
             {filteredComponents.map((comp) => (
               <div
                 key={comp.id}
-                className="modui-featured-card modui-reveal modui-scale-up"
+                className="modui-featured-card"
                 onMouseMove={handleCardMouseMove}
                 onMouseLeave={handleCardMouseLeave}
                 onClick={() => {
@@ -602,6 +600,21 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         soundEnabled={false}
                         autoRotate={true}
                         interactiveVortex={true}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'perspective-text-ribbon' && (
+                    <div style={{ width: '100%', height: '185px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', overflow: 'hidden' }}>
+                      <PerspectiveTextRibbon
+                        compact={true}
+                        theme={theme}
+                        orientation="dynamic"
+                        variant={isDark ? 'cyber-indigo' : 'solar-flame'}
+                        speed={1.0}
+                        direction="forward"
+                        soundEnabled={false}
+                        interactiveScrub={true}
                       />
                     </div>
                   )}
