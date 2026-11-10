@@ -28,6 +28,7 @@ import { SpatialGallery } from '../components/ui/spatial-gallery';
 import { PageTurnBook } from '../components/ui/page-turn';
 import { PointCloudMorpher } from '../components/ui/point-cloud';
 import { PerspectiveTextRibbon } from '../components/ui/perspective-text';
+import { QuantumOrbitBeacon } from '../components/ui/quantum-orbit-beacon';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -615,6 +616,21 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         direction="forward"
                         soundEnabled={false}
                         interactiveScrub={true}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'quantum-orbit-beacon' && (
+                    <div style={{ width: '100%', height: '185px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', overflow: 'hidden' }}>
+                      <QuantumOrbitBeacon
+                        compact={true}
+                        theme={theme}
+                        size="md"
+                        state="optimal"
+                        speed={1.0}
+                        soundEnabled={false}
+                        interactive={true}
+                        showTelemetry={true}
                       />
                     </div>
                   )}

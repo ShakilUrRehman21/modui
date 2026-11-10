@@ -1,0 +1,193 @@
+/* QuantumOrbitBeacon.css — ModUI Primitive #29 */
+
+.modui-quantum-beacon {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  user-select: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ========================================================
+   Stage & Canvas Container
+   ======================================================== */
+.modui-quantum-beacon-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modui-quantum-beacon-canvas {
+  display: block;
+  pointer-events: auto;
+  cursor: crosshair;
+  z-index: 2;
+}
+
+.modui-quantum-beacon-glow {
+  position: absolute;
+  inset: -15%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+  transition: background 0.4s ease, opacity 0.4s ease;
+  filter: blur(12px);
+}
+
+/* ========================================================
+   Telemetry & Meta Typography
+   ======================================================== */
+.modui-quantum-beacon-telemetry {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 12px;
+}
+
+.modui-quantum-beacon-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modui-quantum-beacon-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  transition: color 0.3s ease;
+}
+
+.modui-quantum-beacon-sublabel {
+  font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+/* ========================================================
+   Size Variants: sm, md, lg
+   ======================================================== */
+/* Small: Inline micro-status indicator (e.g. for navbars, table cells) */
+.modui-quantum-beacon--sm {
+  gap: 6px;
+}
+.modui-quantum-beacon--sm .modui-quantum-beacon-telemetry {
+  margin-left: 6px;
+  gap: 0;
+}
+.modui-quantum-beacon--sm .modui-quantum-beacon-label {
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.modui-quantum-beacon--sm .modui-quantum-beacon-sublabel {
+  font-size: 9.5px;
+}
+
+/* Medium: Status badge */
+.modui-quantum-beacon--md {
+  gap: 10px;
+}
+.modui-quantum-beacon--md .modui-quantum-beacon-telemetry {
+  margin-left: 8px;
+}
+.modui-quantum-beacon--md .modui-quantum-beacon-label {
+  font-size: 14px;
+}
+.modui-quantum-beacon--md .modui-quantum-beacon-sublabel {
+  font-size: 11px;
+}
+
+/* Large: Full HUD / Telemetry Stage */
+.modui-quantum-beacon--lg {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 16px;
+}
+.modui-quantum-beacon--lg .modui-quantum-beacon-telemetry {
+  margin-left: 0;
+  margin-top: 14px;
+  align-items: center;
+}
+.modui-quantum-beacon--lg .modui-quantum-beacon-label {
+  font-size: 16px;
+  font-weight: 800;
+}
+.modui-quantum-beacon--lg .modui-quantum-beacon-sublabel {
+  font-size: 12px;
+}
+
+/* ========================================================
+   Interactive Preset Control Buttons (Large size)
+   ======================================================== */
+.modui-quantum-beacon-controls {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.modui-quantum-beacon-btn {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary, #94A3B8);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-quantum-beacon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary, #F8FAFC);
+  transform: translateY(-1px);
+}
+
+.modui-quantum-beacon-btn.is-active {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #A5B4FC;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.25);
+}
+
+/* ========================================================
+   Light Theme Adaptations
+   ======================================================== */
+.modui-quantum-beacon--theme-light .modui-quantum-beacon-btn {
+  border-color: rgba(15, 23, 42, 0.12);
+  background: rgba(15, 23, 42, 0.04);
+  color: #475569;
+}
+
+.modui-quantum-beacon--theme-light .modui-quantum-beacon-btn:hover {
+  background: rgba(15, 23, 42, 0.08);
+  color: #0F172A;
+}
+
+.modui-quantum-beacon--theme-light .modui-quantum-beacon-btn.is-active {
+  background: rgba(79, 70, 229, 0.12);
+  border-color: rgba(79, 70, 229, 0.4);
+  color: #4F46E5;
+  box-shadow: 0 0 10px rgba(79, 70, 229, 0.15);
+}
+
+/* Compact Mode (for cards and grids) */
+.modui-quantum-beacon--compact {
+  padding: 0;
+}
+.modui-quantum-beacon--compact .modui-quantum-beacon-controls {
+  display: none;
+}

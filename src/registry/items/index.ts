@@ -27,6 +27,7 @@ import { spatialGalleryItem } from './spatial-gallery';
 import { pageTurnBookItem } from './page-turn-book';
 import { pointCloudMorpherItem } from './point-cloud-morpher';
 import { perspectiveTextRibbonItem } from './perspective-text-ribbon';
+import { quantumOrbitBeaconItem } from './quantum-orbit-beacon';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -57,4 +58,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   pageTurnBookItem,
   pointCloudMorpherItem,
   perspectiveTextRibbonItem,
+  quantumOrbitBeaconItem,
 ];
