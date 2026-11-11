@@ -618,7 +618,7 @@ export const ReelTapeDeck: React.FC<ReelTapeDeckProps> = ({
         <div className="modui-tape-compact-bar">
           <div className="modui-tape-compact-status">
             <span className={`modui-tape-compact-dot ${transportState === 'play' ? 'modui-tape-compact-dot--active' : ''}`} />
-            <span className="modui-tape-compact-title">MODUI RT-1500 // {tapeSpeed} IPS</span>
+            <span className="modui-tape-compact-title">RT-1500 · {tapeSpeed} ips</span>
           </div>
           <div className="modui-tape-compact-controls">
             <span className="modui-tape-compact-counter">{counterDisplay}</span>
@@ -745,7 +745,7 @@ export const ReelTapeDeck: React.FC<ReelTapeDeckProps> = ({
             </div>
             <div className={`modui-tape-roller modui-tape-roller--right ${transportState === 'play' ? 'modui-tape-roller--spinning' : ''}`} />
           </div>
-          <div className="modui-tape-heads__label">PRECISION TAPE HEAD ASSEMBLY</div>
+          <div className="modui-tape-heads__label">Tape head</div>
         </div>
 
         {/* Right Spool: Take-Up Reel */}
@@ -784,7 +784,7 @@ export const ReelTapeDeck: React.FC<ReelTapeDeckProps> = ({
             {/* Channel L */}
             <div className="modui-tape-vu-meter" aria-label={`Channel 1 VU Level: ${Math.round(vuLeftDb)} dB`}>
               <div className="modui-tape-vu-meter__top">
-                <span className="modui-tape-vu-meter__channel">CH 1 // L</span>
+                <span className="modui-tape-vu-meter__channel">Left</span>
                 <span className={`modui-tape-vu-peak ${isPeakLeft ? 'modui-tape-vu-peak--active' : ''}`}>PEAK</span>
               </div>
               <div className="modui-tape-vu-meter__dial">
@@ -808,7 +808,7 @@ export const ReelTapeDeck: React.FC<ReelTapeDeckProps> = ({
             {/* Channel R */}
             <div className="modui-tape-vu-meter" aria-label={`Channel 2 VU Level: ${Math.round(vuRightDb)} dB`}>
               <div className="modui-tape-vu-meter__top">
-                <span className="modui-tape-vu-meter__channel">CH 2 // R</span>
+                <span className="modui-tape-vu-meter__channel">Right</span>
                 <span className={`modui-tape-vu-peak ${isPeakRight ? 'modui-tape-vu-peak--active' : ''}`}>PEAK</span>
               </div>
               <div className="modui-tape-vu-meter__dial">

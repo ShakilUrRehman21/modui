@@ -1,386 +1,403 @@
 /* ==========================================================================
-   ModUI FluidElasticAccordion Component Stylesheet
-   Spring Inertia Expansion · Liquid Bezier Dividing Edge · Multi-Orientation
+   ModUI — Fluid Elastic Accordion
+   Exhibition slats: a shallow tray holding panels that open like display
+   cases. The open panel carries an oversize index numeral and bottom-set
+   copy; closed slats read as spines with a growing accent base.
    ========================================================================== */
 
 .modui-fluid-accordion {
+  /* surface */
+  --fa-tray: #FFFFFF;
+  --fa-tray-ring: rgba(14, 19, 34, 0.07);
+  --fa-tray-shadow: 0 20px 56px -28px rgba(14, 19, 34, 0.34), 0 2px 8px rgba(14, 19, 34, 0.04);
+  --fa-slat: #F6F7FA;
+  --fa-slat-hover: #F0F2F7;
+  --fa-open: #FFFFFF;
+  --fa-hairline: rgba(14, 19, 34, 0.08);
+
+  /* ink */
+  --fa-ink: #0E1322;
+  --fa-ink-dim: #5A6178;
+  --fa-ink-faint: rgba(14, 19, 34, 0.42);
+  --fa-numeral: 24%;
+  --fa-display: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
+
+  /* geometry + motion */
+  --fa-gap: 8px;
+  --fa-radius: 15px;
+  --fa-dur: 650ms;
+  --fa-ease: cubic-bezier(0.34, 1.4, 0.4, 1);
+
   position: relative;
   display: flex;
+  gap: var(--fa-gap);
+  padding: 10px;
   width: 100%;
-  border-radius: var(--radius-md, 8px);
+  min-height: 420px;
+  height: 452px;
+  border-radius: 23px;
+  background: var(--fa-tray);
+  box-shadow: 0 0 0 1px var(--fa-tray-ring), var(--fa-tray-shadow);
+  font-family: var(--fa-display);
   overflow: hidden;
-  box-sizing: border-box;
-  user-select: none;
-  isolation: isolate;
-  background: #FFFFFF;
-  border: 1px solid var(--border-default, #E4E1D9);
-  box-shadow: 0 4px 16px rgba(32, 32, 30, 0.06);
 }
 
-/* Horizontal Filmstrip Orientation */
-.modui-fluid-accordion--horizontal {
-  flex-direction: row;
-  min-height: 440px;
-  height: 480px;
-}
-
-/* Vertical Stack Orientation */
 .modui-fluid-accordion--vertical {
   flex-direction: column;
   min-height: 520px;
-  width: 100%;
+  height: auto;
 }
 
-/* --------------------------------------------------------------------------
-   Spring Physics Transitions
-   -------------------------------------------------------------------------- */
-.modui-fluid-accordion--spring-elastic .modui-fluid-panel {
-  transition:
-    flex 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 0.4s ease,
-    border-color 0.4s ease;
-}
+/* ---------- Spring presets ---------- */
+.modui-fluid-accordion--spring-elastic { --fa-dur: 650ms; --fa-ease: cubic-bezier(0.34, 1.4, 0.4, 1); }
+.modui-fluid-accordion--spring-snappy { --fa-dur: 420ms; --fa-ease: cubic-bezier(0.2, 0.92, 0.26, 1); }
+.modui-fluid-accordion--spring-gentle { --fa-dur: 850ms; --fa-ease: cubic-bezier(0.22, 1, 0.3, 1); }
 
-.modui-fluid-accordion--spring-snappy .modui-fluid-panel {
-  transition:
-    flex 0.42s cubic-bezier(0.2, 0.9, 0.2, 1),
-    background-color 0.3s ease,
-    border-color 0.3s ease;
-}
-
-.modui-fluid-accordion--spring-gentle .modui-fluid-panel {
-  transition:
-    flex 0.85s cubic-bezier(0.25, 1, 0.4, 1),
-    background-color 0.5s ease,
-    border-color 0.5s ease;
-}
-
-/* --------------------------------------------------------------------------
-   Individual Panel Container
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   Panels
+   ========================================================================== */
 .modui-fluid-panel {
   position: relative;
-  overflow: hidden;
-  display: flex;
+  min-width: 0;
+  min-height: 0;
+  border-radius: var(--fa-radius);
+  background: var(--fa-slat);
   cursor: pointer;
+  overflow: hidden;
   outline: none;
-  box-sizing: border-box;
-  will-change: flex;
+  transition:
+    flex-grow var(--fa-dur) var(--fa-ease),
+    background 320ms ease,
+    box-shadow 320ms ease,
+    transform 320ms var(--fa-ease);
 }
 
 .modui-fluid-panel:focus-visible {
-  outline: 2px solid var(--panel-accent, #4F46E5);
-  outline-offset: -2px;
-  z-index: 5;
+  box-shadow: 0 0 0 2px var(--fa-tray), 0 0 0 4px var(--panel-accent, #365CF5);
 }
 
-/* Background Ambient Lighting & Imagery */
+.modui-fluid-panel--active {
+  background: var(--fa-open);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--panel-accent) 18%, transparent),
+    0 14px 34px -20px color-mix(in srgb, var(--panel-accent) 60%, transparent);
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .modui-fluid-panel--collapsed:hover { background: var(--fa-slat-hover); }
+  .modui-fluid-accordion--horizontal .modui-fluid-panel--collapsed:hover { transform: translateY(-3px); }
+  .modui-fluid-accordion--vertical .modui-fluid-panel--collapsed:hover { transform: translateX(3px); }
+}
+
+/* accent base — the "selected" rail that fills on hover */
+.modui-fluid-panel--collapsed::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 3px;
+  background: var(--panel-accent, #365CF5);
+  transform: scaleX(0.22);
+  transform-origin: center bottom;
+  opacity: 0.55;
+  transition: transform 420ms var(--fa-ease), opacity 260ms ease;
+}
+
+.modui-fluid-accordion--vertical .modui-fluid-panel--collapsed::after {
+  inset: 0 auto 0 0;
+  width: 3px;
+  height: auto;
+  transform: scaleY(0.22);
+  transform-origin: left center;
+  transition: transform 420ms var(--fa-ease), opacity 260ms ease;
+}
+
+@media (hover: hover) {
+  .modui-fluid-panel--collapsed:hover::after { transform: scale(1); opacity: 1; }
+}
+
+/* ---------- Ambient background layers ---------- */
 .modui-fluid-panel-bg {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
   pointer-events: none;
   overflow: hidden;
+  border-radius: inherit;
 }
 
 .modui-fluid-panel-img {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
   background-size: cover;
   background-position: center;
-  opacity: 0.18;
-  filter: saturate(1.2) contrast(1.1);
-  transform: scale(1.05);
-  transition:
-    opacity 0.6s ease,
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.16;
+  transition: opacity 520ms ease, transform 900ms var(--fa-ease);
 }
 
-.modui-fluid-panel--active .modui-fluid-panel-img {
-  opacity: 0.38;
-  transform: scale(1);
-}
+.modui-fluid-panel--active .modui-fluid-panel-img { opacity: 0.3; transform: scale(1.04); }
 
 .modui-fluid-panel-glow {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.4;
-  transition: opacity 0.5s ease;
+  inset: -20%;
+  opacity: 0;
+  transition: opacity 560ms ease;
 }
 
-.modui-fluid-panel--active .modui-fluid-panel-glow {
-  opacity: 1;
-}
+.modui-fluid-panel--active .modui-fluid-panel-glow { opacity: 1; }
 
+/* a soft tint so a closed slat still carries its own colour */
 .modui-fluid-panel-sheen {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
-  pointer-events: none;
+  background: linear-gradient(170deg, color-mix(in srgb, var(--panel-accent) 9%, transparent) 0%, transparent 62%);
+  opacity: 0.7;
+  transition: opacity 420ms ease;
 }
 
-/* --------------------------------------------------------------------------
-   Collapsed Ribbon Presentation
-   -------------------------------------------------------------------------- */
+.modui-fluid-panel--active .modui-fluid-panel-sheen {
+  background: linear-gradient(142deg, color-mix(in srgb, var(--panel-accent) 11%, transparent) 0%, transparent 58%);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Closed slat
+   ========================================================================== */
 .modui-fluid-collapsed-bar {
   position: absolute;
   inset: 0;
-  z-index: 2;
   display: flex;
-  padding: 1.5rem 1rem;
-  box-sizing: border-box;
-  transition:
-    opacity 0.35s ease,
-    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-}
-
-.modui-fluid-accordion--horizontal .modui-fluid-collapsed-bar {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-}
-
-.modui-fluid-accordion--vertical .modui-fluid-collapsed-bar {
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.75rem;
+  padding: 18px 10px 22px;
+  opacity: 1;
+  transition: opacity 240ms ease 120ms;
 }
 
 .modui-fluid-panel--active .modui-fluid-collapsed-bar {
   opacity: 0;
-  transform: scale(0.96);
   pointer-events: none;
-}
-
-.modui-fluid-panel--collapsed .modui-fluid-collapsed-bar {
-  opacity: 1;
-  transform: scale(1);
+  transition: opacity 160ms ease;
 }
 
 .modui-fluid-num-pill {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary, #94A3B8);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.25rem 0.55rem;
-  border-radius: 9999px;
-  line-height: 1;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 11.5px;
+  font-weight: 560;
+  letter-spacing: 0.04em;
+  color: var(--panel-accent, #365CF5);
+  opacity: 0.85;
+  transition: opacity 220ms ease;
 }
 
-.modui-fluid-panel:hover .modui-fluid-num-pill {
-  color: #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.12);
-}
+.modui-fluid-panel--collapsed:hover .modui-fluid-num-pill { opacity: 1; }
 
 .modui-fluid-collapsed-title-wrap {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
-.modui-fluid-accordion--horizontal .modui-fluid-collapsed-title {
-  font-family: var(--font-display, sans-serif);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #64748B;
+.modui-fluid-collapsed-title {
   writing-mode: vertical-rl;
+  transform: rotate(180deg);
   white-space: nowrap;
-  transition: color 0.25s ease;
-}
-
-.modui-fluid-accordion--vertical .modui-fluid-collapsed-title {
-  font-family: var(--font-display, sans-serif);
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #CBD5E1;
-  white-space: nowrap;
-  transition: color 0.25s ease;
-}
-
-.modui-fluid-panel:hover .modui-fluid-collapsed-title {
-  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 580;
+  letter-spacing: 0.012em;
+  color: var(--fa-ink);
+  transition: color 220ms ease;
 }
 
 .modui-fluid-collapsed-tag {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--panel-accent, #4F46E5);
-  background: rgba(79, 70, 229, 0.12);
-  border: 1px solid rgba(79, 70, 229, 0.25);
-  padding: 0.2rem 0.5rem;
-  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--fa-hairline);
+  background: color-mix(in srgb, var(--panel-accent) 7%, transparent);
+  font-size: 11px;
+  font-weight: 540;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+  color: var(--fa-ink-dim);
+  transition: border-color 220ms ease, color 220ms ease;
 }
 
-/* --------------------------------------------------------------------------
-   Expanded Canvas Presentation
-   -------------------------------------------------------------------------- */
+@media (hover: hover) {
+  .modui-fluid-panel--collapsed:hover .modui-fluid-collapsed-tag {
+    border-color: color-mix(in srgb, var(--panel-accent) 34%, transparent);
+    color: var(--panel-accent);
+  }
+}
+
+/* ==========================================================================
+   Open panel
+   ========================================================================== */
 .modui-fluid-expanded-content {
   position: relative;
-  z-index: 3;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 2.25rem;
-  overflow: hidden;
-  transition:
-    opacity 0.45s ease 0.1s,
-    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s;
-}
-
-.modui-fluid-panel--collapsed .modui-fluid-expanded-content {
+  height: 100%;
+  padding: 26px 30px 28px;
   opacity: 0;
-  transform: translateX(-16px);
-  pointer-events: none;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 260ms ease, transform 420ms var(--fa-ease), visibility 0s linear 400ms;
 }
 
 .modui-fluid-panel--active .modui-fluid-expanded-content {
   opacity: 1;
-  transform: translateX(0);
-  pointer-events: auto;
+  visibility: visible;
+  transform: none;
+  transition: opacity 340ms ease 140ms, transform 560ms var(--fa-ease) 120ms, visibility 0s;
 }
 
+/* ---------- Top row: tag badge + oversize index ---------- */
 .modui-fluid-meta-top {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  width: 100%;
+  gap: 16px;
+  min-width: 0;
 }
 
 .modui-fluid-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
-  border-radius: 9999px;
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(8px);
+  gap: 7px;
+  flex: 0 0 auto;
+  margin-top: 4px;
+  padding: 5px 12px 5px 10px;
   border: 1px solid;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--panel-accent) 9%, transparent);
+  font-size: 12.5px;
+  font-weight: 560;
+  letter-spacing: 0.004em;
+  white-space: nowrap;
 }
 
 .modui-fluid-badge-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  box-shadow: 0 0 8px currentColor;
+  flex: 0 0 auto;
 }
 
 .modui-fluid-index-hero {
-  font-family: var(--font-display, sans-serif);
-  font-size: 2.75rem;
-  font-weight: 900;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.08);
-  letter-spacing: -0.04em;
+  font-size: clamp(58px, 9vw, 104px);
+  font-weight: 700;
+  line-height: 0.76;
+  letter-spacing: -0.055em;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--panel-accent) var(--fa-numeral), transparent);
+  user-select: none;
+  pointer-events: none;
 }
 
+/* ---------- Copy block, set against the bottom edge ---------- */
 .modui-fluid-body {
-  margin-top: auto;
-  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
 }
 
 .modui-fluid-headline {
-  font-family: var(--font-display, sans-serif);
-  font-size: 1.85rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.18;
-  color: #FFFFFF;
-  margin: 0 0 0.5rem 0;
+  margin: 0;
+  font-size: clamp(24px, 3.2vw, 31px);
+  font-weight: 680;
+  line-height: 1.07;
+  letter-spacing: -0.028em;
+  color: var(--fa-ink);
 }
 
 .modui-fluid-subhead {
-  font-family: var(--font-sans, sans-serif);
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--panel-accent, #4F46E5);
-  margin: 0 0 0.75rem 0;
-  letter-spacing: -0.01em;
+  margin: 8px 0 0;
+  font-size: 15px;
+  font-weight: 560;
+  letter-spacing: -0.004em;
+  color: var(--panel-accent, #365CF5);
 }
 
 .modui-fluid-description {
-  font-family: var(--font-sans, sans-serif);
-  font-size: 0.8875rem;
-  line-height: 1.6;
-  color: #94A3B8;
-  margin: 0 0 1.5rem 0;
+  margin: 14px 0 0;
+  max-width: 46ch;
+  font-size: 14.5px;
+  line-height: 1.62;
+  color: var(--fa-ink-dim);
 }
 
+/* ---------- Call to action ---------- */
 .modui-fluid-cta-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.25rem;
-  background: var(--btn-accent, #4F46E5);
+  gap: 9px;
+  margin-top: 22px;
+  padding: 11px 16px 11px 18px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--btn-accent, #365CF5);
   color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-md, 0.625rem);
-  font-family: var(--font-sans, sans-serif);
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 580;
+  letter-spacing: -0.004em;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
-  box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  box-shadow: 0 8px 20px -10px color-mix(in srgb, var(--btn-accent) 90%, transparent);
+  transition: transform 220ms var(--fa-ease), box-shadow 220ms ease, filter 220ms ease;
+}
+
+.modui-fluid-cta-btn svg {
+  transition: transform 320ms var(--fa-ease);
 }
 
 .modui-fluid-cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px -2px rgba(79, 70, 229, 0.45);
+  filter: saturate(1.08);
+  box-shadow: 0 14px 28px -12px color-mix(in srgb, var(--btn-accent) 95%, transparent);
 }
 
-/* --------------------------------------------------------------------------
-   Interactive Liquid Bezier Edge Divider
-   -------------------------------------------------------------------------- */
+.modui-fluid-cta-btn:hover svg { transform: translateX(4px); }
+.modui-fluid-cta-btn:active { transform: translateY(0) scale(0.98); }
+
+.modui-fluid-cta-btn:focus-visible {
+  outline: 2px solid var(--btn-accent, #365CF5);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Liquid edge divider — the spring curve drawn in the gap between panels
+   ========================================================================== */
 .modui-fluid-edge-divider {
   position: absolute;
-  z-index: 10;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  opacity: 0;
+  transition: opacity 320ms ease;
+  z-index: 3;
 }
 
 .modui-fluid-accordion--horizontal .modui-fluid-edge-divider {
-  top: 0;
-  bottom: 0;
-  right: -20px;
-  width: 40px;
-  height: 100%;
+  top: 8%;
+  bottom: 8%;
+  right: calc(var(--fa-gap) / -2 - 9px);
+  width: 18px;
 }
 
 .modui-fluid-accordion--vertical .modui-fluid-edge-divider {
-  left: 0;
-  right: 0;
-  bottom: -20px;
-  height: 40px;
-  width: 100%;
+  left: 8%;
+  right: 8%;
+  bottom: calc(var(--fa-gap) / -2 - 9px);
+  height: 18px;
 }
+
+.modui-fluid-edge-divider--active { opacity: 0.7; }
 
 .modui-fluid-edge-svg {
   width: 100%;
@@ -388,261 +405,220 @@
   overflow: visible;
 }
 
-/* --------------------------------------------------------------------------
-   Variant Skins: Dark · Glass · Editorial · Minimal
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   Variants
+   ========================================================================== */
 
-/* 1. Light (Clean Creative Studio Standard) */
-.modui-fluid-accordion--light {
-  background: #FFFFFF;
-  border: 1px solid var(--border-default, #E4E1D9);
-}
-
-.modui-fluid-accordion--light .modui-fluid-panel {
-  background: #FAF9F5;
-  border-right: 1px solid var(--border-default, #E4E1D9);
-}
-
-.modui-fluid-accordion--light.modui-fluid-accordion--vertical .modui-fluid-panel {
-  border-right: none;
-  border-bottom: 1px solid var(--border-default, #E4E1D9);
-}
-
-.modui-fluid-accordion--light .modui-fluid-panel--active {
-  background: #FFFFFF;
-}
-
-.modui-fluid-accordion--light .modui-fluid-headline,
-.modui-fluid-accordion--light .modui-fluid-collapsed-title {
-  color: var(--text-primary, #20201E);
-}
-
-.modui-fluid-accordion--light .modui-fluid-description {
-  color: var(--text-secondary, #696963);
-}
-
-.modui-fluid-accordion--light .modui-fluid-index-hero {
-  color: rgba(32, 32, 30, 0.05);
-}
-
-.modui-fluid-accordion--light .modui-fluid-num-pill {
-  color: var(--text-primary, #20201E);
-  background: #FFFFFF;
-  border: 1px solid var(--border-default, #E4E1D9);
-}
-
-.modui-fluid-accordion--light .modui-fluid-cat-tag {
-  background: rgba(54, 92, 245, 0.08);
-  color: var(--accent-primary, #365CF5);
-  border: 1px solid rgba(54, 92, 245, 0.2);
-}
-
-.modui-fluid-accordion--light .modui-fluid-cta-btn {
-  background: var(--accent-primary, #365CF5);
-  color: #FFFFFF;
-  border-radius: var(--radius-sm, 6px);
-  box-shadow: 0 2px 8px rgba(54, 92, 245, 0.25);
-}
-
-/* Dark mode fallback for Light variant */
-[data-theme="dark"] .modui-fluid-accordion--light {
-  background: var(--bg-surface);
-  border-color: var(--border-default);
-}
-
-[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-panel {
-  background: var(--bg-surface-subtle);
-  border-color: var(--border-default);
-}
-
-[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-panel--active {
-  background: var(--bg-surface-elevated);
-}
-
-[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-headline,
-[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-collapsed-title {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-description {
-  color: var(--text-secondary);
-}
-
-[data-theme="dark"] .modui-fluid-accordion--light .modui-fluid-num-pill {
-  color: var(--text-primary);
-  background: var(--bg-surface-elevated);
-  border-color: var(--border-default);
-}
-
-/* 2. Editorial (Warm Studio Paper & Clean Contrast) */
-.modui-fluid-accordion--editorial {
-  background: #FAF9F5;
-  border-color: var(--border-default, #E4E1D9);
-}
-
-.modui-fluid-accordion--editorial .modui-fluid-panel {
-  background: #FAF9F5;
-  border-right: 1px solid var(--border-default, #E4E1D9);
-}
-
-.modui-fluid-accordion--editorial.modui-fluid-accordion--vertical .modui-fluid-panel {
-  border-right: none;
-  border-bottom: 1px solid var(--border-default, #E4E1D9);
-}
-
-.modui-fluid-accordion--editorial .modui-fluid-panel--active {
-  background: #FFFFFF;
-}
-
-.modui-fluid-accordion--editorial .modui-fluid-headline,
-.modui-fluid-accordion--editorial .modui-fluid-collapsed-title {
-  color: var(--text-primary, #20201E);
-}
-
-.modui-fluid-accordion--editorial .modui-fluid-description {
-  color: var(--text-secondary, #696963);
-}
-
-.modui-fluid-accordion--editorial .modui-fluid-num-pill {
-  color: var(--text-primary, #20201E);
-  background: #FFFFFF;
-  border-color: var(--border-default, #E4E1D9);
-}
-
-/* 3. Dark (Obsidian & Electric Glow) */
-.modui-fluid-accordion--dark {
-  background: #0B0F19;
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.modui-fluid-accordion--dark .modui-fluid-panel {
-  background: #0F172A;
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.modui-fluid-accordion--dark.modui-fluid-accordion--vertical .modui-fluid-panel {
-  border-right: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.modui-fluid-accordion--dark .modui-fluid-panel--active {
-  background: #0B0F19;
-}
-
-/* 4. Glass (Translucent Frosted Blur) */
+/* -- glass: the tray dissolves, slats keep a frosted body -- */
 .modui-fluid-accordion--glass {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow:
-    0 20px 48px -10px rgba(15, 23, 42, 0.12),
-    0 4px 16px rgba(15, 23, 42, 0.04);
+  --fa-tray: rgba(255, 255, 255, 0.5);
+  --fa-tray-ring: rgba(255, 255, 255, 0.75);
+  --fa-slat: rgba(255, 255, 255, 0.46);
+  --fa-slat-hover: rgba(255, 255, 255, 0.66);
+  --fa-open: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(22px) saturate(1.5);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
 }
 
-.modui-fluid-accordion--glass .modui-fluid-panel {
-  background: rgba(255, 255, 255, 0.35);
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
+/* -- editorial: warm paper, a serif headline, squarer corners -- */
+.modui-fluid-accordion--editorial {
+  --fa-tray: #FBF8F3;
+  --fa-tray-ring: rgba(62, 48, 32, 0.12);
+  --fa-tray-shadow: 0 18px 44px -26px rgba(62, 48, 32, 0.4);
+  --fa-slat: #F3EEE5;
+  --fa-slat-hover: #EEE7DB;
+  --fa-open: #FFFDF9;
+  --fa-hairline: rgba(62, 48, 32, 0.14);
+  --fa-ink: #211A12;
+  --fa-ink-dim: #6B5C49;
+  --fa-radius: 8px;
+  border-radius: 12px;
 }
 
-.modui-fluid-accordion--glass.modui-fluid-accordion--vertical .modui-fluid-panel {
-  border-right: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+.modui-fluid-accordion--editorial .modui-fluid-headline {
+  font-family: var(--font-serif, 'Iowan Old Style', 'Palatino Linotype', Georgia, serif);
+  font-weight: 600;
+  letter-spacing: -0.015em;
 }
 
-.modui-fluid-accordion--glass .modui-fluid-panel--active {
-  background: rgba(255, 255, 255, 0.75);
+.modui-fluid-accordion--editorial .modui-fluid-index-hero {
+  font-family: var(--font-serif, 'Iowan Old Style', 'Palatino Linotype', Georgia, serif);
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
-.modui-fluid-accordion--glass .modui-fluid-headline,
-.modui-fluid-accordion--glass .modui-fluid-collapsed-title {
-  color: #0F172A;
-}
-
-.modui-fluid-accordion--glass .modui-fluid-description {
-  color: #475569;
-}
-
-.modui-fluid-accordion--glass .modui-fluid-index-hero {
-  color: rgba(15, 23, 42, 0.06);
-}
-
-.modui-fluid-accordion--glass .modui-fluid-num-pill {
-  color: #475569;
-  background: rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 0, 0, 0.08);
-}
-
-/* 4. Minimal (Sharp High-Contrast Monoline) */
+/* -- minimal: rules instead of surfaces -- */
 .modui-fluid-accordion--minimal {
-  background: #000000;
-  border: 1px solid #222222;
+  --fa-tray: transparent;
+  --fa-tray-ring: transparent;
+  --fa-tray-shadow: none;
+  --fa-slat: transparent;
+  --fa-slat-hover: rgba(14, 19, 34, 0.03);
+  --fa-open: transparent;
+  --fa-gap: 0px;
+  --fa-radius: 0px;
+  --fa-numeral: 16%;
+  padding: 0;
   border-radius: 0;
 }
 
 .modui-fluid-accordion--minimal .modui-fluid-panel {
-  background: #000000;
-  border-right: 1px solid #222222;
+  box-shadow: inset 1px 0 0 var(--fa-hairline);
+}
+
+.modui-fluid-accordion--minimal .modui-fluid-panel:first-child { box-shadow: none; }
+.modui-fluid-accordion--minimal .modui-fluid-panel-sheen { opacity: 0; }
+.modui-fluid-accordion--minimal .modui-fluid-panel--active .modui-fluid-panel-sheen { opacity: 0.5; }
+.modui-fluid-accordion--minimal .modui-fluid-panel--active { box-shadow: inset 1px 0 0 var(--fa-hairline); }
+.modui-fluid-accordion--minimal .modui-fluid-panel--collapsed:hover { transform: none; }
+
+.modui-fluid-accordion--minimal .modui-fluid-cta-btn {
+  background: transparent;
+  color: var(--fa-ink);
+  padding: 9px 0;
   border-radius: 0;
+  box-shadow: inset 0 -1px 0 var(--fa-ink);
 }
 
-.modui-fluid-accordion--minimal.modui-fluid-accordion--vertical .modui-fluid-panel {
-  border-right: none;
-  border-bottom: 1px solid #222222;
+.modui-fluid-accordion--minimal .modui-fluid-cta-btn:hover {
+  transform: none;
+  box-shadow: inset 0 -1px 0 var(--btn-accent, #365CF5);
+  color: var(--btn-accent, #365CF5);
 }
 
-/* --------------------------------------------------------------------------
-   Mobile & Responsive Adaptations
-   -------------------------------------------------------------------------- */
-@media (max-width: 768px) {
+/* -- dark -- */
+.modui-fluid-accordion--dark,
+[data-theme="dark"] .modui-fluid-accordion--light,
+[data-theme="dark"] .modui-fluid-accordion--glass {
+  --fa-tray: #0F1426;
+  --fa-tray-ring: rgba(185, 198, 255, 0.1);
+  --fa-tray-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+  --fa-slat: #161C33;
+  --fa-slat-hover: #1C2340;
+  --fa-open: #141A2E;
+  --fa-hairline: rgba(185, 198, 255, 0.12);
+  --fa-ink: #F0F2F9;
+  --fa-ink-dim: #99A2BD;
+  --fa-ink-faint: rgba(240, 242, 249, 0.38);
+  --fa-numeral: 34%;
+}
+
+[data-theme="dark"] .modui-fluid-accordion--glass {
+  --fa-tray: rgba(16, 21, 40, 0.6);
+  --fa-slat: rgba(26, 33, 58, 0.55);
+  --fa-slat-hover: rgba(32, 40, 70, 0.7);
+  --fa-open: rgba(20, 26, 46, 0.78);
+  --fa-tray-ring: rgba(185, 198, 255, 0.12);
+}
+
+[data-theme="dark"] .modui-fluid-accordion--editorial {
+  --fa-tray: #17130E;
+  --fa-tray-ring: rgba(225, 205, 175, 0.14);
+  --fa-slat: #1F1A13;
+  --fa-slat-hover: #272016;
+  --fa-open: #1A150F;
+  --fa-hairline: rgba(225, 205, 175, 0.16);
+  --fa-ink: #F3EADC;
+  --fa-ink-dim: #B0A08A;
+  --fa-numeral: 32%;
+}
+
+[data-theme="dark"] .modui-fluid-accordion--minimal {
+  --fa-slat-hover: rgba(185, 198, 255, 0.05);
+  --fa-hairline: rgba(185, 198, 255, 0.12);
+  --fa-ink: #F0F2F9;
+  --fa-ink-dim: #99A2BD;
+  --fa-numeral: 24%;
+}
+
+/* ==========================================================================
+   Vertical orientation
+   ========================================================================== */
+.modui-fluid-accordion--vertical .modui-fluid-panel { min-height: 68px; }
+
+.modui-fluid-accordion--vertical .modui-fluid-collapsed-bar {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 0 22px;
+}
+
+.modui-fluid-accordion--vertical .modui-fluid-collapsed-title-wrap {
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.modui-fluid-accordion--vertical .modui-fluid-collapsed-title {
+  writing-mode: horizontal-tb;
+  transform: none;
+}
+
+.modui-fluid-accordion--vertical .modui-fluid-index-hero {
+  font-size: clamp(50px, 7vw, 86px);
+}
+
+/* ==========================================================================
+   Responsive — the horizontal strip folds into a stack
+   ========================================================================== */
+@media (max-width: 860px) {
   .modui-fluid-accordion--horizontal {
     flex-direction: column;
-    min-height: 560px;
     height: auto;
+    min-height: 0;
+  }
+
+  .modui-fluid-accordion--horizontal .modui-fluid-panel { min-height: 66px; }
+
+  .modui-fluid-accordion--horizontal .modui-fluid-panel--active {
+    min-height: 382px;
   }
 
   .modui-fluid-accordion--horizontal .modui-fluid-collapsed-bar {
     flex-direction: row;
-    padding: 1rem 1.25rem;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 0 18px;
   }
+
+  .modui-fluid-accordion--horizontal .modui-fluid-collapsed-title-wrap { justify-content: flex-start; }
 
   .modui-fluid-accordion--horizontal .modui-fluid-collapsed-title {
     writing-mode: horizontal-tb;
     transform: none;
-    font-size: 0.95rem;
   }
 
-  .modui-fluid-expanded-content {
-    padding: 1.5rem;
+  .modui-fluid-accordion--horizontal .modui-fluid-panel--collapsed::after {
+    inset: 0 auto 0 0;
+    width: 3px;
+    height: auto;
+    transform: scaleY(0.3);
+    transform-origin: left center;
   }
 
-  .modui-fluid-headline {
-    font-size: 1.45rem;
-  }
+  .modui-fluid-accordion--horizontal .modui-fluid-edge-divider { display: none; }
+  .modui-fluid-accordion--horizontal .modui-fluid-panel--collapsed:hover { transform: translateX(3px); }
+}
 
-  /* Keep compact horizontal preview inside card stages on mobile */
-  .modui-card-stage .modui-fluid-accordion--horizontal,
-  .modui-card-preview-stage .modui-fluid-accordion--horizontal {
-    flex-direction: row !important;
-    min-height: 160px !important;
-    height: 160px !important;
-  }
+@media (max-width: 560px) {
+  .modui-fluid-accordion { padding: 7px; border-radius: 18px; }
+  .modui-fluid-expanded-content { padding: 20px 20px 22px; }
+  .modui-fluid-index-hero { font-size: 62px; }
+  .modui-fluid-description { font-size: 14px; }
+  .modui-fluid-collapsed-tag { display: none; }
+}
 
-  .modui-card-stage .modui-fluid-accordion--horizontal .modui-fluid-collapsed-bar,
-  .modui-card-preview-stage .modui-fluid-accordion--horizontal .modui-fluid-collapsed-bar {
-    flex-direction: column !important;
-    padding: 0.5rem !important;
-  }
-
-  .modui-card-stage .modui-fluid-accordion--horizontal .modui-fluid-collapsed-title,
-  .modui-card-preview-stage .modui-fluid-accordion--horizontal .modui-fluid-collapsed-title {
-    writing-mode: vertical-rl !important;
-    transform: none !important;
-    font-size: 0.75rem !important;
-  }
-
-  .modui-card-stage .modui-fluid-expanded-content,
-  .modui-card-preview-stage .modui-fluid-expanded-content {
-    padding: 0.75rem !important;
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-fluid-accordion,
+  .modui-fluid-accordion *,
+  .modui-fluid-accordion *::before,
+  .modui-fluid-accordion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -33,10 +33,10 @@ export default function CausticRippleSurfaceDemo({ theme }: DemoProps) {
                           soundEnabled={causticSound}
                           style={{ width: '100%', height: '480px', borderRadius: '16px' }}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Clean Fluid Surface: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>2D Wave Equation & Caustic Refractor</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
-                            Tip: Drag cursor to generate smooth wake ripples, click anywhere to drop an acoustic water droplet, or press Spacebar.
+                        <div className="modui-stage-caption">
+                          Clean Fluid Surface: <span className="modui-stage-caption-value">2D Wave Equation & Caustic Refractor</span>
+                          <div className="modui-stage-caption-hint">
+                            Drag cursor to generate smooth wake ripples, click anywhere to drop an acoustic water droplet, or press Spacebar.
                           </div>
                         </div>
                       </div>

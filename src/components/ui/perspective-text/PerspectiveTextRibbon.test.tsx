@@ -45,12 +45,12 @@ describe('PerspectiveTextRibbon component (Primitive #28)', () => {
     fireEvent.click(horizBtn);
 
     expect(horizBtn.className).toContain('modui-ribbon-btn--active');
-    expect(screen.getByText(/3D PERSPECTIVE \/\/ HORIZONTAL/i)).toBeDefined();
+    expect(screen.getByText(/Flat ribbon/i)).toBeDefined();
 
     const dynamicBtn = screen.getByText('Dynamic 3D');
     fireEvent.click(dynamicBtn);
     expect(dynamicBtn.className).toContain('modui-ribbon-btn--active');
-    expect(screen.getByText(/3D PERSPECTIVE \/\/ DYNAMIC/i)).toBeDefined();
+    expect(screen.getByText(/Perspective ribbon/i)).toBeDefined();
   });
 
   it('reverses velocity when Reverse Velocity button is clicked', () => {
@@ -96,7 +96,7 @@ describe('PerspectiveTextRibbon component (Primitive #28)', () => {
   it('hides toolbar and HUD in compact mode for card previews', () => {
     render(<PerspectiveTextRibbon compact={true} soundEnabled={false} />);
     expect(screen.queryByRole('tablist')).toBeNull();
-    expect(screen.queryByText(/3D PERSPECTIVE \/\//i)).toBeNull();
+    expect(screen.queryByText(/Perspective ribbon|Flat ribbon/i)).toBeNull();
   });
 
   it('adapts cleanly to light mode theme', () => {

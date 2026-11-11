@@ -28,9 +28,9 @@ export default function CardStackDemo({ theme }: DemoProps) {
                           soundEnabled={cardStackSound}
                           onCardChange={(item) => setCardStackActiveTitle(item.title)}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Active Deck Card: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{cardStackActiveTitle}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          Active Deck Card: <span className="modui-stage-caption-value">{cardStackActiveTitle}</span>
+                          <div className="modui-stage-caption-hint">
                             Click the top card or press Space / Arrow keys to cycle through the stack. Hover over the deck to fan out.
                           </div>
                         </div>

@@ -32,9 +32,9 @@ export default function PointCloudMorpherDemo({ theme }: DemoProps) {
                           soundEnabled={pointCloudSound}
                           onTopologyChange={(t) => setPointCloudTopology(t)}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Active Topology: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{pointCloudTopology.toUpperCase()}</span> ({pointCloudParticles} vertices)
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          Active Topology: <span className="modui-stage-caption-value">{pointCloudTopology.toUpperCase()}</span> ({pointCloudParticles} vertices)
+                          <div className="modui-stage-caption-hint">
                             Drag horizontally/vertically to orbit in 3D. Hover to engage gravitational cursor vortex. Arrow keys rotate, Spacebar cycles shapes.
                           </div>
                         </div>

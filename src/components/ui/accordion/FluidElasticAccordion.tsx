@@ -302,7 +302,7 @@ export const FluidElasticAccordion: React.FC<FluidElasticAccordionProps> = ({
               <div className="modui-fluid-meta-top">
                 <span className="modui-fluid-badge" style={{ borderColor: `${accentColor}44`, color: accentColor }}>
                   <span className="modui-fluid-badge-dot" style={{ backgroundColor: accentColor }} />
-                  {item.tag || `MODULE ${numberFormatted}`}
+                  {item.tag || `Module ${numberFormatted}`}
                 </span>
                 <span className="modui-fluid-index-hero">{numberFormatted}</span>
               </div>

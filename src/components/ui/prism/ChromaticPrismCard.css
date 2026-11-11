@@ -1,550 +1,582 @@
-/**
- * ModUI — Chromatic Prism Specimen Card
- * Optical quartz prism card with 3D tilt, spectral chromatic dispersion, and frosted silica depth refraction.
- */
+/* ==========================================================================
+   ModUI — Chromatic Prism Card
+   An optical bench in a card: a precision chassis wrapped around a dark
+   specimen chamber where the prism actually splits light. Rainbow only
+   reads against black, so the chamber stays dark in every finish.
+   ========================================================================== */
 
 .modui-prism-wrap {
+  /* chassis */
+  --pr-chassis: #FFFFFF;
+  --pr-ring: rgba(14, 19, 34, 0.08);
+  --pr-hairline: rgba(14, 19, 34, 0.09);
+  --pr-ink: #0E1322;
+  --pr-ink-dim: #5A6178;
+  --pr-ink-faint: rgba(14, 19, 34, 0.42);
+  --pr-accent: #365CF5;
+
+  /* chamber */
+  --pr-chamber: radial-gradient(130% 110% at 50% 18%, #1B2340 0%, #10152A 48%, #080B16 100%);
+  --pr-chamber-ring: rgba(255, 255, 255, 0.08);
+
+  /* motion */
+  --pr-rx: var(--prism-rx, 0deg);
+  --pr-ry: var(--prism-ry, 0deg);
+  --pr-ease: cubic-bezier(0.2, 0.9, 0.26, 1);
+
   position: relative;
-  display: inline-block;
   width: 100%;
-  max-width: 440px;
+  max-width: 430px;
   perspective: 1200px;
-  outline: none;
-  user-select: none;
-  cursor: grab;
-  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
 }
 
-.modui-prism-wrap:active {
-  cursor: grabbing;
-}
-
-.modui-prism-wrap:focus-visible .modui-prism-chassis {
-  outline: 2px solid var(--accent-primary, #365CF5);
-  outline-offset: 4px;
-}
-
-/* 3D Rotating Chassis */
+/* ---------- Chassis ---------- */
 .modui-prism-chassis {
   position: relative;
-  width: 100%;
-  border-radius: 18px;
+  border-radius: 21px;
+  background: var(--pr-chassis);
+  box-shadow:
+    0 0 0 1px var(--pr-ring),
+    0 24px 60px -30px rgba(14, 19, 34, 0.42),
+    0 3px 10px -4px rgba(14, 19, 34, 0.1);
+  transform: rotateX(var(--pr-rx)) rotateY(var(--pr-ry));
   transform-style: preserve-3d;
-  transform: rotateX(var(--prism-rx, 0deg)) rotateY(var(--prism-ry, 0deg));
-  transition: transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+  transition: transform 420ms var(--pr-ease), box-shadow 420ms ease;
   will-change: transform;
 }
 
-/* Spectral Dispersion Rainbow Edge */
+.modui-prism--hovered .modui-prism-chassis {
+  box-shadow:
+    0 0 0 1px var(--pr-ring),
+    0 34px 74px -32px rgba(14, 19, 34, 0.5),
+    0 4px 14px -4px rgba(14, 19, 34, 0.14);
+}
+
+/* the dispersion ring — a spectrum traced on the border only */
 .modui-prism-spectral-edge {
   position: absolute;
-  inset: -1.5px;
-  border-radius: 19.5px;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
   background: conic-gradient(
-    from var(--prism-angle, 0deg) at var(--glare-x, 50%) var(--glare-y, 50%),
-    #ff3b30 0deg,
-    #ff9500 45deg,
-    #ffcc00 90deg,
-    #34c759 135deg,
-    #00c7be 180deg,
-    #007aff 225deg,
-    #5856d6 270deg,
-    #af52de 315deg,
-    #ff3b30 360deg
+    from calc(var(--prism-angle, 0deg) - 40deg),
+    #FF5E5E 0deg, #FFB65E 50deg, #6FE39A 110deg,
+    #3FD0E0 175deg, #6B8BFF 240deg, #B98BFF 300deg, #FF5E5E 360deg
   );
-  opacity: 0.28;
-  filter: blur(1px);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 1;
+  transition: opacity 420ms ease;
 }
 
-.modui-prism-wrap:hover .modui-prism-spectral-edge {
-  opacity: 0.65;
-}
+.modui-prism--hovered .modui-prism-spectral-edge { opacity: 0.85; }
 
-/* Crystalline Body */
-.modui-prism-body {
-  position: relative;
-  border-radius: 18px;
-  padding: 1.5rem;
-  overflow: hidden;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
-  z-index: 2;
-  transition: border-color 0.25s ease, background-color 0.25s ease;
-}
-
-/* Optical Specular Glare */
+/* incident glare following the pointer */
 .modui-prism-glare {
   position: absolute;
   inset: 0;
-  border-radius: 18px;
+  border-radius: inherit;
   background: radial-gradient(
-    circle at var(--glare-x, 50%) var(--glare-y, 50%),
-    rgba(255, 255, 255, 0.45) 0%,
-    rgba(255, 255, 255, 0.12) 32%,
-    transparent 65%
+    42% 42% at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0) 70%
   );
-  opacity: var(--glare-opacity, 0);
-  pointer-events: none;
-  z-index: 5;
-  transition: opacity 0.25s ease;
+  opacity: calc(var(--glare-opacity, 0) * 0.6);
   mix-blend-mode: overlay;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+  z-index: 3;
 }
 
-/* Top Header Bar */
+.modui-prism-body {
+  position: relative;
+  padding: 17px;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   Header — serial + refractive index readout
+   ========================================================================== */
 .modui-prism-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.85rem;
+  gap: 12px;
+  min-width: 0;
 }
 
 .modui-prism-serial-group {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
+  min-width: 0;
 }
 
 .modui-prism-facet-dot {
   width: 6px;
   height: 6px;
+  flex: 0 0 auto;
   border-radius: 50%;
-  background: var(--prism-accent, #365CF5);
-  box-shadow: 0 0 8px var(--prism-accent, #365CF5);
+  background: var(--pr-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pr-accent) 16%, transparent);
+  animation: modui-pr-live 2.4s ease-in-out infinite;
+}
+
+@keyframes modui-pr-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .modui-prism-serial {
-  font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  opacity: 0.75;
+  font-size: 13px;
+  font-weight: 560;
+  letter-spacing: -0.006em;
+  color: var(--pr-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modui-prism-spec-badge {
-  padding: 0.2rem 0.55rem;
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  flex: 0 0 auto;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--pr-accent) 9%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pr-accent) 20%, transparent);
 }
 
 .modui-prism-index {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--prism-accent, #365CF5);
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 11.5px;
+  font-weight: 540;
+  letter-spacing: -0.01em;
+  color: var(--pr-accent);
+  white-space: nowrap;
 }
 
-/* Millimeter Rule */
+/* ==========================================================================
+   Spectrum scale — the dispersion the index refers to
+   ========================================================================== */
 .modui-prism-rule {
   position: relative;
-  width: 100%;
-  height: 2px;
-  background: rgba(0, 0, 0, 0.06);
-  margin-bottom: 1.25rem;
+  height: 4px;
+  margin: 15px 0 16px;
 }
 
 .modui-prism-rule-track {
   position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background: repeating-linear-gradient(
+  inset: 0;
+  border-radius: 999px;
+  background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 0.12) 0px,
-    rgba(0, 0, 0, 0.12) 1px,
-    transparent 1px,
-    transparent 8px
+    #6B4BFF 0%, #4B6BFF 18%, #3FD0E0 38%,
+    #6FE39A 56%, #FFD166 76%, #FF6B4A 100%
   );
+  opacity: 0.42;
+  transition: opacity 420ms ease;
 }
+
+.modui-prism--hovered .modui-prism-rule-track { opacity: 0.9; }
 
 .modui-prism-rule-notch {
   position: absolute;
-  top: -3px;
-  left: var(--glare-x, 50%);
+  top: -4px;
+  left: 50%;
   width: 2px;
-  height: 8px;
-  background: var(--prism-accent, #365CF5);
-  transform: translateX(-50%);
-  transition: left 0.1s ease-out;
-  box-shadow: 0 0 6px var(--prism-accent, #365CF5);
+  height: 12px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: var(--pr-ink);
+  box-shadow: 0 0 0 3px var(--pr-chassis);
+  transition: left 520ms var(--pr-ease);
 }
 
-/* Center Specimen Stage */
+.modui-prism--hovered .modui-prism-rule-notch { left: 63%; }
+
+/* ==========================================================================
+   Specimen chamber
+   ========================================================================== */
 .modui-prism-stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.75rem 0.5rem;
-  min-height: 180px;
-  transform: translateZ(24px);
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 216px;
+  border-radius: 14px;
+  background: var(--pr-chamber);
+  box-shadow: inset 0 0 0 1px var(--pr-chamber-ring), inset 0 2px 14px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+/* measurement graticule */
+.modui-prism-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 26px);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* caustic bloom cast by the specimen */
+.modui-prism-stage::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 260px;
+  height: 180px;
+  margin: -90px 0 0 -130px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(120, 160, 255, 0.3) 0%, transparent 72%);
+  filter: blur(14px);
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity 520ms ease, transform 620ms var(--pr-ease);
+}
+
+.modui-prism--hovered .modui-prism-stage::after { opacity: 1; transform: scale(1.12); }
+
+.modui-prism-custom-media,
+.modui-prism-custom-children {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: grid;
+  place-items: center;
 }
 
 .modui-prism-emblem-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.15rem;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 216px;
 }
 
-/* Chromatic Refractor Quartz Emblem */
+/* ---------- Refractor ---------- */
 .modui-prism-refractor {
   position: relative;
-  width: 90px;
-  height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  width: 132px;
+  height: 132px;
+  transform: translateZ(40px) rotateX(calc(var(--pr-rx) * -0.4)) rotateY(calc(var(--pr-ry) * -0.4));
+  transition: transform 420ms var(--pr-ease);
 }
 
+/* dispersion blobs drifting behind the glass */
 .modui-prism-facet {
   position: absolute;
-  inset: 0;
-  border-radius: 20px;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  filter: blur(22px);
+  mix-blend-mode: screen;
+  opacity: 0.55;
   pointer-events: none;
-  opacity: 0.35;
-  filter: blur(4px);
+  transition: opacity 420ms ease, transform 620ms var(--pr-ease);
 }
 
 .modui-prism-facet--red {
-  background: radial-gradient(circle, rgba(255, 60, 60, 0.6) 0%, transparent 70%);
-  transform: translate(var(--chroma-red-offset, 0px, 0px));
+  background: #FF4D4D;
+  transform: translate(var(--chroma-red-offset, 0, 0)) translate(26px, -14px);
 }
 
 .modui-prism-facet--cyan {
-  background: radial-gradient(circle, rgba(0, 240, 255, 0.5) 0%, transparent 70%);
+  background: #2BD6E8;
+  transform: translate(30px, 16px);
 }
 
 .modui-prism-facet--blue {
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.6) 0%, transparent 70%);
-  transform: translate(var(--chroma-blue-offset, 0px, 0px));
+  background: #6B6BFF;
+  transform: translate(var(--chroma-blue-offset, 0, 0)) translate(-26px, 10px);
 }
+
+.modui-prism--hovered .modui-prism-facet { opacity: 0.8; }
 
 .modui-prism-facet-core {
   position: relative;
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--prism-accent, #365CF5);
-  transition: transform 0.2s ease;
-}
-
-.modui-prism-wrap:hover .modui-prism-facet-core {
-  transform: scale(1.04);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 118px;
+  height: 118px;
 }
 
 .modui-prism-core-icon {
-  width: 44px;
-  height: 44px;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.86);
+  overflow: visible;
 }
 
+.modui-prism-svg-prism {
+  fill: rgba(255, 255, 255, 0.045);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.modui-prism-svg-ray-in {
+  stroke: rgba(255, 255, 255, 0.7);
+  animation: modui-pr-beam 2.8s linear infinite;
+}
+
+@keyframes modui-pr-beam {
+  to { stroke-dashoffset: -8; }
+}
+
+.modui-prism-svg-ray-red,
+.modui-prism-svg-ray-cyan,
+.modui-prism-svg-ray-blue {
+  transform-origin: 24px 28px;
+  transition: transform 560ms var(--pr-ease);
+}
+
+.modui-prism-svg-ray-red { filter: drop-shadow(0 0 4px rgba(255, 77, 77, 0.8)); }
+.modui-prism-svg-ray-cyan { filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.7)); }
+.modui-prism-svg-ray-blue { filter: drop-shadow(0 0 4px rgba(139, 92, 246, 0.8)); }
+
+/* hover fans the spectrum wider */
+.modui-prism--hovered .modui-prism-svg-ray-red { transform: rotate(-5deg); }
+.modui-prism--hovered .modui-prism-svg-ray-blue { transform: rotate(5deg); }
+
+/* ---------- Chamber label ---------- */
 .modui-prism-badge-pill {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  padding: 0.3rem 0.75rem;
+  position: absolute;
+  left: 13px;
+  bottom: 12px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  color: var(--prism-text, #1e293b);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.78);
+  white-space: nowrap;
 }
 
-/* Footer Editorial & Action */
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 .modui-prism-footer {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  transform: translateZ(12px);
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 15px;
+  border-top: 1px solid var(--pr-hairline);
 }
 
 .modui-prism-editorial {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .modui-prism-title {
-  margin: 0 0 0.35rem 0;
-  font-family: var(--font-display, var(--font-sans, sans-serif));
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  color: var(--prism-text, #0f172a);
-  line-height: 1.3;
+  margin: 0;
+  font-size: 19px;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.022em;
+  color: var(--pr-ink);
 }
 
 .modui-prism-subtitle {
-  margin: 0;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--prism-muted, #64748b);
+  margin: 6px 0 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--pr-ink-dim);
 }
 
-/* Interactive Action Button */
 .modui-prism-action-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.55rem 0.95rem;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 10px 14px 10px 16px;
+  border: 0;
   border-radius: 10px;
-  background: var(--prism-btn-bg, #0f172a);
-  color: var(--prism-btn-text, #ffffff);
-  border: 1px solid var(--prism-btn-border, transparent);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  background: var(--pr-ink);
+  color: var(--pr-chassis);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 570;
+  letter-spacing: -0.006em;
   cursor: pointer;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease, background-color 0.18s ease;
+  transition: transform 220ms var(--pr-ease), filter 220ms ease, box-shadow 220ms ease;
 }
 
 .modui-prism-action-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -10px rgba(14, 19, 34, 0.6);
 }
 
-.modui-prism-action-btn:active {
-  transform: translateY(0.5px);
+.modui-prism-action-btn:active { transform: translateY(0) scale(0.98); }
+
+.modui-prism-action-btn:focus-visible,
+.modui-prism-wrap:focus-visible {
+  outline: 2px solid var(--pr-accent);
+  outline-offset: 3px;
 }
 
 .modui-prism-action-arrow {
-  transition: transform 0.18s ease;
+  display: inline-flex;
+  transition: transform 300ms var(--pr-ease);
 }
 
-.modui-prism-action-btn:hover .modui-prism-action-arrow {
-  transform: translateX(2px);
-}
+.modui-prism-action-btn:hover .modui-prism-action-arrow { transform: translateX(4px); }
 
 /* ==========================================================================
-   THEME VARIANTS
+   Finishes — the chassis changes, the chamber stays dark
    ========================================================================== */
+.modui-prism--sapphire-crystal { --pr-accent: #365CF5; }
 
-/* 1. Sapphire Crystal (Default Studio Light) */
-.modui-prism--sapphire-crystal {
-  --prism-accent: #365CF5;
-  --prism-text: #0F172A;
-  --prism-muted: #64748B;
-  --prism-btn-bg: #0F172A;
-  --prism-btn-text: #FFFFFF;
-}
-
-.modui-prism--sapphire-crystal .modui-prism-body {
-  background: rgba(255, 255, 255, 0.88);
-  border-color: rgba(54, 92, 245, 0.18);
-  box-shadow: 0 24px 50px -12px rgba(54, 92, 245, 0.12), 0 2px 8px rgba(0, 0, 0, 0.03);
-}
-
-/* 2. Obsidian Prism (Stealth Deep Space) */
-.modui-prism--obsidian-prism {
-  --prism-accent: #00F0FF;
-  --prism-text: #F8FAFC;
-  --prism-muted: #94A3B8;
-  --prism-btn-bg: #00F0FF;
-  --prism-btn-text: #020617;
-}
-
-.modui-prism--obsidian-prism .modui-prism-body {
-  background: rgba(10, 15, 28, 0.92);
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.75), 0 0 32px rgba(0, 240, 255, 0.08);
-}
-
-.modui-prism--obsidian-prism .modui-prism-rule {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.modui-prism--obsidian-prism .modui-prism-rule-track {
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.14) 0px,
-    rgba(255, 255, 255, 0.14) 1px,
-    transparent 1px,
-    transparent 8px
-  );
-}
-
-.modui-prism--obsidian-prism .modui-prism-spec-badge,
-.modui-prism--obsidian-prism .modui-prism-badge-pill {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: #F8FAFC;
-}
-
-.modui-prism--obsidian-prism .modui-prism-facet-core {
-  background: rgba(15, 23, 42, 0.85);
-  border-color: rgba(255, 255, 255, 0.14);
-}
-
-.modui-prism--obsidian-prism .modui-prism-footer {
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-/* 3. Amber Quartz (Champagne Gold & Warm Mineral) */
 .modui-prism--amber-quartz {
-  --prism-accent: #D97706;
-  --prism-text: #451A03;
-  --prism-muted: #92400E;
-  --prism-btn-bg: #92400E;
-  --prism-btn-text: #FEF3C7;
+  --pr-accent: #D97A2B;
+  --pr-chassis: #FFFCF6;
+  --pr-ring: rgba(96, 62, 24, 0.12);
+  --pr-hairline: rgba(96, 62, 24, 0.13);
+  --pr-ink: #241A0E;
+  --pr-ink-dim: #6E5B42;
+  --pr-chamber: radial-gradient(130% 110% at 50% 18%, #2A2114 0%, #1A1410 48%, #0D0A07 100%);
 }
 
-.modui-prism--amber-quartz .modui-prism-body {
-  background: rgba(254, 252, 246, 0.92);
-  border-color: rgba(217, 119, 6, 0.22);
-  box-shadow: 0 24px 50px -12px rgba(217, 119, 6, 0.14), 0 2px 8px rgba(0, 0, 0, 0.03);
+.modui-prism--amber-quartz .modui-prism-stage::after {
+  background: radial-gradient(closest-side, rgba(255, 190, 110, 0.32) 0%, transparent 72%);
 }
 
-.modui-prism--amber-quartz .modui-prism-rule {
-  background: rgba(217, 119, 6, 0.1);
-}
-
-.modui-prism--amber-quartz .modui-prism-rule-track {
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(217, 119, 6, 0.18) 0px,
-    rgba(217, 119, 6, 0.18) 1px,
-    transparent 1px,
-    transparent 8px
-  );
-}
-
-.modui-prism--amber-quartz .modui-prism-spec-badge,
-.modui-prism--amber-quartz .modui-prism-badge-pill {
-  background: rgba(251, 191, 36, 0.12);
-  border-color: rgba(217, 119, 6, 0.16);
-  color: #78350F;
-}
-
-.modui-prism--amber-quartz .modui-prism-facet-core {
-  background: rgba(254, 243, 199, 0.7);
-  border-color: rgba(245, 158, 11, 0.3);
-}
-
-.modui-prism--amber-quartz .modui-prism-footer {
-  border-color: rgba(217, 119, 6, 0.12);
-}
-
-/* 4. Emerald Matrix (Luminescent Jade & Mint) */
 .modui-prism--emerald-matrix {
-  --prism-accent: #10B981;
-  --prism-text: #ECFDF5;
-  --prism-muted: #6EE7B7;
-  --prism-btn-bg: #10B981;
-  --prism-btn-text: #064E3B;
+  --pr-accent: #11A97A;
+  --pr-chassis: #FAFDFB;
+  --pr-ring: rgba(10, 48, 36, 0.11);
+  --pr-hairline: rgba(10, 48, 36, 0.12);
+  --pr-ink: #0A1C16;
+  --pr-ink-dim: #4C6A5F;
+  --pr-chamber: radial-gradient(130% 110% at 50% 18%, #11291F 0%, #0B1A14 48%, #05100C 100%);
 }
 
-.modui-prism--emerald-matrix .modui-prism-body {
-  background: rgba(6, 26, 20, 0.92);
-  border-color: rgba(16, 185, 129, 0.28);
-  box-shadow: 0 28px 56px -12px rgba(6, 78, 59, 0.35), 0 0 32px rgba(16, 185, 129, 0.08);
+.modui-prism--emerald-matrix .modui-prism-stage::after {
+  background: radial-gradient(closest-side, rgba(90, 240, 180, 0.28) 0%, transparent 72%);
 }
 
-.modui-prism--emerald-matrix .modui-prism-rule {
-  background: rgba(16, 185, 129, 0.12);
+.modui-prism--obsidian-prism,
+[data-theme="dark"] .modui-prism--sapphire-crystal {
+  --pr-chassis: #121728;
+  --pr-ring: rgba(185, 198, 255, 0.12);
+  --pr-hairline: rgba(185, 198, 255, 0.12);
+  --pr-ink: #EFF1F8;
+  --pr-ink-dim: #99A1B9;
+  --pr-ink-faint: rgba(239, 241, 248, 0.38);
+  --pr-accent: #7C95FF;
+  --pr-chamber: radial-gradient(130% 110% at 50% 18%, #141B33 0%, #0C1124 48%, #05070F 100%);
+  --pr-chamber-ring: rgba(185, 198, 255, 0.1);
 }
 
-.modui-prism--emerald-matrix .modui-prism-rule-track {
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(16, 185, 129, 0.2) 0px,
-    rgba(16, 185, 129, 0.2) 1px,
-    transparent 1px,
-    transparent 8px
-  );
+.modui-prism--obsidian-prism .modui-prism-chassis,
+[data-theme="dark"] .modui-prism--sapphire-crystal .modui-prism-chassis {
+  box-shadow: 0 0 0 1px var(--pr-ring), 0 28px 66px -30px rgba(0, 0, 0, 0.9);
 }
 
-.modui-prism--emerald-matrix .modui-prism-spec-badge,
-.modui-prism--emerald-matrix .modui-prism-badge-pill {
-  background: rgba(16, 185, 129, 0.12);
-  border-color: rgba(16, 185, 129, 0.2);
-  color: #A7F3D0;
+.modui-prism--obsidian-prism .modui-prism-action-btn,
+[data-theme="dark"] .modui-prism--sapphire-crystal .modui-prism-action-btn {
+  background: #EFF1F8;
+  color: #121728;
 }
 
-.modui-prism--emerald-matrix .modui-prism-facet-core {
-  background: rgba(6, 78, 59, 0.7);
-  border-color: rgba(52, 211, 153, 0.3);
+.modui-prism--obsidian-prism .modui-prism-glare,
+[data-theme="dark"] .modui-prism--sapphire-crystal .modui-prism-glare {
+  mix-blend-mode: soft-light;
 }
 
-.modui-prism--emerald-matrix .modui-prism-footer {
-  border-color: rgba(16, 185, 129, 0.15);
+[data-theme="dark"] .modui-prism--amber-quartz {
+  --pr-chassis: #1B1510;
+  --pr-ring: rgba(226, 190, 140, 0.14);
+  --pr-hairline: rgba(226, 190, 140, 0.14);
+  --pr-ink: #F5EADA;
+  --pr-ink-dim: #AD9A7F;
+}
+
+[data-theme="dark"] .modui-prism--amber-quartz .modui-prism-action-btn {
+  background: #F5EADA;
+  color: #1B1510;
+}
+
+[data-theme="dark"] .modui-prism--emerald-matrix {
+  --pr-chassis: #0D1A15;
+  --pr-ring: rgba(140, 226, 196, 0.14);
+  --pr-hairline: rgba(140, 226, 196, 0.14);
+  --pr-ink: #E6F5EE;
+  --pr-ink-dim: #86A69A;
+}
+
+[data-theme="dark"] .modui-prism--emerald-matrix .modui-prism-action-btn {
+  background: #E6F5EE;
+  color: #0D1A15;
 }
 
 /* ==========================================================================
-   COMPACT MODE (Catalogue Preview Cards)
+   Compact — catalogue thumbnail
    ========================================================================== */
+.modui-prism--compact { max-width: 100%; }
+.modui-prism--compact .modui-prism-body { padding: 12px; }
+.modui-prism--compact .modui-prism-rule { margin: 11px 0 12px; }
+.modui-prism--compact .modui-prism-stage,
+.modui-prism--compact .modui-prism-emblem-box { min-height: 128px; }
+.modui-prism--compact .modui-prism-refractor { width: 86px; height: 86px; }
+.modui-prism--compact .modui-prism-facet-core { width: 78px; height: 78px; }
+.modui-prism--compact .modui-prism-facet { width: 62px; height: 62px; filter: blur(16px); }
+.modui-prism--compact .modui-prism-badge-pill { display: none; }
+.modui-prism--compact .modui-prism-serial { font-size: 11.5px; }
+.modui-prism--compact .modui-prism-index { font-size: 10px; }
 
-.modui-prism--compact {
-  max-width: 280px;
-  width: 100%;
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 460px) {
+  .modui-prism-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .modui-prism-action-btn { justify-content: center; }
+  .modui-prism-stage, .modui-prism-emblem-box { min-height: 186px; }
 }
 
-.modui-prism--compact .modui-prism-chassis {
-  border-radius: 14px;
-}
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-prism-wrap,
+  .modui-prism-wrap *,
+  .modui-prism-wrap *::before,
+  .modui-prism-wrap *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 
-.modui-prism--compact .modui-prism-spectral-edge {
-  border-radius: 15.5px;
-}
-
-.modui-prism--compact .modui-prism-body {
-  padding: 0.85rem 1rem 0.95rem 1rem;
-  border-radius: 14px;
-}
-
-.modui-prism--compact .modui-prism-header {
-  margin-bottom: 0.65rem;
-}
-
-.modui-prism--compact .modui-prism-rule {
-  margin-bottom: 0.65rem;
-}
-
-.modui-prism--compact .modui-prism-stage {
-  padding: 0.4rem 0 0.15rem 0;
-  min-height: 105px;
-  transform: translateZ(16px);
-}
-
-.modui-prism--compact .modui-prism-refractor {
-  width: 68px;
-  height: 68px;
-}
-
-.modui-prism--compact .modui-prism-facet-core {
-  width: 56px;
-  height: 56px;
-  border-radius: 13px;
-}
-
-.modui-prism--compact .modui-prism-core-icon {
-  width: 34px;
-  height: 34px;
-}
-
-.modui-prism--compact .modui-prism-badge-pill {
-  font-size: 0.6rem;
-  padding: 0.2rem 0.6rem;
+  .modui-prism-chassis { transform: none !important; }
 }

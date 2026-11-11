@@ -18,14 +18,32 @@ export default function NumberTickerDemo({ theme }: DemoProps) {
     <>
       <div className="modui-canvas-stage">
         <div className="modui-detail-ticker-stage">
-                        <div className="modui-detail-ticker-value">
-                          <NumberTicker
-                            value={tickerVal}
-                            prefix={tickerPrefix}
-                            suffix={tickerSuffix}
-                            decimalPlaces={tickerDecimals}
-                            duration={tickerDuration}
-                          />
+                        <div className="modui-kpi-card">
+                          <div className="modui-kpi-card__head">
+                            <span className="modui-kpi-card__label">Monthly recurring revenue</span>
+                            <span className={`modui-kpi-card__delta ${tickerVal >= 1420 ? 'is-up' : 'is-down'}`}>
+                              {tickerVal >= 1420 ? '▲' : '▼'} {Math.abs(((tickerVal - 1420) / 1420) * 100).toFixed(1)}%
+                            </span>
+                          </div>
+                          <div className="modui-detail-ticker-value">
+                            <NumberTicker
+                              value={tickerVal}
+                              prefix={tickerPrefix}
+                              suffix={tickerSuffix}
+                              decimalPlaces={tickerDecimals}
+                              duration={tickerDuration}
+                            />
+                          </div>
+                          <svg className="modui-kpi-card__spark" viewBox="0 0 240 48" preserveAspectRatio="none" aria-hidden="true">
+                            <defs>
+                              <linearGradient id="kpi-fill" x1="0" x2="0" y1="0" y2="1">
+                                <stop offset="0%" stopColor="currentColor" stopOpacity="0.22" />
+                                <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+                              </linearGradient>
+                            </defs>
+                            <path d="M0 38 L24 34 L48 36 L72 28 L96 30 L120 22 L144 25 L168 16 L192 19 L216 10 L240 8 L240 48 L0 48 Z" fill="url(#kpi-fill)" />
+                            <path d="M0 38 L24 34 L48 36 L72 28 L96 30 L120 22 L144 25 L168 16 L192 19 L216 10 L240 8" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+                          </svg>
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
                           <button
@@ -47,7 +65,7 @@ export default function NumberTickerDemo({ theme }: DemoProps) {
                             className="modui-pill-toggle"
                             onClick={() => setTickerVal(Math.floor(Math.random() * 95000) + 1000)}
                           >
-                            Random Integer
+                            Random
                           </button>
                           <button
                             type="button"

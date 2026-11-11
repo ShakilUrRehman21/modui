@@ -49,19 +49,20 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, th
     const y = e.clientY - rect.top;
     const cx = rect.width / 2;
     const cy = rect.height / 2;
-    const rotX = ((y - cy) / cy) * -4.5;
-    const rotY = ((x - cx) / cx) * 4.5;
-    card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(4px)`;
+    const rotX = ((y - cy) / cy) * -2.5;
+    const rotY = ((x - cx) / cx) * 2.5;
+    card.style.transform = `perspective(1200px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-4px)`;
     const glare = card.querySelector('.modui-card-glare') as HTMLElement;
     if (glare) {
       glare.style.opacity = '1';
-      glare.style.background = `radial-gradient(circle at ${(x / rect.width) * 100}% ${(y / rect.height) * 100}%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 65%)`;
+      glare.style.setProperty('--gx', `${(x / rect.width) * 100}%`);
+      glare.style.setProperty('--gy', `${(y / rect.height) * 100}%`);
     }
   };
 
   const handleCardMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
-    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+    card.style.transform = '';
     const glare = card.querySelector('.modui-card-glare') as HTMLElement;
     if (glare) {
       glare.style.opacity = '0';
@@ -72,21 +73,28 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, th
     <section className="modui-gallery-section" id="components-gallery">
       <div className="modui-container">
         {/* Section Header */}
-        <div className="modui-gallery-header modui-reveal">
-          <div className="modui-gallery-eyebrow">
-            <span className="modui-gallery-eyebrow-dot" />
-            <span>FEATURED PRIMITIVES</span>
-            <span className="modui-gallery-count">3 FLAGSHIP MODULES</span>
+        <div className="modui-gallery-header">
+          <div className="modui-gallery-header-text modui-reveal">
+            <h2 className="modui-section-title modui-gallery-title">Three to start with.</h2>
+            <p className="modui-section-lede">
+              Our most ambitious pieces, running live. Drag, hover and scroll inside each one —
+              then open it to read the source.
+            </p>
           </div>
-
-          <h2 className="modui-gallery-title">
-            Engineered for Character.
-          </h2>
-
-          <p className="modui-gallery-desc">
-            Three living interactive primitives showcasing fluid spring mechanics, tactile haptic responses,
-            and high-precision architectural styling. Interact directly with each module.
-          </p>
+          <a
+            href="/components"
+            className="modui-gallery-see-all modui-reveal modui-delay-1"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate('/components');
+            }}
+          >
+            <span>{`See all ${COMPONENT_REGISTRY.length}`}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
         </div>
 
         {/* 3-Card Featured Grid */}
@@ -94,13 +102,12 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, th
           {featuredComponents.map((comp, i) => {
             if (!comp) return null;
             const isCopied = copiedSlug === comp.slug;
-            const directionClass = i === 0 ? 'modui-slide-left' : i === 1 ? 'modui-scale-up' : 'modui-slide-right';
             const delayClass = `modui-delay-${i + 1}`;
 
             return (
               <div
                 key={comp.slug}
-                className={`modui-card-item modui-reveal ${directionClass} ${delayClass}`}
+                className={`modui-card-item modui-spotlight modui-reveal ${delayClass}`}
                 onMouseMove={handleCardMouseMove}
                 onMouseLeave={handleCardMouseLeave}
                 onClick={() => {
@@ -176,7 +183,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, th
                     {/* Quick Snippet Copy */}
                     <button
                       type="button"
-                      className="modui-card-copy-btn"
+                      className={`modui-card-copy-btn ${isCopied ? 'is-copied' : ''}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleCopySnippet(comp.slug, comp.codeSnippet || `<${comp.name} />`);
@@ -186,10 +193,10 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, th
                     >
                       {isCopied ? (
                         <>
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#365CF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="20 6 9 17 4 12" />
                           </svg>
-                          <span style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>Copied</span>
+                          <span>Copied</span>
                         </>
                       ) : (
                         <>
@@ -217,7 +224,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, th
                       style={{ textDecoration: 'none', marginLeft: 'auto' }}
                       title={`Inspect ${comp.name} component`}
                     >
-                      <span>Inspect Component</span>
+                      <span>Open component</span>
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12" />
                         <polyline points="12 5 19 12 12 19" />
@@ -230,26 +237,6 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, th
           })}
         </div>
 
-        {/* Bottom Banner to Explore All Components */}
-        <div className="modui-gallery-footer-banner modui-reveal modui-scale-up modui-delay-2">
-          <div className="modui-gallery-footer-text">
-            <h4 className="modui-gallery-footer-title">{`Looking for the remaining ${COMPONENT_REGISTRY.length - 3} components?`}</h4>
-            <p className="modui-gallery-footer-desc">
-              Browse BeforeAfterSlider, FloatingDock, CylindricalCarousel, NumberTicker, AnimatedButton, KineticText, and Badge in the laboratory catalogue.
-            </p>
-          </div>
-          <button
-            type="button"
-            className="modui-gallery-explore-all-btn"
-            onClick={() => onNavigate('/components')}
-          >
-            <span>{`Explore All ${COMPONENT_REGISTRY.length} Primitives`}</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </button>
-        </div>
       </div>
     </section>
   );

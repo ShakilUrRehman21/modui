@@ -631,14 +631,12 @@ export const PointCloudMorpher: React.FC<PointCloudMorpherProps> = ({
           <div className="modui-point-cloud-badge">
             <span className="modui-point-cloud-pulse-dot" />
             <span className="modui-point-cloud-topology-label">
-              TOPOLOGY // {currentTopology.toUpperCase()}
+              {currentTopology.charAt(0).toUpperCase() + currentTopology.slice(1)}
             </span>
           </div>
 
           <div className="modui-point-cloud-stats">
-            <span>VERTICES: {particleCount}</span>
-            <span className="modui-stat-divider">·</span>
-            <span>60 FPS COMPILED</span>
+            <span>{particleCount} points</span>
           </div>
         </div>
       )}

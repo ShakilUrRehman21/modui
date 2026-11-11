@@ -14,8 +14,8 @@ describe('MagneticProjectList Component', () => {
     const root = container.querySelector('.modui-project-list');
     expect(root).toBeInTheDocument();
     expect(root).toHaveClass('modui-project-list--studio-light');
-    expect(screen.getByText('SELECTED WORK')).toBeInTheDocument();
-    expect(screen.getByText(/5 CASE STUDIES/i)).toBeInTheDocument();
+    expect(screen.getByText('Selected work')).toBeInTheDocument();
+    expect(screen.getByText(/5 projects/i)).toBeInTheDocument();
   });
 
   it('renders all default project rows with titles and years', () => {
@@ -128,7 +128,7 @@ describe('MagneticProjectList Component', () => {
     const { container } = render(<MagneticProjectList compact soundEnabled={false} />);
     const root = container.querySelector('.modui-project-list');
     expect(root).toHaveClass('modui-project-list--compact');
-    expect(screen.queryByText('SELECTED WORK')).not.toBeInTheDocument();
+    expect(screen.queryByText('Selected work')).not.toBeInTheDocument();
 
     const compactPreviewCard = container.querySelector('.modui-compact-floating-card');
     expect(compactPreviewCard).toBeInTheDocument();

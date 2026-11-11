@@ -1,355 +1,288 @@
 /* ==========================================================================
-   ModUI - CausticRippleSurface Component Styles
-   Pure CSS custom properties, zero external dependencies.
+   ModUI — Caustic Ripple Surface
+   Light through water: the caustic canvas fills the frame, a specular pass
+   sits over it, and the copy reads off a scrim at the lower edge.
    ========================================================================== */
 
 .modui-caustic-surface {
-  --caustic-bg: #FFFFFF;
-  --caustic-text: #0F172A;
-  --caustic-subtext: #475569;
-  --caustic-light-color: rgba(255, 255, 255, 0.85);
-  --caustic-tint: rgba(56, 189, 248, 0.08);
-  --caustic-border: rgba(0, 0, 0, 0.08);
-  --caustic-badge-bg: rgba(255, 255, 255, 0.85);
-  --caustic-badge-text: #0284C7;
-  --caustic-badge-border: rgba(56, 189, 248, 0.35);
-  --caustic-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-  --caustic-font-display: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --cs-pool: radial-gradient(110% 86% at 50% 8%, #123044 0%, #0A1E2E 48%, #05101A 100%);
+  --cs-ring: rgba(255, 255, 255, 0.1);
+  --cs-ink: #EFF6FA;
+  --cs-ink-dim: rgba(239, 246, 250, 0.62);
+  --cs-ink-faint: rgba(239, 246, 250, 0.42);
+  --cs-accent: #4FD2E8;
+  --cs-mono: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
 
   position: relative;
   width: 100%;
-  height: var(--caustic-height, 520px);
-  min-height: var(--caustic-min-height, 360px);
+  min-height: 420px;
   border-radius: 20px;
-  background: var(--caustic-bg);
+  background: var(--cs-pool);
+  box-shadow: 0 0 0 1px var(--cs-ring), 0 24px 56px -28px rgba(0, 0, 0, 0.72);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  user-select: none;
-  touch-action: none;
-  box-sizing: border-box;
-  outline: none;
-  border: 1px solid var(--caustic-border);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
 }
 
-[data-theme="dark"] .modui-caustic-surface {
-  --caustic-bg: #0C0E14;
-  --caustic-text: #F8FAFC;
-  --caustic-subtext: #94A3B8;
-  --caustic-light-color: rgba(56, 189, 248, 0.45);
-  --caustic-tint: rgba(56, 189, 248, 0.12);
-  --caustic-border: rgba(255, 255, 255, 0.12);
-  --caustic-badge-bg: rgba(15, 23, 42, 0.85);
-  --caustic-badge-text: #38BDF8;
-  --caustic-badge-border: rgba(56, 189, 248, 0.35);
-}
-
-.modui-caustic-surface--compact {
-  height: 100% !important;
-  min-height: 0 !important;
-  border-radius: inherit;
-  border: none;
-  box-shadow: none;
-}
-
-.modui-caustic-surface:focus-visible {
-  box-shadow: 0 0 0 2px #0284C7, 0 16px 40px rgba(2, 132, 199, 0.15);
-}
-
-/* Variant Themes */
-.modui-caustic-surface--porcelain {
-  --caustic-bg: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 50%, #F1F5F9 100%);
-  --caustic-text: #0F172A;
-  --caustic-subtext: #64748B;
-  --caustic-light-color: rgba(255, 255, 255, 0.95);
-  --caustic-tint: rgba(14, 165, 233, 0.06);
-  --caustic-border: rgba(15, 23, 42, 0.08);
-  --caustic-badge-bg: rgba(255, 255, 255, 0.9);
-  --caustic-badge-text: #0284C7;
-  --caustic-badge-border: rgba(2, 132, 199, 0.25);
-}
-
-.modui-caustic-surface--crystal-lake {
-  --caustic-bg: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 50%, #7DD3FC 100%);
-  --caustic-text: #0369A1;
-  --caustic-subtext: #075985;
-  --caustic-light-color: rgba(255, 255, 255, 0.95);
-  --caustic-tint: rgba(2, 132, 199, 0.12);
-  --caustic-border: rgba(3, 105, 161, 0.18);
-  --caustic-badge-bg: rgba(255, 255, 255, 0.9);
-  --caustic-badge-text: #0369A1;
-  --caustic-badge-border: rgba(3, 105, 161, 0.3);
-}
-
-.modui-caustic-surface--dark-obsidian {
-  --caustic-bg: linear-gradient(135deg, #090D16 0%, #030712 50%, #0A101D 100%);
-  --caustic-text: #F8FAFC;
-  --caustic-subtext: #94A3B8;
-  --caustic-light-color: rgba(56, 189, 248, 0.9);
-  --caustic-tint: rgba(56, 189, 248, 0.15);
-  --caustic-border: rgba(255, 255, 255, 0.12);
-  --caustic-badge-bg: rgba(15, 23, 42, 0.85);
-  --caustic-badge-text: #38BDF8;
-  --caustic-badge-border: rgba(56, 189, 248, 0.4);
-}
-
-.modui-caustic-surface--amber-spring {
-  --caustic-bg: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 50%, #FDE68A 100%);
-  --caustic-text: #78350F;
-  --caustic-subtext: #92400E;
-  --caustic-light-color: rgba(255, 255, 255, 0.95);
-  --caustic-tint: rgba(245, 158, 11, 0.1);
-  --caustic-border: rgba(180, 83, 9, 0.18);
-  --caustic-badge-bg: rgba(255, 255, 255, 0.9);
-  --caustic-badge-text: #B45309;
-  --caustic-badge-border: rgba(180, 83, 9, 0.3);
-}
-
-/* Underlying Visual Content */
-.modui-caustic-content {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 3rem 2rem;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Compact Card Content */
-.modui-caustic-compact-content {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  pointer-events: none;
-  z-index: 1;
-  padding: 0.5rem;
-}
-
-.modui-caustic-compact-badge {
-  font-family: var(--caustic-font-mono);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  padding: 0.35rem 0.85rem;
-  background: var(--caustic-badge-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--caustic-badge-border);
-  border-radius: 9999px;
-  color: var(--caustic-badge-text);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.modui-caustic-compact-label {
-  font-family: var(--caustic-font-mono);
-  font-size: 0.625rem;
-  font-weight: 500;
-  color: var(--caustic-subtext);
-  letter-spacing: 0.04em;
-}
-
-.modui-caustic-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--caustic-font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--caustic-badge-text);
-  margin-bottom: 1rem;
-}
-
-.modui-caustic-title {
-  font-family: var(--caustic-font-display);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--caustic-text);
-  margin: 0 0 1rem 0;
-  max-width: 680px;
-}
-
-.modui-caustic-desc {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--caustic-subtext);
-  max-width: 460px;
-  margin: 0 auto 1.5rem auto;
-}
-
-.modui-caustic-card-chip-group {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.modui-caustic-card-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 9999px;
-  background: var(--caustic-badge-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--caustic-badge-border);
-  color: var(--caustic-text);
-  font-family: var(--caustic-font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-}
-
-.modui-caustic-chip-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--caustic-badge-text);
-}
-
-/* Water Ripple & Caustic Canvas */
-.modui-caustic-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-  cursor: grab;
-  z-index: 2;
-  mix-blend-mode: overlay;
-}
-
-.modui-caustic-canvas:active {
-  cursor: grabbing;
-}
-
-/* Second Specular Highlights Canvas */
+.modui-caustic-canvas,
 .modui-caustic-specular-canvas {
   position: absolute;
   inset: 0;
-  width: 100% !important;
-  height: 100% !important;
   display: block;
-  pointer-events: none;
-  z-index: 3;
+  width: 100%;
+  height: 100%;
 }
 
-/* HUD Overlay */
+.modui-caustic-specular-canvas {
+  mix-blend-mode: screen;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* depth: darker toward the edges, brighter where the light enters */
+.modui-caustic-surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(56% 40% at 50% -4%, rgba(190, 240, 255, 0.14) 0%, transparent 70%),
+    radial-gradient(124% 100% at 50% 50%, transparent 48%, rgba(2, 8, 14, 0.74) 100%);
+}
+
+/* ==========================================================================
+   HUD
+   ========================================================================== */
 .modui-caustic-hud {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  z-index: 4;
-  padding: 16px;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-sizing: border-box;
+  pointer-events: none;
 }
 
-.modui-caustic-hud-top {
+.modui-caustic-hud-top,
+.modui-caustic-hud-bottom {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 15px 17px;
 }
 
 .modui-caustic-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 9999px;
-  background: var(--caustic-badge-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--caustic-badge-border);
-  color: var(--caustic-badge-text);
-  font-family: var(--caustic-font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 11.5px;
+  font-weight: 540;
+  color: var(--cs-ink);
+  white-space: nowrap;
 }
 
 .modui-caustic-badge-pulse {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: var(--caustic-badge-text);
-  box-shadow: 0 0 8px var(--caustic-badge-text);
-  animation: modui-caustic-pulse 2s infinite ease-in-out;
+  background: var(--cs-accent);
+  box-shadow: 0 0 8px var(--cs-accent);
+  animation: modui-cs-live 2.4s ease-in-out infinite;
+}
+
+@keyframes modui-cs-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
 }
 
 .modui-caustic-telemetry {
-  display: flex;
-  gap: 14px;
-  font-family: var(--caustic-font-mono);
-  font-size: 11px;
-  color: var(--caustic-subtext);
-}
-
-.modui-caustic-telemetry-val {
-  color: var(--caustic-badge-text);
-  font-weight: 700;
-}
-
-.modui-caustic-hud-bottom {
-  display: flex;
-  justify-content: space-between;
+  display: inline-flex;
   align-items: center;
+  gap: 8px;
+  font-family: var(--cs-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  color: var(--cs-ink-faint);
+  white-space: nowrap;
+}
+
+.modui-caustic-telemetry-val { color: var(--cs-accent); }
+
+.modui-caustic-card-chip-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.modui-caustic-card-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  background: rgba(8, 20, 30, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--cs-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--cs-ink-dim);
+  white-space: nowrap;
+}
+
+.modui-caustic-chip-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cs-accent);
 }
 
 .modui-caustic-hints {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  font-family: var(--caustic-font-mono);
-  font-size: 11px;
-  color: var(--caustic-subtext);
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--cs-ink-faint);
+  white-space: nowrap;
 }
 
 .modui-caustic-hint-key {
   padding: 2px 6px;
-  background: var(--caustic-badge-bg);
-  border: 1px solid var(--caustic-badge-border);
   border-radius: 4px;
-  color: var(--caustic-text);
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+  font-family: var(--cs-mono);
+  font-size: 10px;
+  color: var(--cs-ink-dim);
 }
 
-/* Animations */
-@keyframes modui-caustic-pulse {
-  0%, 100% { opacity: 0.5; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.25); }
+/* ==========================================================================
+   Copy
+   ========================================================================== */
+.modui-caustic-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 26px 26px 62px;
+  background: linear-gradient(0deg, rgba(3, 12, 20, 0.82) 0%, transparent 100%);
+  pointer-events: none;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .modui-caustic-surface {
-    height: 420px;
-    border-radius: 14px;
-  }
-  .modui-caustic-title {
-    font-size: 1.75rem;
-  }
-  .modui-caustic-desc {
-    font-size: 0.875rem;
-  }
-  .modui-caustic-telemetry {
-    display: none;
+.modui-caustic-eyebrow {
+  font-family: var(--cs-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  color: var(--cs-accent);
+}
+
+.modui-caustic-title {
+  margin: 0;
+  max-width: 18ch;
+  font-size: clamp(26px, 4.2vw, 36px);
+  font-weight: 680;
+  line-height: 1.06;
+  letter-spacing: -0.034em;
+  color: var(--cs-ink);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.55);
+}
+
+.modui-caustic-desc {
+  margin: 0;
+  max-width: 48ch;
+  font-size: 14px;
+  line-height: 1.56;
+  color: var(--cs-ink-dim);
+}
+
+/* ==========================================================================
+   Finishes
+   ========================================================================== */
+.modui-caustic-surface--crystal-lake { --cs-accent: #4FD2E8; }
+
+.modui-caustic-surface--porcelain {
+  --cs-pool: radial-gradient(110% 86% at 50% 8%, #1C3350 0%, #122540 48%, #091525 100%);
+  --cs-accent: #8FB6FF;
+}
+
+.modui-caustic-surface--amber-spring {
+  --cs-pool: radial-gradient(110% 86% at 50% 8%, #3A2A12 0%, #241A0C 48%, #100B05 100%);
+  --cs-accent: #F0B458;
+}
+
+.modui-caustic-surface--dark-obsidian {
+  --cs-pool: radial-gradient(110% 86% at 50% 8%, #171A21 0%, #0C0E13 48%, #040508 100%);
+  --cs-accent: #AEB6C8;
+}
+
+/* ==========================================================================
+   Compact
+   ========================================================================== */
+.modui-caustic-surface--compact {
+  min-height: 0;
+  height: 100%;
+  border-radius: 14px;
+}
+
+.modui-caustic-surface--compact .modui-caustic-hud,
+.modui-caustic-surface--compact .modui-caustic-content { display: none; }
+
+.modui-caustic-compact-content {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px;
+  background: linear-gradient(0deg, rgba(3, 12, 20, 0.78) 0%, transparent 100%);
+}
+
+.modui-caustic-compact-badge {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cs-accent);
+  box-shadow: 0 0 7px var(--cs-accent);
+}
+
+.modui-caustic-compact-label {
+  font-size: 10.5px;
+  font-weight: 540;
+  color: var(--cs-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 620px) {
+  .modui-caustic-surface { min-height: 340px; }
+  .modui-caustic-content { padding: 18px 18px 54px; }
+  .modui-caustic-hints,
+  .modui-caustic-telemetry { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modui-caustic-surface, .modui-caustic-surface * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

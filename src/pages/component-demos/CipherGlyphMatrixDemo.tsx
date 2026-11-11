@@ -71,16 +71,8 @@ export default function CipherGlyphMatrixDemo({ theme }: DemoProps) {
             />
           </div>
 
-          <div
-            style={{
-              marginTop: '1.25rem',
-              fontSize: '0.8125rem',
-              fontFamily: 'var(--font-mono)',
-              color: 'var(--text-tertiary)',
-              textAlign: 'center',
-            }}
-          >
-            Hover characters to scramble &bull; Click to cycle phrases
+          <div className="modui-stage-caption">
+            <div className="modui-stage-caption-hint">Hover the letters to scramble them. Click to cycle phrases.</div>
           </div>
         </div>
       </div>

@@ -28,9 +28,9 @@ export default function ReelTapeDeckDemo({ theme }: DemoProps) {
                           soundEnabled={deckSound}
                           onTransportChange={(state) => setDeckTransport(state)}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                        <div className="modui-stage-caption">
                           Transport Status: <span style={{ color: 'var(--accent-primary)', fontWeight: 700, textTransform: 'uppercase' }}>{deckTransport}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                          <div className="modui-stage-caption-hint">
                             Click PLAY, REW, FFWD or drag either tape spool directly to scrub audio. Watch the twin ballistic VU meters dance in real time.
                           </div>
                         </div>

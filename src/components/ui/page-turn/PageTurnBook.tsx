@@ -386,7 +386,7 @@ export const PageTurnBook: React.FC<PageTurnBookProps> = ({
               </div>
             ) : (
               <div className="modui-page-surface modui-page-surface--blank">
-                <span className="modui-page-watermark">END OF VOLUME</span>
+                <span className="modui-page-watermark">The end</span>
               </div>
             )}
 
@@ -481,7 +481,7 @@ export const PageTurnBook: React.FC<PageTurnBookProps> = ({
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />
             </svg>
-            <span>Prev Page</span>
+            <span>Previous</span>
           </button>
 
           {/* Spread progress dots */}
@@ -519,7 +519,7 @@ export const PageTurnBook: React.FC<PageTurnBookProps> = ({
             disabled={currentSpread >= totalSpreads - 1 || turnState !== 'idle'}
             aria-label="Next spread"
           >
-            <span>Next Page</span>
+            <span>Next</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>

@@ -85,7 +85,7 @@
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg, 12px);
   padding: 1.25rem 1rem;
-  box-shadow: 0 4px 20px -2px rgba(32, 32, 30, 0.04);
+  box-shadow: 0 4px 20px -2px rgba(14, 19, 34, 0.04);
 }
 
 .modui-docs-sidebar-header {
@@ -193,7 +193,7 @@
   background: var(--bg-surface);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-xl, 16px);
-  box-shadow: 0 4px 24px -2px rgba(32, 32, 30, 0.03);
+  box-shadow: 0 4px 24px -2px rgba(14, 19, 34, 0.03);
   padding: 2.5rem 2.75rem;
   scroll-margin-top: 100px;
   position: relative;
@@ -274,7 +274,7 @@
 }
 
 [data-theme="dark"] .modui-docs-callout-item {
-  background: #14151C;
+  background: var(--bg-surface-subtle);
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
@@ -677,60 +677,30 @@
   flex-wrap: wrap;
 }
 
-/* Code Snippet Box */
-.modui-code-container {
-  background: #18191E;
-  border-radius: var(--radius-md, 8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  margin: 1.25rem 0;
-}
-
-.modui-code-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.65rem 1rem;
-  background: rgba(255, 255, 255, 0.04);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: #94A3B8;
-  letter-spacing: 0.05em;
-  gap: 0.5rem;
-}
+/* Code snippet boxes reuse the shared .modui-code-* styles (ComponentDetailPage.css) */
+.modui-docs-page .modui-code-container { margin: 1.25rem 0; }
 
 .modui-docs-copy-action {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  height: 30px;
+  padding: 0 0.8rem;
+  border-radius: var(--radius-pill);
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #F8FAFC;
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--radius-xs);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
+  color: #E6E9F2;
+  font-size: var(--fs-2xs);
+  font-weight: 540;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-.modui-docs-copy-action:hover {
-  background: rgba(255, 255, 255, 0.16);
-  color: #FFFFFF;
-}
+.modui-docs-copy-action:hover { background: rgba(255, 255, 255, 0.14); color: #FFFFFF; }
 
-.modui-code-pre {
-  margin: 0;
-  padding: 1.25rem;
+.modui-docs-page .modui-code-header {
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  line-height: 1.65;
-  color: #E4E1D9;
-  overflow-x: auto;
+  font-size: var(--fs-2xs);
+  color: rgba(230, 233, 242, 0.6);
 }
 
 /* Responsive (< 960px: Tablet & Mobile) */
@@ -766,7 +736,7 @@
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1px solid var(--border-default);
-    box-shadow: 0 4px 16px rgba(32, 32, 30, 0.08);
+    box-shadow: 0 4px 16px rgba(14, 19, 34, 0.08);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
@@ -807,7 +777,7 @@
     border: 1px solid var(--border-default);
     font-size: 0.8125rem;
     border-left: 1px solid var(--border-default) !important;
-    box-shadow: 0 1px 2px rgba(32, 32, 30, 0.04);
+    box-shadow: 0 1px 2px rgba(14, 19, 34, 0.04);
   }
 
   .modui-docs-nav-item--active {
@@ -856,4 +826,177 @@
     padding: 1rem 0.85rem;
     font-size: 0.75rem;
   }
+}
+
+
+/* ==========================================================================
+   v2 refresh — aligns docs with the Porcelain & Cobalt system
+   ========================================================================== */
+.modui-docs-page { padding-top: calc(var(--nav-height) + 4.5rem); }
+
+.modui-docs-header { margin-bottom: 3rem; animation: modui-route-in 800ms var(--ease-out-expo) both; }
+
+.modui-docs-title {
+  font-size: var(--fs-display);
+  font-weight: 620;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--lh-tight);
+  margin-bottom: 1rem;
+}
+
+.modui-docs-subtitle {
+  font-size: var(--fs-lg);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 58ch;
+}
+
+.modui-docs-sidebar {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-default);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  padding: 0.75rem;
+}
+
+[data-theme="dark"] .modui-docs-sidebar { background: var(--bg-surface); }
+
+.modui-docs-sidebar-header { border-bottom: none; padding: 0.4rem 0.6rem 0.6rem; margin-bottom: 0; }
+
+.modui-docs-sidebar-title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: 560;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-tertiary);
+}
+
+.modui-docs-nav-list { position: relative; gap: 2px; }
+
+.modui-docs-nav-item {
+  position: relative;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-left: none !important;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.modui-docs-nav-item:hover { background: var(--bg-surface-subtle); color: var(--text-primary); }
+
+.modui-docs-nav-item--active {
+  background: var(--bg-surface-subtle) !important;
+  color: var(--text-primary) !important;
+  font-weight: 580;
+}
+
+.modui-docs-nav-item--active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 2.5px;
+  border-radius: 2px;
+  background: var(--accent-primary);
+  animation: modui-nav-tick 360ms var(--ease-spring);
+}
+
+@keyframes modui-nav-tick { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+.modui-docs-nav-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  color: var(--text-tertiary);
+}
+
+.modui-docs-nav-item--active .modui-docs-nav-num { color: var(--accent-primary); }
+
+.modui-docs-card {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-default);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 300ms ease, box-shadow 400ms var(--ease-out-expo), opacity 900ms var(--ease-out-expo), transform 900ms var(--ease-out-expo), filter 900ms var(--ease-out-expo);
+}
+
+.modui-docs-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-md); }
+
+.modui-docs-section-tag {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 560;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--accent-primary);
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.modui-docs-section-title {
+  font-size: var(--fs-h3);
+  font-weight: 620;
+  letter-spacing: var(--tracking-heading);
+}
+
+.modui-docs-p { font-size: var(--fs-base); line-height: 1.7; color: var(--text-secondary); max-width: 68ch; }
+
+.modui-docs-p code,
+.modui-docs-step p code,
+.modui-docs-a11y-desc code,
+.modui-docs-ordered-list code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  border-radius: 6px;
+  padding: 0.08em 0.4em;
+}
+
+.modui-docs-callout-item {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-app);
+  transition: border-color 300ms ease, transform 400ms var(--ease-out-expo), background-color 300ms ease;
+}
+
+.modui-docs-callout-item:hover { border-color: var(--accent-border); transform: translateY(-2px); }
+
+[data-theme="dark"] .modui-docs-callout-item { background: var(--bg-surface-subtle); }
+[data-theme="dark"] .modui-docs-callout-item:hover { background: var(--bg-surface-elevated); }
+
+.modui-docs-callout-tag {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: 560;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--accent-primary);
+}
+
+.modui-docs-callout-heading { font-weight: 600; letter-spacing: var(--tracking-ui); }
+
+.modui-docs-pkg-tab { border-radius: var(--radius-pill); color: rgba(230, 233, 242, 0.55); }
+.modui-docs-pkg-tab--active { background: rgba(185, 198, 255, 0.14); color: #FFFFFF; }
+
+.modui-docs-fw-btn,
+.modui-docs-explore-btn { border-radius: var(--radius-pill) !important; }
+
+.modui-docs-step-badge { border-radius: 50%; font-variant-numeric: tabular-nums; }
+
+.modui-docs-swatch-card {
+  border-radius: var(--radius-lg);
+  transition: transform 400ms var(--ease-out-expo), box-shadow 400ms var(--ease-out-expo), border-color 300ms ease;
+}
+
+.modui-docs-swatch-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+.modui-docs-token-input { border-radius: var(--radius-pill); }
+
+@media (max-width: 960px) {
+  .modui-docs-page { padding-top: calc(var(--nav-height) + 2.5rem); }
 }

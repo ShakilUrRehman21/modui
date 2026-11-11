@@ -28,9 +28,9 @@ export default function TimelineRoadmapDemo({ theme }: DemoProps) {
                           soundEnabled={timelineSound}
                           onSelectMilestone={(item) => setTimelineActiveTitle(item.title)}
                         />
-                        <div style={{ marginTop: '1.5rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Active Milestone: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{timelineActiveTitle}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          Active Milestone: <span className="modui-stage-caption-value">{timelineActiveTitle}</span>
+                          <div className="modui-stage-caption-hint">
                             Click any milestone node or card, or use keyboard arrow keys to navigate the continuous progress spine.
                           </div>
                         </div>

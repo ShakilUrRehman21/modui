@@ -36,8 +36,8 @@ describe('ReelTapeDeck component', () => {
 
   it('renders twin VU meters for Channel L and Channel R', () => {
     render(<ReelTapeDeck soundEnabled={false} />);
-    expect(screen.getByText('CH 1 // L')).toBeInTheDocument();
-    expect(screen.getByText('CH 2 // R')).toBeInTheDocument();
+    expect(screen.getByText('Left')).toBeInTheDocument();
+    expect(screen.getByText('Right')).toBeInTheDocument();
   });
 
   it('renders piano-key transport toolbar with all mechanical controls', () => {

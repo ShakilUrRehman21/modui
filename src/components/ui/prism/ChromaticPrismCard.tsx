@@ -87,9 +87,9 @@ function playGlassChime() {
 export const ChromaticPrismCard: React.FC<ChromaticPrismCardProps> = ({
   variant = 'sapphire-crystal',
   title = 'Optical Sapphire Specimen',
-  subtitle = 'Subpixel chromatic dispersion prism featuring multi-plane silica depth refraction and dynamic incident light tracking.',
-  category = 'QUARTZ PRIMITIVE',
-  serialNumber = 'REF. 9042 // SPECIMEN 01',
+  subtitle = 'Multi-plane silica with live incident-light tracking.',
+  category = 'Quartz primitive',
+  serialNumber = 'Specimen 01',
   refractiveIndex = 'n = 1.544',
   actionLabel = 'Inspect Specimen',
   onAction,

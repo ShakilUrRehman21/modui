@@ -32,10 +32,10 @@ export default function ChromaticPrismCardDemo({ theme }: DemoProps) {
                           soundEnabled={prismSound}
                           onAction={() => setPrismActionClicked((c) => c + 1)}
                         />
-                        <div style={{ marginTop: '1.75rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Optical Quartz Specimen: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>3D Gyro Tilt & Spectral Dispersion</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
-                            Tip: Move your cursor across the card surface to cast dynamic incident glare, observe RGB chromatic caustics, or click Inspect Specimen ({prismActionClicked} activations).
+                        <div className="modui-stage-caption">
+                          Optical Quartz Specimen: <span className="modui-stage-caption-value">3D Gyro Tilt & Spectral Dispersion</span>
+                          <div className="modui-stage-caption-hint">
+                            Move your cursor across the card surface to cast dynamic incident glare, observe RGB chromatic caustics, or click Inspect Specimen ({prismActionClicked} activations).
                           </div>
                         </div>
                       </div>

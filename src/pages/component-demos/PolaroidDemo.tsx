@@ -31,9 +31,9 @@ export default function PolaroidDemo({ theme }: DemoProps) {
                           onPhotoClick={(p) => setPolaroidActiveTitle(p.title)}
                           onPhotoFlip={(p, isFlipped) => setPolaroidActiveTitle(`${p.title} (${isFlipped ? 'Back' : 'Front'})`)}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Focused Specimen: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{polaroidActiveTitle}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          Focused Specimen: <span className="modui-stage-caption-value">{polaroidActiveTitle}</span>
+                          <div className="modui-stage-caption-hint">
                             Click top-right circular arrow or press Space to 3D flip card. Drag cards across the tabletop in scatter mode. Click "Develop All" to trigger chemical film fog animation.
                           </div>
                         </div>

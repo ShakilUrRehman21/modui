@@ -659,7 +659,7 @@ export const RotaryJogWheel: React.FC<RotaryJogWheelProps> = ({
 
           {/* Optional Mode or Unit subtitle */}
           <span className="modui-rotary-readout-unit">
-            {mode === 'continuous' ? 'SCRUB' : mode === 'bipolar' ? 'BAL' : sublabel || 'DETENT'}
+            {mode === 'continuous' ? 'Scrub' : mode === 'bipolar' ? 'Balance' : sublabel || 'Level'}
           </span>
         </button>
       </div>

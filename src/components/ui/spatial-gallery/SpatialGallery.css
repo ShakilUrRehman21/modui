@@ -1,178 +1,59 @@
 /* ==========================================================================
-   ModUI: SpatialGallery (Primitive #25)
-   3D Spatial Showcase Ribbon with Real-Time Ground Mirror Reflections
-   Standard: Dieter Rams / Teenage Engineering / High-End ThreeUI & GSAP
-   Zero-Runtime CSS Design Tokens & Hardware-Accelerated 3D Transforms
+   ModUI — Spatial Gallery
+   A lit stage: one case under the key light, the rest receding into the
+   dark with their reflections on the floor.
    ========================================================================== */
 
-/* Design Tokens & Theme Variants (Default: Studio Light matching ModUI platform) */
 .modui-spatial-gallery {
-  --sg-bg: #FFFFFF;
-  --sg-surface: rgba(255, 255, 255, 0.92);
-  --sg-card-bg: #FFFFFF;
-  --sg-card-border: rgba(0, 0, 0, 0.08);
-  --sg-card-border-active: rgba(37, 99, 235, 0.85);
-  --sg-card-shadow: 0 16px 36px -12px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  --sg-card-shadow-active: 0 24px 48px -12px rgba(37, 99, 235, 0.22), 0 0 0 1.5px rgba(37, 99, 235, 0.7);
-  --sg-text-main: #0F172A;
-  --sg-text-muted: #475569;
-  --sg-text-dim: #94A3B8;
-  --sg-accent: #2563EB;
-  --sg-horizon-glow-color: rgba(15, 23, 42, 0.04);
-  --sg-floor-shine: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 100%);
-  --sg-reflection-opacity: 0.25;
-  --sg-font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  --sp-room: radial-gradient(120% 80% at 50% 0%, #1D2440 0%, #11162A 46%, #080B16 100%);
+  --sp-room-ring: rgba(185, 198, 255, 0.1);
+  --sp-card: #171D31;
+  --sp-card-ring: rgba(255, 255, 255, 0.1);
+  --sp-ink: #F2F4FA;
+  --sp-ink-dim: rgba(242, 244, 250, 0.6);
+  --sp-ink-faint: rgba(242, 244, 250, 0.38);
+  --sp-accent: #7C95FF;
+  --sp-card-w: 300px;
+  --sp-ease: cubic-bezier(0.2, 0.9, 0.26, 1);
 
   position: relative;
-  width: 100%;
-  min-height: 520px;
-  background-color: var(--sg-bg);
-  background-image: 
-    radial-gradient(circle at 50% 15%, rgba(0, 0, 0, 0.02) 0%, transparent 60%),
-    linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%);
-  border-radius: 16px;
-  border: 1px solid var(--sg-card-border);
-  overflow: hidden;
-  user-select: none;
-  touch-action: pan-y;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  outline: none;
-  box-sizing: border-box;
+  width: 100%;
+  min-height: 520px;
+  border-radius: 22px;
+  background: var(--sp-room);
+  box-shadow: 0 0 0 1px var(--sp-room-ring), 0 26px 60px -32px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
+  user-select: none;
 }
 
-[data-theme="dark"] .modui-spatial-gallery {
-  --sg-bg: #0D0E12;
-  --sg-surface: rgba(18, 19, 24, 0.92);
-  --sg-card-bg: #14151B;
-  --sg-card-border: rgba(255, 255, 255, 0.12);
-  --sg-card-border-active: rgba(79, 112, 255, 0.85);
-  --sg-card-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  --sg-card-shadow-active: 0 24px 48px -12px rgba(79, 112, 255, 0.35), 0 0 0 1.5px rgba(79, 112, 255, 0.8);
-  --sg-text-main: #F4F4F6;
-  --sg-text-muted: #9DA3AE;
-  --sg-text-dim: #6B7280;
-  --sg-accent: #4F70FF;
-  --sg-horizon-glow-color: rgba(79, 112, 255, 0.1);
-  --sg-floor-shine: linear-gradient(180deg, rgba(79, 112, 255, 0.15) 0%, rgba(0, 0, 0, 0.4) 40%, transparent 100%);
-  --sg-reflection-opacity: 0.35;
-  background-image: 
-    radial-gradient(circle at 50% 15%, rgba(79, 112, 255, 0.08) 0%, transparent 60%),
-    linear-gradient(180deg, #101218 0%, #0A0B0E 100%);
+/* the key light falling from above */
+.modui-spatial-gallery::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -14%;
+  width: 70%;
+  height: 72%;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(150, 175, 255, 0.16) 0%, transparent 72%);
+  filter: blur(10px);
+  pointer-events: none;
 }
 
-.modui-spatial-gallery:focus-visible {
-  box-shadow: 0 0 0 2px var(--sg-accent);
-}
-
-/* Variant 1: Studio Light (ModUI Platform UI Standard) */
-.modui-spatial-studio-light {
-  --sg-bg: #FFFFFF;
-  --sg-surface: rgba(255, 255, 255, 0.92);
-  --sg-card-bg: #FFFFFF;
-  --sg-card-border: rgba(0, 0, 0, 0.08);
-  --sg-card-border-active: rgba(37, 99, 235, 0.85);
-  --sg-card-shadow: 0 16px 36px -12px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  --sg-card-shadow-active: 0 24px 48px -12px rgba(37, 99, 235, 0.22), 0 0 0 1.5px rgba(37, 99, 235, 0.7);
-  --sg-text-main: #0F172A;
-  --sg-text-muted: #475569;
-  --sg-text-dim: #94A3B8;
-  --sg-accent: #2563EB;
-  --sg-horizon-glow-color: rgba(15, 23, 42, 0.04);
-  --sg-floor-shine: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 100%);
-  --sg-reflection-opacity: 0.25;
-  background-image: 
-    radial-gradient(circle at 50% 15%, rgba(0, 0, 0, 0.02) 0%, transparent 60%),
-    linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%);
-}
-
-/* Variant 2: Studio Dark */
-.modui-spatial-studio-dark {
-  --sg-bg: #090A0F;
-  --sg-surface: rgba(18, 20, 29, 0.85);
-  --sg-card-bg: #111420;
-  --sg-card-border: rgba(255, 255, 255, 0.1);
-  --sg-card-border-active: rgba(99, 102, 241, 0.7);
-  --sg-card-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
-  --sg-card-shadow-active: 0 32px 64px -16px rgba(0, 0, 0, 0.85), 0 0 24px -4px rgba(99, 102, 241, 0.35);
-  --sg-text-main: #F8FAFC;
-  --sg-text-muted: #94A3B8;
-  --sg-text-dim: #64748B;
-  --sg-accent: #6366F1;
-  --sg-horizon-glow-color: rgba(99, 102, 241, 0.14);
-  --sg-floor-shine: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.01) 40%, transparent 100%);
-  --sg-reflection-opacity: 0.38;
-  background-image: 
-    radial-gradient(circle at 50% 15%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
-    linear-gradient(180deg, rgba(14, 16, 24, 0.6) 0%, rgba(9, 10, 15, 0.95) 100%);
-}
-
-/* Variant 3: Minimal Mono (Brutalist Precision) */
-.modui-spatial-minimal-mono {
-  --sg-bg: #000000;
-  --sg-surface: #0C0C0C;
-  --sg-card-bg: #0A0A0A;
-  --sg-card-border: rgba(255, 255, 255, 0.15);
-  --sg-card-border-active: #FFFFFF;
-  --sg-card-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.12);
-  --sg-card-shadow-active: 0 32px 64px -16px rgba(0, 0, 0, 1), 0 0 0 1.5px #FFFFFF;
-  --sg-text-main: #FFFFFF;
-  --sg-text-muted: #A1A1AA;
-  --sg-text-dim: #52525B;
-  --sg-accent: #FFFFFF;
-  --sg-horizon-glow-color: rgba(255, 255, 255, 0.08);
-  --sg-floor-shine: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
-  --sg-reflection-opacity: 0.32;
-  background-image: none;
-}
-
-/* Variant 4: Cyber Cyan */
-.modui-spatial-cyber-cyan {
-  --sg-bg: #040911;
-  --sg-surface: rgba(8, 20, 36, 0.85);
-  --sg-card-bg: #081628;
-  --sg-card-border: rgba(6, 182, 212, 0.2);
-  --sg-card-border-active: #06B6D4;
-  --sg-card-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.9), 0 0 12px rgba(6, 182, 212, 0.15);
-  --sg-card-shadow-active: 0 32px 64px -16px rgba(0, 0, 0, 0.95), 0 0 28px rgba(6, 182, 212, 0.4);
-  --sg-text-main: #ECFEFF;
-  --sg-text-muted: #67E8F9;
-  --sg-text-dim: #0E7490;
-  --sg-accent: #06B6D4;
-  --sg-horizon-glow-color: rgba(6, 182, 212, 0.22);
-  --sg-floor-shine: linear-gradient(180deg, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
-  --sg-reflection-opacity: 0.42;
-  background-image: 
-    linear-gradient(rgba(6, 182, 212, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(6, 182, 212, 0.04) 1px, transparent 1px),
-    radial-gradient(circle at 50% 10%, rgba(6, 182, 212, 0.12) 0%, transparent 70%),
-    linear-gradient(180deg, #050E1A 0%, #03060C 100%);
-  background-size: 32px 32px, 32px 32px, 100% 100%, 100% 100%;
-}
-
-/* Compact Mode (for catalog cards & previews) */
-.modui-spatial-gallery.modui-spatial-compact {
-  min-height: 100% !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  background: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* Top Telemetry HUD */
+/* ==========================================================================
+   HUD
+   ========================================================================== */
 .modui-spatial-hud {
+  position: relative;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 24px 8px;
-  position: relative;
-  z-index: 10;
-  pointer-events: none;
+  gap: 14px;
+  padding: 15px 18px;
 }
 
 .modui-spatial-hud-left,
@@ -180,657 +61,588 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 }
 
 .modui-spatial-hud-pill {
-  font-family: var(--sg-font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--sg-text-main);
-  background: var(--sg-surface);
-  border: 1px solid var(--sg-card-border);
+  display: inline-flex;
+  align-items: center;
   padding: 4px 10px;
-  border-radius: 20px;
-  backdrop-filter: blur(8px);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 540;
+  letter-spacing: 0.02em;
+  color: var(--sp-ink);
+  white-space: nowrap;
 }
 
 .modui-spatial-hud-cat {
-  font-family: var(--sg-font-mono);
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--sg-text-dim);
-  text-transform: uppercase;
+  color: var(--sp-ink-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modui-spatial-hud-dot {
   width: 7px;
   height: 7px;
+  flex: 0 0 auto;
   border-radius: 50%;
-  box-shadow: 0 0 8px currentColor;
-  animation: modui-spatial-pulse 2.2s infinite ease-in-out;
+  animation: modui-sp-live 2.4s ease-in-out infinite;
+}
+
+@keyframes modui-sp-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
 }
 
 .modui-spatial-hud-status {
-  font-family: var(--sg-font-mono);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--sg-text-muted);
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--sp-ink-faint);
+  white-space: nowrap;
 }
 
-@keyframes modui-spatial-pulse {
-  0%, 100% { opacity: 0.4; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.15); }
-}
-
-/* 3D Viewport & Spatial Track */
+/* ==========================================================================
+   Stage
+   ========================================================================== */
 .modui-spatial-viewport {
   position: relative;
-  width: 100%;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 1100px;
-  perspective-origin: 50% 48%;
-  transform-style: preserve-3d;
-  overflow: visible;
-  padding: 10px 0 20px;
-}
-
-/* Diffused Base Vignette: feathers the floor reflection seamlessly into the background */
-.modui-spatial-viewport::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 90px;
-  background: linear-gradient(to bottom, transparent 0%, var(--sg-bg) 95%);
-  pointer-events: none;
-  z-index: 3;
-}
-
-.modui-spatial-compact .modui-spatial-viewport {
-  height: 100%;
-  min-height: 200px;
-  perspective: 680px;
-  padding: 0;
+  flex: 1;
+  min-height: 406px;
+  perspective: 1500px;
+  perspective-origin: 50% 46%;
+  cursor: grab;
+  touch-action: pan-y;
   overflow: hidden;
 }
 
-.modui-spatial-compact .modui-spatial-viewport::after {
-  display: none;
-}
+.modui-spatial-viewport:active { cursor: grabbing; }
 
 .modui-spatial-track {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--sp-card-w);
+  transform: translateX(-50%);
   transform-style: preserve-3d;
 }
 
-/* Card Slot & 3D Geometry */
 .modui-spatial-card-slot {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 270px;
-  height: 350px;
-  margin-top: -175px;
-  margin-left: -135px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  margin-top: -170px;
   transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+  transition:
+    transform 640ms var(--sp-ease),
+    opacity 520ms var(--sp-ease);
   will-change: transform, opacity;
 }
 
-/* Soft Diffused Ground Shadow beneath each 3D card */
-.modui-spatial-card-slot::after {
-  content: '';
-  position: absolute;
-  bottom: -15px;
-  left: 10%;
-  right: 10%;
-  height: 26px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.16) 0%, rgba(15, 23, 42, 0.05) 45%, transparent 75%);
-  filter: blur(8px);
-  pointer-events: none;
-  z-index: 0;
-  transform: translateZ(-20px);
-}
-
-.modui-spatial-studio-dark .modui-spatial-card-slot::after {
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.25) 50%, transparent 75%);
-  filter: blur(10px);
-}
-
-.modui-spatial-cyber-cyan .modui-spatial-card-slot::after {
-  background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.3) 0%, rgba(0, 0, 0, 0.6) 45%, transparent 75%);
-  filter: blur(10px);
-}
-
-.modui-spatial-compact .modui-spatial-card-slot {
-  width: 130px;
-  height: 165px;
-  margin-top: -82px;
-  margin-left: -65px;
-}
-
-.modui-spatial-compact .modui-spatial-card-slot::after {
-  bottom: -9px;
-  height: 16px;
-  filter: blur(5px);
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.12) 0%, transparent 70%);
-}
-
-/* Ambient Diffused Horizon Ground Plane (Zero hard lines) */
-.modui-spatial-horizon-plane {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 170px;
-  background: radial-gradient(ellipse 85% 60% at 50% 100%, var(--sg-horizon-glow-color), transparent 80%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.modui-spatial-compact .modui-spatial-horizon-plane {
-  height: 80px;
-  background: radial-gradient(ellipse 90% 50% at 50% 100%, rgba(0, 0, 0, 0.03), transparent 75%);
-}
-
-/* Primary Card Component */
+/* ---------- Case card ---------- */
 .modui-spatial-card {
   position: relative;
-  width: 100%;
-  height: 100%;
-  background-color: var(--sg-card-bg);
-  border-radius: 14px;
-  border: 1px solid var(--sg-card-border);
-  box-shadow: var(--sg-card-shadow);
   display: flex;
   flex-direction: column;
+  border-radius: 16px;
+  background: var(--sp-card);
+  box-shadow:
+    0 0 0 1px var(--sp-card-ring),
+    0 24px 48px -22px rgba(0, 0, 0, 0.85);
   overflow: hidden;
   cursor: pointer;
   outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-  z-index: 10;
-  backface-visibility: hidden;
-}
-
-.modui-spatial-compact .modui-spatial-card {
-  border-radius: 10px;
-  box-shadow: 0 8px 22px -6px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 480ms var(--sp-ease), transform 320ms var(--sp-ease);
 }
 
 .modui-spatial-card-slot.is-active .modui-spatial-card {
-  border-color: var(--sg-card-border-active);
-  box-shadow: var(--sg-card-shadow-active);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--sp-accent) 32%, transparent),
+    0 0 0 5px color-mix(in srgb, var(--sp-accent) 10%, transparent),
+    0 34px 64px -24px rgba(0, 0, 0, 0.95);
 }
 
-.modui-spatial-compact .modui-spatial-card-slot.is-active .modui-spatial-card {
-  box-shadow: 0 14px 28px -8px rgba(37, 99, 235, 0.22), 0 0 0 1.5px rgba(37, 99, 235, 0.7);
+@media (hover: hover) {
+  .modui-spatial-card-slot.is-active .modui-spatial-card:hover { transform: translateY(-4px); }
 }
 
-.modui-spatial-card:focus-visible {
-  box-shadow: 0 0 0 2px var(--sg-accent), var(--sg-card-shadow-active);
+.modui-spatial-card:focus-visible,
+.modui-spatial-nav-btn:focus-visible,
+.modui-spatial-dot:focus-visible {
+  outline: 2px solid var(--sp-accent);
+  outline-offset: 3px;
 }
 
-/* Card Media & Specular Glare */
+/* ---------- Media ---------- */
 .modui-spatial-card-media {
   position: relative;
   width: 100%;
-  height: 68%;
-  background-color: #000;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
+  /* designed fallback so a missing photo still reads as artwork */
+  background:
+    radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%),
+    linear-gradient(152deg, #2F3C66 0%, #4A5C96 48%, #1B2238 100%);
 }
 
-.modui-spatial-compact .modui-spatial-card-media {
-  height: 100%;
+.modui-spatial-card-slot:nth-child(5n + 2) .modui-spatial-card-media {
+  background:
+    radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%),
+    linear-gradient(152deg, #3E2F2A 0%, #76543E 48%, #241B16 100%);
 }
 
-.modui-spatial-card-img {
+.modui-spatial-card-slot:nth-child(5n + 3) .modui-spatial-card-media {
+  background:
+    radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%),
+    linear-gradient(152deg, #1F3C3A 0%, #336760 48%, #152A2C 100%);
+}
+
+.modui-spatial-card-slot:nth-child(5n + 4) .modui-spatial-card-media {
+  background:
+    radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%),
+    linear-gradient(152deg, #3B2C48 0%, #654778 48%, #251B30 100%);
+}
+
+.modui-spatial-card-slot:nth-child(5n + 5) .modui-spatial-card-media {
+  background:
+    radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%),
+    linear-gradient(152deg, #2C333A 0%, #52616C 48%, #1A1F24 100%);
+}
+
+/* an image that fails to load must never spill its alt text */
+.modui-spatial-card-img,
+.modui-spatial-img-reflection {
+  position: relative;
+  z-index: 2;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.modui-spatial-card:hover .modui-spatial-card-img {
-  transform: scale(1.05);
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  text-indent: -9999px;
+  overflow: hidden;
 }
 
 .modui-spatial-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.65) 100%);
+  z-index: 3;
+  background: linear-gradient(0deg, rgba(8, 11, 22, 0.52) 0%, transparent 46%);
   pointer-events: none;
 }
 
 .modui-spatial-specular-glare {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 45%, rgba(255, 255, 255, 0.05) 100%);
+  z-index: 4;
+  background: linear-gradient(116deg, transparent 34%, rgba(255, 255, 255, 0.26) 50%, transparent 66%);
   opacity: 0;
-  transition: opacity 0.4s ease;
   pointer-events: none;
+  transition: opacity 560ms ease;
 }
 
-.modui-spatial-card-slot.is-active .modui-spatial-specular-glare {
-  opacity: 1;
-}
+.modui-spatial-card-slot.is-active .modui-spatial-specular-glare { opacity: 0.5; }
 
-/* Card Content Info */
+/* ---------- Info ---------- */
 .modui-spatial-card-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 12px 14px 14px;
-  background-color: var(--sg-card-bg);
-  flex: 1;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.modui-spatial-studio-dark .modui-spatial-card-info {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.modui-spatial-compact .modui-spatial-card-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.85) 60%);
-  padding: 8px 10px;
-  border-top: none;
+  padding: 14px 16px 17px;
 }
 
 .modui-spatial-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 4px;
+  gap: 10px;
+  margin-bottom: 9px;
+  min-width: 0;
 }
 
 .modui-spatial-card-badge {
-  font-family: var(--sg-font-mono);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 2px 6px;
-  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
   border: 1px solid;
-  color: var(--sg-text-main);
-  text-transform: uppercase;
-}
-
-.modui-spatial-compact .modui-spatial-card-badge {
-  color: #FFFFFF;
+  border-radius: 999px;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 540;
+  letter-spacing: 0.02em;
+  color: var(--sp-ink);
+  white-space: nowrap;
 }
 
 .modui-spatial-card-cat {
-  font-family: var(--sg-font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
-  color: var(--sg-text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.modui-spatial-card-title {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--sg-text-main);
-  line-height: 1.25;
+  color: var(--sp-ink-faint);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.modui-spatial-compact .modui-spatial-card-title {
-  font-size: 11px;
-  color: #FFFFFF;
+.modui-spatial-card-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 640;
+  line-height: 1.18;
+  letter-spacing: -0.024em;
+  color: var(--sp-ink);
 }
 
 .modui-spatial-card-sub {
-  margin: 4px 0 0;
-  font-size: 12px;
-  color: var(--sg-text-muted);
-  line-height: 1.35;
+  margin: 6px 0 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  font-size: 13px;
+  line-height: 1.48;
+  color: var(--sp-ink-dim);
 }
 
-/* Mirror Floor Reflection with soft progressive feathering */
+/* ---------- Floor reflection ---------- */
 .modui-spatial-reflection {
   position: absolute;
-  top: 100%;
   left: 0;
+  top: calc(100% + 4px);
   width: 100%;
-  height: 90%;
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  overflow: hidden;
   transform: scaleY(-1);
-  transform-origin: top center;
-  pointer-events: none;
-  opacity: var(--sg-reflection-opacity);
-  filter: blur(3px);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.25) 30%, rgba(0, 0, 0, 0.05) 60%, transparent 85%);
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.25) 30%, rgba(0, 0, 0, 0.05) 60%, transparent 85%);
-  z-index: 1;
-}
-
-.modui-spatial-reflection.is-compact {
-  opacity: 0.16;
+  opacity: 0.2;
   filter: blur(2px);
-  height: 55%;
+  pointer-events: none;
 }
 
-.modui-spatial-img-reflection {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 14px;
-}
+.modui-spatial-reflection.is-compact { display: none; }
 
 .modui-spatial-reflection-gradient {
   position: absolute;
   inset: 0;
-  background: var(--sg-floor-shine);
+  z-index: 3;
+  background: linear-gradient(0deg, rgba(8, 11, 22, 0.1) 0%, rgba(8, 11, 22, 0.96) 76%);
 }
 
-/* Controls Bar */
+.modui-spatial-horizon-plane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 34%;
+  background: linear-gradient(0deg, rgba(120, 150, 255, 0.07) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.modui-spatial-horizon-plane.is-compact { display: none; }
+
+/* ==========================================================================
+   Controls
+   ========================================================================== */
 .modui-spatial-controls {
+  position: relative;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 10px 24px 20px;
-  position: relative;
-  z-index: 10;
+  gap: 14px;
+  padding: 16px 18px 20px;
 }
 
 .modui-spatial-nav-btn {
-  width: 38px;
-  height: 38px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
-  background: var(--sg-surface);
-  border: 1px solid var(--sg-card-border);
-  color: var(--sg-text-main);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  color: var(--sp-ink);
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  backdrop-filter: blur(8px);
-  transition: all 0.2s ease;
-  outline: none;
+  transition: background 200ms ease, transform 200ms var(--sp-ease);
 }
 
-.modui-spatial-nav-btn:hover {
-  background: var(--sg-accent);
-  color: #FFFFFF;
-  border-color: var(--sg-accent);
-  transform: scale(1.08);
-}
-
-.modui-spatial-nav-btn:focus-visible {
-  box-shadow: 0 0 0 2px var(--sg-accent);
-}
+.modui-spatial-nav-btn:hover { background: rgba(255, 255, 255, 0.18); }
+.modui-spatial-nav-btn:active { transform: scale(0.92); }
 
 .modui-spatial-indicators {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  background: var(--sg-surface);
-  border: 1px solid var(--sg-card-border);
-  border-radius: 24px;
-  backdrop-filter: blur(8px);
+  gap: 6px;
 }
 
 .modui-spatial-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.15);
-  border: 1px solid transparent;
+  width: 6px;
+  height: 6px;
   padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.26);
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  outline: none;
+  transition: width 420ms var(--sp-ease), background 240ms ease;
 }
 
-.modui-spatial-studio-dark .modui-spatial-dot,
-.modui-spatial-cyber-cyan .modui-spatial-dot,
-.modui-spatial-minimal-mono .modui-spatial-dot {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.modui-spatial-dot:hover {
-  background: rgba(0, 0, 0, 0.35);
-  transform: scale(1.2);
-}
+.modui-spatial-dot:hover { background: rgba(255, 255, 255, 0.44); }
 
 .modui-spatial-dot.is-active {
-  width: 22px;
-  border-radius: 12px;
-  background: var(--sg-accent);
+  width: 24px;
+  background: var(--sp-accent);
 }
 
-/* Lightbox Modal */
+/* ==========================================================================
+   Lightbox
+   ========================================================================== */
 .modui-spatial-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
   padding: 24px;
-  animation: modui-spatial-fade-in 0.25s ease-out;
+  background: rgba(6, 8, 14, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: modui-sp-fade 220ms ease;
+}
+
+@keyframes modui-sp-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .modui-spatial-modal-dialog {
   position: relative;
-  width: 100%;
-  max-width: 720px;
-  background: var(--sg-card-bg);
-  border: 1px solid var(--sg-card-border);
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  animation: modui-spatial-modal-scale 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  width: min(880px, 100%);
+  max-height: 88vh;
+  border-radius: 20px;
+  background: #141A2C;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 44px 96px -34px rgba(0, 0, 0, 0.95);
+  overflow: hidden auto;
+  animation: modui-sp-rise 340ms var(--sp-ease);
+}
+
+@keyframes modui-sp-rise {
+  from { opacity: 0; transform: translateY(16px) scale(0.985); }
+  to { opacity: 1; transform: none; }
 }
 
 .modui-spatial-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--sg-card-border);
+  gap: 12px;
+  padding: 15px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .modui-spatial-modal-meta {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 }
 
 .modui-spatial-modal-badge {
-  font-family: var(--sg-font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 4px 8px;
-  border-radius: 4px;
-  background: var(--sg-surface);
-  border: 1px solid var(--sg-card-border);
-  color: var(--sg-text-main);
-  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--sp-accent) 18%, transparent);
+  font-size: 11.5px;
+  font-weight: 560;
+  color: var(--sp-accent);
+  white-space: nowrap;
 }
 
 .modui-spatial-modal-id {
-  font-family: var(--sg-font-mono);
-  font-size: 11px;
-  color: var(--sg-text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--sp-ink-faint);
 }
 
 .modui-spatial-modal-close {
-  width: 32px;
-  height: 32px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
-  background: var(--sg-surface);
-  border: 1px solid var(--sg-card-border);
-  color: var(--sg-text-muted);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--sp-ink);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  transition: all 0.2s ease;
-  outline: none;
+  transition: background 200ms ease, transform 220ms var(--sp-ease);
 }
 
-.modui-spatial-modal-close:hover {
-  background: #EF4444;
-  color: #FFFFFF;
-  border-color: #EF4444;
-}
+.modui-spatial-modal-close:hover { background: rgba(255, 255, 255, 0.2); transform: rotate(90deg); }
 
 .modui-spatial-modal-media {
   position: relative;
-  width: 100%;
-  height: 360px;
-  background: #000;
+  aspect-ratio: 16 / 9;
+  background:
+    radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.14) 0%, transparent 62%),
+    linear-gradient(152deg, #2F3C66 0%, #4A5C96 48%, #1B2238 100%);
+  overflow: hidden;
 }
 
 .modui-spatial-modal-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  color: transparent;
+  font-size: 0;
 }
 
-.modui-spatial-modal-body {
-  padding: 24px;
-  background: var(--sg-card-bg);
-}
+.modui-spatial-modal-body { padding: 22px 24px 26px; }
 
 .modui-spatial-modal-title {
   margin: 0;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--sg-text-main);
-  letter-spacing: -0.02em;
+  font-size: 28px;
+  font-weight: 660;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--sp-ink);
 }
 
 .modui-spatial-modal-subtitle {
-  margin: 8px 0 16px;
-  font-size: 14px;
-  color: var(--sg-accent);
-  font-weight: 500;
-  line-height: 1.4;
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.58;
+  color: var(--sp-ink-dim);
 }
 
 .modui-spatial-modal-desc {
-  margin: 0;
-  font-size: 13px;
-  color: var(--sg-text-muted);
-  line-height: 1.6;
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.62;
+  color: var(--sp-ink-faint);
 }
 
-@keyframes modui-spatial-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* ==========================================================================
+   Variants
+   ========================================================================== */
+.modui-spatial-studio-dark { --sp-accent: #7C95FF; }
+
+.modui-spatial-cyber-cyan {
+  --sp-room: radial-gradient(120% 80% at 50% 0%, #07323A 0%, #04202A 46%, #020E14 100%);
+  --sp-room-ring: rgba(80, 230, 255, 0.16);
+  --sp-card: #0A2630;
+  --sp-card-ring: rgba(80, 230, 255, 0.18);
+  --sp-accent: #3FE0F0;
 }
 
-@keyframes modui-spatial-modal-scale {
-  from { opacity: 0; transform: scale(0.94) translateY(12px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+.modui-spatial-cyber-cyan::before {
+  background: radial-gradient(closest-side, rgba(63, 224, 240, 0.2) 0%, transparent 72%);
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 768px) {
-  .modui-spatial-gallery {
-    min-height: 460px;
-  }
-  .modui-spatial-viewport {
-    height: 330px;
-    perspective: 850px;
-  }
-  .modui-spatial-card-slot {
-    width: 220px;
-    height: 290px;
-    margin-top: -145px;
-    margin-left: -110px;
-  }
-  .modui-spatial-card-title {
-    font-size: 13px;
-  }
-  .modui-spatial-card-sub {
-    font-size: 11px;
-    -webkit-line-clamp: 1;
-  }
-  .modui-spatial-modal-media {
-    height: 240px;
-  }
+.modui-spatial-minimal-mono {
+  --sp-room: linear-gradient(180deg, #1A1B1E 0%, #0E0F11 100%);
+  --sp-room-ring: rgba(255, 255, 255, 0.12);
+  --sp-card: #1E2023;
+  --sp-accent: #FFFFFF;
 }
 
-@media (max-width: 480px) {
-  .modui-spatial-gallery {
-    min-height: 420px;
-  }
-  .modui-spatial-viewport {
-    height: 290px;
-    perspective: 650px;
-  }
-  .modui-spatial-card-slot {
-    width: 180px;
-    height: 250px;
-    margin-top: -125px;
-    margin-left: -90px;
-  }
-  .modui-spatial-card-media {
-    height: 60%;
-  }
-  .modui-spatial-hud {
-    padding: 12px 16px 4px;
-  }
-  .modui-spatial-controls {
-    padding: 6px 16px 14px;
-  }
+.modui-spatial-minimal-mono::before { background: radial-gradient(closest-side, rgba(255, 255, 255, 0.1) 0%, transparent 72%); }
+.modui-spatial-minimal-mono .modui-spatial-card-media { filter: grayscale(1) contrast(1.06); }
+
+/* light room — the stage lights come up */
+.modui-spatial-studio-light {
+  --sp-room: radial-gradient(120% 80% at 50% 0%, #FFFFFF 0%, #F0F2F7 48%, #E4E7EF 100%);
+  --sp-room-ring: rgba(14, 19, 34, 0.08);
+  --sp-card: #FFFFFF;
+  --sp-card-ring: rgba(14, 19, 34, 0.09);
+  --sp-ink: #0E1322;
+  --sp-ink-dim: #5A6178;
+  --sp-ink-faint: rgba(14, 19, 34, 0.42);
+  --sp-accent: #365CF5;
 }
 
-/* Reduced Motion Mode */
+.modui-spatial-studio-light::before { background: radial-gradient(closest-side, rgba(255, 255, 255, 0.9) 0%, transparent 72%); }
+
+.modui-spatial-studio-light .modui-spatial-hud-pill {
+  background: rgba(14, 19, 34, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(14, 19, 34, 0.09);
+}
+
+.modui-spatial-studio-light .modui-spatial-card {
+  box-shadow: 0 0 0 1px var(--sp-card-ring), 0 22px 44px -24px rgba(14, 19, 34, 0.45);
+}
+
+.modui-spatial-studio-light .modui-spatial-nav-btn {
+  background: rgba(14, 19, 34, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(14, 19, 34, 0.1);
+}
+
+.modui-spatial-studio-light .modui-spatial-nav-btn:hover { background: rgba(14, 19, 34, 0.11); }
+.modui-spatial-studio-light .modui-spatial-dot { background: rgba(14, 19, 34, 0.2); }
+.modui-spatial-studio-light .modui-spatial-dot:hover { background: rgba(14, 19, 34, 0.36); }
+
+.modui-spatial-studio-light .modui-spatial-card-badge { color: #0E1322; }
+
+.modui-spatial-studio-light .modui-spatial-reflection-gradient {
+  background: linear-gradient(0deg, rgba(228, 231, 239, 0.1) 0%, rgba(228, 231, 239, 0.96) 76%);
+}
+
+.modui-spatial-studio-light .modui-spatial-horizon-plane {
+  background: linear-gradient(0deg, rgba(14, 19, 34, 0.05) 0%, transparent 100%);
+}
+
+/* ==========================================================================
+   Compact — catalogue thumbnail
+   ========================================================================== */
+.modui-spatial-compact {
+  --sp-card-w: 136px;
+  min-height: 0;
+  border-radius: 14px;
+}
+
+.modui-spatial-compact .modui-spatial-hud,
+.modui-spatial-compact .modui-spatial-controls { display: none; }
+.modui-spatial-compact .modui-spatial-viewport { min-height: 176px; }
+.modui-spatial-compact .modui-spatial-card-info { padding: 8px 9px 10px; }
+.modui-spatial-compact .modui-spatial-card-title { font-size: 12px; }
+.modui-spatial-compact .modui-spatial-card-top { display: none; }
+.modui-spatial-compact .modui-spatial-card-slot { margin-top: -74px; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 720px) {
+  .modui-spatial-gallery { --sp-card-w: 250px; min-height: 452px; }
+  .modui-spatial-viewport { min-height: 342px; }
+  .modui-spatial-card-slot { margin-top: -148px; }
+  .modui-spatial-card-title { font-size: 17px; }
+  .modui-spatial-modal-title { font-size: 22px; }
+  .modui-spatial-hud-cat { display: none; }
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .modui-spatial-card-slot {
-    transition: none !important;
-  }
-  .modui-spatial-card-img {
-    transition: none !important;
-  }
-  .modui-spatial-hud-dot {
-    animation: none !important;
-  }
+  .modui-spatial-gallery,
+  .modui-spatial-gallery *,
+  .modui-spatial-gallery *::before,
+  .modui-spatial-gallery *::after,
   .modui-spatial-modal-backdrop,
-  .modui-spatial-modal-dialog {
-    animation: none !important;
+  .modui-spatial-modal-backdrop * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

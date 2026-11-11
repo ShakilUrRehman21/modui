@@ -1,86 +1,113 @@
 /* ==========================================================================
-   Modui — Badge Component
+   ModUI — Badge
+   A status chip with a tinted body, a matching hairline and an optional
+   live dot. Each variant carries its own hue through every layer.
    ========================================================================== */
 
 .modui-badge {
+  --bd-hue: var(--text-secondary, #5A6178);
+  --bd-ink: var(--text-primary, #0E1322);
+  --bd-paper: var(--bg-surface, #FFFFFF);
+
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.2rem 0.625rem;
-  border-radius: var(--radius-full);
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1.25;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--bd-hue) 11%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--bd-hue) 24%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  color: color-mix(in srgb, var(--bd-hue) 82%, var(--bd-ink));
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
+  font-size: 12.5px;
+  font-weight: 550;
+  letter-spacing: -0.004em;
+  line-height: 1.34;
   white-space: nowrap;
-  transition: all var(--transition-fast);
-  border: 1px solid transparent;
+  vertical-align: middle;
+  transition: background 200ms ease, box-shadow 200ms ease, color 200ms ease;
 }
 
+.modui-badge-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.modui-badge-icon svg {
+  width: 1em;
+  height: 1em;
+}
+
+/* ---------- Live dot ---------- */
 .modui-badge-dot {
+  position: relative;
   width: 6px;
   height: 6px;
+  flex: 0 0 auto;
   border-radius: 50%;
-  background-color: currentColor;
-}
-
-.modui-badge-dot--pulse {
-  position: relative;
+  background: var(--bd-hue);
+  box-shadow: 0 0 0 2.5px color-mix(in srgb, var(--bd-hue) 16%, transparent);
 }
 
 .modui-badge-dot--pulse::after {
   content: '';
   position: absolute;
-  inset: -2px;
+  inset: 0;
   border-radius: 50%;
-  background-color: currentColor;
-  opacity: 0.75;
-  animation: modui-pulse-scale 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  background: var(--bd-hue);
+  animation: modui-bd-pulse 1.9s cubic-bezier(0.2, 0.9, 0.26, 1) infinite;
 }
 
-@keyframes modui-pulse-scale {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.8;
-  }
-  70% {
-    transform: scale(2.2);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(2.4);
-    opacity: 0;
-  }
+@keyframes modui-bd-pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  70%, 100% { transform: scale(2.8); opacity: 0; }
 }
 
-/* Badge Variants */
+/* ==========================================================================
+   Variants
+   ========================================================================== */
 .modui-badge--default {
-  background: var(--bg-surface-elevated);
-  color: var(--text-secondary);
-  border-color: var(--border-default);
+  --bd-hue: #5A6178;
+  color: var(--text-secondary, #5A6178);
 }
 
-.modui-badge--accent {
-  background: var(--accent-subtle);
-  color: var(--accent-primary);
-  border-color: var(--border-accent);
+.modui-badge--accent { --bd-hue: var(--accent-primary, #365CF5); }
+.modui-badge--success { --bd-hue: #10976A; }
+.modui-badge--warning { --bd-hue: #C2771A; }
+.modui-badge--cyan { --bd-hue: #0B8FA8; }
+
+/* ==========================================================================
+   Dark — the tints lift so they stay readable on deep surfaces
+   ========================================================================== */
+[data-theme="dark"] .modui-badge {
+  --bd-ink: #EFF1F8;
+  --bd-paper: #161C33;
+  background: color-mix(in srgb, var(--bd-hue) 18%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--bd-hue) 34%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: color-mix(in srgb, var(--bd-hue) 60%, #FFFFFF);
 }
 
-.modui-badge--success {
-  background: rgba(16, 185, 129, 0.12);
-  color: var(--accent-emerald);
-  border-color: rgba(16, 185, 129, 0.3);
+[data-theme="dark"] .modui-badge--default {
+  --bd-hue: #99A1B9;
+  color: #AEB6CC;
 }
 
-.modui-badge--warning {
-  background: rgba(245, 158, 11, 0.12);
-  color: var(--accent-amber);
-  border-color: rgba(245, 158, 11, 0.3);
-}
+[data-theme="dark"] .modui-badge--accent { --bd-hue: #5C7CFF; }
+[data-theme="dark"] .modui-badge--success { --bd-hue: #2CC38C; }
+[data-theme="dark"] .modui-badge--warning { --bd-hue: #E0A040; }
+[data-theme="dark"] .modui-badge--cyan { --bd-hue: #35C3DD; }
 
-.modui-badge--cyan {
-  background: rgba(6, 182, 212, 0.12);
-  color: var(--accent-cyan);
-  border-color: rgba(6, 182, 212, 0.3);
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-badge-dot--pulse::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

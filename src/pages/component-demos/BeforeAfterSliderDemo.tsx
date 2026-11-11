@@ -34,10 +34,10 @@ export default function BeforeAfterSliderDemo({ theme }: DemoProps) {
                           soundEnabled={sliderSound}
                           aspectRatio="16 / 10"
                         />
-                        <div style={{ marginTop: '1.5rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Divider Position: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{sliderPosition}%</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
-                            Tip: Drag the tactile handle, hover (if mode allows), or focus and use Arrow / Home / End keys.
+                        <div className="modui-stage-caption">
+                          Divider Position: <span className="modui-stage-caption-value">{sliderPosition}%</span>
+                          <div className="modui-stage-caption-hint">
+                            Drag the tactile handle, hover (if mode allows), or focus and use Arrow / Home / End keys.
                           </div>
                         </div>
                       </div>

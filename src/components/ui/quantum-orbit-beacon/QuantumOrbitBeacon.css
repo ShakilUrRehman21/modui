@@ -1,193 +1,267 @@
-/* QuantumOrbitBeacon.css — ModUI Primitive #29 */
+/* ==========================================================================
+   ModUI — Quantum Orbit Beacon
+   A status light in a well: the orbit sits in a dark recess where its glow
+   can register, with the telemetry read out underneath.
+   ========================================================================== */
 
 .modui-quantum-beacon {
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  box-sizing: border-box;
-  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
-  user-select: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --qb-card: #FFFFFF;
+  --qb-card-ring: rgba(14, 19, 34, 0.08);
+  --qb-well: radial-gradient(90% 85% at 50% 42%, #1B2234 0%, #111624 48%, #080B14 100%);
+  --qb-well-ring: rgba(255, 255, 255, 0.09);
+  --qb-ink: #0E1322;
+  --qb-ink-dim: #5A6178;
+  --qb-hairline: rgba(14, 19, 34, 0.09);
+  --qb-state: #10B981;
+  --qb-mono: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  --qb-ease: cubic-bezier(0.2, 0.9, 0.26, 1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  border-radius: 20px;
+  background: var(--qb-card);
+  box-shadow: 0 0 0 1px var(--qb-card-ring), 0 22px 50px -28px rgba(14, 19, 34, 0.4);
+  overflow: hidden;
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
 }
 
-/* ========================================================
-   Stage & Canvas Container
-   ======================================================== */
+/* ==========================================================================
+   The well
+   ========================================================================== */
 .modui-quantum-beacon-stage {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 258px;
   flex-shrink: 0;
+  background: var(--qb-well);
+  box-shadow: inset 0 0 0 1px var(--qb-well-ring), inset 0 2px 16px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* a faint measurement graticule in the recess */
+.modui-quantum-beacon-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 28px);
+  pointer-events: none;
+}
+
+/* a containment ring, so the orbit reads as held in something */
+.modui-quantum-beacon-stage::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 236px;
+  height: 236px;
+  margin: -118px 0 0 -118px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--qb-state) 26%, transparent);
+  box-shadow: inset 0 0 40px -18px color-mix(in srgb, var(--qb-state) 70%, transparent);
+  pointer-events: none;
 }
 
 .modui-quantum-beacon-canvas {
+  position: relative;
   display: block;
+  z-index: 2;
   pointer-events: auto;
   cursor: crosshair;
-  z-index: 2;
 }
 
 .modui-quantum-beacon-glow {
   position: absolute;
-  inset: -15%;
+  left: 50%;
+  top: 50%;
+  width: 300px;
+  height: 300px;
+  margin: -150px 0 0 -150px;
   border-radius: 50%;
+  filter: blur(14px);
+  opacity: 0.9;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.85;
-  transition: background 0.4s ease, opacity 0.4s ease;
-  filter: blur(12px);
+  animation: modui-qb-breathe 4.4s ease-in-out infinite;
 }
 
-/* ========================================================
-   Telemetry & Meta Typography
-   ======================================================== */
+@keyframes modui-qb-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.75; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+/* ==========================================================================
+   Telemetry
+   ========================================================================== */
 .modui-quantum-beacon-telemetry {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-left: 12px;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 18px 20px;
 }
 
 .modui-quantum-beacon-meta {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
 }
 
 .modui-quantum-beacon-label {
-  font-size: 13.5px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  line-height: 1.25;
-  transition: color 0.3s ease;
+  font-size: 19px;
+  font-weight: 640;
+  line-height: 1.16;
+  letter-spacing: -0.024em;
+  color: var(--qb-ink);
 }
 
 .modui-quantum-beacon-sublabel {
-  font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  transition: color 0.3s ease;
-}
-
-/* ========================================================
-   Size Variants: sm, md, lg
-   ======================================================== */
-/* Small: Inline micro-status indicator (e.g. for navbars, table cells) */
-.modui-quantum-beacon--sm {
-  gap: 6px;
-}
-.modui-quantum-beacon--sm .modui-quantum-beacon-telemetry {
-  margin-left: 6px;
-  gap: 0;
-}
-.modui-quantum-beacon--sm .modui-quantum-beacon-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--qb-state) 11%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--qb-state) 26%, transparent);
+  font-family: var(--qb-mono);
   font-size: 11.5px;
-  font-weight: 600;
-}
-.modui-quantum-beacon--sm .modui-quantum-beacon-sublabel {
-  font-size: 9.5px;
-}
-
-/* Medium: Status badge */
-.modui-quantum-beacon--md {
-  gap: 10px;
-}
-.modui-quantum-beacon--md .modui-quantum-beacon-telemetry {
-  margin-left: 8px;
-}
-.modui-quantum-beacon--md .modui-quantum-beacon-label {
-  font-size: 14px;
-}
-.modui-quantum-beacon--md .modui-quantum-beacon-sublabel {
-  font-size: 11px;
+  font-weight: 540;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Large: Full HUD / Telemetry Stage */
-.modui-quantum-beacon--lg {
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 16px;
-}
-.modui-quantum-beacon--lg .modui-quantum-beacon-telemetry {
-  margin-left: 0;
-  margin-top: 14px;
-  align-items: center;
-}
-.modui-quantum-beacon--lg .modui-quantum-beacon-label {
-  font-size: 16px;
-  font-weight: 800;
-}
-.modui-quantum-beacon--lg .modui-quantum-beacon-sublabel {
-  font-size: 12px;
-}
-
-/* ========================================================
-   Interactive Preset Control Buttons (Large size)
-   ======================================================== */
+/* ---------- State selector ---------- */
 .modui-quantum-beacon-controls {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--qb-ink) 5%, transparent);
+  box-shadow: inset 0 0 0 1px var(--qb-hairline);
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .modui-quantum-beacon-btn {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 10.5px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 999px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--qb-ink-dim);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 530;
+  letter-spacing: -0.004em;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-secondary, #94A3B8);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease;
 }
 
-.modui-quantum-beacon-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-primary, #F8FAFC);
-  transform: translateY(-1px);
-}
+.modui-quantum-beacon-btn:hover { color: var(--qb-ink); }
 
 .modui-quantum-beacon-btn.is-active {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.5);
-  color: #A5B4FC;
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.25);
+  background: var(--qb-card);
+  color: var(--qb-ink);
+  box-shadow: 0 1px 2px rgba(14, 19, 34, 0.14), 0 0 0 1px var(--qb-hairline);
 }
 
-/* ========================================================
-   Light Theme Adaptations
-   ======================================================== */
-.modui-quantum-beacon--theme-light .modui-quantum-beacon-btn {
-  border-color: rgba(15, 23, 42, 0.12);
-  background: rgba(15, 23, 42, 0.04);
-  color: #475569;
+.modui-quantum-beacon-btn:focus-visible {
+  outline: 2px solid var(--qb-state);
+  outline-offset: 2px;
 }
 
-.modui-quantum-beacon--theme-light .modui-quantum-beacon-btn:hover {
-  background: rgba(15, 23, 42, 0.08);
-  color: #0F172A;
+/* ==========================================================================
+   States — one hue drives the ring, the glow and the readout
+   ========================================================================== */
+.modui-quantum-beacon--optimal { --qb-state: #10B981; }
+.modui-quantum-beacon--active { --qb-state: #3B82F6; }
+.modui-quantum-beacon--degraded { --qb-state: #F59E0B; }
+
+.modui-quantum-beacon--offline {
+  --qb-state: #6B7280;
 }
 
-.modui-quantum-beacon--theme-light .modui-quantum-beacon-btn.is-active {
-  background: rgba(79, 70, 229, 0.12);
-  border-color: rgba(79, 70, 229, 0.4);
-  color: #4F46E5;
-  box-shadow: 0 0 10px rgba(79, 70, 229, 0.15);
+.modui-quantum-beacon--offline .modui-quantum-beacon-glow { animation: none; opacity: 0.4; }
+
+/* ==========================================================================
+   Sizes — the well shrinks with the beacon
+   ========================================================================== */
+.modui-quantum-beacon--sm {
+  max-width: 300px;
 }
 
-/* Compact Mode (for cards and grids) */
+.modui-quantum-beacon--sm .modui-quantum-beacon-stage { height: 118px; }
+.modui-quantum-beacon--sm .modui-quantum-beacon-stage::after { width: 96px; height: 96px; margin: -48px 0 0 -48px; }
+.modui-quantum-beacon--sm .modui-quantum-beacon-glow { width: 140px; height: 140px; margin: -70px 0 0 -70px; }
+.modui-quantum-beacon--sm .modui-quantum-beacon-label { font-size: 15px; }
+
+.modui-quantum-beacon--md {
+  max-width: 370px;
+}
+
+.modui-quantum-beacon--md .modui-quantum-beacon-stage { height: 168px; }
+.modui-quantum-beacon--md .modui-quantum-beacon-stage::after { width: 142px; height: 142px; margin: -71px 0 0 -71px; }
+.modui-quantum-beacon--md .modui-quantum-beacon-glow { width: 200px; height: 200px; margin: -100px 0 0 -100px; }
+.modui-quantum-beacon--md .modui-quantum-beacon-label { font-size: 17px; }
+
+/* ==========================================================================
+   Dark page
+   ========================================================================== */
+.modui-quantum-beacon--theme-dark,
+[data-theme="dark"] .modui-quantum-beacon--theme-auto,
+[data-theme="dark"] .modui-quantum-beacon--theme-light {
+  --qb-card: #131A2E;
+  --qb-card-ring: rgba(185, 198, 255, 0.12);
+  --qb-ink: #EFF1F8;
+  --qb-ink-dim: #99A1B9;
+  --qb-hairline: rgba(185, 198, 255, 0.12);
+  box-shadow: 0 0 0 1px var(--qb-card-ring), 0 24px 54px -28px rgba(0, 0, 0, 0.85);
+}
+
+/* ==========================================================================
+   Compact — catalogue thumbnail
+   ========================================================================== */
 .modui-quantum-beacon--compact {
-  padding: 0;
+  max-width: 100%;
+  border-radius: 14px;
 }
-.modui-quantum-beacon--compact .modui-quantum-beacon-controls {
-  display: none;
+
+.modui-quantum-beacon--compact .modui-quantum-beacon-stage { height: 136px; }
+.modui-quantum-beacon--compact .modui-quantum-beacon-stage::after { width: 110px; height: 110px; margin: -55px 0 0 -55px; }
+.modui-quantum-beacon--compact .modui-quantum-beacon-glow { width: 160px; height: 160px; margin: -80px 0 0 -80px; }
+.modui-quantum-beacon--compact .modui-quantum-beacon-controls { display: none; }
+.modui-quantum-beacon--compact .modui-quantum-beacon-telemetry { padding: 11px; gap: 7px; }
+.modui-quantum-beacon--compact .modui-quantum-beacon-label { font-size: 13px; }
+.modui-quantum-beacon--compact .modui-quantum-beacon-sublabel { font-size: 10px; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 440px) {
+  .modui-quantum-beacon-stage { height: 212px; }
+  .modui-quantum-beacon-stage::after { width: 190px; height: 190px; margin: -95px 0 0 -95px; }
+  .modui-quantum-beacon-btn { padding: 6px 10px; font-size: 11.5px; }
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-quantum-beacon,
+  .modui-quantum-beacon *,
+  .modui-quantum-beacon *::before,
+  .modui-quantum-beacon *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

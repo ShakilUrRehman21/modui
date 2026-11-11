@@ -27,11 +27,6 @@ export default function FloatingDockDemo({ theme }: DemoProps) {
                         alignItems: 'center',
                         justifyContent: 'center',
                         padding: '2.5rem 1rem',
-                        background: dockVariant === 'dark'
-                          ? 'radial-gradient(circle at center, #1E293B 0%, #0F172A 100%)'
-                          : 'radial-gradient(circle at center, rgba(54, 92, 245, 0.05) 0%, transparent 70%)',
-                        borderRadius: '16px',
-                        transition: 'background 0.3s ease',
                       }}>
                         <FloatingDock
                           items={[
@@ -111,8 +106,8 @@ export default function FloatingDockDemo({ theme }: DemoProps) {
                           variant={dockVariant}
                           orientation={dockOrientation}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: dockVariant === 'dark' ? '#94A3B8' : 'var(--text-tertiary)' }}>
-                          Active Selection: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{dockActiveId}</span>
+                        <div className="modui-stage-caption">
+                          Active Selection: <span className="modui-stage-caption-value">{dockActiveId}</span>
                         </div>
                       </div>
       </div>

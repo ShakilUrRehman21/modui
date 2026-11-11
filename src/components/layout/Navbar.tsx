@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import './Navbar.css';
 import { trackGithubClick } from '../../lib/analytics';
 
@@ -18,10 +18,53 @@ export const Navbar: React.FC<NavbarProps> = ({
   onToggleTheme,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const [indicator, setIndicator] = useState<{ x: number; w: number; visible: boolean }>({ x: 0, w: 0, visible: false });
+
+  const activeKey = currentPath === '/' ? '/' : currentPath.startsWith('/components') ? '/components' : currentPath.startsWith('/docs') ? '/docs' : '';
+
+  // Move the sliding indicator under a given link (or back to the active one)
+  const moveIndicatorTo = useCallback((el: HTMLElement | null) => {
+    const nav = navRef.current;
+    if (!nav || !el) {
+      setIndicator((prev) => ({ ...prev, visible: false }));
+      return;
+    }
+    const navRect = nav.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    setIndicator({ x: r.left - navRect.left, w: r.width, visible: true });
+  }, []);
+
+  const resetIndicator = useCallback(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const active = activeKey ? nav.querySelector<HTMLElement>(`[data-nav-key="${activeKey}"]`) : null;
+    moveIndicatorTo(active);
+  }, [activeKey, moveIndicatorTo]);
+
+  useLayoutEffect(() => {
+    resetIndicator();
+  }, [resetIndicator]);
+
+  useEffect(() => {
+    // fonts can shift link widths after first paint
+    if (document.fonts?.ready) document.fonts.ready.then(resetIndicator).catch(() => {});
+    window.addEventListener('resize', resetIndicator);
+    return () => window.removeEventListener('resize', resetIndicator);
+  }, [resetIndicator]);
+
+  // Condense the bar once the page scrolls
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 840) {
+      if (window.innerWidth > 900) {
         setMobileMenuOpen(false);
       }
     };
@@ -53,7 +96,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <header className="modui-navbar-wrapper">
+      <header className={`modui-navbar-wrapper ${isScrolled ? 'is-scrolled' : ''}`}>
         <div className="modui-navbar-pill">
           {/* Brand Logo */}
           <a
@@ -65,15 +108,36 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}
             aria-label="ModUI Home"
           >
+            <span className="modui-brand-mark" aria-hidden="true">
+              <span /><span /><span /><span />
+            </span>
             <span className="modui-brand-text">ModUI</span>
-            <span className="modui-brand-badge">LAB</span>
+            <span className="modui-brand-badge">Lab</span>
           </a>
 
           {/* Desktop Center Nav Links */}
-          <nav className="modui-nav-center" aria-label="Main Navigation">
+          <nav
+            className="modui-nav-center"
+            aria-label="Main Navigation"
+            ref={navRef}
+            onMouseLeave={resetIndicator}
+          >
+            <span
+              className="modui-nav-indicator"
+              aria-hidden="true"
+              style={{
+                transform: `translateX(${indicator.x}px)`,
+                width: `${indicator.w}px`,
+                opacity: indicator.visible ? 1 : 0,
+              }}
+            />
             <a
               href="/"
-              className={`modui-nav-link ${currentPath === '/' ? 'modui-nav-link--active' : ''}`}
+              data-nav-key="/"
+              aria-current={activeKey === '/' ? 'page' : undefined}
+              onMouseEnter={(e) => moveIndicatorTo(e.currentTarget)}
+              onFocus={(e) => moveIndicatorTo(e.currentTarget)}
+              className={`modui-nav-link ${activeKey === '/' ? 'modui-nav-link--active' : ''}`}
               onClick={(e) => {
                 e.preventDefault();
                 handleNavClick('/');
@@ -83,7 +147,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
             <a
               href="/components"
-              className={`modui-nav-link ${currentPath.startsWith('/components') ? 'modui-nav-link--active' : ''}`}
+              data-nav-key="/components"
+              aria-current={activeKey === '/components' ? 'page' : undefined}
+              onMouseEnter={(e) => moveIndicatorTo(e.currentTarget)}
+              onFocus={(e) => moveIndicatorTo(e.currentTarget)}
+              className={`modui-nav-link ${activeKey === '/components' ? 'modui-nav-link--active' : ''}`}
               onClick={(e) => {
                 e.preventDefault();
                 handleNavClick('/components');
@@ -93,7 +161,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
             <a
               href="/docs"
-              className={`modui-nav-link ${currentPath === '/docs' ? 'modui-nav-link--active' : ''}`}
+              data-nav-key="/docs"
+              aria-current={activeKey === '/docs' ? 'page' : undefined}
+              onMouseEnter={(e) => moveIndicatorTo(e.currentTarget)}
+              onFocus={(e) => moveIndicatorTo(e.currentTarget)}
+              className={`modui-nav-link ${activeKey === '/docs' ? 'modui-nav-link--active' : ''}`}
               onClick={(e) => {
                 e.preventDefault();
                 handleNavClick('/docs');
@@ -182,9 +254,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               className="modui-cta-pill"
+              data-magnetic="0.2"
               onClick={() => handleNavClick('/components')}
             >
-              <span>Explore Components</span>
+              <span>Browse components</span>
             </button>
 
             {/* Mobile Menu Button with Animated Bars */}
@@ -236,7 +309,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </a>
               <a
                 href="/docs"
-                className={`modui-mobile-link ${currentPath === '/docs' ? 'modui-mobile-link--active' : ''}`}
+                className={`modui-mobile-link ${currentPath.startsWith('/docs') ? 'modui-mobile-link--active' : ''}`}
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavClick('/docs');
@@ -248,7 +321,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="modui-mobile-link modui-mobile-search-link"
                 onClick={handleSearchClick}
               >
-                <span>Search Components (⌘K)</span>
+                <span>Search components</span>
+                <span className="modui-search-kbd">⌘K</span>
               </button>
               <a
                 href="https://github.com/ShakilUrRehman21/modui"
@@ -257,7 +331,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="modui-mobile-link"
                 onClick={() => trackGithubClick({ location: 'drawer' })}
               >
-                <span>GitHub Repository ↗</span>
+                <span>GitHub repository</span>
               </a>
 
               {onToggleTheme && (
@@ -298,7 +372,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 style={{ width: '100%', justifyContent: 'center' }}
                 onClick={() => handleNavClick('/components')}
               >
-                <span>Explore Components</span>
+                <span>Browse components</span>
               </button>
             </div>
           </div>

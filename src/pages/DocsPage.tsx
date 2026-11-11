@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { trackCopyCode, trackComponentInstall, trackGithubClick } from '../lib/analytics';
-import { useScrollReveal } from '../hooks/useScrollReveal';
 import './DocsPage.css';
 
 interface DocsPageProps {
@@ -32,18 +31,18 @@ interface ColorToken {
 }
 
 const DESIGN_TOKENS: ColorToken[] = [
-  { name: 'ModUI Cobalt', variable: '--accent-primary', hex: '#365CF5', role: 'Primary interactive focus & brand' },
-  { name: 'Cobalt Deep', variable: '--accent-primary-hover', hex: '#2445D4', role: 'Active & hover press state' },
-  { name: 'Studio Canvas', variable: '--bg-app', hex: '#F8F7F2', role: 'Warm neutral application canvas' },
-  { name: 'Surface Pure', variable: '--bg-surface', hex: '#FFFFFF', role: 'Elevated card & dialogue backing' },
-  { name: 'Surface Warm', variable: '--bg-surface-elevated', hex: '#FAF9F5', role: 'Secondary inset surface & well' },
-  { name: 'Hairline Border', variable: '--border-default', hex: '#E4E1D9', role: 'Architectural structural edge' },
-  { name: 'Strong Border', variable: '--border-strong', hex: '#C8C5BC', role: 'Active border & divider' },
-  { name: 'Studio Noir', variable: '--text-primary', hex: '#20201E', role: 'High-contrast typography' },
-  { name: 'Graphite Muted', variable: '--text-secondary', hex: '#696963', role: 'Supporting descriptions & captions' },
-  { name: 'Emerald Green', variable: '--color-success', hex: '#059669', role: 'Production ready status' },
-  { name: 'Ochre Amber', variable: '--color-warning', hex: '#D97706', role: 'Attention & notice alerts' },
-  { name: 'Analog Coral', variable: '--color-danger', hex: '#FF4A36', role: 'Recording & active detent' },
+  { name: 'Cobalt', variable: '--accent-primary', hex: '#365CF5', role: 'Primary actions, focus rings and brand' },
+  { name: 'Cobalt Deep', variable: '--accent-primary-hover', hex: '#2747D9', role: 'Hover and pressed states' },
+  { name: 'Porcelain', variable: '--bg-app', hex: '#F3F4F7', role: 'Application canvas' },
+  { name: 'Surface', variable: '--bg-surface', hex: '#FFFFFF', role: 'Cards, dialogs and panels' },
+  { name: 'Surface Subtle', variable: '--bg-surface-subtle', hex: '#ECEEF3', role: 'Insets, wells and hover fills' },
+  { name: 'Hairline', variable: '--border-default', hex: '#DDE0E8', role: 'Default borders and dividers' },
+  { name: 'Strong Border', variable: '--border-strong', hex: '#C5CAD6', role: 'Hovered and emphasised borders' },
+  { name: 'Ink', variable: '--text-primary', hex: '#0E1322', role: 'Headings and body copy' },
+  { name: 'Slate', variable: '--text-secondary', hex: '#5A6178', role: 'Supporting text and captions' },
+  { name: 'Lilac', variable: '--c-lilac', hex: '#B9A8FF', role: 'Brand gradient end stop' },
+  { name: 'Success', variable: '--color-success', hex: '#16A34A', role: 'Stable status and confirmations' },
+  { name: 'Flare', variable: '--color-coral', hex: '#FF7A59', role: 'Live and in-progress indicators' },
 ];
 
 export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
@@ -56,9 +55,6 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
   const navListRef = useRef<HTMLDivElement>(null);
   const navBtnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const isProgrammaticScrollRef = useRef(false);
-
-  // Activate scroll-triggered slide-ins across documentation cards
-  useScrollReveal({ rootMargin: '0px 0px -40px 0px', enableOutTop: false });
 
   const copyCode = (code: string, id: string, label?: string) => {
     navigator.clipboard.writeText(code);
@@ -174,14 +170,10 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
       <div className="modui-container">
         {/* Top Header */}
         <div className="modui-docs-header">
-          <div className="modui-docs-eyebrow">
-            <span className="modui-docs-eyebrow-dot" />
-            <span>DOCUMENTATION // ARCHITECTURE</span>
-            <span className="modui-docs-eyebrow-tag">SPECIFICATION & GUIDE</span>
-          </div>
-          <h1 className="modui-docs-title">Engineering Documentation.</h1>
+          <h1 className="modui-docs-title">Documentation</h1>
           <p className="modui-docs-subtitle">
-            Comprehensive reference guides, design tokens, copy-paste architecture, and accessibility standards for ModUI modular primitives.
+            How ModUI is put together: installing peer packages, the copy-paste workflow, design tokens,
+            theming and the accessibility rules every component follows.
           </p>
         </div>
 
@@ -189,7 +181,7 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
           {/* Sticky Sidebar Navigation */}
           <aside className="modui-docs-sidebar">
             <div className="modui-docs-sidebar-header">
-              <span className="modui-docs-sidebar-title">QUICK NAVIGATION</span>
+              <span className="modui-docs-sidebar-title">On this page</span>
             </div>
             <div ref={navListRef} className="modui-docs-nav-list" role="navigation" aria-label="Documentation sections">
               {NAV_ITEMS.map((item, idx) => (
@@ -212,9 +204,9 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
           {/* Main Content Column */}
           <div className="modui-docs-content">
             {/* Section 1: Introduction */}
-            <section id="introduction" className="modui-docs-card modui-reveal modui-scale-up">
+            <section id="introduction" className="modui-docs-card modui-reveal">
               <div className="modui-docs-card-header">
-                <span className="modui-docs-section-tag">01 // OVERVIEW</span>
+                <span className="modui-docs-section-tag">Overview</span>
                 <h2 className="modui-docs-section-title">Introduction to ModUI</h2>
               </div>
               <p className="modui-docs-p">
@@ -254,9 +246,9 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
             </section>
 
             {/* Section 2: Quick Start & Peer Dependencies */}
-            <section id="quick-start" className="modui-docs-card modui-reveal modui-scale-up">
+            <section id="quick-start" className="modui-docs-card modui-reveal">
               <div className="modui-docs-card-header">
-                <span className="modui-docs-section-tag">02 // SETUP</span>
+                <span className="modui-docs-section-tag">Setup</span>
                 <h2 className="modui-docs-section-title">Quick Start & Peer Dependencies</h2>
               </div>
               <p className="modui-docs-p">
@@ -301,9 +293,9 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
             </section>
 
             {/* Section 3: Copy-Paste Architecture */}
-            <section id="philosophy" className="modui-docs-card modui-reveal modui-scale-up">
+            <section id="philosophy" className="modui-docs-card modui-reveal">
               <div className="modui-docs-card-header">
-                <span className="modui-docs-section-tag">03 // PHILOSOPHY</span>
+                <span className="modui-docs-section-tag">Philosophy</span>
                 <h2 className="modui-docs-section-title">The Copy-Paste Architecture</h2>
               </div>
               <p className="modui-docs-p">
@@ -313,7 +305,7 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
 
               <div className="modui-code-container">
                 <div className="modui-code-header">
-                  <span>PROJECT DIRECTORY STRUCTURE</span>
+                  <span>Project structure</span>
                   <button
                     type="button"
                     className="modui-docs-copy-action"
@@ -390,9 +382,9 @@ export const DocsPage: React.FC<DocsPageProps> = ({ onNavigate }) => {
             </section>
 
             {/* Section 4: Framework Integration */}
-            <section id="frameworks" className="modui-docs-card modui-reveal modui-scale-up">
+            <section id="frameworks" className="modui-docs-card modui-reveal">
               <div className="modui-docs-card-header">
-                <span className="modui-docs-section-tag">04 // INTEGRATION</span>
+                <span className="modui-docs-section-tag">Integration</span>
                 <h2 className="modui-docs-section-title">Framework Integration</h2>
               </div>
               <p className="modui-docs-p">
@@ -573,9 +565,9 @@ export default function Index() {
             </section>
 
             {/* Section 5: Design Tokens & Theming */}
-            <section id="tokens" className="modui-docs-card modui-reveal modui-scale-up">
+            <section id="tokens" className="modui-docs-card modui-reveal">
               <div className="modui-docs-card-header">
-                <span className="modui-docs-section-tag">05 // STYLE TOKENS</span>
+                <span className="modui-docs-section-tag">Tokens</span>
                 <h2 className="modui-docs-section-title">Design Tokens & Theming System</h2>
               </div>
               <p className="modui-docs-p">
@@ -626,28 +618,29 @@ export default function Index() {
               {/* Global CSS Tokens Specification Block */}
               <div className="modui-code-container" style={{ marginTop: '1.75rem' }}>
                 <div className="modui-code-header">
-                  <span>CSS TOKENS SPECIFICATION (index.css)</span>
+                  <span>Token definitions in index.css</span>
                   <button
                     type="button"
                     className="modui-docs-copy-action"
                     onClick={() =>
                       copyCode(
                         `:root {
-  --bg-app: #F8F7F2;
+  --bg-app: #F3F4F7;
   --bg-surface: #FFFFFF;
-  --bg-surface-elevated: #FAF9F5;
-  --border-default: #E4E1D9;
-  --border-strong: #C8C5BC;
+  --bg-surface-subtle: #ECEEF3;
+  --border-default: #DDE0E8;
+  --border-strong: #C5CAD6;
   --accent-primary: #365CF5;
-  --accent-primary-hover: #2445D4;
-  --text-primary: #20201E;
-  --text-secondary: #696963;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --font-sans: 'Manrope', -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --accent-primary-hover: #2747D9;
+  --text-primary: #0E1322;
+  --text-secondary: #5A6178;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --font-sans: 'Geist Variable', 'Inter', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }`,
                         'tokens-spec',
                         'Tokens Spec'
@@ -658,29 +651,30 @@ export default function Index() {
                   </button>
                 </div>
                 <pre className="modui-code-pre">{`:root {
-  --bg-app: #F8F7F2;
+  --bg-app: #F3F4F7;
   --bg-surface: #FFFFFF;
-  --bg-surface-elevated: #FAF9F5;
-  --border-default: #E4E1D9;
-  --border-strong: #C8C5BC;
+  --bg-surface-subtle: #ECEEF3;
+  --border-default: #DDE0E8;
+  --border-strong: #C5CAD6;
   --accent-primary: #365CF5;
-  --accent-primary-hover: #2445D4;
-  --text-primary: #20201E;
-  --text-secondary: #696963;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --font-sans: 'Manrope', -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --accent-primary-hover: #2747D9;
+  --text-primary: #0E1322;
+  --text-secondary: #5A6178;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --font-sans: 'Geist Variable', 'Inter', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }`}</pre>
               </div>
             </section>
 
             {/* Section 6: Component Lifecycle */}
-            <section id="workflow" className="modui-docs-card modui-reveal modui-scale-up">
+            <section id="workflow" className="modui-docs-card modui-reveal">
               <div className="modui-docs-card-header">
-                <span className="modui-docs-section-tag">06 // CRAFT</span>
+                <span className="modui-docs-section-tag">Craft</span>
                 <h2 className="modui-docs-section-title">Incremental Component Workflow</h2>
               </div>
               <p className="modui-docs-p">
@@ -707,9 +701,9 @@ export default function Index() {
             </section>
 
             {/* Section 7: Contributing & Community */}
-            <section id="contributing" className="modui-docs-card modui-reveal modui-scale-up">
+            <section id="contributing" className="modui-docs-card modui-reveal">
               <div className="modui-docs-card-header">
-                <span className="modui-docs-section-tag">07 // OPEN SOURCE</span>
+                <span className="modui-docs-section-tag">Open source</span>
                 <h2 className="modui-docs-section-title">Contributing Guidelines & Community</h2>
               </div>
               <p className="modui-docs-p">
@@ -725,7 +719,7 @@ export default function Index() {
                   onClick={() => trackGithubClick({ location: 'footer' })}
                   style={{ textDecoration: 'none' }}
                 >
-                  <span>View GitHub Repository</span>
+                  <span>View the repository</span>
                   <span style={{ marginLeft: '0.4rem' }}>↗</span>
                 </a>
               </div>

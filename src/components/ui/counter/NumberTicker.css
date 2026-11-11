@@ -90,3 +90,35 @@
     transition-delay: 0s !important;
   }
 }
+
+/* ==========================================================================
+   v2 — softer rolling edge and typographic affixes
+   ========================================================================== */
+.modui-ticker-column {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  padding: 0.08em 0;
+  margin: -0.08em 0;
+  height: 1.16em;
+}
+
+.modui-ticker-track { padding-top: 0.08em; }
+
+.modui-ticker-prefix {
+  font-size: 0.62em;
+  align-self: flex-start;
+  margin-top: 0.12em;
+  margin-right: 0.08ch;
+  opacity: 0.55;
+  font-weight: 500;
+}
+
+.modui-ticker-suffix {
+  font-size: 0.4em;
+  margin-left: 0.25ch;
+  opacity: 0.5;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.modui-ticker-symbol { opacity: 0.6; }

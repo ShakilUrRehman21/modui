@@ -29,3 +29,52 @@
 .kinetic-space {
   display: inline-block;
 }
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-text-wrapper,
+  .kinetic-text-wrapper *,
+  .kinetic-text-wrapper *::before,
+  .kinetic-text-wrapper *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   v2 — display treatments (opt in via className)
+   ========================================================================== */
+.kinetic-text-wrapper {
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.kinetic-char {
+  transform-origin: 50% 90%;
+}
+
+/* outline: hollow letters that fill with the accent on hover */
+.kinetic-style-outline .kinetic-char {
+  color: transparent;
+  -webkit-text-stroke: 1.5px currentColor;
+  text-stroke: 1.5px currentColor;
+}
+
+.kinetic-style-outline {
+  color: var(--text-primary, #0E1322);
+}
+
+/* gradient: a cobalt → violet sweep across the whole line */
+.kinetic-style-gradient .kinetic-char {
+  background: linear-gradient(115deg, #365CF5 0%, #7C5CFF 50%, #C084FC 100%);
+  background-size: 1200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.kinetic-style-gradient .kinetic-word:nth-child(2) .kinetic-char { background-position: 45% 0; }
+.kinetic-style-gradient .kinetic-word:nth-child(3) .kinetic-char { background-position: 90% 0; }
+.kinetic-style-gradient .kinetic-word:nth-child(n+4) .kinetic-char { background-position: 100% 0; }

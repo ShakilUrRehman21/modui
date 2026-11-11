@@ -1,747 +1,786 @@
 /* ==========================================================================
-   ModUI — Polaroid Gallery Component
-   Tactile, physics-driven Polaroid tabletop gallery & portfolio showcase.
-   Features 3D flip, film development chemistry, and paper acoustics.
+   ModUI — Polaroid
+   A studio tabletop holding instant prints: true SX-70 proportions, torn
+   paper tape, film-stock duotones and a tooled archive back.
    ========================================================================== */
 
-/* Main Container */
-.modui-polaroid,
-.modui-polaroid-container {
+.modui-polaroid {
+  /* chrome */
+  --pl-chrome: #FFFFFF;
+  --pl-chrome-ring: rgba(14, 19, 34, 0.07);
+  --pl-table: linear-gradient(168deg, #EDE9E1 0%, #E6E1D7 58%, #DFD9CD 100%);
+  --pl-table-ring: rgba(62, 48, 32, 0.08);
+
+  /* print */
+  --pl-print: #FCFBF7;
+  --pl-print-edge: rgba(62, 48, 32, 0.1);
+  --pl-ink: #1A1812;
+  --pl-ink-dim: #6C6557;
+  --pl-ink-faint: rgba(26, 24, 18, 0.4);
+  --pl-accent: var(--accent-primary, #365CF5);
+
+  /* geometry */
+  --pl-card-w: 212px;
+  --pl-margin: 13px;
+  --pl-chin: 74px;
+  --pl-ease: cubic-bezier(0.2, 0.9, 0.26, 1);
+
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
   width: 100%;
-  box-sizing: border-box;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  border-radius: var(--radius-lg, 10px);
-  border: 1px solid var(--border-default, #E4E1D9);
-  background: var(--bg-surface, #FFFFFF);
+  border-radius: 20px;
+  background: var(--pl-chrome);
+  box-shadow: 0 0 0 1px var(--pl-chrome-ring), 0 20px 52px -28px rgba(14, 19, 34, 0.32);
   overflow: hidden;
-  user-select: none;
-  transition: background-color var(--transition-normal, 260ms ease),
-              border-color var(--transition-normal, 260ms ease);
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
 }
 
 /* ==========================================================================
-   Variants
-   ========================================================================== */
-.modui-polaroid--studio-classic {
-  background: #F8F7F2;
-  border-color: var(--border-default, #E4E1D9);
-}
-
-.modui-polaroid--dark-room {
-  background: #151619;
-  border-color: #27282D;
-  color: #F8F7F2;
-}
-
-.modui-polaroid--vintage-sepia {
-  background: #F4EFE6;
-  border-color: #E2DAC8;
-}
-
-.modui-polaroid--minimal-mono {
-  background: #FAFAFA;
-  border-color: #E5E5E5;
-}
-
-/* ==========================================================================
-   Studio Control Bar / Toolbar
+   Toolbar
    ========================================================================== */
 .modui-polaroid-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 20px;
-  border-bottom: 1px solid var(--border-subtle, #EFECE5);
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  z-index: 10;
-  gap: 12px;
-}
-
-.modui-polaroid--dark-room .modui-polaroid-toolbar {
-  background: rgba(21, 22, 25, 0.85);
-  border-bottom-color: #27282D;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--pl-chrome-ring);
+  background: var(--pl-chrome);
+  z-index: 4;
 }
 
 .modui-polaroid-brand {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 }
 
 .modui-polaroid-brand__badge {
-  font-family: var(--font-mono, monospace);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 3px 8px;
-  border-radius: var(--radius-xs, 4px);
-  background: var(--text-primary, #20201E);
-  color: #FFFFFF;
-}
-
-.modui-polaroid--dark-room .modui-polaroid-brand__badge {
-  background: #365CF5;
-  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--pl-ink);
+  color: #F7F5EF;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 560;
+  letter-spacing: 0.06em;
 }
 
 .modui-polaroid-brand__title {
-  font-family: var(--font-display, sans-serif);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--text-secondary, #696963);
-}
-
-.modui-polaroid--dark-room .modui-polaroid-brand__title {
-  color: #A3A39C;
+  font-size: 14px;
+  font-weight: 560;
+  letter-spacing: -0.006em;
+  color: var(--pl-ink);
+  white-space: nowrap;
 }
 
 .modui-polaroid-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-/* Layout Mode Toggle (Scatter vs Grid) */
 .modui-polaroid-mode-toggle {
   display: inline-flex;
-  padding: 2px;
-  border-radius: var(--radius-sm, 6px);
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid var(--border-subtle, #EFECE5);
-}
-
-.modui-polaroid--dark-room .modui-polaroid-mode-toggle {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: #27282D;
+  padding: 3px;
+  border-radius: 10px;
+  background: rgba(26, 24, 18, 0.05);
 }
 
 .modui-polaroid-toggle-btn {
-  padding: 5px 12px;
-  font-family: var(--font-sans, sans-serif);
-  font-size: 11px;
-  font-weight: 600;
-  border: none;
+  padding: 6px 13px;
+  border: 0;
+  border-radius: 7px;
   background: transparent;
-  color: var(--text-secondary, #696963);
-  border-radius: 4px;
+  color: var(--pl-ink-dim);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 540;
   cursor: pointer;
-  transition: all var(--transition-fast, 160ms ease);
-}
-
-.modui-polaroid--dark-room .modui-polaroid-toggle-btn {
-  color: #A3A39C;
-}
-
-.modui-polaroid-toggle-btn:hover {
-  color: var(--text-primary, #20201E);
-}
-
-.modui-polaroid--dark-room .modui-polaroid-toggle-btn:hover {
-  color: #FFFFFF;
+  transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease;
 }
 
 .modui-polaroid-toggle-btn--active {
-  background: #FFFFFF;
-  color: var(--text-primary, #20201E);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: var(--pl-chrome);
+  color: var(--pl-ink);
+  box-shadow: 0 1px 2px rgba(14, 19, 34, 0.12), 0 0 0 1px var(--pl-chrome-ring);
 }
 
-.modui-polaroid--dark-room .modui-polaroid-toggle-btn--active {
-  background: #27282D;
-  color: #FFFFFF;
-}
-
-/* Toolbar Action Buttons */
 .modui-polaroid-action-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  font-family: var(--font-sans, sans-serif);
-  font-size: 11px;
-  font-weight: 600;
-  border-radius: var(--radius-sm, 6px);
-  border: 1px solid var(--border-default, #E4E1D9);
-  background: #FFFFFF;
-  color: var(--text-primary, #20201E);
+  gap: 7px;
+  padding: 7px 13px;
+  border: 1px solid var(--pl-chrome-ring);
+  border-radius: 9px;
+  background: var(--pl-chrome);
+  color: var(--pl-ink);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 540;
   cursor: pointer;
-  transition: all var(--transition-fast, 160ms ease);
-}
-
-.modui-polaroid--dark-room .modui-polaroid-action-btn {
-  background: #202125;
-  border-color: #33353B;
-  color: #F8F7F2;
+  transition: background 200ms ease, border-color 200ms ease, transform 200ms var(--pl-ease);
 }
 
 .modui-polaroid-action-btn:hover {
-  border-color: var(--border-strong, #CDC9BE);
-  background: var(--bg-surface-subtle, #F2EFEB);
+  background: rgba(26, 24, 18, 0.04);
+  border-color: rgba(26, 24, 18, 0.16);
 }
 
-.modui-polaroid--dark-room .modui-polaroid-action-btn:hover {
-  background: #2A2B31;
-}
+.modui-polaroid-action-btn:active { transform: scale(0.97); }
 
 .modui-polaroid-action-btn--develop {
-  background: var(--text-primary, #20201E);
-  color: #FFFFFF;
-  border-color: var(--text-primary, #20201E);
+  background: var(--pl-ink);
+  border-color: var(--pl-ink);
+  color: #F7F5EF;
 }
 
-.modui-polaroid--dark-room .modui-polaroid-action-btn--develop {
-  background: var(--accent-primary, #365CF5);
-  border-color: var(--accent-primary, #365CF5);
-  color: #FFFFFF;
-}
-
-.modui-polaroid-action-btn--develop:hover {
-  background: #000000;
-  border-color: #000000;
-}
-
-.modui-polaroid--dark-room .modui-polaroid-action-btn--develop:hover {
-  background: #294AD6;
-  border-color: #294AD6;
-}
+.modui-polaroid-action-btn--develop:hover { background: #2A2720; border-color: #2A2720; }
 
 .modui-polaroid-shutter-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #FF5D47;
-  box-shadow: 0 0 6px #FF5D47;
-  animation: polaroidPulse 2s infinite ease-in-out;
+  background: #E8674A;
+  box-shadow: 0 0 0 2px rgba(232, 103, 74, 0.28);
+  animation: modui-pl-standby 2.6s ease-in-out infinite;
 }
 
-@keyframes polaroidPulse {
-  0%, 100% { opacity: 0.9; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.8); }
+@keyframes modui-pl-standby {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.modui-polaroid-toolbar button:focus-visible,
+.modui-polaroid-flip-btn:focus-visible,
+.modui-polaroid-card:focus-visible {
+  outline: 2px solid var(--pl-accent);
+  outline-offset: 2px;
 }
 
 /* ==========================================================================
-   Photo Stage (Scatter vs Grid)
+   Tabletop
    ========================================================================== */
 .modui-polaroid-stage {
   position: relative;
-  width: 100%;
-  min-height: 520px;
-  box-sizing: border-box;
-  padding: 32px 24px;
+  flex: 1;
+  min-height: 604px;
+  padding: 20px;
+  background: var(--pl-table);
+  box-shadow: inset 0 0 0 1px var(--pl-table-ring);
+  overflow: hidden;
   touch-action: none;
-  overflow: hidden;
 }
 
-/* Background Subtle Studio Grid / Mat */
-.modui-polaroid--scatter .modui-polaroid-stage {
-  background-image: 
-    radial-gradient(circle, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-.modui-polaroid--dark-room.modui-polaroid--scatter .modui-polaroid-stage {
-  background-image: 
-    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-}
-
-/* Grid Layout Mode */
-.modui-polaroid--grid .modui-polaroid-stage {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 28px;
-  padding: 36px 32px;
-  min-height: auto;
-  align-items: start;
-  justify-items: center;
-}
-
-/* Compact Mode (for component explorer preview cards) */
-.modui-polaroid--compact .modui-polaroid-stage {
-  min-height: 165px;
-  height: 165px;
-  padding: 8px;
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  overflow: hidden;
+/* paper tooth + a soft overhead light */
+.modui-polaroid-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 24% 0%, rgba(255, 255, 255, 0.6) 0%, transparent 58%),
+    radial-gradient(100% 100% at 50% 110%, rgba(62, 48, 32, 0.13) 0%, transparent 62%);
   pointer-events: none;
-  isolation: isolate;
 }
 
-.modui-polaroid--compact .modui-polaroid-card {
-  width: 120px;
-  height: 155px;
-  cursor: pointer;
-  flex-shrink: 0;
-  box-shadow: 0 6px 18px -3px rgba(32, 32, 30, 0.12);
+.modui-polaroid-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  background-image:
+    repeating-linear-gradient(101deg, rgba(62, 48, 32, 0.045) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(11deg, rgba(62, 48, 32, 0.035) 0 1px, transparent 1px 4px);
+  pointer-events: none;
 }
 
-.modui-polaroid--compact .modui-polaroid-card:nth-child(2) {
-  transform: rotate(3deg);
-}
-
-.modui-polaroid--compact .modui-polaroid-card:nth-child(1) {
-  transform: rotate(-3deg);
-}
-
-.modui-polaroid--compact .modui-polaroid-card:nth-child(n+3) {
-  display: none;
+.modui-polaroid--grid .modui-polaroid-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 24px;
+  min-height: 0;
+  padding: 26px;
 }
 
 /* ==========================================================================
-   Polaroid Card & 3D Flipper
+   The print
    ========================================================================== */
 .modui-polaroid-card {
-  width: 250px;
-  height: 310px;
-  perspective: 1200px;
+  width: var(--pl-card-w);
+  border-radius: 3px;
+  perspective: 1400px;
   cursor: grab;
   outline: none;
-  transition: box-shadow var(--transition-normal, 260ms ease),
-              transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, left, top;
+  transform-origin: 50% 46%;
+  transition: transform 460ms var(--pl-ease), filter 300ms ease;
+  z-index: 1;
 }
 
-.modui-polaroid-card:focus-visible {
-  border-radius: 4px;
-  box-shadow: 0 0 0 2px var(--accent-primary, #365CF5), 0 12px 32px rgba(0, 0, 0, 0.15);
+.modui-polaroid-card.is-dragging { cursor: grabbing; transition: none; }
+
+@media (hover: hover) {
+  .modui-polaroid--scatter .modui-polaroid-card:hover { filter: brightness(1.02); }
+  .modui-polaroid--grid .modui-polaroid-card:hover { transform: translateY(-6px) rotate(-0.6deg); }
 }
 
-.modui-polaroid-card.is-dragging {
-  cursor: grabbing !important;
-  transition: none !important;
-}
-
-.modui-polaroid--grid .modui-polaroid-card {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  transform: none !important;
-  cursor: pointer;
-}
-
-.modui-polaroid--grid .modui-polaroid-card:hover {
-  transform: translateY(-6px) scale(1.02) !important;
-}
-
-/* Washi Paper Tape Strip */
-.modui-polaroid-washi-tape {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%) rotate(-1deg);
-  width: 72px;
-  height: 22px;
-  border-radius: 1px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-  z-index: 10;
-  pointer-events: none;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  opacity: 0.85;
-}
-
-/* 3D Flipper Container */
 .modui-polaroid-flipper {
   position: relative;
   width: 100%;
-  height: 100%;
   transform-style: preserve-3d;
-  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 720ms cubic-bezier(0.3, 1.1, 0.35, 1);
 }
 
-.modui-polaroid-card.is-flipped .modui-polaroid-flipper {
-  transform: rotateY(180deg);
-}
+.modui-polaroid-card.is-flipped .modui-polaroid-flipper { transform: rotateY(180deg); }
 
-/* Common Card Face Styling (Front & Back) */
 .modui-polaroid-face {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  background: #FFFFFF;
-  border-radius: 4px;
-  box-shadow: 
-    0 12px 32px -4px rgba(32, 32, 30, 0.14),
-    0 3px 8px -1px rgba(32, 32, 30, 0.08),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  padding: var(--pl-margin) var(--pl-margin) 0;
+  border-radius: 3px;
+  background: var(--pl-print);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* contact shadow + cast shadow, lit from above */
+  box-shadow:
+    0 0 0 1px var(--pl-print-edge),
+    0 1px 1px rgba(62, 48, 32, 0.18),
+    0 10px 20px -8px rgba(62, 48, 32, 0.38),
+    0 22px 44px -24px rgba(62, 48, 32, 0.5);
 }
 
-.modui-polaroid-card.is-dragging .modui-polaroid-face {
-  box-shadow: 
-    0 24px 48px -6px rgba(32, 32, 30, 0.22),
-    0 8px 16px -2px rgba(32, 32, 30, 0.12),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.08);
-}
-
-.modui-polaroid--vintage-sepia .modui-polaroid-face {
-  background: #FCF8F2;
-}
-
-/* Front Face */
-.modui-polaroid-face--front {
-  padding: 12px 12px 14px 12px;
-  z-index: 2;
-  transform: rotateY(0deg);
-}
-
-.modui-polaroid--compact .modui-polaroid-face--front {
-  padding: 8px 8px 10px 8px;
-}
-
-/* Back Face */
 .modui-polaroid-face--back {
-  padding: 18px 16px;
+  position: absolute;
+  inset: 0;
   transform: rotateY(180deg);
-  background: #FAF8F5;
-  background-image: 
-    radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  background-size: 8px 8px;
+  padding: 15px;
+  background: linear-gradient(170deg, #F6F2E8 0%, #EFEADD 100%);
 }
 
-.modui-polaroid--dark-room .modui-polaroid-face--back {
-  background: #24252A;
-  color: #F8F7F2;
-}
-
-/* Flip Icon Button */
+/* the shutter-flip control */
 .modui-polaroid-flip-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 24px;
-  height: 24px;
+  top: 7px;
+  right: 7px;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #20201E;
+  background: rgba(252, 251, 247, 0.86);
+  color: var(--pl-ink-dim);
   cursor: pointer;
-  z-index: 12;
   opacity: 0;
-  transform: scale(0.85);
-  transition: all var(--transition-fast, 160ms ease);
+  z-index: 5;
+  box-shadow: 0 1px 4px rgba(62, 48, 32, 0.3);
+  transition: opacity 200ms ease, color 200ms ease, transform 300ms var(--pl-ease);
 }
 
 .modui-polaroid-card:hover .modui-polaroid-flip-btn,
-.modui-polaroid-card:focus-visible .modui-polaroid-flip-btn {
-  opacity: 1;
-  transform: scale(1);
-}
+.modui-polaroid-card:focus-within .modui-polaroid-flip-btn { opacity: 1; }
 
-.modui-polaroid-flip-btn:hover {
-  background: #FFFFFF;
-  color: var(--accent-primary, #365CF5);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
+.modui-polaroid-flip-btn:hover { color: var(--pl-ink); transform: rotate(-28deg); }
 
-/* ==========================================================================
-   Photo Frame & Chemistry Film Development
-   ========================================================================== */
+/* ---------- Photo window ---------- */
 .modui-polaroid-frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  background: #111215;
-  border-radius: 2px;
+  border-radius: 1px;
   overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
-}
-
-.modui-polaroid-card.is-portrait .modui-polaroid-frame {
-  aspect-ratio: 4 / 5;
-}
-
-.modui-polaroid--compact .modui-polaroid-frame {
-  aspect-ratio: 1 / 1;
+  background: #121318;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3);
 }
 
 .modui-polaroid-photo {
   position: relative;
   width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: filter 1.8s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
 }
 
-.modui-polaroid-photo.is-developing {
-  animation: developChemistry 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-@keyframes developChemistry {
-  0% {
-    filter: blur(12px) contrast(160%) brightness(1.7) grayscale(90%);
-    opacity: 0.2;
-  }
-  35% {
-    filter: blur(6px) contrast(130%) brightness(1.3) grayscale(40%);
-    opacity: 0.6;
-  }
-  75% {
-    filter: blur(2px) contrast(110%) brightness(1.05) grayscale(10%);
-    opacity: 0.9;
-  }
-  100% {
-    filter: blur(0px) contrast(100%) brightness(1) grayscale(0%);
-    opacity: 1;
-  }
-}
+.modui-polaroid-card.is-portrait .modui-polaroid-photo { aspect-ratio: 4 / 5; }
 
 .modui-polaroid-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-/* Graphic Placeholder Art (when no image URL is provided) */
+/* contact-sheet annotation, set into the lower-left of the frame */
 .modui-polaroid-placeholder-art {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  text-align: center;
-  color: #FFFFFF;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 13px;
+  background: linear-gradient(0deg, rgba(10, 12, 18, 0.58) 0%, rgba(10, 12, 18, 0.14) 38%, transparent 66%);
 }
 
 .modui-polaroid-art-tag {
-  font-family: var(--font-mono, monospace);
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  opacity: 0.75;
-  margin-bottom: 6px;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .modui-polaroid-art-title {
   margin: 0;
-  font-family: var(--font-display, sans-serif);
   font-size: 15px;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: -0.016em;
+  color: #FFFFFF;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
 }
 
-.modui-polaroid--compact .modui-polaroid-art-title {
-  font-size: 11px;
-}
-
-/* Film Vignette & Chemical Fog */
+/* film grain + corner light leak */
 .modui-polaroid-vignette {
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.45);
+  background:
+    radial-gradient(118% 100% at 50% 50%, transparent 46%, rgba(0, 0, 0, 0.42) 100%),
+    radial-gradient(60% 50% at 96% 4%, rgba(255, 214, 170, 0.16) 0%, transparent 70%);
   pointer-events: none;
 }
 
+/* the developing wash — opaque until "Develop" clears it */
 .modui-polaroid-chemical-fog {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+  background: linear-gradient(176deg, #CFC8B8 0%, #BDB5A3 50%, #A9A190 100%);
+  opacity: 0;
   pointer-events: none;
 }
 
-/* ==========================================================================
-   Polaroid Bottom White Margin (Handwritten Caption & Metadata)
-   ========================================================================== */
+.modui-polaroid-photo.is-developing .modui-polaroid-chemical-fog {
+  animation: modui-pl-develop 2.6s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+}
+
+@keyframes modui-pl-develop {
+  0% { opacity: 1; }
+  12% { opacity: 0.96; }
+  100% { opacity: 0; }
+}
+
+.modui-polaroid-photo.is-developing .modui-polaroid-placeholder-art,
+.modui-polaroid-photo.is-developing .modui-polaroid-img {
+  animation: modui-pl-emerge 2.6s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+}
+
+@keyframes modui-pl-emerge {
+  0% { filter: contrast(0.3) saturate(0.1) brightness(1.5); }
+  100% { filter: none; }
+}
+
+/* ---------- The chin ---------- */
 .modui-polaroid-caption-area {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
-  padding-top: 10px;
-  box-sizing: border-box;
+  justify-content: center;
+  gap: 8px;
+  height: var(--pl-chin);
+  padding: 0 1px;
 }
 
-.modui-polaroid-caption-row {
-  margin-bottom: 6px;
-}
+.modui-polaroid-caption-row { min-width: 0; }
 
 .modui-polaroid-caption-text {
-  font-family: 'Caveat', 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.25;
-  color: #242529;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.modui-polaroid--compact .modui-polaroid-caption-text {
-  font-size: 11px;
-  -webkit-line-clamp: 1;
+  font-size: 13px;
+  font-weight: 520;
+  line-height: 1.34;
+  letter-spacing: -0.008em;
+  color: var(--pl-ink);
 }
 
 .modui-polaroid-meta-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 4px;
-  border-top: 1px dashed rgba(0, 0, 0, 0.08);
+  gap: 8px;
+  padding-top: 7px;
+  border-top: 1px solid rgba(26, 24, 18, 0.09);
+  min-width: 0;
 }
 
 .modui-polaroid-tag-badge {
-  font-family: var(--font-mono, monospace);
-  font-size: 9px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--accent-primary, #365CF5);
+  font-size: 10.5px;
+  font-weight: 540;
+  letter-spacing: 0.004em;
+  color: var(--pl-ink-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modui-polaroid-date-stamp {
-  font-family: var(--font-mono, monospace);
-  font-size: 8.5px;
-  color: var(--text-tertiary, #8E8D86);
-  letter-spacing: 0.04em;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--pl-ink-faint);
+  white-space: nowrap;
 }
 
+/* ---------- Paper tape ---------- */
+.modui-polaroid-washi-tape {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 72px;
+  height: 25px;
+  margin-left: -36px;
+  transform: rotate(-3.5deg);
+  z-index: 6;
+  opacity: 0.92;
+  box-shadow: 0 1px 3px rgba(62, 48, 32, 0.22);
+  /* torn short edges */
+  clip-path: polygon(
+    0% 12%, 4% 0%, 8% 14%, 12% 2%, 100% 2%,
+    100% 88%, 96% 100%, 92% 86%, 88% 98%, 0% 98%
+  );
+}
+
+.modui-polaroid-washi-tape::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.34) 0 1px, transparent 1px 4px);
+  opacity: 0.7;
+}
+
+.modui-polaroid-card:nth-child(2n) .modui-polaroid-washi-tape { transform: rotate(4deg); left: 42%; }
+.modui-polaroid-card:nth-child(3n) .modui-polaroid-washi-tape { transform: rotate(-6deg); left: 58%; }
+
 /* ==========================================================================
-   Back Face (Archival Ink Stamp, Specs & Client Notes)
+   Back of the print — the archive side
    ========================================================================== */
 .modui-polaroid-back-inner {
   display: flex;
   flex-direction: column;
   height: 100%;
-  justify-content: space-between;
-  box-sizing: border-box;
+  gap: 11px;
 }
 
 .modui-polaroid-stamp {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  align-self: flex-start;
-  padding: 6px 12px;
-  border: 1.5px dashed rgba(180, 50, 50, 0.7);
+  align-items: flex-start;
+  gap: 3px;
+  padding: 7px 9px;
+  border: 1.5px solid rgba(154, 60, 44, 0.42);
   border-radius: 4px;
-  color: rgba(180, 50, 50, 0.85);
-  transform: rotate(-3deg);
+  transform: rotate(-2.5deg);
+  align-self: flex-start;
 }
 
 .modui-polaroid-stamp__circle {
-  font-family: var(--font-mono, monospace);
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 9.5px;
+  font-weight: 560;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(154, 60, 44, 0.78);
 }
 
 .modui-polaroid-stamp__date {
-  font-family: var(--font-mono, monospace);
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
   font-size: 9px;
-  font-weight: 600;
-  margin-top: 2px;
+  letter-spacing: 0.06em;
+  color: rgba(154, 60, 44, 0.6);
 }
 
 .modui-polaroid-back-specs {
-  margin: 14px 0 10px 0;
-  padding: 8px 10px;
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 4px;
-  border-left: 2px solid var(--accent-primary, #365CF5);
-}
-
-.modui-polaroid--dark-room .modui-polaroid-back-specs {
-  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .modui-polaroid-spec-label {
-  font-family: var(--font-mono, monospace);
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--text-tertiary, #8E8D86);
-  margin-bottom: 2px;
+  font-size: 10px;
+  font-weight: 560;
+  letter-spacing: 0.02em;
+  color: var(--pl-ink-faint);
 }
 
 .modui-polaroid-spec-val {
-  font-family: var(--font-mono, monospace);
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-primary, #20201E);
-}
-
-.modui-polaroid--dark-room .modui-polaroid-spec-val {
-  color: #F8F7F2;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 11px;
+  letter-spacing: -0.01em;
+  color: var(--pl-ink);
 }
 
 .modui-polaroid-back-note {
   flex: 1;
-  display: flex;
-  align-items: center;
+  min-height: 0;
+  padding-top: 10px;
+  border-top: 1px solid rgba(26, 24, 18, 0.1);
+  overflow: hidden;
 }
 
 .modui-polaroid-back-note p {
   margin: 0;
-  font-family: 'Caveat', 'Segoe Print', cursive;
-  font-size: 13.5px;
-  line-height: 1.35;
-  color: #4A4A46;
-}
-
-.modui-polaroid--dark-room .modui-polaroid-back-note p {
-  color: #C8C5BD;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.52;
+  letter-spacing: -0.004em;
+  color: var(--pl-ink-dim);
 }
 
 .modui-polaroid-back-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 8px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  font-family: var(--font-mono, monospace);
-  font-size: 8px;
-  color: var(--text-tertiary, #8E8D86);
+  gap: 8px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(26, 24, 18, 0.1);
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: var(--pl-ink-faint);
 }
 
 /* ==========================================================================
-   Responsive Adaptations
+   Variants
    ========================================================================== */
-@media (max-width: 640px) {
-  .modui-polaroid-stage {
-    min-height: 440px;
-    padding: 16px 12px;
+
+/* -- dark room: the table goes to safelight red-black -- */
+.modui-polaroid--dark-room,
+[data-theme="dark"] .modui-polaroid--studio-classic {
+  --pl-chrome: #121725;
+  --pl-chrome-ring: rgba(185, 198, 255, 0.1);
+  --pl-table: linear-gradient(168deg, #191C28 0%, #14161F 60%, #0F1119 100%);
+  --pl-table-ring: rgba(185, 198, 255, 0.08);
+  --pl-print: #1E222F;
+  --pl-print-edge: rgba(185, 198, 255, 0.12);
+  --pl-ink: #ECEEF5;
+  --pl-ink-dim: #99A0B5;
+  --pl-ink-faint: rgba(236, 238, 245, 0.38);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-stage::before,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-stage::before {
+  background:
+    radial-gradient(120% 90% at 24% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 58%),
+    radial-gradient(70% 60% at 86% 6%, rgba(232, 103, 74, 0.1) 0%, transparent 70%);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-face,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-face {
+  box-shadow:
+    0 0 0 1px var(--pl-print-edge),
+    0 2px 3px rgba(0, 0, 0, 0.5),
+    0 14px 28px -10px rgba(0, 0, 0, 0.7);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-face--back,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-face--back {
+  background: linear-gradient(170deg, #232838 0%, #1B1F2C 100%);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-brand__badge,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-brand__badge {
+  background: #ECEEF5;
+  color: #121725;
+}
+
+.modui-polaroid--dark-room .modui-polaroid-action-btn--develop,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-action-btn--develop {
+  background: #ECEEF5;
+  border-color: #ECEEF5;
+  color: #121725;
+}
+
+.modui-polaroid--dark-room .modui-polaroid-mode-toggle,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-mode-toggle {
+  background: rgba(185, 198, 255, 0.08);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-toggle-btn--active,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-toggle-btn--active {
+  background: #262C3E;
+}
+
+.modui-polaroid--dark-room .modui-polaroid-meta-row,
+.modui-polaroid--dark-room .modui-polaroid-back-note,
+.modui-polaroid--dark-room .modui-polaroid-back-footer,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-meta-row,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-back-note,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-back-footer {
+  border-color: rgba(185, 198, 255, 0.12);
+}
+
+.modui-polaroid--dark-room .modui-polaroid-stamp__circle,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-stamp__circle { color: rgba(226, 122, 98, 0.9); }
+.modui-polaroid--dark-room .modui-polaroid-stamp__date,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-stamp__date { color: rgba(226, 122, 98, 0.65); }
+.modui-polaroid--dark-room .modui-polaroid-stamp,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-stamp { border-color: rgba(226, 122, 98, 0.45); }
+
+.modui-polaroid--dark-room .modui-polaroid-flip-btn,
+[data-theme="dark"] .modui-polaroid--studio-classic .modui-polaroid-flip-btn {
+  background: rgba(30, 34, 47, 0.9);
+  color: #99A0B5;
+}
+
+/* -- vintage sepia: aged stock, warmer print paper -- */
+.modui-polaroid--vintage-sepia {
+  --pl-table: linear-gradient(168deg, #E4D7C1 0%, #DACBB1 58%, #CFBE9F 100%);
+  --pl-print: #FBF4E6;
+  --pl-print-edge: rgba(92, 66, 36, 0.16);
+  --pl-ink: #2C2318;
+  --pl-ink-dim: #7A6A51;
+  --pl-ink-faint: rgba(44, 35, 24, 0.42);
+}
+
+.modui-polaroid--vintage-sepia .modui-polaroid-photo { filter: sepia(0.44) saturate(0.78) contrast(1.04); }
+
+.modui-polaroid--vintage-sepia .modui-polaroid-vignette {
+  background:
+    radial-gradient(118% 100% at 50% 50%, transparent 40%, rgba(58, 38, 16, 0.52) 100%),
+    radial-gradient(62% 52% at 94% 6%, rgba(255, 206, 140, 0.3) 0%, transparent 70%);
+}
+
+[data-theme="dark"] .modui-polaroid--vintage-sepia {
+  --pl-chrome: #1A1510;
+  --pl-chrome-ring: rgba(226, 200, 160, 0.14);
+  --pl-table: linear-gradient(168deg, #241D14 0%, #1C160F 100%);
+  --pl-print: #2A2219;
+  --pl-print-edge: rgba(226, 200, 160, 0.16);
+  --pl-ink: #F2E7D4;
+  --pl-ink-dim: #AD9B7F;
+  --pl-ink-faint: rgba(242, 231, 212, 0.4);
+}
+
+/* -- minimal mono: no table, no tape, drafting-table discipline -- */
+.modui-polaroid--minimal-mono {
+  --pl-table: #FFFFFF;
+  --pl-table-ring: rgba(14, 19, 34, 0.08);
+  --pl-print: #FFFFFF;
+  --pl-print-edge: rgba(14, 19, 34, 0.14);
+  --pl-ink: #0E1322;
+  --pl-ink-dim: #5A6178;
+}
+
+.modui-polaroid--minimal-mono .modui-polaroid-stage::before,
+.modui-polaroid--minimal-mono .modui-polaroid-stage::after { display: none; }
+
+.modui-polaroid--minimal-mono .modui-polaroid-washi-tape { display: none; }
+
+.modui-polaroid--minimal-mono .modui-polaroid-photo { filter: grayscale(1) contrast(1.08); }
+
+.modui-polaroid--minimal-mono .modui-polaroid-face {
+  border-radius: 0;
+  box-shadow: 0 0 0 1px var(--pl-print-edge);
+}
+
+.modui-polaroid--minimal-mono .modui-polaroid-card { border-radius: 0; }
+
+[data-theme="dark"] .modui-polaroid--minimal-mono {
+  --pl-chrome: #0F1426;
+  --pl-chrome-ring: rgba(185, 198, 255, 0.1);
+  --pl-table: #0B0F1E;
+  --pl-table-ring: rgba(185, 198, 255, 0.1);
+  --pl-print: #141A2C;
+  --pl-print-edge: rgba(185, 198, 255, 0.16);
+  --pl-ink: #ECEEF5;
+  --pl-ink-dim: #99A0B5;
+  --pl-ink-faint: rgba(236, 238, 245, 0.38);
+}
+
+/* ==========================================================================
+   Compact — catalogue thumbnail
+   ========================================================================== */
+.modui-polaroid--compact {
+  --pl-card-w: 124px;
+  --pl-margin: 8px;
+  --pl-chin: 34px;
+  border-radius: 14px;
+}
+
+.modui-polaroid--compact .modui-polaroid-toolbar { display: none; }
+
+.modui-polaroid--compact .modui-polaroid-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 0;
+  padding: 16px;
+}
+
+.modui-polaroid--compact .modui-polaroid-card:nth-child(1) { transform: rotate(-5deg); }
+.modui-polaroid--compact .modui-polaroid-card:nth-child(2) { transform: rotate(3deg); }
+.modui-polaroid--compact .modui-polaroid-card:nth-child(n+3) { display: none; }
+
+.modui-polaroid--compact .modui-polaroid-caption-text { -webkit-line-clamp: 1; line-clamp: 1; font-size: 11px; }
+.modui-polaroid--compact .modui-polaroid-meta-row { display: none; }
+.modui-polaroid--compact .modui-polaroid-art-title { font-size: 11px; }
+.modui-polaroid--compact .modui-polaroid-art-tag { display: none; }
+.modui-polaroid--compact .modui-polaroid-flip-btn { display: none; }
+
+/* ==========================================================================
+   Responsive — scatter collapses into a neat grid
+   ========================================================================== */
+@media (max-width: 760px) {
+  .modui-polaroid--scatter .modui-polaroid-stage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    gap: 22px;
+    min-height: 0;
+    padding: 24px 18px;
   }
 
-  .modui-polaroid-card {
-    width: 210px;
-    height: 270px;
+  .modui-polaroid--scatter .modui-polaroid-card {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
   }
 
-  .modui-polaroid-toolbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 10px 14px;
-  }
+  .modui-polaroid-washi-tape { display: none; }
+}
 
-  .modui-polaroid-actions {
-    width: 100%;
-    justify-content: space-between;
+@media (max-width: 420px) {
+  .modui-polaroid { --pl-card-w: 100%; --pl-chin: 68px; }
+  .modui-polaroid-toolbar { padding: 12px; }
+  .modui-polaroid-brand__title { display: none; }
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-polaroid,
+  .modui-polaroid *,
+  .modui-polaroid *::before,
+  .modui-polaroid *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

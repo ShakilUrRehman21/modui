@@ -69,7 +69,7 @@ export const DEFAULT_STORIES: StorySlide[] = [
   {
     id: 'story-1',
     timestamp: '2h ago',
-    tag: 'CHAPTER 01 · PROTOTYPE',
+    tag: 'Chapter 1: Prototype',
     title: 'The Brass Dial Experiment',
     description: 'Rejecting flat glass interfaces. We milled our first mechanical rotary potentiometer in Zurich to prove digital software needs physical haptic weight.',
     gradient: 'linear-gradient(145deg, #18181b 0%, #27272a 40%, #09090b 100%)',
@@ -91,7 +91,7 @@ export const DEFAULT_STORIES: StorySlide[] = [
   {
     id: 'story-2',
     timestamp: '4h ago',
-    tag: 'CHAPTER 02 · ACOUSTICS',
+    tag: 'Chapter 2: Acoustics',
     title: 'Zero-Latency Web Audio DSP',
     description: 'Every click, spool acceleration, and spring oscillation is generated mathematically at native sample rate. No recorded MP3 files.',
     gradient: 'linear-gradient(145deg, #090d16 0%, #0c1a30 50%, #030712 100%)',
@@ -113,7 +113,7 @@ export const DEFAULT_STORIES: StorySlide[] = [
   {
     id: 'story-3',
     timestamp: 'Yesterday',
-    tag: 'CHAPTER 03 · HARDWARE',
+    tag: 'Chapter 3: Hardware',
     title: 'Anodized 6061 Aluminum',
     description: 'CNC machined bead-blasted metal chassis. Precision tolerances below 20 microns produce an acoustic snap that plastic cannot match.',
     gradient: 'linear-gradient(145deg, #041f17 0%, #064e3b 50%, #022c22 100%)',
@@ -129,7 +129,7 @@ export const DEFAULT_STORIES: StorySlide[] = [
   {
     id: 'story-4',
     timestamp: '2d ago',
-    tag: 'CHAPTER 04 · REVEAL',
+    tag: 'Chapter 4: Reveal',
     title: 'Verlet GPU Cloth Dynamics',
     description: 'Tensile structural physics running 120 FPS directly in the DOM. The boundary between physical industrial hardware and software has dissolved.',
     gradient: 'linear-gradient(145deg, #1e112a 0%, #3b0764 50%, #0f0716 100%)',
@@ -146,7 +146,7 @@ export const DEFAULT_STORIES: StorySlide[] = [
   {
     id: 'story-5',
     timestamp: '3d ago',
-    tag: 'CHAPTER 05 · PRODUCTION',
+    tag: 'Chapter 5: Production',
     title: '21 Primitives Shipped Worldwide',
     description: 'From ballistic VU meters to cylindrical carousels. ModUI is now in production for creative developers across 40+ countries.',
     gradient: 'linear-gradient(145deg, #2b0b14 0%, #881337 50%, #190408 100%)',
@@ -434,6 +434,9 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({
     }, 1200);
   };
 
+  // Light themes wash each story's dark artwork with paper so dark text stays readable
+  const surfaceFor = (gradient: string) => gradient;
+
   return (
     <div
       className={`story-timeline-root story-theme-${variant} ${isHolding ? 'is-holding' : ''} ${compact ? 'story-timeline-compact' : ''} ${className}`}
@@ -454,7 +457,7 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({
           {stories[activeIndex - 1] && (
             <div
               className="story-side-card"
-              style={{ background: stories[activeIndex - 1].gradient }}
+              style={{ background: surfaceFor(stories[activeIndex - 1].gradient) }}
             >
               <div className="side-card-overlay">
                 <span className="side-card-title">{stories[activeIndex - 1].title}</span>
@@ -469,7 +472,7 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({
       <div
         className="story-phone-frame"
         style={{
-          background: currentStory.gradient,
+          background: surfaceFor(currentStory.gradient),
           '--story-accent': currentStory.accentColor,
         } as React.CSSProperties}
         onPointerDown={handlePointerDown}
@@ -808,7 +811,7 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({
           {stories[activeIndex + 1] && (
             <div
               className="story-side-card"
-              style={{ background: stories[activeIndex + 1].gradient }}
+              style={{ background: surfaceFor(stories[activeIndex + 1].gradient) }}
             >
               <div className="side-card-overlay">
                 <span className="side-card-title">{stories[activeIndex + 1].title}</span>

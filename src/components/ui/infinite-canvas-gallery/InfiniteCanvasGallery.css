@@ -1,482 +1,349 @@
 /* ==========================================================================
-   InfiniteCanvasGallery.css
-   Pure CSS Design Tokens for ModUI Primitive #24
+   ModUI — Infinite Canvas Gallery
+   A drafting plane with no edges: the grid moves with the content, cards
+   fade out at the boundary, and the HUD floats clear of the work.
    ========================================================================== */
 
 .modui-infinite-gallery {
+  --ic-plane: #0E1220;
+  --ic-plane-ring: rgba(255, 255, 255, 0.1);
+  --ic-grid: rgba(255, 255, 255, 0.055);
+  --ic-card: #171D31;
+  --ic-card-ring: rgba(255, 255, 255, 0.1);
+  --ic-ink: #EFF1F8;
+  --ic-ink-dim: rgba(239, 241, 248, 0.6);
+  --ic-ink-faint: rgba(239, 241, 248, 0.4);
+  --ic-chrome: rgba(23, 29, 49, 0.82);
+  --ic-accent: #7C95FF;
+  --ic-mono: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  --ic-ease: cubic-bezier(0.2, 0.9, 0.26, 1);
+
   position: relative;
   width: 100%;
-  height: 520px;
-  border-radius: var(--radius-lg, 16px);
+  min-height: 560px;
+  border-radius: 20px;
+  background: var(--ic-plane);
+  box-shadow: 0 0 0 1px var(--ic-plane-ring), 0 24px 56px -28px rgba(0, 0, 0, 0.7);
   overflow: hidden;
-  user-select: none;
+  cursor: grab;
   touch-action: none;
-  background: var(--bg-surface, #FFFFFF);
-  border: 1px solid var(--border-default, #E4E1D9);
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
 }
 
-.modui-infinite-gallery:focus-visible {
-  border-color: var(--accent-primary, #365CF5);
-  box-shadow: 0 0 0 3px rgba(54, 92, 245, 0.15);
+.modui-infinite-gallery:active { cursor: grabbing; }
+
+/* the plane keeps going past the frame */
+.modui-infinite-gallery::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 50%, transparent 52%, color-mix(in srgb, var(--ic-plane) 88%, transparent) 100%);
 }
-
-/* ==========================================================================
-   THEME VARIANTS
-   ========================================================================== */
-
-/* Studio Light (Default ModUI Signature) */
-.modui-infinite-gallery--studio-light {
-  --ic-bg: var(--bg-surface, #FFFFFF);
-  --ic-card-bg: var(--bg-app, #F8F7F2);
-  --ic-card-border: var(--border-default, #E4E1D9);
-  --ic-text-primary: var(--text-primary, #20201E);
-  --ic-text-secondary: var(--text-secondary, #696963);
-  --ic-text-tertiary: var(--text-tertiary, #8E8D86);
-  --ic-accent: var(--accent-primary, #365CF5);
-  --ic-grid-dot: rgba(228, 225, 217, 0.85);
-  --ic-glass-bg: rgba(255, 255, 255, 0.88);
-  /* Light Studio Modal Tokens */
-  --ic-modal-backdrop: rgba(248, 247, 242, 0.88);
-  --ic-modal-dialog-bg: #FFFFFF;
-  --ic-modal-header-bg: #FAF9F5;
-  --ic-modal-border: var(--border-default, #E4E1D9);
-  --ic-modal-media-bg: #F4F2EC;
-  --ic-modal-shadow: 0 24px 64px -8px rgba(32, 32, 30, 0.16), 0 4px 16px -2px rgba(32, 32, 30, 0.08);
-  --ic-modal-btn-bg: #FFFFFF;
-  --ic-modal-btn-border: #E4E1D9;
-  --ic-modal-btn-color: #20201E;
-  --ic-modal-btn-hover-bg: #F0ECE1;
-  --ic-modal-cat-color: #20201E;
-  --ic-modal-cat-bg: #FFFFFF;
-  --ic-modal-tag-color: #696963;
-  --ic-modal-tag-bg: #F2EFE9;
-}
-
-/* Dark Slate */
-.modui-infinite-gallery--dark-slate {
-  --ic-bg: #0B0C0E;
-  --ic-card-bg: #141720;
-  --ic-card-border: #1E2330;
-  --ic-text-primary: #F4F4F6;
-  --ic-text-secondary: #94A3B8;
-  --ic-text-tertiary: #64748B;
-  --ic-accent: #3B82F6;
-  --ic-grid-dot: rgba(30, 35, 48, 0.9);
-  --ic-glass-bg: rgba(20, 23, 32, 0.88);
-  background: var(--ic-bg);
-  border-color: var(--ic-card-border);
-  /* Dark Slate Modal Tokens */
-  --ic-modal-backdrop: rgba(11, 12, 14, 0.88);
-  --ic-modal-dialog-bg: #141720;
-  --ic-modal-header-bg: #10131A;
-  --ic-modal-border: #1E2330;
-  --ic-modal-media-bg: #0B0C0E;
-  --ic-modal-shadow: 0 24px 70px rgba(0, 0, 0, 0.7), 0 4px 16px rgba(0, 0, 0, 0.35);
-  --ic-modal-btn-bg: rgba(255, 255, 255, 0.06);
-  --ic-modal-btn-border: rgba(255, 255, 255, 0.1);
-  --ic-modal-btn-color: #F4F4F6;
-  --ic-modal-btn-hover-bg: rgba(255, 255, 255, 0.12);
-  --ic-modal-cat-color: #E2E8F0;
-  --ic-modal-cat-bg: rgba(255, 255, 255, 0.05);
-  --ic-modal-tag-color: #94A3B8;
-  --ic-modal-tag-bg: rgba(255, 255, 255, 0.06);
-}
-
-/* Editorial Paper */
-.modui-infinite-gallery--editorial-paper {
-  --ic-bg: #F4F3ED;
-  --ic-card-bg: #EAE8E0;
-  --ic-card-border: #DCD9CF;
-  --ic-text-primary: #1A1A18;
-  --ic-text-secondary: #5A5A54;
-  --ic-text-tertiary: #84837B;
-  --ic-accent: #1A1A18;
-  --ic-grid-dot: rgba(220, 217, 207, 0.9);
-  --ic-glass-bg: rgba(244, 243, 237, 0.92);
-  background: var(--ic-bg);
-  border-color: var(--ic-card-border);
-  /* Editorial Paper Modal Tokens */
-  --ic-modal-backdrop: rgba(244, 243, 237, 0.9);
-  --ic-modal-dialog-bg: #FAF9F3;
-  --ic-modal-header-bg: #F0EEE4;
-  --ic-modal-border: #DCD9CF;
-  --ic-modal-media-bg: #E8E5DA;
-  --ic-modal-shadow: 0 24px 64px -8px rgba(32, 30, 24, 0.14), 0 4px 16px -2px rgba(32, 30, 24, 0.06);
-  --ic-modal-btn-bg: #FAF9F3;
-  --ic-modal-btn-border: #DCD9CF;
-  --ic-modal-btn-color: #1A1A18;
-  --ic-modal-btn-hover-bg: #E4E0D2;
-  --ic-modal-cat-color: #1A1A18;
-  --ic-modal-cat-bg: #FAF9F3;
-  --ic-modal-tag-color: #5A5A54;
-  --ic-modal-tag-bg: #EAE8E0;
-}
-
-/* Minimal Mono */
-.modui-infinite-gallery--minimal-mono {
-  --ic-bg: #FFFFFF;
-  --ic-card-bg: #FAFAFA;
-  --ic-card-border: #E5E5E5;
-  --ic-text-primary: #000000;
-  --ic-text-secondary: #737373;
-  --ic-text-tertiary: #A3A3A3;
-  --ic-accent: #000000;
-  --ic-grid-dot: rgba(229, 229, 229, 0.8);
-  --ic-glass-bg: rgba(255, 255, 255, 0.95);
-  background: var(--ic-bg);
-  border-color: var(--ic-card-border);
-  /* Minimal Mono Modal Tokens */
-  --ic-modal-backdrop: rgba(255, 255, 255, 0.92);
-  --ic-modal-dialog-bg: #FFFFFF;
-  --ic-modal-header-bg: #F8F8F8;
-  --ic-modal-border: #E5E5E5;
-  --ic-modal-media-bg: #F3F3F3;
-  --ic-modal-shadow: 0 24px 64px -8px rgba(0, 0, 0, 0.12), 0 4px 16px -2px rgba(0, 0, 0, 0.05);
-  --ic-modal-btn-bg: #FFFFFF;
-  --ic-modal-btn-border: #E5E5E5;
-  --ic-modal-btn-color: #000000;
-  --ic-modal-btn-hover-bg: #EEEEEE;
-  --ic-modal-cat-color: #000000;
-  --ic-modal-cat-bg: #FFFFFF;
-  --ic-modal-tag-color: #737373;
-  --ic-modal-tag-bg: #FAFAFA;
-}
-
-/* ==========================================================================
-   BACKGROUND RADIAL DOT GRID
-   ========================================================================== */
 
 .modui-infinite-bg-grid {
   position: absolute;
-  inset: 0;
+  inset: -50%;
+  background-image:
+    linear-gradient(var(--ic-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ic-grid) 1px, transparent 1px),
+    linear-gradient(var(--ic-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ic-grid) 1px, transparent 1px);
+  background-size: 160px 160px, 160px 160px, 32px 32px, 32px 32px;
   pointer-events: none;
-  background-image: radial-gradient(var(--ic-grid-dot) 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
-  z-index: 1;
+  z-index: 0;
 }
-
-/* ==========================================================================
-   CARDS CONTAINER PLANE
-   ========================================================================== */
 
 .modui-infinite-cards-plane {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Individual Gallery Card */
-.modui-gallery-card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: var(--radius-md, 12px);
-  background: var(--ic-card-bg);
-  border: 1px solid var(--ic-card-border);
-  box-shadow: 0 6px 20px -4px rgba(32, 32, 30, 0.08);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  pointer-events: auto;
-  cursor: pointer;
-  transform-origin: center center;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.25s ease;
-
+  z-index: 1;
   will-change: transform;
 }
 
-.modui-gallery-card:hover,
-.modui-gallery-card.is-hovered {
-  border-color: var(--ic-accent);
-  box-shadow: 0 16px 36px -6px rgba(54, 92, 245, 0.22);
-  z-index: 30;
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+.modui-gallery-card {
+  position: absolute;
+  width: 246px;
+  border-radius: 14px;
+  background: var(--ic-card);
+  box-shadow:
+    0 0 0 1px var(--ic-card-ring),
+    0 14px 30px -16px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 320ms var(--ic-ease), box-shadow 320ms ease;
 }
 
-/* Media Thumbnail Container */
+.modui-gallery-card.is-hovered {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--ic-accent) 34%, transparent),
+    0 0 0 5px color-mix(in srgb, var(--ic-accent) 10%, transparent),
+    0 24px 44px -18px rgba(0, 0, 0, 0.9);
+}
+
+/* ---------- Media ---------- */
 .modui-card-media-wrap {
   position: relative;
   width: 100%;
-  height: 108px;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.06);
+  background:
+    radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%),
+    linear-gradient(152deg, #2F3C66 0%, #4A5C96 48%, #1B2238 100%);
 }
 
-.modui-card-img {
+.modui-gallery-card:nth-child(6n + 2) .modui-card-media-wrap {
+  background: radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%), linear-gradient(152deg, #3E2F2A 0%, #76543E 48%, #241B16 100%);
+}
+.modui-gallery-card:nth-child(6n + 3) .modui-card-media-wrap {
+  background: radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%), linear-gradient(152deg, #1F3C3A 0%, #336760 48%, #152A2C 100%);
+}
+.modui-gallery-card:nth-child(6n + 4) .modui-card-media-wrap {
+  background: radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%), linear-gradient(152deg, #3B2C48 0%, #654778 48%, #251B30 100%);
+}
+.modui-gallery-card:nth-child(6n + 5) .modui-card-media-wrap {
+  background: radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%), linear-gradient(152deg, #2C333A 0%, #52616C 48%, #1A1F24 100%);
+}
+.modui-gallery-card:nth-child(6n) .modui-card-media-wrap {
+  background: radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.16) 0%, transparent 62%), linear-gradient(152deg, #43302C 0%, #7A4A42 48%, #2A1C1A 100%);
+}
+
+.modui-card-img,
+.modui-inspector-img {
+  position: relative;
+  z-index: 2;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+  color: transparent;
+  font-size: 0;
 }
 
-.modui-gallery-card:hover .modui-card-img {
-  transform: scale(1.06);
-}
-
-/* Tag Badge */
 .modui-card-tag-badge {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 2px 6px;
-  border-radius: var(--radius-xs, 4px);
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  color: #FFFFFF;
-  font-family: var(--font-mono, monospace);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  top: 9px;
+  right: 9px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(10, 13, 22, 0.66);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--ic-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-/* Info Section */
-.modui-card-info-wrap {
-  padding: 10px 12px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+/* ---------- Info ---------- */
+.modui-card-info-wrap { padding: 12px 13px 11px; }
 
 .modui-card-cat-label {
-  font-family: var(--font-mono, monospace);
-  font-size: 9.5px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ic-text-tertiary);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ic-ink-faint);
 }
 
 .modui-card-title-label {
-  font-family: var(--font-sans, sans-serif);
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--ic-text-primary);
-  line-height: 1.25;
-  margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-top: 3px;
+  font-size: 14.5px;
+  font-weight: 620;
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+  color: var(--ic-ink);
 }
 
 .modui-card-meta-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px solid var(--ic-card-border);
-  font-family: var(--font-mono, monospace);
-  font-size: 10px;
+  gap: 10px;
+  margin-top: 11px;
+  padding-top: 9px;
+  border-top: 1px solid var(--ic-card-ring);
 }
 
 .modui-card-index-spec {
-  color: var(--ic-text-tertiary);
-  font-weight: 600;
+  font-family: var(--ic-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--ic-ink-faint);
 }
 
 .modui-card-inspect-hint {
-  color: var(--ic-accent);
-  font-weight: 700;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-  cursor: pointer;
   display: inline-flex;
   align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 540;
+  color: var(--ic-accent);
+  transition: gap 240ms var(--ic-ease);
 }
 
-.modui-card-inspect-hint:hover {
-  text-decoration: underline;
-}
-
-.modui-gallery-card:hover .modui-card-inspect-hint {
-  transform: translateX(2px);
-}
+.modui-gallery-card.is-hovered .modui-card-inspect-hint { gap: 9px; }
 
 /* ==========================================================================
-   HUD TELEMETRY OVERLAYS
+   HUD
    ========================================================================== */
-
-/* Top-Left Coordinates HUD */
 .modui-infinite-coords-hud {
   position: absolute;
   top: 14px;
   left: 14px;
+  z-index: 8;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 7px;
   pointer-events: none;
-  z-index: 40;
 }
 
-.modui-coords-pill {
-  display: flex;
+.modui-coords-pill,
+.modui-velocity-pill {
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: var(--radius-sm, 8px);
-  background: var(--ic-glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--ic-card-border);
-  box-shadow: 0 2px 8px rgba(32, 32, 30, 0.05);
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  color: var(--ic-text-primary);
+  gap: 7px;
+  padding: 6px 11px;
+  border-radius: 8px;
+  background: var(--ic-chrome);
+  box-shadow: inset 0 0 0 1px var(--ic-card-ring);
+  backdrop-filter: blur(14px) saturate(1.5);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  font-family: var(--ic-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  color: var(--ic-ink-dim);
+  white-space: nowrap;
 }
 
 .modui-coords-pulse-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 6px #10B981;
+  background: #35D08C;
+  box-shadow: 0 0 7px rgba(53, 208, 140, 0.8);
+  animation: modui-ic-live 2s ease-in-out infinite;
 }
 
-.modui-coords-label {
-  color: var(--ic-text-tertiary);
-  font-weight: 700;
+@keyframes modui-ic-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
 }
 
-.modui-coords-val {
-  font-weight: 700;
-  color: var(--ic-accent);
-}
+.modui-coords-val,
+.modui-velocity-val { color: var(--ic-accent); }
 
-.modui-velocity-pill {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 10px;
-  border-radius: var(--radius-sm, 8px);
-  background: var(--ic-glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--ic-card-border);
-  font-family: var(--font-mono, monospace);
-  font-size: 10px;
-  color: var(--ic-text-tertiary);
-}
-
-.modui-velocity-val {
-  font-weight: 700;
-  color: var(--ic-text-primary);
-}
-
-/* Top-Right Instruction Pill */
 .modui-infinite-instruction-pill {
   position: absolute;
   top: 14px;
   right: 14px;
-  display: flex;
+  z-index: 8;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   padding: 6px 12px;
-  border-radius: var(--radius-sm, 8px);
-  background: var(--ic-glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--ic-card-border);
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  color: var(--ic-text-secondary);
+  border-radius: 999px;
+  background: var(--ic-chrome);
+  box-shadow: inset 0 0 0 1px var(--ic-card-ring);
+  backdrop-filter: blur(14px) saturate(1.5);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  font-size: 11.5px;
+  color: var(--ic-ink-dim);
+  white-space: nowrap;
   pointer-events: none;
-  z-index: 40;
 }
 
-.modui-instruction-spark {
-  color: var(--ic-accent);
-  font-weight: 700;
-}
+.modui-instruction-spark { color: var(--ic-accent); }
 
-/* Bottom-Left Controls Toolbar */
+/* ---------- Controls ---------- */
 .modui-infinite-controls {
   position: absolute;
-  bottom: 14px;
   left: 14px;
+  bottom: 14px;
+  z-index: 8;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  z-index: 40;
+  gap: 6px;
 }
 
 .modui-infinite-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: var(--radius-sm, 8px);
-  background: var(--ic-glass-bg);
-  border: 1px solid var(--ic-card-border);
-  color: var(--ic-text-primary);
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  font-weight: 600;
-  box-shadow: 0 2px 6px rgba(32, 32, 30, 0.05);
+  gap: 7px;
+  padding: 8px 13px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--ic-chrome);
+  box-shadow: inset 0 0 0 1px var(--ic-card-ring);
+  backdrop-filter: blur(14px) saturate(1.5);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  color: var(--ic-ink);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 540;
   cursor: pointer;
-  transition: all 0.15s ease;
+  white-space: nowrap;
+  transition: background 200ms ease, transform 180ms var(--ic-ease);
 }
 
-.modui-infinite-btn:hover {
-  background: var(--ic-card-bg);
-  border-color: var(--ic-accent);
-  color: var(--ic-accent);
+.modui-infinite-btn:hover { background: color-mix(in srgb, var(--ic-chrome) 70%, #FFF); }
+.modui-infinite-btn:active { transform: scale(0.96); }
+.modui-infinite-btn--subtle { color: var(--ic-ink-dim); }
+
+.modui-infinite-btn:focus-visible,
+.modui-gallery-card:focus-visible,
+.modui-inspector-action-btn:focus-visible,
+.modui-inspector-nav-btn:focus-visible {
+  outline: 2px solid var(--ic-accent);
+  outline-offset: 2px;
 }
 
-.modui-infinite-btn--subtle {
-  color: var(--ic-text-secondary);
-}
-
-/* Bottom-Right Radar Minimap HUD */
+/* ---------- Minimap ---------- */
 .modui-radar-minimap {
   position: absolute;
-  bottom: 14px;
   right: 14px;
-  width: 98px;
-  height: 68px;
-  border-radius: var(--radius-sm, 8px);
-  background: var(--ic-glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--ic-card-border);
-  padding: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  bottom: 14px;
+  z-index: 8;
+  width: 112px;
+  padding: 8px;
+  border-radius: 11px;
+  background: var(--ic-chrome);
+  box-shadow: inset 0 0 0 1px var(--ic-card-ring);
+  backdrop-filter: blur(14px) saturate(1.5);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
   pointer-events: none;
-  z-index: 40;
 }
 
 .modui-radar-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: var(--font-mono, monospace);
-  font-size: 8px;
-  font-weight: 700;
-  color: var(--ic-text-tertiary);
-  letter-spacing: 0.05em;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-family: var(--ic-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  color: var(--ic-ink-faint);
 }
 
-.modui-radar-spec {
-  color: var(--ic-accent);
-}
+.modui-radar-spec { color: var(--ic-accent); }
 
 .modui-radar-field {
   position: relative;
-  width: 100%;
-  height: 42px;
-  border-radius: 4px;
-  background: var(--ic-card-bg);
-  border: 1px solid var(--ic-card-border);
+  height: 56px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.36);
+  box-shadow: inset 0 0 0 1px var(--ic-card-ring);
+  background-image:
+    linear-gradient(var(--ic-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ic-grid) 1px, transparent 1px);
+  background-size: 14px 14px;
   overflow: hidden;
 }
 
@@ -484,392 +351,357 @@
   position: absolute;
   width: 26px;
   height: 18px;
-  border-radius: 2px;
+  border-radius: 3px;
   border: 1.5px solid var(--ic-accent);
-  background: rgba(54, 92, 245, 0.18);
-  transition: transform 0.06s linear;
+  background: color-mix(in srgb, var(--ic-accent) 22%, transparent);
+  box-shadow: 0 0 10px -2px var(--ic-accent);
 }
 
 /* ==========================================================================
-   COMPACT EXPLORER CARD MODE
-   Tailored for the 230px catalog card on /components
-   Strictly sized with clearance for the 3D & INTERACTIVE badge!
+   Compact overlay
    ========================================================================== */
-
-.modui-infinite-gallery--compact {
-  height: 165px;
-  margin-top: 14px;
-  border-radius: var(--radius-md, 12px);
-  border: 1px solid var(--border-default, #E4E1D9);
-  pointer-events: none;
-  isolation: isolate;
-}
-
-.modui-infinite-gallery--compact .modui-gallery-card {
-  box-shadow: 0 4px 12px -2px rgba(32, 32, 30, 0.06);
-}
-
-.modui-infinite-gallery--compact .modui-card-media-wrap {
-  height: 52px;
-}
-
-.modui-infinite-gallery--compact .modui-card-tag-badge {
-  font-size: 7.5px;
-  padding: 1px 4px;
-  top: 4px;
-  right: 4px;
-}
-
-.modui-infinite-gallery--compact .modui-card-info-wrap {
-  padding: 5px 7px;
-}
-
-.modui-infinite-gallery--compact .modui-card-cat-label {
-  font-size: 7.5px;
-}
-
-.modui-infinite-gallery--compact .modui-card-title-label {
-  font-size: 9.5px;
-  margin-top: 1px;
-}
-
-.modui-infinite-gallery--compact .modui-card-meta-row {
-  margin-top: 3px;
-  padding-top: 3px;
-  font-size: 8px;
-}
-
 .modui-compact-canvas-overlay {
   position: absolute;
-  bottom: 8px;
-  left: 8px;
-  right: 8px;
+  inset: 0;
+  z-index: 8;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  padding: 9px;
   pointer-events: none;
-  z-index: 40;
 }
 
-.modui-compact-radar-chip {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 8px;
-  border-radius: var(--radius-xs, 4px);
-  background: var(--ic-glass-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--ic-card-border);
-  font-family: var(--font-mono, monospace);
-  font-size: 8.5px;
-  font-weight: 700;
-  color: var(--ic-accent);
-}
-
+.modui-compact-radar-chip,
 .modui-compact-action-hint {
-  padding: 3px 8px;
-  border-radius: var(--radius-xs, 4px);
-  background: var(--ic-glass-bg);
-  border: 1px solid var(--ic-card-border);
-  font-family: var(--font-mono, monospace);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  background: var(--ic-chrome);
+  box-shadow: inset 0 0 0 1px var(--ic-card-ring);
+  font-family: var(--ic-mono);
   font-size: 8.5px;
-  color: var(--ic-text-secondary);
+  letter-spacing: 0.06em;
+  color: var(--ic-ink-dim);
+  white-space: nowrap;
 }
 
 /* ==========================================================================
-   INSPECTED IMAGE LIGHTBOX MODAL
+   Inspector
    ========================================================================== */
-
 .modui-gallery-inspector-modal {
-  position: absolute;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--ic-modal-backdrop, rgba(248, 247, 242, 0.88));
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  padding: 1.25rem;
-  box-sizing: border-box;
-  animation: modui-inspector-fade 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  cursor: zoom-out;
-}
-
-.modui-gallery-inspector-modal--fullscreen {
   position: fixed;
   inset: 0;
-  z-index: 99999;
-  padding: 1.5rem;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(6, 8, 14, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: modui-ic-fade 220ms ease;
 }
 
-@keyframes modui-inspector-fade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+@keyframes modui-ic-fade { from { opacity: 0; } to { opacity: 1; } }
 
 .modui-gallery-inspector-dialog {
   position: relative;
-  width: 100%;
-  max-width: 660px;
-  max-height: 94%;
-  background: var(--ic-modal-dialog-bg, #FFFFFF);
-  border: 1px solid var(--ic-modal-border, #E4E1D9);
-  border-radius: var(--radius-lg, 14px);
-  box-shadow: var(--ic-modal-shadow);
   display: flex;
   flex-direction: column;
+  width: min(900px, 100%);
+  max-height: 88vh;
+  border-radius: 20px;
+  background: #141A2C;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 44px 96px -34px rgba(0, 0, 0, 0.95);
   overflow: hidden;
-  cursor: default;
-  animation: modui-inspector-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: modui-ic-rise 320ms var(--ic-ease);
 }
 
-@keyframes modui-inspector-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+@keyframes modui-ic-rise {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to { opacity: 1; transform: none; }
 }
 
-/* Modal Header */
+.modui-gallery-inspector-modal--fullscreen .modui-gallery-inspector-dialog {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  border-radius: 14px;
+}
+
 .modui-inspector-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
-  background: var(--ic-modal-header-bg, #FAF9F5);
-  border-bottom: 1px solid var(--ic-modal-border, #E4E1D9);
+  gap: 12px;
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--ic-card-ring);
 }
 
-.modui-inspector-header-left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.modui-inspector-index {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  color: var(--ic-accent, #365CF5);
-  background: rgba(54, 92, 245, 0.08);
-  padding: 0.15rem 0.45rem;
-  border-radius: var(--radius-xs, 4px);
-  border: 1px solid rgba(54, 92, 245, 0.25);
-}
-
-.modui-inspector-cat-pill {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  color: var(--ic-modal-cat-color, #20201E);
-  background: var(--ic-modal-cat-bg, #FFFFFF);
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
-  border: 1px solid var(--ic-modal-border, #E4E1D9);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.modui-inspector-tag-badge {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.625rem;
-  font-weight: 700;
-  color: var(--ic-modal-tag-color, #696963);
-  background: var(--ic-modal-tag-bg, #F2EFE9);
-  padding: 0.1rem 0.35rem;
-  border-radius: 3px;
-  border: 1px solid var(--ic-modal-border, #E4E1D9);
-}
-
+.modui-inspector-header-left,
 .modui-inspector-header-actions {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 8px;
+  min-width: 0;
+}
+
+.modui-inspector-index {
+  font-family: var(--ic-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--ic-ink-faint);
+}
+
+.modui-inspector-cat-pill,
+.modui-inspector-tag-badge,
+.modui-inspector-year-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ic-accent) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ic-accent) 30%, transparent);
+  font-size: 11px;
+  font-weight: 540;
+  color: var(--ic-accent);
+  white-space: nowrap;
+}
+
+.modui-inspector-tag-badge {
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px var(--ic-card-ring);
+  color: var(--ic-ink-dim);
+  font-family: var(--ic-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
 }
 
 .modui-inspector-action-btn {
-  background: var(--ic-modal-btn-bg, #FFFFFF);
-  border: 1px solid var(--ic-modal-btn-border, #E4E1D9);
-  color: var(--ic-modal-btn-color, #20201E);
-  border-radius: var(--radius-xs, 6px);
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.15s ease;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
   padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ic-ink);
+  cursor: pointer;
+  transition: background 200ms ease, transform 220ms var(--ic-ease);
 }
 
-.modui-inspector-action-btn:hover {
-  background: var(--ic-modal-btn-hover-bg, #F0ECE1);
-  color: var(--ic-text-primary);
-  border-color: var(--ic-accent);
-}
+.modui-inspector-action-btn:hover { background: rgba(255, 255, 255, 0.18); }
+.modui-inspector-close-btn:hover { transform: rotate(90deg); }
 
-.modui-inspector-close-btn:hover {
-  background: rgba(239, 68, 68, 0.12);
-  color: #DC2626;
-  border-color: rgba(239, 68, 68, 0.3);
-}
-
-/* Modal Media Stage */
 .modui-inspector-media-stage {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--ic-modal-media-bg, #F4F2EC);
-  border-top: 1px solid var(--ic-modal-border, #E4E1D9);
-  border-bottom: 1px solid var(--ic-modal-border, #E4E1D9);
-  min-height: 260px;
-  max-height: 380px;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  background: #0A0D16;
+}
+
+.modui-inspector-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
-  padding: 0.75rem;
+  background:
+    radial-gradient(110% 90% at 28% 12%, rgba(255, 255, 255, 0.14) 0%, transparent 62%),
+    linear-gradient(152deg, #2F3C66 0%, #4A5C96 48%, #1B2238 100%);
 }
 
-.modui-gallery-inspector-modal--fullscreen .modui-inspector-media-stage {
-  max-height: 65vh;
-  min-height: 380px;
-}
-
-.modui-inspector-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.18);
-  user-select: none;
-}
-
-/* Prev / Next Nav Buttons */
 .modui-inspector-nav-btn {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  background: var(--ic-modal-btn-bg, #FFFFFF);
-  border: 1px solid var(--ic-modal-btn-border, #E4E1D9);
-  color: var(--ic-modal-btn-color, #20201E);
-  width: 36px;
-  height: 36px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.modui-inspector-nav-btn--prev {
-  left: 1rem;
-}
-
-.modui-inspector-nav-btn--next {
-  right: 1rem;
-}
-
-.modui-inspector-nav-btn:hover {
-  background: var(--ic-accent, #365CF5);
-  border-color: var(--ic-accent, #365CF5);
+  transform: translateY(-50%);
+  background: rgba(10, 13, 22, 0.7);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: #FFFFFF;
-  transform: translateY(-50%) scale(1.08);
+  cursor: pointer;
+  transition: background 200ms ease, transform 200ms var(--ic-ease);
 }
 
-/* Modal Footer */
+.modui-inspector-nav-btn:hover { background: rgba(10, 13, 22, 0.9); }
+.modui-inspector-nav-btn--prev { left: 14px; }
+.modui-inspector-nav-btn--next { right: 14px; }
+
 .modui-inspector-footer {
-  padding: 0.85rem 1.15rem;
-  background: var(--ic-modal-header-bg, #FAF9F5);
-  border-top: 1px solid var(--ic-modal-border, #E4E1D9);
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  padding: 18px 20px 20px;
+  border-top: 1px solid var(--ic-card-ring);
 }
 
 .modui-inspector-title-row {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
 .modui-inspector-title {
-  font-family: var(--font-display, inherit);
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--ic-text-primary, #20201E);
   margin: 0;
-  letter-spacing: -0.01em;
-}
-
-.modui-inspector-year-pill {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
-  color: var(--ic-text-tertiary, #8E8D86);
+  font-size: 24px;
+  font-weight: 650;
+  line-height: 1.14;
+  letter-spacing: -0.028em;
+  color: var(--ic-ink);
 }
 
 .modui-inspector-desc {
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--ic-text-secondary, #696963);
-  margin: 0;
+  margin: 10px 0 0;
+  max-width: 68ch;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ic-ink-dim);
 }
 
 .modui-inspector-footer-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 0.45rem;
-  border-top: 1px solid var(--ic-modal-border, #E4E1D9);
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
-  color: var(--ic-text-tertiary, #8E8D86);
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid var(--ic-card-ring);
 }
 
-.modui-inspector-counter {
-  color: var(--ic-accent, #365CF5);
-  font-weight: 700;
-}
-
+.modui-inspector-counter,
 .modui-inspector-keys-hint {
-  font-size: 0.65rem;
-}
-
-@media (max-width: 640px) {
-  .modui-gallery-inspector-modal {
-    padding: 0.5rem;
-  }
-
-  .modui-inspector-nav-btn--prev {
-    left: 0.5rem;
-  }
-
-  .modui-inspector-nav-btn--next {
-    right: 0.5rem;
-  }
-
-  .modui-inspector-keys-hint {
-    display: none;
-  }
+  font-family: var(--ic-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--ic-ink-faint);
 }
 
 /* ==========================================================================
-   ACCESSIBILITY & REDUCED MOTION
+   Variants
    ========================================================================== */
+.modui-infinite-gallery--studio-light {
+  --ic-plane: #F4F5F9;
+  --ic-plane-ring: rgba(14, 19, 34, 0.08);
+  --ic-grid: rgba(14, 19, 34, 0.05);
+  --ic-card: #FFFFFF;
+  --ic-card-ring: rgba(14, 19, 34, 0.09);
+  --ic-ink: #0E1322;
+  --ic-ink-dim: #5A6178;
+  --ic-ink-faint: rgba(14, 19, 34, 0.42);
+  --ic-chrome: rgba(255, 255, 255, 0.86);
+  --ic-accent: #365CF5;
+}
 
+.modui-infinite-gallery--studio-light .modui-gallery-card {
+  box-shadow: 0 0 0 1px var(--ic-card-ring), 0 14px 30px -18px rgba(14, 19, 34, 0.4);
+}
+
+.modui-infinite-gallery--editorial-paper {
+  --ic-plane: #F7F3EA;
+  --ic-plane-ring: rgba(92, 66, 36, 0.14);
+  --ic-grid: rgba(92, 66, 36, 0.06);
+  --ic-card: #FFFDF8;
+  --ic-card-ring: rgba(92, 66, 36, 0.14);
+  --ic-ink: #231B11;
+  --ic-ink-dim: #6E6250;
+  --ic-ink-faint: rgba(35, 27, 17, 0.42);
+  --ic-chrome: rgba(255, 253, 248, 0.88);
+  --ic-accent: #B4702C;
+}
+
+.modui-infinite-gallery--minimal-mono {
+  --ic-plane: #FFFFFF;
+  --ic-plane-ring: rgba(14, 19, 34, 0.1);
+  --ic-grid: rgba(14, 19, 34, 0.055);
+  --ic-card: #FFFFFF;
+  --ic-card-ring: rgba(14, 19, 34, 0.14);
+  --ic-ink: #0E1322;
+  --ic-ink-dim: #5A6178;
+  --ic-chrome: rgba(255, 255, 255, 0.9);
+  --ic-accent: #0E1322;
+}
+
+.modui-infinite-gallery--minimal-mono .modui-card-media-wrap { filter: grayscale(1) contrast(1.06); }
+
+[data-theme="dark"] .modui-infinite-gallery--studio-light,
+[data-theme="dark"] .modui-infinite-gallery--minimal-mono {
+  --ic-plane: #0B0F1E;
+  --ic-plane-ring: rgba(185, 198, 255, 0.12);
+  --ic-grid: rgba(185, 198, 255, 0.06);
+  --ic-card: #161C31;
+  --ic-card-ring: rgba(185, 198, 255, 0.12);
+  --ic-ink: #EFF1F8;
+  --ic-ink-dim: rgba(239, 241, 248, 0.6);
+  --ic-ink-faint: rgba(239, 241, 248, 0.4);
+  --ic-chrome: rgba(22, 28, 49, 0.84);
+  --ic-accent: #7C95FF;
+}
+
+[data-theme="dark"] .modui-infinite-gallery--editorial-paper {
+  --ic-plane: #171208;
+  --ic-plane-ring: rgba(226, 190, 140, 0.16);
+  --ic-grid: rgba(226, 190, 140, 0.06);
+  --ic-card: #221A0F;
+  --ic-card-ring: rgba(226, 190, 140, 0.16);
+  --ic-ink: #F3EADC;
+  --ic-ink-dim: rgba(243, 234, 220, 0.6);
+  --ic-chrome: rgba(34, 26, 15, 0.86);
+  --ic-accent: #E0A456;
+}
+
+/* ==========================================================================
+   Compact — catalogue thumbnail
+   ========================================================================== */
+.modui-infinite-gallery--compact {
+  min-height: 0;
+  height: 100%;
+  border-radius: 14px;
+}
+
+.modui-infinite-gallery--compact .modui-gallery-card { width: 124px; border-radius: 9px; }
+.modui-infinite-gallery--compact .modui-card-info-wrap { padding: 7px 8px; }
+.modui-infinite-gallery--compact .modui-card-title-label { font-size: 10px; }
+.modui-infinite-gallery--compact .modui-card-cat-label,
+.modui-infinite-gallery--compact .modui-card-meta-row,
+.modui-infinite-gallery--compact .modui-card-tag-badge,
+.modui-infinite-gallery--compact .modui-infinite-coords-hud,
+.modui-infinite-gallery--compact .modui-infinite-instruction-pill,
+.modui-infinite-gallery--compact .modui-infinite-controls,
+.modui-infinite-gallery--compact .modui-radar-minimap { display: none; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 760px) {
+  .modui-infinite-gallery { min-height: 460px; }
+  .modui-infinite-instruction-pill,
+  .modui-radar-minimap { display: none; }
+  .modui-inspector-title { font-size: 20px; }
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-
-  .modui-gallery-card,
-  .modui-radar-indicator,
-  .modui-card-img {
-    transition: none !important;
+  .modui-infinite-gallery,
+  .modui-infinite-gallery *,
+  .modui-gallery-inspector-modal,
+  .modui-gallery-inspector-modal * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

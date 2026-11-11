@@ -304,14 +304,12 @@ export const PerspectiveTextRibbon: React.FC<PerspectiveTextRibbonProps> = ({
           <div className="modui-ribbon-badge">
             <span className="modui-ribbon-pulse-dot" />
             <span className="modui-ribbon-hud-title">
-              3D PERSPECTIVE // {internalOrientation === 'horizontal' || internalOrientation === 'floating-horizon' ? 'HORIZONTAL' : 'DYNAMIC'}
+              {internalOrientation === 'horizontal' || internalOrientation === 'floating-horizon' ? 'Flat ribbon' : 'Perspective ribbon'}
             </span>
           </div>
 
           <div className="modui-ribbon-stats">
-            <span>VELOCITY: {internalDirection === 'reverse' ? `-${speed.toFixed(1)}x` : `+${speed.toFixed(1)}x`}</span>
-            <span className="modui-ribbon-divider">·</span>
-            <span>HARDWARE COMPOSITED</span>
+            <span>Speed {internalDirection === 'reverse' ? `-${speed.toFixed(1)}x` : `+${speed.toFixed(1)}x`}</span>
           </div>
         </div>
       )}

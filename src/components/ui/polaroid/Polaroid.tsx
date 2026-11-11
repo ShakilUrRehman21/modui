@@ -47,17 +47,17 @@ export const DEFAULT_POLAROIDS: PolaroidPhoto[] = [
   {
     id: 'polaroid-1',
     title: 'Zurich Haptics Lab',
-    caption: 'Milled brass rotary potentiometer · Zurich \'25',
+    caption: 'Milled brass rotary · Zurich \'25',
     date: '14 OCT 2025',
     tag: 'Hardware / DSP',
     cameraSettings: 'f/2.8 · 1/500s · ISO 100 · 50mm',
     clientNote: 'Precision tolerances below 15 microns produce a tactile snap that flat touch glass cannot replicate.',
-    tapeColor: 'rgba(245, 158, 11, 0.45)', // Warm amber washi
+    tapeColor: 'rgba(224, 196, 142, 0.6)', // Kraft paper tape
     initialRotation: -4,
-    initialX: 12,
-    initialY: 8,
+    initialX: 5,
+    initialY: 4,
     developed: true,
-    gradient: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e3a8a 100%)',
+    gradient: 'linear-gradient(152deg, #27354F 0%, #3D5177 52%, #1C2740 100%)',
   },
   {
     id: 'polaroid-2',
@@ -67,42 +67,42 @@ export const DEFAULT_POLAROIDS: PolaroidPhoto[] = [
     tag: 'Audio / WebGL',
     cameraSettings: 'f/1.4 · 1/250s · ISO 200 · 35mm',
     clientNote: 'Synthesized mathematically at native 44.1kHz sample rate with ballistic needle dynamics.',
-    tapeColor: 'rgba(54, 92, 245, 0.45)', // Cobalt blue washi
+    tapeColor: 'rgba(203, 211, 226, 0.6)', // Cool grey tape
     initialRotation: 3.5,
     initialX: 52,
-    initialY: 4,
+    initialY: 3,
     developed: true,
-    gradient: 'linear-gradient(135deg, #18181b 0%, #27272a 50%, #09090b 100%)',
+    gradient: 'linear-gradient(152deg, #2C2E35 0%, #3E414B 52%, #1A1B20 100%)',
   },
   {
     id: 'polaroid-3',
     title: 'Tokyo Midnight Crossing',
-    caption: 'Neon caustics across wet Shibuya asphalt',
+    caption: 'Neon caustics, Shibuya at 2am',
     date: '18 DEC 2025',
     tag: 'Optics / 3D',
     cameraSettings: 'f/1.8 · 1/60s · ISO 800 · 28mm',
     clientNote: 'Chromatic dispersion and ambient light refraction rendered on an HTML5 physics canvas.',
-    tapeColor: 'rgba(16, 185, 129, 0.45)', // Emerald washi
+    tapeColor: 'rgba(196, 214, 201, 0.6)', // Pale sage tape
     initialRotation: -2.5,
-    initialX: 24,
-    initialY: 48,
+    initialX: 28,
+    initialY: 38,
     developed: true,
-    gradient: 'linear-gradient(135deg, #022c22 0%, #064e3b 50%, #065f46 100%)',
+    gradient: 'linear-gradient(152deg, #1C3838 0%, #2E5753 52%, #14272A 100%)',
   },
   {
     id: 'polaroid-4',
     title: 'Spatial Studio v2',
-    caption: 'Layered 3D glass card architecture',
+    caption: 'Layered glass card architecture',
     date: '24 JAN 2026',
     tag: 'Design System',
     cameraSettings: 'f/4.0 · 1/125s · ISO 100 · 85mm',
     clientNote: 'Zero runtime CSS bloat with native CSS custom properties and spring-damped momentum.',
-    tapeColor: 'rgba(168, 85, 247, 0.45)', // Purple washi
+    tapeColor: 'rgba(214, 199, 221, 0.6)', // Pale lilac tape
     initialRotation: 5,
-    initialX: 68,
-    initialY: 42,
+    initialX: 75,
+    initialY: 40,
     developed: true,
-    gradient: 'linear-gradient(135deg, #4c1d95 0%, #581c87 50%, #3b0764 100%)',
+    gradient: 'linear-gradient(152deg, #372949 0%, #4F3B66 52%, #251A34 100%)',
   },
 ];
 
@@ -445,8 +445,8 @@ export const Polaroid: React.FC<PolaroidProps> = ({
       {showControls && !compact && (
         <div className="modui-polaroid-toolbar">
           <div className="modui-polaroid-brand">
-            <span className="modui-polaroid-brand__badge">POLAROID SX-70</span>
-            <span className="modui-polaroid-brand__title">STUDIO ARCHIVE</span>
+            <span className="modui-polaroid-brand__badge">SX-70</span>
+            <span className="modui-polaroid-brand__title">Studio archive</span>
           </div>
 
           <div className="modui-polaroid-actions">
@@ -634,13 +634,13 @@ export const Polaroid: React.FC<PolaroidProps> = ({
                   <div className="modui-polaroid-back-inner">
                     {/* Archival Rubber Ink Stamp */}
                     <div className="modui-polaroid-stamp">
-                      <span className="modui-polaroid-stamp__circle">EXPOSURE ARCHIVE</span>
+                      <span className="modui-polaroid-stamp__circle">Exposure archive</span>
                       <span className="modui-polaroid-stamp__date">{photo.date}</span>
                     </div>
 
                     {/* Camera Technical Exposure Settings */}
                     <div className="modui-polaroid-back-specs">
-                      <div className="modui-polaroid-spec-label">CAMERA SPECS</div>
+                      <div className="modui-polaroid-spec-label">Camera</div>
                       <div className="modui-polaroid-spec-val">
                         {photo.cameraSettings || 'f/2.8 · 1/250s · ISO 100'}
                       </div>
@@ -652,8 +652,8 @@ export const Polaroid: React.FC<PolaroidProps> = ({
                     </div>
 
                     <div className="modui-polaroid-back-footer">
-                      <span className="modui-polaroid-spec-id">SERIAL #{photo.id.toUpperCase()}</span>
-                      <span className="modui-polaroid-spec-chem">INSTANT FILM 600</span>
+                      <span className="modui-polaroid-spec-id">No. {photo.id}</span>
+                      <span className="modui-polaroid-spec-chem">Instant film 600</span>
                     </div>
                   </div>
                 </div>

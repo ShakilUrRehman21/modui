@@ -32,9 +32,9 @@ export default function FilmstripGalleryDemo({ theme }: DemoProps) {
                           enableLightbox={filmstripLightbox}
                           onFrameSelect={(item) => setFilmstripActiveFrame(item.title)}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          35mm Cinematography Reel: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{filmstripActiveFrame}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          35mm Cinematography Reel: <span className="modui-stage-caption-value">{filmstripActiveFrame}</span>
+                          <div className="modui-stage-caption-hint">
                             Drag horizontally to scrub the reel. Click any frame to inspect in lightbox modal.
                           </div>
                         </div>

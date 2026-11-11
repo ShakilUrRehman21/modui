@@ -1,149 +1,188 @@
 /* ==========================================================================
-   ModUI Design System — Light Creative Playground Standard
-   Warm off-white canvas (#F8F7F2) with Cobalt (#365CF5), Coral, Lilac, Mint & Yellow
+   ModUI Design System — v2 "Porcelain & Cobalt"
+   --------------------------------------------------------------------------
+   Color   Porcelain #F3F4F7 · Ink #0E1322 · Cobalt #365CF5 · Slate #5A6178
+           Lilac #B9A8FF (gradients only) · Flare #FF7A59 (live status only)
+   Type    Geist Variable (UI + display, weight is animated) · Geist Mono (code)
+   Scale   1.25 major-third: 12 · 14 · 16 · 20 · 25 · 31 · 39 · 49 · 61 · 76
+   Motion  Responds to the user first. One orchestrated load sequence per page.
    ========================================================================== */
 
 :root {
-  /* Typography: Manrope (primary), Inter (fallback), JetBrains Mono (technical) */
-  --font-sans: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Manrope', 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* ---------- Typography ---------- */
+  --font-sans: 'Geist Variable', 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Geist Variable', 'Geist', 'Inter', sans-serif;
+  --font-mono: 'Geist Mono Variable', 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* Creative Studio Palette — Light Off-White Canvas & Crisp Surfaces */
-  --bg-app: #F8F7F2;
+  --fs-2xs: 0.75rem;   /* 12 */
+  --fs-xs: 0.8125rem;  /* 13 */
+  --fs-sm: 0.875rem;   /* 14 */
+  --fs-base: 1rem;     /* 16 */
+  --fs-lg: 1.125rem;   /* 18 */
+  --fs-xl: 1.25rem;    /* 20 */
+  --fs-h4: 1.5625rem;  /* 25 */
+  --fs-h3: clamp(1.375rem, 1.1rem + 0.8vw, 1.9375rem);
+  --fs-h2: clamp(2rem, 1.35rem + 2.4vw, 3.0625rem);
+  --fs-display: clamp(2.75rem, 1.5rem + 4.6vw, 4.75rem);
+
+  --lh-tight: 1.04;
+  --lh-snug: 1.2;
+  --lh-body: 1.6;
+  --tracking-display: -0.045em;
+  --tracking-heading: -0.03em;
+  --tracking-ui: -0.01em;
+
+  /* ---------- Palette: Porcelain (light) ---------- */
+  --c-porcelain: #F3F4F7;
+  --c-ink: #0E1322;
+  --c-cobalt: #365CF5;
+  --c-slate: #5A6178;
+  --c-lilac: #B9A8FF;
+  --c-flare: #FF7A59;
+
+  --bg-app: #F3F4F7;
   --bg-surface: #FFFFFF;
   --bg-surface-elevated: #FFFFFF;
-  --bg-surface-subtle: #F2EFEB;
-  --bg-navbar: rgba(255, 255, 255, 0.92);
-  --bg-dark: #20201E;
-  --bg-dark-surface: #2B2C28;
+  --bg-surface-subtle: #ECEEF3;
+  --bg-navbar: rgba(255, 255, 255, 0.74);
+  --bg-dark: #0E1322;
+  --bg-dark-surface: #161C2E;
 
-  --border-subtle: #EFECE5;
-  --border-default: #E4E1D9;
-  --border-strong: #CDC9BE;
-  --border-dark: #20201E;
+  --border-subtle: #E8EAF0;
+  --border-default: #DDE0E8;
+  --border-strong: #C5CAD6;
+  --border-dark: #0E1322;
 
-  --text-primary: #20201E;
-  --text-secondary: #696963;
-  --text-tertiary: #8E8D86;
+  --text-primary: #0E1322;
+  --text-secondary: #5A6178;
+  --text-tertiary: #8A90A3;
   --text-inverse: #FFFFFF;
-  --text-dark-muted: #A3A39C;
+  --text-dark-muted: #9AA0B3;
 
-  /* Primary Accent: Cobalt */
   --accent-primary: #365CF5;
-  --accent-primary-hover: #294AD6;
+  --accent-primary-hover: #2747D9;
   --accent-subtle: rgba(54, 92, 245, 0.08);
-  --accent-border: rgba(54, 92, 245, 0.25);
-  --accent-glow: rgba(54, 92, 245, 0.16);
+  --accent-border: rgba(54, 92, 245, 0.24);
+  --accent-glow: rgba(54, 92, 245, 0.18);
+  --accent-ink: #1E3BC2;
 
-  /* Curated Studio Accents */
+  --gradient-brand: linear-gradient(115deg, #365CF5 0%, #6A5CF6 55%, #B9A8FF 100%);
+  --gradient-sheen: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.55) 50%, transparent 80%);
+
+  /* Legacy accent names kept for existing primitives */
   --color-cobalt: #365CF5;
-  --color-coral: #FF735E;
+  --color-coral: #FF7A59;
   --color-lilac: #DCD4FF;
-  --color-mint: #D3EBDD;
-  --color-yellow: #F1E99B;
+  --color-mint: #CFEBDD;
+  --color-yellow: #F3E8A2;
+  --color-success: #16A34A;
 
-  /* Code Syntax Dark Panel */
-  --code-bg: #1B1C20;
-  --code-text: #F8F7F2;
+  --code-bg: #0E1322;
+  --code-text: #E6E9F2;
 
-  /* Grid & Stage overlays */
-  --grid-line-color: rgba(228, 225, 217, 0.45);
-  --stage-grid: rgba(0, 0, 0, 0.035);
-  --preview-stage-bg: #FAF9F6;
-  --preview-dot: #CBD5E1;
+  --grid-line-color: rgba(14, 19, 34, 0.045);
+  --stage-grid: rgba(14, 19, 34, 0.03);
+  --preview-stage-bg: #F8F9FB;
+  --preview-dot: #CBD1DC;
 
-  /* Precise 6–8px corner radii for modern creative studio surfaces */
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 10px;
-  --radius-xl: 14px;
+  /* ---------- Shape ---------- */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
   --radius-pill: 9999px;
 
-  /* Soft Natural Ambient Studio Shadows */
-  --shadow-sm: 0 1px 3px rgba(32, 32, 30, 0.05), 0 1px 2px rgba(32, 32, 30, 0.03);
-  --shadow-md: 0 4px 16px -2px rgba(32, 32, 30, 0.06), 0 2px 6px -1px rgba(32, 32, 30, 0.04);
-  --shadow-lg: 0 14px 34px -4px rgba(32, 32, 30, 0.08), 0 4px 12px -2px rgba(32, 32, 30, 0.03);
-  --shadow-accent: 0 8px 24px -4px rgba(54, 92, 245, 0.25);
+  /* ---------- Elevation (ink-tinted, layered) ---------- */
+  --shadow-sm: 0 1px 2px rgba(14, 19, 34, 0.05), 0 0 0 1px rgba(14, 19, 34, 0.02);
+  --shadow-md: 0 1px 2px rgba(14, 19, 34, 0.04), 0 6px 18px -6px rgba(14, 19, 34, 0.1);
+  --shadow-lg: 0 2px 4px rgba(14, 19, 34, 0.04), 0 24px 48px -16px rgba(14, 19, 34, 0.18);
+  --shadow-accent: 0 1px 2px rgba(30, 59, 194, 0.3), 0 10px 28px -8px rgba(54, 92, 245, 0.55);
 
-  /* Spring & Transitions */
+  /* ---------- Motion ---------- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-elastic: cubic-bezier(0.76, 0, 0.24, 1);
-  --transition-fast: 160ms var(--ease-out-expo);
-  --transition-normal: 260ms var(--ease-out-expo);
+  --dur-fast: 160ms;
+  --dur-base: 280ms;
+  --dur-slow: 640ms;
+  --transition-fast: var(--dur-fast) var(--ease-out-expo);
+  --transition-normal: var(--dur-base) var(--ease-out-expo);
   --transition-glide: 450ms var(--ease-elastic);
+
+  --nav-height: 56px;
 }
 
 /* ==========================================================================
-   ModUI Dark Obsidian & Graphite Studio Theme
-   Activated via [data-theme="dark"] on <html>
+   Dark — "Night Cobalt"
    ========================================================================== */
 [data-theme="dark"],
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* Dark Canvas & Elevated Obsidian Surfaces */
-  --bg-app: #0A0B0E;
-  --bg-surface: #131418;
-  --bg-surface-elevated: #191A20;
-  --bg-surface-subtle: #1C1D24;
-  --bg-navbar: rgba(18, 19, 24, 0.88);
-  --bg-dark: #0A0B0E;
-  --bg-dark-surface: #131418;
+  --bg-app: #080B16;
+  --bg-surface: #0F1424;
+  --bg-surface-elevated: #141A2D;
+  --bg-surface-subtle: #171E33;
+  --bg-navbar: rgba(13, 18, 33, 0.72);
+  --bg-dark: #080B16;
+  --bg-dark-surface: #0F1424;
 
-  /* Clean Architectural Dark Borders */
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-default: rgba(255, 255, 255, 0.12);
-  --border-strong: rgba(255, 255, 255, 0.22);
-  --border-dark: rgba(255, 255, 255, 0.32);
+  --border-subtle: rgba(185, 198, 255, 0.07);
+  --border-default: rgba(185, 198, 255, 0.11);
+  --border-strong: rgba(185, 198, 255, 0.2);
+  --border-dark: rgba(185, 198, 255, 0.3);
 
-  /* High-Contrast Crisp Typography */
-  --text-primary: #F4F4F6;
-  --text-secondary: #9DA3AE;
-  --text-tertiary: #6B7280;
-  --text-inverse: #0A0B0E;
-  --text-dark-muted: #4B5563;
+  --text-primary: #EEF0F7;
+  --text-secondary: #A2A9BF;
+  --text-tertiary: #6E7690;
+  --text-inverse: #080B16;
+  --text-dark-muted: #4C5470;
 
-  /* Luminous Cobalt & Studio Accents */
-  --accent-primary: #4F70FF;
-  --accent-primary-hover: #3C60F6;
-  --accent-subtle: rgba(79, 112, 255, 0.14);
-  --accent-border: rgba(79, 112, 255, 0.35);
-  --accent-glow: rgba(79, 112, 255, 0.25);
+  --accent-primary: #5C7CFF;
+  --accent-primary-hover: #7891FF;
+  --accent-subtle: rgba(92, 124, 255, 0.13);
+  --accent-border: rgba(92, 124, 255, 0.34);
+  --accent-glow: rgba(92, 124, 255, 0.28);
+  --accent-ink: #A9B9FF;
 
-  --color-cobalt: #4F70FF;
-  --color-coral: #FF735E;
-  --color-lilac: #DCD4FF;
+  --gradient-brand: linear-gradient(115deg, #5C7CFF 0%, #8A7BFF 55%, #C9BCFF 100%);
+  --gradient-sheen: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.18) 50%, transparent 80%);
+
+  --color-cobalt: #5C7CFF;
+  --color-coral: #FF8A6B;
+  --color-lilac: #C9BCFF;
   --color-mint: #4ADE80;
   --color-yellow: #FDE047;
+  --color-success: #4ADE80;
 
-  /* Code Syntax Dark Panel */
-  --code-bg: #0D0E12;
-  --code-text: #E5E7EB;
+  --code-bg: #060912;
+  --code-text: #E6E9F2;
 
-  /* Geometric Dark Grid & Canvas Overlays */
-  --grid-line-color: rgba(255, 255, 255, 0.038);
-  --stage-grid: rgba(255, 255, 255, 0.04);
-  --preview-stage-bg: #0D0E12;
-  --preview-dot: #2A2D37;
+  --grid-line-color: rgba(185, 198, 255, 0.04);
+  --stage-grid: rgba(185, 198, 255, 0.035);
+  --preview-stage-bg: #0A0F1D;
+  --preview-dot: #262E48;
 
-  /* Ambient Occlusion & Luminescent Studio Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 4px 18px -2px rgba(0, 0, 0, 0.55), 0 2px 6px -1px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 16px 40px -4px rgba(0, 0, 0, 0.75), 0 4px 12px -2px rgba(0, 0, 0, 0.45);
-  --shadow-accent: 0 8px 24px -4px rgba(79, 112, 255, 0.35);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(185, 198, 255, 0.03);
+  --shadow-md: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 22px -8px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.4), 0 28px 56px -16px rgba(0, 0, 0, 0.85);
+  --shadow-accent: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -8px rgba(92, 124, 255, 0.6);
 }
 
-/* Silky smooth global theme cross-fade without layout jitter */
+/* Silky theme cross-fade without layout jitter */
 html.theme-transition,
 html.theme-transition *,
 html.theme-transition *::before,
 html.theme-transition *::after {
-  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease !important;
+  transition: background-color 260ms ease, border-color 260ms ease, color 260ms ease, box-shadow 260ms ease, fill 260ms ease !important;
 }
 
-/* Universal Reset & Complete Scrollbar Elimination */
+/* ==========================================================================
+   Reset
+   ========================================================================== */
 *,
 *::before,
 *::after {
@@ -155,26 +194,25 @@ html.theme-transition *::after {
 }
 
 ::-webkit-scrollbar,
-*::-webkit-scrollbar,
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
   background: transparent !important;
-  -webkit-appearance: none !important;
 }
 
 html {
   font-family: var(--font-sans);
+  font-size: 100%;
   background-color: var(--bg-app);
   color: var(--text-primary);
   color-scheme: light;
   scroll-behavior: auto;
-  scroll-padding-top: 84px;
+  scroll-padding-top: 96px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'ss01', 'cv11';
   width: 100%;
   max-width: 100%;
   overflow-x: clip;
@@ -194,13 +232,14 @@ body {
   overflow-x: clip;
   position: relative;
   background-color: var(--bg-app);
-  /* Studio fine geometric grid overlay on canvas */
+  /* Fine 36px studio grid — the hero pixel trail snaps to it */
   background-image:
     linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
   background-size: 36px 36px;
-  background-repeat: repeat;
   color: var(--text-primary);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
 }
 
 #root {
@@ -211,10 +250,7 @@ body {
   flex-direction: column;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
 
 button {
   font-family: inherit;
@@ -222,196 +258,338 @@ button {
   border: none;
   background: none;
   outline: none;
+  color: inherit;
 }
 
 button:focus-visible,
 a:focus-visible,
-input:focus-visible {
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
   outline: 2px solid var(--accent-primary);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
 }
 
-input,
-textarea,
-select {
-  font-family: inherit;
+input, textarea, select { font-family: inherit; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  text-wrap: balance;
 }
 
-/* Container */
+p { text-wrap: pretty; }
+
+/* ==========================================================================
+   Layout primitives
+   ========================================================================== */
 .modui-container {
   width: 100%;
   max-width: 1240px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
 }
 
 @media (max-width: 640px) {
-  .modui-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+  .modui-container { padding-inline: 1rem; }
 }
 
-/* ModUI Top Floating Tag / Eyebrow */
+/* Route enter — the single page-level transition */
+.modui-route {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  animation: modui-route-in 620ms var(--ease-out-expo) both;
+}
+
+@keyframes modui-route-in {
+  from { opacity: 0; transform: translateY(14px); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+
+/* ==========================================================================
+   Section heading kit (shared by home sections & pages)
+   ========================================================================== */
+.modui-section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--fs-sm);
+  font-weight: 550;
+  color: var(--accent-primary);
+  letter-spacing: var(--tracking-ui);
+  margin-bottom: 0.875rem;
+}
+
+.modui-section-kicker::before {
+  content: '';
+  width: 18px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.modui-section-title {
+  font-size: var(--fs-h2);
+  font-weight: 640;
+  line-height: 1.06;
+  letter-spacing: var(--tracking-heading);
+  color: var(--text-primary);
+}
+
+.modui-section-lede {
+  font-size: var(--fs-lg);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 56ch;
+}
+
+/* Hero eyebrow pill (legacy name) */
 .modui-hero-eyebrow-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.75rem 0.3rem 0.4rem;
+  border-radius: var(--radius-pill);
   background: var(--bg-surface);
   color: var(--text-primary);
   border: 1px solid var(--border-default);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--fs-xs);
+  font-weight: 550;
   box-shadow: var(--shadow-sm);
-  letter-spacing: 0.04em;
   margin-bottom: 1.5rem;
 }
 
 .modui-pulse-indicator {
+  position: relative;
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(54, 92, 245, 0.2);
   display: inline-block;
 }
 
-/* ModUI Signature Primary CTA Button (Cobalt, 7px radius) */
-.modui-cta-btn {
+.modui-pulse-indicator::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent-primary);
+  animation: modui-ping 2.2s var(--ease-out-quart) infinite;
+}
+
+@keyframes modui-ping {
+  0% { transform: scale(0.5); opacity: 0.9; }
+  80%, 100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.modui-cta-btn,
+.modui-secondary-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.4rem;
-  border-radius: var(--radius-md);
-  background: var(--accent-primary);
-  color: #FFFFFF;
+  gap: 0.55rem;
+  height: 46px;
+  padding: 0 1.35rem;
+  border-radius: var(--radius-pill);
   font-size: 0.9375rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  box-shadow: 0 2px 8px rgba(54, 92, 245, 0.25);
-  transition: all var(--transition-fast);
+  font-weight: 560;
+  letter-spacing: var(--tracking-ui);
   cursor: pointer;
   text-decoration: none;
+  white-space: nowrap;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    transform var(--dur-base) var(--ease-out-expo),
+    box-shadow var(--dur-base) var(--ease-out-expo),
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    color var(--dur-fast) ease,
+    translate 520ms var(--ease-spring);
+}
+
+.modui-cta-btn {
+  background: var(--accent-primary);
+  color: #FFFFFF;
   border: 1px solid transparent;
+  box-shadow: var(--shadow-accent), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+/* sheen that sweeps once per hover */
+.modui-cta-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--gradient-sheen);
+  transform: translateX(-110%);
+  transition: transform 700ms var(--ease-out-expo);
 }
 
 .modui-cta-btn:hover {
   background: var(--accent-primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(54, 92, 245, 0.35);
+  transform: translateY(-1px);
 }
 
-.modui-cta-btn:active {
-  transform: translateY(0);
+.modui-cta-btn:hover::after { transform: translateX(110%); }
+
+.modui-cta-btn:active,
+.modui-secondary-btn:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 90ms;
 }
 
-.modui-cta-btn-arrow {
-  transition: transform var(--transition-fast);
+.modui-cta-btn-arrow,
+.modui-btn-arrow {
+  transition: transform var(--dur-base) var(--ease-spring);
 }
 
-.modui-cta-btn:hover .modui-cta-btn-arrow {
-  transform: translate(2px, -2px);
+.modui-cta-btn:hover .modui-cta-btn-arrow,
+.modui-cta-btn:hover .modui-btn-arrow {
+  transform: translateX(3px);
 }
 
-/* Secondary Button (Surface, 7px radius) */
 .modui-secondary-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.4rem;
-  border-radius: var(--radius-md);
   background: var(--bg-surface);
   color: var(--text-primary);
-  font-size: 0.9375rem;
-  font-weight: 600;
   border: 1px solid var(--border-default);
   box-shadow: var(--shadow-sm);
-  transition: all var(--transition-fast);
-  cursor: pointer;
-  text-decoration: none;
 }
 
 .modui-secondary-btn:hover {
-  background: var(--bg-surface-subtle);
   border-color: var(--border-strong);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
 
-.modui-secondary-btn:active {
-  transform: translateY(0);
-}
-
 .modui-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 700;
+  font-size: var(--fs-sm);
+  font-weight: 550;
   color: var(--accent-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
+  letter-spacing: var(--tracking-ui);
+  margin-bottom: 0.625rem;
 }
 
-/* Fixed Top Reading Progress Bar (Hairline line, zero text) */
+/* ==========================================================================
+   Scroll progress hairline
+   ========================================================================== */
 #modui-scroll-progress-line {
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
-  width: 0%;
-  background: linear-gradient(90deg, #365CF5 0%, #60A5FA 50%, #365CF5 100%);
-  box-shadow: 0 0 10px rgba(54, 92, 245, 0.6);
+  height: 2px;
+  width: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: var(--gradient-brand);
   z-index: 999999;
   pointer-events: none;
-  transition: width 0.06s linear;
 }
 
 /* ==========================================================================
-   Scroll-Triggered Motion Engine (Slide In, Fade In, Fade Out on Scroll)
+   Interaction kit — driven by src/lib/interactions.ts
+   ========================================================================== */
+
+/* Spotlight: a cursor-tracked rim light + soft fill. Add .modui-spotlight. */
+.modui-spotlight {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  isolation: isolate;
+}
+
+.modui-spotlight > .modui-spotlight-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+  padding: 1px;
+  background: radial-gradient(260px circle at var(--mx) var(--my), var(--accent-primary), transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 360ms var(--ease-out-expo);
+}
+
+.modui-spotlight > .modui-spotlight-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(420px circle at var(--mx) var(--my), var(--accent-subtle), transparent 60%);
+  opacity: 0;
+  transition: opacity 360ms var(--ease-out-expo);
+}
+
+.modui-spotlight:hover > .modui-spotlight-rim,
+.modui-spotlight:hover > .modui-spotlight-fill,
+.modui-spotlight:focus-within > .modui-spotlight-rim {
+  opacity: 1;
+}
+
+/* Magnetic: JS writes the `translate` property so it never fights `transform`. */
+[data-magnetic] {
+  transition: translate 520ms var(--ease-spring);
+  will-change: translate;
+}
+
+/* ==========================================================================
+   Reveal — plays once, gently. Elements opt in with .modui-reveal
    ========================================================================== */
 .modui-reveal {
   opacity: 0;
-  transform: translateY(44px);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transform: translateY(22px);
+  filter: blur(6px);
+  transition:
+    opacity 900ms var(--ease-out-expo),
+    transform 900ms var(--ease-out-expo),
+    filter 900ms var(--ease-out-expo);
 }
 
-.modui-reveal.modui-slide-left {
-  transform: translateX(-56px);
-}
-
-.modui-reveal.modui-slide-right {
-  transform: translateX(56px);
-}
-
-.modui-reveal.modui-scale-up {
-  transform: scale(0.92) translateY(32px);
-}
+.modui-reveal.modui-slide-left { transform: translateX(-28px); }
+.modui-reveal.modui-slide-right { transform: translateX(28px); }
+.modui-reveal.modui-scale-up { transform: translateY(18px) scale(0.97); }
 
 .modui-reveal.modui-in-view {
-  opacity: 1 !important;
-  transform: translate(0, 0) scale(1) !important;
+  opacity: 1;
+  transform: none;
+  filter: none;
 }
 
-.modui-reveal.modui-out-top {
-  opacity: 0.22;
-  transform: translateY(-24px) scale(0.98);
-  filter: blur(0.5px);
+/* kept for backwards compatibility — no longer applied */
+.modui-reveal.modui-out-top { opacity: 1; transform: none; filter: none; }
+
+.modui-delay-1 { transition-delay: 70ms; }
+.modui-delay-2 { transition-delay: 140ms; }
+.modui-delay-3 { transition-delay: 210ms; }
+.modui-delay-4 { transition-delay: 280ms; }
+
+/* Stagger: children animate in sequence once the parent is in view.
+   Uses an animation (not a transition) so it never fights hover transforms. */
+.modui-stagger:not(.modui-in-view) > * { opacity: 0; }
+
+.modui-stagger.modui-in-view > * {
+  animation: modui-stagger-in 760ms var(--ease-out-expo) backwards;
+  animation-delay: calc(min(var(--i, 0), 12) * 50ms);
 }
 
-.modui-delay-1 { transition-delay: 0.08s; }
-.modui-delay-2 { transition-delay: 0.16s; }
-.modui-delay-3 { transition-delay: 0.24s; }
-.modui-delay-4 { transition-delay: 0.32s; }
+@keyframes modui-stagger-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
 
-/* Reduced Motion Override */
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -422,10 +600,40 @@ select {
     scroll-behavior: auto !important;
   }
 
-  .modui-reveal {
+  .modui-reveal,
+  .modui-stagger > *,
+  .modui-stagger:not(.modui-in-view) > * {
     opacity: 1 !important;
     transform: none !important;
-    transition: none !important;
     filter: none !important;
   }
+
+  [data-magnetic] { translate: none !important; }
 }
+
+/* ==========================================================================
+   Shared demo control (used by component demo panels)
+   ========================================================================== */
+.modui-pill-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--fs-2xs);
+  font-weight: 540;
+  height: 28px;
+  padding: 0 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.modui-pill-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  background: var(--bg-surface-subtle);
+}
+
+.modui-pill-toggle:active { transform: scale(0.96); }

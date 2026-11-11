@@ -58,7 +58,7 @@ export const DEFAULT_SPATIAL_ITEMS: SpatialGalleryItem[] = [
     alt: 'High refractive photonic crystals with iridescent rainbow dispersion',
     description: 'Experimental study on light caustics passing through curved optical glass prisms, mapping structural wave frequencies into visible color coordinates.',
     accentColor: '#3B82F6',
-    badge: 'CASE 01',
+    badge: 'Case 01',
   },
   {
     id: 'sg-02',
@@ -69,7 +69,7 @@ export const DEFAULT_SPATIAL_ITEMS: SpatialGalleryItem[] = [
     alt: 'Monolithic concrete and glass corporate architecture catching daylight',
     description: 'Precision architectural survey exploring the brutalist interplay of heavy raw titanium panels, shadow recesses, and floor-to-ceiling glass fenestrations.',
     accentColor: '#10B981',
-    badge: 'CASE 02',
+    badge: 'Case 02',
   },
   {
     id: 'sg-03',
@@ -80,7 +80,7 @@ export const DEFAULT_SPATIAL_ITEMS: SpatialGalleryItem[] = [
     alt: 'Abstract fluid turbulence in deep ocean blue and violet hues',
     description: 'Computational fluid dynamic simulation of turbulent flow fields around aerodynamic control surfaces at high Reynolds numbers.',
     accentColor: '#8B5CF6',
-    badge: 'CASE 03',
+    badge: 'Case 03',
   },
   {
     id: 'sg-04',
@@ -91,7 +91,7 @@ export const DEFAULT_SPATIAL_ITEMS: SpatialGalleryItem[] = [
     alt: 'High-density microchip silicon architecture with glowing gold micro-traces',
     description: 'High-density silicon wafer featuring sub-nanometer lithography and integrated optical inter-connects for low-latency parallel tensor reduction.',
     accentColor: '#F59E0B',
-    badge: 'CASE 04',
+    badge: 'Case 04',
   },
   {
     id: 'sg-05',
@@ -102,7 +102,7 @@ export const DEFAULT_SPATIAL_ITEMS: SpatialGalleryItem[] = [
     alt: 'Vibrant chromatic fluid surface oscillating under harmonic frequencies',
     description: 'Optical vibrometry recording standing wave nodes across an oscillating fluid boundary, visualizing non-linear acoustic dispersion.',
     accentColor: '#06B6D4',
-    badge: 'CASE 05',
+    badge: 'Case 05',
   },
 ];
 
@@ -330,11 +330,11 @@ export function SpatialGallery({
             <span className="modui-spatial-hud-pill">
               {currentItem.badge || `0${activeIdx + 1} / 0${totalItems}`}
             </span>
-            <span className="modui-spatial-hud-cat">{currentItem.category || 'CASE STUDY'}</span>
+            <span className="modui-spatial-hud-cat">{currentItem.category || 'Case study'}</span>
           </div>
           <div className="modui-spatial-hud-right">
             <span className="modui-spatial-hud-dot" style={{ backgroundColor: currentItem.accentColor || '#3B82F6' }} />
-            <span className="modui-spatial-hud-status">SPATIAL 3D · 120 FPS</span>
+            
           </div>
         </div>
       )}
@@ -353,12 +353,12 @@ export function SpatialGallery({
             const isVisible = dist <= (compact ? 1 : 2);
 
             // 3D Cylindrical coordinates
-            const spacing = compact ? 100 : 250;
+            const spacing = compact ? 104 : 334;
             const translateX = offset * spacing;
-            const translateZ = -dist * (compact ? 40 : 120);
-            const rotateY = -offset * (compact ? 12 : 18);
-            const scale = compact ? (isCurrent ? 1 : 0.8) : Math.max(0.65, 1 - dist * 0.14);
-            const opacity = isVisible ? (compact ? (isCurrent ? 1 : 0.45) : Math.max(0.2, 1 - dist * 0.35)) : 0;
+            const translateZ = -dist * (compact ? 40 : 158);
+            const rotateY = -offset * (compact ? 12 : 23);
+            const scale = compact ? (isCurrent ? 1 : 0.8) : Math.max(0.58, 1 - dist * 0.18);
+            const opacity = isVisible ? (compact ? (isCurrent ? 1 : 0.45) : Math.max(0.26, 1 - dist * 0.33)) : 0;
 
             return (
               <div
@@ -374,7 +374,7 @@ export function SpatialGallery({
                 {/* Mirror Ground Reflection */}
                 {showReflection && (
                   <div className={`modui-spatial-reflection ${compact ? 'is-compact' : ''}`} aria-hidden="true">
-                    <img src={item.src} alt="" className="modui-spatial-img-reflection" />
+                    <img src={item.src} alt="" className="modui-spatial-img-reflection" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                     <div className="modui-spatial-reflection-gradient" />
                   </div>
                 )}
@@ -398,7 +398,7 @@ export function SpatialGallery({
                   }}
                 >
                   <div className="modui-spatial-card-media">
-                    <img src={item.src} alt={item.alt || item.title} className="modui-spatial-card-img" />
+                    <img src={item.src} alt={item.alt || item.title} className="modui-spatial-card-img" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                     <div className="modui-spatial-card-overlay" />
                     <div className="modui-spatial-specular-glare" />
                   </div>
@@ -477,7 +477,7 @@ export function SpatialGallery({
           >
             <div className="modui-spatial-modal-header">
               <div className="modui-spatial-modal-meta">
-                <span className="modui-spatial-modal-badge">{inspectedItem.category || 'FEATURED CASE'}</span>
+                <span className="modui-spatial-modal-badge">{inspectedItem.category || 'Featured'}</span>
                 <span className="modui-spatial-modal-id">{inspectedItem.badge || 'PROJ-2026'}</span>
               </div>
               <button
@@ -491,7 +491,7 @@ export function SpatialGallery({
             </div>
 
             <div className="modui-spatial-modal-media">
-              <img src={inspectedItem.src} alt={inspectedItem.alt || inspectedItem.title} />
+              <img src={inspectedItem.src} alt={inspectedItem.alt || inspectedItem.title} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
             </div>
 
             <div className="modui-spatial-modal-body">

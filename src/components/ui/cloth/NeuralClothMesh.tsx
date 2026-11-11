@@ -656,7 +656,7 @@ export const NeuralClothMesh: React.FC<NeuralClothMeshProps> = ({
           <div className="modui-cloth-mesh__content">
             <div className="modui-cloth-mesh__badge-tag" style={{ color: theme.tagColor }}>
               <span className="modui-cloth-mesh__pulse-dot" style={{ backgroundColor: theme.tagColor }} />
-              VERLET CONTINUUM // {variant.toUpperCase().replace('-', ' ')}
+              Verlet cloth
             </div>
             {headline && (
               <h2 className="modui-cloth-mesh__headline" style={{ color: theme.textColor }}>

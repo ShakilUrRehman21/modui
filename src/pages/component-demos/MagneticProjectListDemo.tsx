@@ -29,9 +29,9 @@ export default function MagneticProjectListDemo({ theme }: DemoProps) {
                           onProjectHover={(p) => p && setProjectListActiveTitle(p.title)}
                           onProjectClick={(p) => setProjectListActiveTitle(`${p.title} (Selected)`)}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Inspecting Case Study: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{projectListActiveTitle}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          Inspecting Case Study: <span className="modui-stage-caption-value">{projectListActiveTitle}</span>
+                          <div className="modui-stage-caption-hint">
                             Hover across rows to summon the floating preview card with velocity tilt. Press ArrowDown / ArrowUp to cycle with keyboard navigation.
                           </div>
                         </div>

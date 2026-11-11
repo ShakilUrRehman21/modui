@@ -22,39 +22,39 @@ const SPEC_ITEMS: SpecItem[] = [
   {
     id: 'spec-step-1',
     stepNum: '01',
-    stepTitle: 'Zero Runtime Bloat',
-    headerCategory: '01 / FOUNDATION',
+    stepTitle: 'Nothing extra to ship',
+    headerCategory: 'Foundation',
     statusText: 'Production Ready',
-    title: 'Pure React 19 & CSS Math',
+    title: 'React 19 and plain CSS',
     description:
-      'Zero external animation bloat or oversized bundles. Every motion equation is computed with CSS transforms and native React state.',
-    metricLabel: 'BUNDLE IMPACT',
+      'No animation runtime and no styling library. Motion is computed with CSS transforms and native React state, so your bundle only grows by what you paste.',
+    metricLabel: 'Bundle impact',
     metricDetail: 'No 3rd-party baggage',
     metricValue: '0 KB',
   },
   {
     id: 'spec-step-2',
     stepNum: '02',
-    stepTitle: 'Complete Source Ownership',
-    headerCategory: '02 / ARCHITECTURE',
+    stepTitle: 'Source you own',
+    headerCategory: 'Ownership',
     statusText: '100% Owned',
-    title: 'Direct Source Code Ownership',
+    title: 'Paste it, then make it yours',
     description:
-      'Drop files directly into your codebase. You retain 100% control over design tokens, CSS styling, responsive breakpoints, and ARIA attributes.',
-    metricLabel: 'CODE TRANSPARENCY',
+      'Each component is a .tsx and a .css file. Change the tokens, the breakpoints or the ARIA labels — there is no upstream package to fight.',
+    metricLabel: 'Code you can read',
     metricDetail: 'Full inspection rights',
     metricValue: '100%',
   },
   {
     id: 'spec-step-3',
     stepNum: '03',
-    stepTitle: 'Hardware-Accelerated 60 FPS',
-    headerCategory: '03 / PERFORMANCE',
+    stepTitle: 'GPU-composited motion',
+    headerCategory: 'Performance',
     statusText: 'Silky Smooth',
-    title: 'Hardware Compositing',
+    title: 'Smooth on every frame',
     description:
-      'Strictly uses GPU-promoted layer operations (transform, opacity). Zero layout reflows, zero paint bottlenecks during rapid scrolling.',
-    metricLabel: 'REFRESH TARGET',
+      'Animations stick to transform and opacity, which the GPU composites without reflowing layout — even while you scroll fast.',
+    metricLabel: 'Refresh target',
     metricDetail: 'Zero dropped frames',
     metricValue: '60 FPS',
   },
@@ -64,21 +64,51 @@ export const StackedCardsSection: React.FC<StackedCardsSectionProps> = () => {
   const [activeStep, setActiveStep] = useState(0);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Synchronize active step indicator as user scrolls through the cards
+  const [progress, setProgress] = useState(0);
+
+  // Active step + "deck" depth: earlier cards recede as the next one stacks on top
   useEffect(() => {
-    const handleScroll = () => {
-      cardRefs.current.forEach((card, index) => {
-        if (!card) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[];
+      if (!cards.length) return;
+      let active = 0;
+      cards.forEach((card, index) => {
         const rect = card.getBoundingClientRect();
-        // Trigger active step when the card enters the upper focal zone
-        if (rect.top <= 260 && rect.bottom >= 180) {
-          setActiveStep(index);
+        if (rect.top <= 260) active = index;
+        const next = cards[index + 1];
+        if (!next || reduce) {
+          card.style.setProperty('--deck-depth', '0');
+          return;
         }
+        // 0 when the next card is a viewport away, 1 when it has fully covered this one
+        const nextTop = next.getBoundingClientRect().top;
+        const depth = Math.min(1, Math.max(0, 1 - (nextTop - rect.top) / (rect.height + 40)));
+        card.style.setProperty('--deck-depth', depth.toFixed(3));
       });
+      setActiveStep(active);
+
+      const first = cards[0].getBoundingClientRect();
+      const last = cards[cards.length - 1].getBoundingClientRect();
+      const span = last.top - first.top + 1;
+      setProgress(Math.min(1, Math.max(0, (260 - first.top) / span)));
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, []);
 
   const scrollToCard = (index: number) => {
@@ -96,21 +126,22 @@ export const StackedCardsSection: React.FC<StackedCardsSectionProps> = () => {
         <div className="modui-specs-pinned-grid">
 
           {/* Left Column: Pinned Sticky Information & Step Indicator */}
-          <div className="modui-specs-left-sticky modui-reveal modui-slide-left">
-            <div className="modui-specs-eyebrow-pill">
-              ENGINEERING INTEGRITY
-            </div>
-
-            <h2 className="modui-specs-pinned-title">
-              Built for Real Production
+          <div className="modui-specs-left-sticky modui-reveal">
+            <h2 className="modui-section-title modui-specs-pinned-title">
+              Built to ship, not just to demo.
             </h2>
 
-            <p className="modui-specs-pinned-desc">
-              No fragile dependencies. As you scroll down, each architectural guarantee locks into place while the previous card gracefully fades out.
+            <p className="modui-section-lede modui-specs-pinned-desc">
+              Three promises every component keeps, whether it is a button or a WebGL gallery.
             </p>
 
             {/* Step Navigation Indicator */}
-            <div className="modui-specs-step-indicator" role="tablist" aria-label="Architecture guarantees">
+            <div
+              className="modui-specs-step-indicator"
+              role="tablist"
+              aria-label="Architecture guarantees"
+              style={{ '--rail-progress': progress } as React.CSSProperties}
+            >
               {SPEC_ITEMS.map((item, idx) => (
                 <button
                   key={item.id}
@@ -120,7 +151,7 @@ export const StackedCardsSection: React.FC<StackedCardsSectionProps> = () => {
                   className={`modui-step-pill ${activeStep === idx ? 'modui-step-pill--active' : ''}`}
                   onClick={() => scrollToCard(idx)}
                 >
-                  <span className="modui-step-num">{item.stepNum}</span>
+                  <span className="modui-step-dot" aria-hidden="true" />
                   <span className="modui-step-name">{item.stepTitle}</span>
                 </button>
               ))}
@@ -133,8 +164,8 @@ export const StackedCardsSection: React.FC<StackedCardsSectionProps> = () => {
               <div
                 key={item.id}
                 ref={(el) => { cardRefs.current[idx] = el; }}
-                className={`modui-spec-deck-card modui-reveal modui-delay-${idx + 1}`}
-                style={{ top: `${110 + idx * 18}px` }}
+                className="modui-spec-deck-card"
+                style={{ top: `${120 + idx * 20}px` }}
               >
                 <div className="modui-spec-deck-card-head">
                   <span className="modui-spec-deck-card-cat">{item.headerCategory}</span>

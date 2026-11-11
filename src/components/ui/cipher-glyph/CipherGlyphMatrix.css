@@ -1,135 +1,188 @@
-/* CipherGlyphMatrix.css — ModUI Primitive #30 */
+/* ==========================================================================
+   ModUI — Cipher Glyph Matrix
+   A decoder slab: phosphor glyphs on a dark panel, scanlines, and a header
+   strip that reports the charset and how far the decode has got.
+   ========================================================================== */
 
 .modui-cipher-container {
+  --cg-panel: linear-gradient(176deg, #11161F 0%, #090C13 100%);
+  --cg-panel-ring: rgba(255, 255, 255, 0.1);
+  --cg-rule: rgba(255, 255, 255, 0.12);
+  --cg-resolved: #E9EEF5;
+  --cg-phosphor: #3FE0F0;
+  --cg-dim: rgba(233, 238, 245, 0.46);
+  --cg-mono: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  --cg-ease: cubic-bezier(0.2, 0.9, 0.26, 1);
+
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
-  box-sizing: border-box;
-  font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
-  user-select: none;
-  padding: 8px 0;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   width: 100%;
-}
-
-/* Optional bordered mode when user explicitly requests an inner card box */
-.modui-cipher-container--bordered {
   border-radius: 16px;
-  padding: 24px;
-  background: rgba(13, 14, 21, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  background: var(--cg-panel);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 0 0 1px var(--cg-panel-ring),
+    0 22px 50px -26px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  font-family: var(--cg-mono);
 }
 
-.modui-cipher-container--bordered:hover {
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.6), 0 0 20px rgba(99, 102, 241, 0.15);
+.modui-cipher-container--bordered {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 0 0 1px color-mix(in srgb, var(--cg-phosphor) 28%, transparent),
+    0 0 36px -12px color-mix(in srgb, var(--cg-phosphor) 45%, transparent),
+    0 22px 50px -26px rgba(0, 0, 0, 0.8);
 }
 
-/* ========================================================
-   HUD Header
-   ======================================================== */
+/* scanlines + a phosphor bloom from the centre */
+.modui-cipher-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(90% 70% at 50% 54%, color-mix(in srgb, var(--cg-phosphor) 10%, transparent) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 3px);
+}
+
+/* a soft corner vignette, like glass */
+.modui-cipher-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 50%, transparent 54%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.modui-cipher-container > * { position: relative; z-index: 3; }
+
+/* ==========================================================================
+   Header strip
+   ========================================================================== */
 .modui-cipher-hud {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  padding-bottom: 10px;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 11px 15px;
+  border-bottom: 1px solid var(--cg-rule);
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.modui-cipher-hud-left {
+.modui-cipher-hud-left,
+.modui-cipher-hud-right {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--text-secondary, #94A3B8);
+  gap: 10px;
+  min-width: 0;
 }
 
 .modui-cipher-indicator-dot {
   width: 6px;
   height: 6px;
+  flex: 0 0 auto;
   border-radius: 50%;
-  background: var(--cipher-accent, #10B981);
-  box-shadow: 0 0 8px var(--cipher-accent, #10B981);
-  animation: cipherPulse 1.8s ease-in-out infinite;
+  background: var(--cg-phosphor);
+  box-shadow: 0 0 8px var(--cg-phosphor);
+  animation: modui-cg-live 1.6s steps(2, end) infinite;
 }
 
-@keyframes cipherPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+@keyframes modui-cg-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
 }
 
 .modui-cipher-hud-tag {
-  color: var(--text-secondary, #94A3B8);
-}
-
-.modui-cipher-hud-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-size: 11.5px;
+  font-weight: 540;
+  letter-spacing: 0.06em;
+  color: var(--cg-resolved);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modui-cipher-hud-mode {
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-tertiary, #64748B);
-  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px var(--cg-rule);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--cg-dim);
+  white-space: nowrap;
 }
 
 .modui-cipher-hud-entropy {
-  color: var(--cipher-accent, #10B981);
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 560;
+  letter-spacing: 0.05em;
+  color: var(--cg-phosphor);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--cg-phosphor) 70%, transparent);
+  white-space: nowrap;
 }
 
-/* ========================================================
-   Cipher Text Stream
-   ======================================================== */
+/* ==========================================================================
+   Glyph stream
+   ========================================================================== */
 .modui-cipher-stream {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
-  text-align: center;
+  gap: 0;
+  padding: 52px 22px 48px;
   cursor: pointer;
-  padding: 18px 8px;
-  font-size: 2.25rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  line-height: 1.25;
+  min-height: 0;
 }
 
 .modui-cipher-char {
   display: inline-block;
-  min-width: 0.65em;
-  text-align: center;
-  transition: color 0.15s ease, text-shadow 0.15s ease, transform 0.15s ease;
-  position: relative;
+  font-family: var(--cg-mono);
+  font-size: clamp(22px, 4.4vw, 38px);
+  font-weight: 560;
+  line-height: 1.24;
+  letter-spacing: 0.05em;
+  font-variant-ligatures: none;
+  transition: color 160ms linear, text-shadow 160ms linear, transform 220ms var(--cg-ease);
 }
 
-/* Scrambling State: Neon Phosphor Glow */
+.modui-cipher-char.is-resolved {
+  color: var(--cg-resolved);
+  text-shadow: 0 0 14px rgba(233, 238, 245, 0.28);
+}
+
 .modui-cipher-char.is-scrambling {
-  color: var(--cipher-glow, #34D399);
-  text-shadow: 0 0 16px var(--cipher-accent, #10B981), 0 0 32px var(--cipher-accent, #10B981);
+  color: var(--cg-phosphor);
+  text-shadow:
+    0 0 6px var(--cg-phosphor),
+    0 0 20px color-mix(in srgb, var(--cg-phosphor) 60%, transparent);
   transform: translateY(-1px);
 }
 
-/* Resolved State: Crisp Settled Typography */
-.modui-cipher-char.is-resolved {
-  color: var(--cipher-resolved, #F8FAFC);
-  text-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+/* the caret trailing the decode */
+.modui-cipher-char.is-scrambling:last-of-type::after {
+  content: '';
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 0.1em;
+  vertical-align: -0.12em;
+  background: var(--cg-phosphor);
+  box-shadow: 0 0 12px var(--cg-phosphor);
+  animation: modui-cg-caret 1s steps(2, end) infinite;
 }
 
-/* Accessible screen-reader text */
+@keyframes modui-cg-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 .modui-cipher-sr-text {
   position: absolute;
   width: 1px;
@@ -142,15 +195,15 @@
   border: 0;
 }
 
-/* ========================================================
-   Stepper Dots
-   ======================================================== */
+/* ==========================================================================
+   Phrase stepper
+   ========================================================================== */
 .modui-cipher-stepper {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 8px;
-  margin-top: 16px;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 0 20px;
 }
 
 .modui-cipher-step-dot {
@@ -158,119 +211,68 @@
   height: 6px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.modui-cipher-step-dot:hover {
-  background: rgba(255, 255, 255, 0.5);
-  transform: scale(1.2);
+  transition: width 420ms var(--cg-ease), background 260ms ease, box-shadow 260ms ease;
 }
 
 .modui-cipher-step-dot.is-active {
-  width: 18px;
-  background: var(--cipher-accent, #10B981);
-  box-shadow: 0 0 8px var(--cipher-accent, #10B981);
+  width: 22px;
+  background: var(--cg-phosphor);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--cg-phosphor) 70%, transparent);
 }
 
-/* ========================================================
-   Chromatic Color Variants (Dark Mode Defaults)
-   ======================================================== */
-.modui-cipher--matrix-emerald {
-  --cipher-accent: #10B981;
-  --cipher-glow: #34D399;
-  --cipher-resolved: #F8FAFC;
-}
-
-.modui-cipher--cyber-cyan {
-  --cipher-accent: #38BDF8;
-  --cipher-glow: #7DD3FC;
-  --cipher-resolved: #F8FAFC;
-}
-
-.modui-cipher--violet-plasma {
-  --cipher-accent: #8B5CF6;
-  --cipher-glow: #C084FC;
-  --cipher-resolved: #F8FAFC;
-}
-
+/* ==========================================================================
+   Charset palettes
+   ========================================================================== */
+.modui-cipher--matrix-emerald { --cg-phosphor: #3DE88A; }
+.modui-cipher--cyber-cyan { --cg-phosphor: #3FE0F0; }
+.modui-cipher--violet-plasma { --cg-phosphor: #B87BFF; }
 .modui-cipher--amber-phosphor {
-  --cipher-accent: #F59E0B;
-  --cipher-glow: #FBBF24;
-  --cipher-resolved: #F8FAFC;
+  --cg-phosphor: #F0A83C;
+  --cg-resolved: #F5E9D4;
 }
 
-/* ========================================================
-   Platform Light Theme Adaptations
-   ======================================================== */
+/* ==========================================================================
+   Light panel — the slab lifts off a bright page
+   ========================================================================== */
 .modui-cipher--theme-light {
-  background: transparent;
-  border: none;
-  box-shadow: none;
+  --cg-panel: linear-gradient(176deg, #1A2030 0%, #10141D 100%);
+  --cg-panel-ring: rgba(14, 19, 34, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 1px var(--cg-panel-ring),
+    0 24px 52px -26px rgba(14, 19, 34, 0.5);
 }
 
-.modui-cipher--theme-light.modui-cipher-container--bordered {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(15, 23, 42, 0.1);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 1);
-}
-
-.modui-cipher--theme-light .modui-cipher-hud {
-  border-bottom-color: rgba(15, 23, 42, 0.08);
-}
-
-.modui-cipher--theme-light .modui-cipher-hud-mode {
-  background: rgba(15, 23, 42, 0.04);
-  border-color: rgba(15, 23, 42, 0.08);
-  color: #64748B;
-}
-
-.modui-cipher--theme-light .modui-cipher-step-dot {
-  background: rgba(15, 23, 42, 0.15);
-}
-
-.modui-cipher--theme-light.modui-cipher--matrix-emerald {
-  --cipher-accent: #059669;
-  --cipher-glow: #10B981;
-  --cipher-resolved: #0F172A;
-}
-
-.modui-cipher--theme-light.modui-cipher--cyber-cyan {
-  --cipher-accent: #0284C7;
-  --cipher-glow: #0EA5E9;
-  --cipher-resolved: #0F172A;
-}
-
-.modui-cipher--theme-light.modui-cipher--violet-plasma {
-  --cipher-accent: #6D28D9;
-  --cipher-glow: #7C3AED;
-  --cipher-resolved: #0F172A;
-}
-
-.modui-cipher--theme-light.modui-cipher--amber-phosphor {
-  --cipher-accent: #D97706;
-  --cipher-glow: #B45309;
-  --cipher-resolved: #0F172A;
-}
-
-.modui-cipher--theme-light .modui-cipher-char.is-scrambling {
-  text-shadow: 0 0 12px var(--cipher-glow), 0 0 24px var(--cipher-accent);
-}
-
-.modui-cipher--theme-light .modui-cipher-char.is-resolved {
-  text-shadow: none;
-}
-
-/* ========================================================
-   Compact Mode
-   ======================================================== */
+/* ==========================================================================
+   Compact — catalogue thumbnail
+   ========================================================================== */
 .modui-cipher--compact {
-  padding: 10px 14px;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
-.modui-cipher--compact .modui-cipher-stream {
-  font-size: 1.15rem;
-  padding: 0;
+.modui-cipher--compact .modui-cipher-hud { display: none; }
+.modui-cipher--compact .modui-cipher-stream { padding: 22px 12px; }
+.modui-cipher--compact .modui-cipher-char { font-size: 15px; letter-spacing: 0.03em; }
+.modui-cipher--compact .modui-cipher-stepper { display: none; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 560px) {
+  .modui-cipher-stream { padding: 34px 14px 30px; }
+  .modui-cipher-hud-mode { display: none; }
 }
 
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-cipher-container,
+  .modui-cipher-container *,
+  .modui-cipher-container *::before,
+  .modui-cipher-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -6,6 +6,16 @@ export interface DemoProps {
   theme?: 'light' | 'dark';
 }
 
+const VARIANTS: { id: ButtonVariant; label: string; hint: string }[] = [
+  { id: 'shimmer', label: 'Shimmer', hint: 'Light sweeps across on hover' },
+  { id: 'glow', label: 'Glow', hint: 'Soft accent halo' },
+  { id: 'ripple', label: 'Ripple', hint: 'Ink spreads from the click' },
+  { id: 'magnetic', label: 'Magnetic', hint: 'Leans toward the cursor' },
+  { id: 'slide', label: 'Slide', hint: 'Icon slides in on hover' },
+  { id: 'gradient-border', label: 'Gradient border', hint: 'Animated edge' },
+  { id: 'minimal', label: 'Minimal', hint: 'Quiet secondary action' },
+];
+
 export default function AnimatedButtonDemo({ theme }: DemoProps) {
   const isDark = theme ? theme === 'dark' : (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark');
 
@@ -13,20 +23,29 @@ export default function AnimatedButtonDemo({ theme }: DemoProps) {
     const [btnSize, setBtnSize] = useState<ButtonSize>('md');
     const [btnLoading, setBtnLoading] = useState(false);
     const [btnDisabled, setBtnDisabled] = useState(false);
-    const [btnText, setBtnText] = useState('Interactive Action');
+    const [btnText, setBtnText] = useState('Get started');
 
   return (
     <>
       <div className="modui-canvas-stage">
-        <AnimatedButton
-                        variant={btnVariant}
-                        size={btnSize}
-                        loading={btnLoading}
-                        loadingText="Processing..."
-                        disabled={btnDisabled}
-                      >
-                        {btnText}
-                      </AnimatedButton>
+        <div className="modui-button-gallery">
+          {VARIANTS.map(({ id, label, hint }) => (
+            <div key={id} className={`modui-button-gallery__cell ${btnVariant === id ? 'is-selected' : ''}`}>
+              <AnimatedButton
+                variant={id}
+                size={btnSize}
+                loading={btnLoading}
+                loadingText="Saving"
+                disabled={btnDisabled}
+                onClick={() => setBtnVariant(id)}
+              >
+                {btnText}
+              </AnimatedButton>
+              <span className="modui-button-gallery__name">{label}</span>
+              <span className="modui-button-gallery__hint">{hint}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="modui-controls-panel">

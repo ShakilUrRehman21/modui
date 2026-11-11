@@ -1,91 +1,97 @@
 /* ==========================================================================
-   ModUI RadialOrbitHub Component Stylesheet
-   Elastic Radial Bloom · Rotational Inertia Track · Tactile Micro-Haptics
+   ModUI — Radial Orbit Hub
+   Satellites on a lit ring: the core is the light source, the orbit is a
+   real track, and each node is a tile that answers the pointer.
    ========================================================================== */
 
 .modui-radial-hub {
+  --rh-stage: radial-gradient(60% 60% at 50% 46%, rgba(54, 92, 245, 0.07) 0%, transparent 70%);
+  --rh-track: rgba(14, 19, 34, 0.12);
+  --rh-track-lit: rgba(54, 92, 245, 0.45);
+  --rh-node: linear-gradient(176deg, #FFFFFF 0%, #F1F3F8 100%);
+  --rh-node-ring: rgba(14, 19, 34, 0.1);
+  --rh-ink: #0E1322;
+  --rh-ink-dim: #5A6178;
+  --rh-core: linear-gradient(168deg, #4C6FFF 0%, #365CF5 48%, #2545C8 100%);
+  --rh-core-ink: #FFFFFF;
+  --rh-accent: var(--accent-primary, #365CF5);
+  --rh-tip-bg: #0E1322;
+  --rh-tip-ink: #FFFFFF;
+  --rh-ease: cubic-bezier(0.34, 1.28, 0.42, 1);
+
   position: relative;
-  width: calc(var(--hub-radius, 110px) * 2 + 80px);
-  height: calc(var(--hub-radius, 110px) * 2 + 80px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 400px;
+  background: var(--rh-stage);
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
   user-select: none;
-  touch-action: none;
-  outline: none;
-  margin: 0 auto;
 }
 
-/* Background Orbit Geometry Ring */
+/* ==========================================================================
+   Orbit track
+   ========================================================================== */
 .modui-radial-orbit-canvas {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
   overflow: visible;
-  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  opacity: 0;
-}
-
-.modui-radial-hub--open .modui-radial-orbit-canvas {
-  opacity: 1;
+  pointer-events: none;
 }
 
 .modui-radial-orbit-ring {
   fill: none;
-  stroke: rgba(54, 92, 245, 0.22);
+  stroke: var(--rh-track);
   stroke-width: 1.5;
-  stroke-dasharray: 4 6;
-  animation: modui-orbit-rotate 40s linear infinite;
-  transform-origin: center center;
+  opacity: 0;
+  transition: opacity 520ms ease;
 }
 
+/* the lit quarter, as if the core throws light along the track */
 .modui-radial-orbit-ring-outer {
   fill: none;
-  stroke: rgba(54, 92, 245, 0.1);
-  stroke-width: 1;
+  stroke: var(--rh-track-lit);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 90 460;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--rh-accent) 60%, transparent));
+  transition: opacity 520ms ease;
 }
 
-@keyframes modui-orbit-rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.modui-radial-hub--open .modui-radial-orbit-ring { opacity: 1; }
+
+.modui-radial-hub--open .modui-radial-orbit-ring-outer {
+  opacity: 1;
+  animation: modui-rh-sweep 7s linear infinite;
 }
 
-/* Satellites Track Container */
+@keyframes modui-rh-sweep {
+  to { stroke-dashoffset: -550; }
+}
+
+/* ==========================================================================
+   Satellites
+   ========================================================================== */
 .modui-radial-satellites {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
+  inset: 0;
+  display: grid;
+  place-items: center;
   pointer-events: none;
-  transform-origin: center center;
-  will-change: transform;
 }
 
-/* Individual Node Slot with Elastic Bloom Transition */
 .modui-radial-node-slot {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
+  display: grid;
+  place-items: center;
   opacity: 0;
-  transform: scale(0.3) translate3d(0, 0, 0);
+  pointer-events: none;
   transition:
-    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-    opacity 0.25s ease;
-  will-change: transform, opacity;
+    transform 560ms var(--rh-ease),
+    opacity 320ms ease;
 }
 
 .modui-radial-node-slot--open {
@@ -93,379 +99,341 @@
   pointer-events: auto;
 }
 
-/* Counter-rotation to keep icons straight */
 .modui-radial-node-counter-rot {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform-origin: center center;
+  display: grid;
+  place-items: center;
+  transition: transform 560ms var(--rh-ease);
 }
 
-/* Satellite Action Node Button */
+/* ---------- Node tile ---------- */
 .modui-radial-node-btn {
   position: relative;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  box-shadow:
-    0 10px 25px -4px rgba(15, 23, 42, 0.1),
-    0 4px 10px -2px rgba(15, 23, 42, 0.05);
-  cursor: pointer;
-  outline: none;
-  transition:
-    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.22s ease,
-    background-color 0.2s ease,
-    border-color 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
   padding: 0;
-}
-
-.modui-radial-node-btn:hover,
-.modui-radial-node-btn--hovered {
-  transform: scale(1.18) translateY(-2px);
+  border: 0;
+  border-radius: 17px;
+  background: var(--rh-node);
+  color: var(--rh-ink);
+  cursor: pointer;
+  overflow: visible;
   box-shadow:
-    0 16px 32px -6px rgba(54, 92, 245, 0.28),
-    0 0 0 1px rgba(54, 92, 245, 0.3);
-  border-color: var(--accent-primary, #365CF5);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 0 0 1px var(--rh-node-ring),
+    0 2px 4px rgba(14, 19, 34, 0.1),
+    0 10px 22px -10px rgba(14, 19, 34, 0.4);
+  transition:
+    transform 320ms var(--rh-ease),
+    box-shadow 320ms ease,
+    border-radius 320ms var(--rh-ease);
 }
 
-.modui-radial-node-btn:active {
-  transform: scale(0.96);
+.modui-radial-node-btn--hovered,
+.modui-radial-node-btn:hover {
+  transform: scale(1.14);
+  border-radius: 20px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 0 0 1px color-mix(in srgb, var(--rh-accent) 32%, transparent),
+    0 0 0 5px color-mix(in srgb, var(--rh-accent) 11%, transparent),
+    0 14px 28px -10px color-mix(in srgb, var(--rh-accent) 55%, transparent);
 }
 
-.modui-radial-node-btn:focus-visible {
-  outline: 2px solid var(--accent-primary, #4F46E5);
-  outline-offset: 3px;
-}
+.modui-radial-node-btn:active { transform: scale(1.02); }
 
 .modui-radial-node-btn--disabled {
-  opacity: 0.38;
+  opacity: 0.4;
   cursor: not-allowed;
   pointer-events: none;
 }
 
-/* Node Icon Container */
+.modui-radial-node-btn:focus-visible,
+.modui-radial-core-btn:focus-visible {
+  outline: 2px solid var(--rh-accent);
+  outline-offset: 4px;
+}
+
 .modui-radial-node-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  color: var(--text-primary, #0F172A);
-  transition: transform 0.2s ease;
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  transition: transform 320ms var(--rh-ease);
 }
 
-.modui-radial-node-btn:hover .modui-radial-node-icon {
-  transform: scale(1.1);
-}
+.modui-radial-node-icon svg { width: 100%; height: 100%; }
 
-.modui-radial-node-icon svg {
-  width: 100%;
-  height: 100%;
-  stroke-width: 2;
-}
+.modui-radial-node-btn:hover .modui-radial-node-icon { transform: scale(1.06); }
 
-/* Node Badge (Counter or Status Dot) */
-.modui-radial-node-badge {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  background: #EF4444;
-  color: #FFFFFF;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.625rem;
-  font-weight: 700;
-  line-height: 1;
-  padding: 2px 5px;
-  min-width: 15px;
-  border-radius: 9999px;
-  border: 1.5px solid #FFFFFF;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
-  pointer-events: none;
-}
-
-/* Subtle Specular Glare Arc on Node */
+/* top-edge gloss */
 .modui-radial-node-glare {
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, transparent 60%);
+  inset: 1px 1px auto;
+  height: 46%;
+  border-radius: 16px 16px 40% 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, transparent 100%);
   pointer-events: none;
 }
 
-/* Node Floating Tooltip */
-.modui-radial-tooltip {
+.modui-radial-node-badge {
   position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px) scale(0.92);
+  top: -6px;
+  right: -8px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 9px;
-  background: #0F172A;
-  color: #F8FAFC;
-  font-family: var(--font-sans, sans-serif);
-  font-size: 0.75rem;
-  font-weight: 600;
-  border-radius: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #E8503C;
+  color: #FFFFFF;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 9px;
+  font-weight: 560;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  white-space: nowrap;
+  box-shadow: 0 0 0 2px var(--rh-node-ring), 0 3px 8px -2px rgba(232, 80, 60, 0.6);
+}
+
+/* ---------- Label ---------- */
+.modui-radial-tooltip {
+  position: absolute;
+  top: calc(100% + 11px);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 8px 5px 10px;
+  border-radius: 8px;
+  background: var(--rh-tip-bg);
+  color: var(--rh-tip-ink);
+  font-size: 12px;
+  font-weight: 540;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
-  transition: opacity 0.16s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 50;
+  transform: translate(-50%, -5px);
+  box-shadow: 0 8px 20px -8px rgba(14, 19, 34, 0.55);
+  transition: opacity 180ms ease, transform 300ms var(--rh-ease);
+  z-index: 10;
 }
 
 .modui-radial-tooltip--visible {
   opacity: 1;
-  transform: translateX(-50%) translateY(0) scale(1);
+  transform: translate(-50%, 0);
 }
 
+.modui-radial-tooltip-text { line-height: 1.3; }
+
 .modui-radial-tooltip-kbd {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.65rem;
-  padding: 1px 4px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.15);
-  color: #94A3B8;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--rh-tip-ink) 16%, transparent);
+  color: color-mix(in srgb, var(--rh-tip-ink) 82%, transparent);
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 10px;
+  line-height: 1.4;
 }
 
 /* ==========================================================================
-   Central Core Button
+   Core
    ========================================================================== */
-
 .modui-radial-core-btn {
   position: relative;
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  outline: none;
-  z-index: 20;
-  -webkit-tap-highlight-color: transparent;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
   padding: 0;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 0;
+  border-radius: 50%;
+  background: var(--rh-core);
+  color: var(--rh-core-ink);
+  cursor: pointer;
+  z-index: 5;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+    0 4px 10px -2px rgba(14, 19, 34, 0.3),
+    0 16px 34px -12px color-mix(in srgb, var(--rh-accent) 85%, transparent);
+  transition: transform 340ms var(--rh-ease), box-shadow 340ms ease;
 }
 
-.modui-radial-core-btn:hover {
-  transform: scale(1.06);
-}
-
-.modui-radial-core-btn:active {
-  transform: scale(0.95);
-}
-
-.modui-radial-core-btn:focus-visible {
-  outline: 2px solid var(--accent-primary, #4F46E5);
-  outline-offset: 4px;
-}
+.modui-radial-core-btn:hover { transform: scale(1.06); }
+.modui-radial-core-btn:active { transform: scale(0.96); }
 
 .modui-radial-core-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #365CF5 0%, #2040C9 100%);
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    0 12px 28px -4px rgba(54, 92, 245, 0.42),
-    0 0 0 2px rgba(255, 255, 255, 0.9),
-    inset 0 1px 2px rgba(255, 255, 255, 0.4);
-  z-index: 2;
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.modui-radial-hub--open .modui-radial-core-inner {
-  background: linear-gradient(135deg, #1C1D22 0%, #0F1014 100%);
-  box-shadow:
-    0 12px 28px -4px rgba(18, 19, 22, 0.35),
-    0 0 0 2px rgba(255, 255, 255, 0.9),
-    inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  display: grid;
+  place-items: center;
 }
 
 .modui-radial-core-icon-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  transition: transform 460ms var(--rh-ease);
 }
 
-.modui-radial-hub--open .modui-radial-core-icon-box {
-  transform: rotate(90deg);
-}
+.modui-radial-core-icon-box svg { width: 100%; height: 100%; }
 
-/* Ambient Radar Pulse Halo around Core */
+.modui-radial-hub--open .modui-radial-core-icon-box { transform: rotate(135deg); }
+
+/* a ring that breathes while the hub is closed, inviting the press */
 .modui-radial-core-halo {
   position: absolute;
-  inset: -6px;
+  inset: -5px;
   border-radius: 50%;
-  border: 1.5px solid rgba(54, 92, 245, 0.32);
+  border: 1.5px solid color-mix(in srgb, var(--rh-accent) 38%, transparent);
   pointer-events: none;
-  animation: modui-core-pulse 2.8s ease-out infinite;
-  opacity: 0.8;
+  animation: modui-rh-halo 2.8s ease-out infinite;
 }
 
-.modui-radial-hub--open .modui-radial-core-halo {
-  border-color: rgba(18, 19, 22, 0.25);
-  animation-duration: 2s;
+@keyframes modui-rh-halo {
+  0% { transform: scale(1); opacity: 0.8; }
+  70%, 100% { transform: scale(1.5); opacity: 0; }
 }
 
-@keyframes modui-core-pulse {
-  0% {
-    transform: scale(0.92);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.22);
-    opacity: 0.25;
-  }
-  100% {
-    transform: scale(1.38);
-    opacity: 0;
-  }
-}
+.modui-radial-hub--open .modui-radial-core-halo { animation: none; opacity: 0; }
 
 .modui-radial-core-glow {
   position: absolute;
-  inset: -12px;
+  inset: -22px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(54, 92, 245, 0.22) 0%, transparent 70%);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--rh-accent) 45%, transparent) 0%, transparent 72%);
+  filter: blur(10px);
+  opacity: 0.55;
   pointer-events: none;
-  filter: blur(8px);
-  z-index: 1;
+  transition: opacity 420ms ease, transform 520ms var(--rh-ease);
 }
+
+.modui-radial-hub--open .modui-radial-core-glow { opacity: 1; transform: scale(1.18); }
 
 /* ==========================================================================
-   Surface Variants
+   Variants
    ========================================================================== */
-
-/* 1. Dark Edition */
-.modui-radial-hub--dark .modui-radial-orbit-ring {
-  stroke: rgba(255, 255, 255, 0.12);
+.modui-radial-hub--dark,
+[data-theme="dark"] .modui-radial-hub--glass {
+  --rh-stage: radial-gradient(60% 60% at 50% 46%, rgba(124, 149, 255, 0.1) 0%, transparent 70%);
+  --rh-track: rgba(185, 198, 255, 0.14);
+  --rh-track-lit: rgba(124, 149, 255, 0.6);
+  --rh-node: linear-gradient(176deg, #1F2740 0%, #161C31 100%);
+  --rh-node-ring: rgba(185, 198, 255, 0.14);
+  --rh-ink: #EFF1F8;
+  --rh-ink-dim: #99A1B9;
+  --rh-core: linear-gradient(168deg, #7C95FF 0%, #5C7CFF 48%, #3C5AD8 100%);
+  --rh-accent: #7C95FF;
+  --rh-tip-bg: #EFF1F8;
+  --rh-tip-ink: #0E1322;
 }
 
-.modui-radial-hub--dark .modui-radial-node-btn {
-  background: #1E293B;
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.4);
-}
-
-.modui-radial-hub--dark .modui-radial-node-icon {
-  color: #F8FAFC;
-}
-
-.modui-radial-hub--dark .modui-radial-node-btn:hover {
-  background: #334155;
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.6);
-}
-
-/* 2. Neon Cyan Edition */
-.modui-radial-hub--neon .modui-radial-orbit-ring {
-  stroke: rgba(6, 182, 212, 0.3);
-}
-
-.modui-radial-hub--neon .modui-radial-core-inner {
-  background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+.modui-radial-hub--dark .modui-radial-node-btn,
+[data-theme="dark"] .modui-radial-hub--glass .modui-radial-node-btn {
   box-shadow:
-    0 12px 30px -4px rgba(6, 182, 212, 0.55),
-    0 0 0 2px rgba(255, 255, 255, 0.9);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 1px var(--rh-node-ring),
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 12px 26px -10px rgba(0, 0, 0, 0.8);
 }
 
-.modui-radial-hub--neon .modui-radial-core-halo {
-  border-color: rgba(6, 182, 212, 0.45);
+.modui-radial-hub--dark .modui-radial-node-glare,
+[data-theme="dark"] .modui-radial-hub--glass .modui-radial-node-glare {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 100%);
 }
 
-.modui-radial-hub--neon .modui-radial-node-btn:hover {
-  border-color: #06B6D4;
-  box-shadow: 0 16px 32px -6px rgba(6, 182, 212, 0.4);
+/* -- glass: nodes become frosted -- */
+.modui-radial-hub--glass {
+  --rh-node: rgba(255, 255, 255, 0.72);
+  --rh-node-ring: rgba(255, 255, 255, 0.85);
 }
 
-/* 3. Minimal */
-.modui-radial-hub--minimal .modui-radial-core-inner {
-  background: #FFFFFF;
-  color: #0F172A;
-  border: 1px solid var(--border-default, #E2E8F0);
-  box-shadow: var(--shadow-md);
+.modui-radial-hub--glass .modui-radial-node-btn {
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+}
+
+/* -- neon: the track and nodes emit -- */
+.modui-radial-hub--neon {
+  --rh-stage: radial-gradient(62% 62% at 50% 46%, rgba(63, 224, 240, 0.12) 0%, transparent 70%);
+  --rh-track: rgba(63, 224, 240, 0.22);
+  --rh-track-lit: #3FE0F0;
+  --rh-node: linear-gradient(176deg, #0C2730 0%, #071A21 100%);
+  --rh-node-ring: rgba(63, 224, 240, 0.34);
+  --rh-ink: #DFFAFE;
+  --rh-core: linear-gradient(168deg, #5CEBF8 0%, #22C4D8 48%, #0D8EA0 100%);
+  --rh-core-ink: #04161B;
+  --rh-accent: #3FE0F0;
+  --rh-tip-bg: #04161B;
+  --rh-tip-ink: #DFFAFE;
+}
+
+.modui-radial-hub--neon .modui-radial-node-btn {
+  box-shadow:
+    0 0 0 1px var(--rh-node-ring),
+    inset 0 0 14px rgba(63, 224, 240, 0.16),
+    0 0 20px -6px rgba(63, 224, 240, 0.5);
+}
+
+.modui-radial-hub--neon .modui-radial-node-glare { opacity: 0.2; }
+
+/* -- minimal: hairlines only -- */
+.modui-radial-hub--minimal {
+  --rh-stage: transparent;
+  --rh-node: transparent;
+  --rh-node-ring: rgba(14, 19, 34, 0.16);
+  --rh-core: transparent;
+  --rh-core-ink: var(--rh-ink);
+  --rh-track: rgba(14, 19, 34, 0.1);
 }
 
 .modui-radial-hub--minimal .modui-radial-node-btn {
-  background: #FFFFFF;
-  border: 1px dashed var(--border-default, #CBD5E1);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 0 0 1px var(--rh-node-ring);
+}
+
+.modui-radial-hub--minimal .modui-radial-node-btn:hover {
+  background: color-mix(in srgb, var(--rh-ink) 5%, transparent);
+  box-shadow: 0 0 0 1px var(--rh-accent);
+}
+
+.modui-radial-hub--minimal .modui-radial-node-glare { display: none; }
+
+.modui-radial-hub--minimal .modui-radial-core-btn {
+  box-shadow: 0 0 0 1.5px var(--rh-ink);
+  color: var(--rh-ink);
+}
+
+.modui-radial-hub--minimal .modui-radial-core-glow { display: none; }
+
+[data-theme="dark"] .modui-radial-hub--minimal {
+  --rh-node-ring: rgba(185, 198, 255, 0.2);
+  --rh-ink: #EFF1F8;
+  --rh-track: rgba(185, 198, 255, 0.14);
+  --rh-accent: #7C95FF;
+  --rh-tip-bg: #EFF1F8;
+  --rh-tip-ink: #0E1322;
 }
 
 /* ==========================================================================
-   Dark Theme Enhancements
+   Responsive
    ========================================================================== */
-
-[data-theme="dark"] .modui-radial-orbit-ring {
-  stroke: rgba(255, 255, 255, 0.14);
+@media (max-width: 520px) {
+  .modui-radial-hub { min-height: 330px; }
+  .modui-radial-node-btn { width: 44px; height: 44px; border-radius: 15px; }
+  .modui-radial-node-icon { width: 18px; height: 18px; }
+  .modui-radial-core-btn { width: 56px; height: 56px; }
 }
 
-[data-theme="dark"] .modui-radial-orbit-ring-outer {
-  stroke: rgba(255, 255, 255, 0.06);
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-radial-hub,
+  .modui-radial-hub *,
+  .modui-radial-hub *::before,
+  .modui-radial-hub *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
-
-[data-theme="dark"] .modui-radial-node-btn {
-  background: rgba(25, 28, 38, 0.92);
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow:
-    0 10px 25px -4px rgba(0, 0, 0, 0.5),
-    0 4px 10px -2px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .modui-radial-node-btn:hover,
-[data-theme="dark"] .modui-radial-node-btn--hovered {
-  background: rgba(35, 40, 55, 0.96);
-  border-color: var(--accent-primary, #365CF5);
-  box-shadow:
-    0 16px 32px -6px rgba(0, 0, 0, 0.6),
-    0 0 0 1px var(--accent-primary, #365CF5);
-}
-
-[data-theme="dark"] .modui-radial-node-icon {
-  color: #F4F4F6;
-}
-
-[data-theme="dark"] .modui-radial-node-glare {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
-}
-
-[data-theme="dark"] .modui-radial-node-badge {
-  border-color: #191B24;
-}
-
-[data-theme="dark"] .modui-radial-core-inner {
-  box-shadow:
-    0 12px 28px -4px rgba(54, 92, 245, 0.42),
-    0 0 0 2px rgba(255, 255, 255, 0.2),
-    inset 0 1px 2px rgba(255, 255, 255, 0.25);
-}
-
-[data-theme="dark"] .modui-radial-hub--open .modui-radial-core-inner {
-  background: linear-gradient(135deg, #1C1D22 0%, #0F1014 100%);
-  box-shadow:
-    0 12px 28px -4px rgba(0, 0, 0, 0.5),
-    0 0 0 2px rgba(255, 255, 255, 0.18),
-    inset 0 1px 2px rgba(255, 255, 255, 0.15);
-}
-

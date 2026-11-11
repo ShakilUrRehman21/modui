@@ -148,9 +148,9 @@ const DEFAULT_LABELS: Record<QuantumOrbitState, { label: string; subLabel: strin
 };
 
 const DIMENSION_PRESETS: Record<QuantumOrbitSize, { size: number; baseRadius: number }> = {
-  sm: { size: 32, baseRadius: 11 },
-  md: { size: 72, baseRadius: 26 },
-  lg: { size: 220, baseRadius: 78 },
+  sm: { size: 32, baseRadius: 22 },
+  md: { size: 72, baseRadius: 50 },
+  lg: { size: 220, baseRadius: 152 },
 };
 
 export const QuantumOrbitBeacon: React.FC<QuantumOrbitBeaconProps> = ({

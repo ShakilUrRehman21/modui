@@ -52,10 +52,10 @@ describe('NeuralGraph component', () => {
 
   it('renders floating studio telemetry HUD with node and synapse statistics', () => {
     render(<NeuralGraph soundEnabled={false} />);
-    expect(screen.getByText(/SYNAPSE LATTICE \/\/ ENGINE/i)).toBeInTheDocument();
-    expect(screen.getByText('NODES')).toBeInTheDocument();
+    expect(screen.getByText(/Synapse graph/i)).toBeInTheDocument();
+    expect(screen.getByText('Nodes')).toBeInTheDocument();
     expect(screen.getByText(String(DEFAULT_NEURAL_NODES.length))).toBeInTheDocument();
-    expect(screen.getByText('SYNAPSES')).toBeInTheDocument();
+    expect(screen.getByText('Links')).toBeInTheDocument();
     expect(screen.getByText(String(DEFAULT_NEURAL_EDGES.length))).toBeInTheDocument();
   });
 
@@ -102,7 +102,7 @@ describe('NeuralGraph component', () => {
   it('renders compact mode without telemetry HUD and controls', () => {
     const { container } = render(<NeuralGraph compact={true} />);
     expect(container.firstChild).toHaveClass('modui-neural-graph--compact');
-    expect(screen.queryByText(/SYNAPSE LATTICE \/\/ ENGINE/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Synapse graph/i)).not.toBeInTheDocument();
   });
 });
 

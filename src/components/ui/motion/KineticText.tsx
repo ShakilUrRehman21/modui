@@ -22,12 +22,15 @@ export const KineticText: React.FC<KineticTextProps> = ({
   const handleMouseEnter = () => {
     if (!interactiveWave || !containerRef.current) return;
     const chars = containerRef.current.querySelectorAll('.kinetic-char');
+    // Follow the host theme's accent instead of a hard-coded colour
+    const accent =
+      getComputedStyle(containerRef.current).getPropertyValue('--accent-primary').trim() || '#365CF5';
 
     gsap.to(chars, {
       y: -12,
       scale: 1.08,
       rotationZ: () => (Math.random() - 0.5) * 12,
-      color: '#ff5e3a',
+      color: accent,
       stagger: {
         each: 0.02,
         from: 'center',

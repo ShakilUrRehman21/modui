@@ -30,9 +30,9 @@ export default function PageTurnBookDemo({ theme }: DemoProps) {
                           interactiveCurl={bookCurl}
                           onPageChange={(spreadIdx) => setBookActiveSpread(spreadIdx)}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Current Spread: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>Spread {bookActiveSpread + 1}</span> (Pages {bookActiveSpread * 2 + 1} &amp; {bookActiveSpread * 2 + 2})
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          Current Spread: <span className="modui-stage-caption-value">Spread {bookActiveSpread + 1}</span> (Pages {bookActiveSpread * 2 + 1} &amp; {bookActiveSpread * 2 + 2})
+                          <div className="modui-stage-caption-hint">
                             Drag horizontally across pages or click corner curl to turn leaves. Use Left &amp; Right Arrow keys for keyboard flipping.
                           </div>
                         </div>

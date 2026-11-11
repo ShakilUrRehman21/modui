@@ -63,7 +63,7 @@ describe('PointCloudMorpher component (Primitive #27)', () => {
     fireEvent.click(torusBtn!);
 
     expect(handleTopologyChange).toHaveBeenCalledWith('torus');
-    expect(screen.getByText(/TOPOLOGY \/\/ TORUS/i)).toBeDefined();
+    expect(screen.getByText(/^Torus$/i)).toBeDefined();
   });
 
   it('applies selected color variant classes correctly', () => {
@@ -86,7 +86,7 @@ describe('PointCloudMorpher component (Primitive #27)', () => {
   it('hides toolbar and HUD in compact mode for card previews', () => {
     render(<PointCloudMorpher compact={true} soundEnabled={false} />);
     expect(screen.queryByRole('tablist')).toBeNull();
-    expect(screen.queryByText(/TOPOLOGY \/\//i)).toBeNull();
+    expect(screen.queryByText(/^(Sphere|Torus|Helix)$/i)).toBeNull();
   });
 
   it('handles keyboard navigation with arrow keys and spacebar', () => {
@@ -119,6 +119,6 @@ describe('PointCloudMorpher component (Primitive #27)', () => {
     );
     const canvas = container.querySelector('canvas');
     expect(canvas).not.toBeNull();
-    expect(screen.getByText(/VERTICES: 500/i)).toBeDefined();
+    expect(screen.getByText(/500 points/i)).toBeDefined();
   });
 });

@@ -35,10 +35,10 @@ export default function NeuralClothMeshDemo({ theme }: DemoProps) {
                           soundEnabled={clothSound}
                           style={{ width: '100%', height: '480px', borderRadius: '16px' }}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Verlet Continuum: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>Structural Spring Lattice</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
-                            Tip: Drag through the fabric to billow the silk with aerodynamic wind wake, click or press Spacebar to inject a resonant wave impulse.
+                        <div className="modui-stage-caption">
+                          Verlet Continuum: <span className="modui-stage-caption-value">Structural Spring Lattice</span>
+                          <div className="modui-stage-caption-hint">
+                            Drag through the fabric to billow the silk with aerodynamic wind wake, click or press Spacebar to inject a resonant wave impulse.
                           </div>
                         </div>
                       </div>

@@ -1,296 +1,356 @@
 /* ==========================================================================
-   Modui — Animated Button Component Styles
-   Precision Architectural Styling
+   ModUI — Animated Button
+   One button body with real weight — a lit top edge, a pressed state that
+   actually travels — and seven motion treatments layered on top of it.
    ========================================================================== */
 
 .modui-btn {
+  --bt-accent: var(--accent-primary, #365CF5);
+  --bt-accent-deep: color-mix(in srgb, var(--bt-accent) 76%, #000);
+  --bt-ink-on: #FFFFFF;
+  --bt-ink: var(--text-primary, #0E1322);
+  --bt-ink-dim: var(--text-secondary, #5A6178);
+  --bt-surface: var(--bg-surface, #FFFFFF);
+  --bt-hairline: rgba(14, 19, 34, 0.1);
+  --bt-ease: cubic-bezier(0.2, 0.9, 0.26, 1);
+
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  border-radius: var(--radius-pill);
-  border: 1px solid transparent;
-  cursor: pointer;
+  gap: 8px;
+  border: 0;
+  border-radius: 11px;
+  background: linear-gradient(176deg,
+    color-mix(in srgb, var(--bt-accent) 92%, #FFF) 0%,
+    var(--bt-accent) 42%,
+    var(--bt-accent-deep) 100%);
+  color: var(--bt-ink-on);
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
+  font-weight: 570;
+  letter-spacing: -0.008em;
+  line-height: 1;
   white-space: nowrap;
-  user-select: none;
-  text-decoration: none;
-  transition: all var(--transition-normal);
+  cursor: pointer;
   overflow: hidden;
-  box-sizing: border-box;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.14),
+    0 1px 2px rgba(14, 19, 34, 0.14),
+    0 6px 16px -8px color-mix(in srgb, var(--bt-accent) 72%, transparent);
+  transition:
+    transform 180ms var(--bt-ease),
+    box-shadow 240ms var(--bt-ease),
+    filter 200ms ease,
+    background 240ms ease,
+    color 200ms ease;
 }
 
-/* Sizes */
-.modui-btn--sm {
-  height: 32px;
-  padding: 0 0.875rem;
-  font-size: 0.8125rem;
-  letter-spacing: -0.01em;
+.modui-btn:hover:not(.modui-btn--disabled) {
+  transform: translateY(-1.5px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.14),
+    0 2px 4px rgba(14, 19, 34, 0.14),
+    0 14px 28px -12px color-mix(in srgb, var(--bt-accent) 85%, transparent);
 }
 
-.modui-btn--md {
-  height: 40px;
-  padding: 0 1.25rem;
-  font-size: 0.875rem;
-  letter-spacing: -0.01em;
-}
-
-.modui-btn--lg {
-  height: 48px;
-  padding: 0 1.625rem;
-  font-size: 0.9375rem;
-  letter-spacing: -0.01em;
-}
-
-.modui-btn--full {
-  width: 100%;
-}
-
-/* Disabled & Loading States */
-.modui-btn:disabled,
-.modui-btn--disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  pointer-events: none;
-  transform: none !important;
-}
-
-.modui-btn--loading {
-  cursor: wait;
+.modui-btn:active:not(.modui-btn--disabled) {
+  transform: translateY(0.5px) scale(0.985);
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.26),
+    0 1px 2px rgba(14, 19, 34, 0.14);
 }
 
 .modui-btn:focus-visible {
-  outline: 1.5px solid var(--accent-primary);
+  outline: 2px solid var(--bt-accent);
   outline-offset: 2px;
 }
 
-/* Variant 1: Shimmer */
-.modui-btn--shimmer {
-  background: #0f0f0f;
-  color: #ffffff;
-  border-color: #0f0f0f;
+.modui-btn--full { width: 100%; }
+
+.modui-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: saturate(0.5);
 }
 
-.modui-btn--shimmer .modui-btn-shimmer-sweep {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.22) 50%,
-    transparent 100%
-  );
-  transform: skewX(-20deg);
-  pointer-events: none;
+/* ==========================================================================
+   Sizes
+   ========================================================================== */
+.modui-btn--sm {
+  padding: 8px 14px;
+  border-radius: 9px;
+  font-size: 13px;
 }
 
-.modui-btn--shimmer:hover .modui-btn-shimmer-sweep {
-  animation: modui-shimmer-pass 0.8s var(--ease-out-expo) forwards;
+.modui-btn--md {
+  padding: 11px 18px;
+  font-size: 14.5px;
 }
 
-@keyframes modui-shimmer-pass {
-  0% { left: -100%; }
-  100% { left: 160%; }
+.modui-btn--lg {
+  padding: 14px 24px;
+  border-radius: 13px;
+  font-size: 16px;
 }
 
-.modui-btn--shimmer:hover {
-  background: #000000;
-  transform: translateY(-1px);
-}
-
-.modui-btn--shimmer:active {
-  transform: translateY(0);
-}
-
-/* Variant 2: Glow */
-.modui-btn--glow {
-  background: var(--accent-primary);
-  color: #ffffff;
-  border-color: var(--accent-primary);
-  box-shadow: 0 2px 12px rgba(16, 65, 255, 0.25);
-}
-
-.modui-btn--glow:hover {
-  background: var(--accent-primary-hover);
-  box-shadow: 0 4px 18px rgba(16, 65, 255, 0.35);
-  transform: translateY(-1px);
-}
-
-/* Variant 3: Ripple */
-.modui-btn--ripple {
-  background: var(--bg-surface, #ffffff);
-  color: var(--text-primary, #0f172a);
-  border: 1px solid var(--border-default, rgba(0, 0, 0, 0.12));
-  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.06));
+.modui-btn-label {
   position: relative;
-  overflow: hidden;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
 }
 
-.modui-btn--ripple:hover {
-  background: var(--bg-surface-subtle, #f8fafc);
-  border-color: rgba(54, 92, 245, 0.35);
-}
-
-.modui-btn-ripple-effect {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(54, 92, 245, 0.35) 0%, rgba(54, 92, 245, 0.12) 60%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-  animation: modui-ripple-expand 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.modui-btn-label,
 .modui-btn-icon-leading,
 .modui-btn-icon-trailing,
 .modui-btn-icon-slide {
   position: relative;
   z-index: 2;
-}
-
-@keyframes modui-ripple-expand {
-  0% {
-    transform: scale(0);
-    opacity: 0.95;
-  }
-  100% {
-    transform: scale(2.4);
-    opacity: 0;
-  }
-}
-
-/* Variant 4: Magnetic */
-.modui-btn--magnetic {
-  background: var(--bg-surface, #ffffff);
-  color: var(--text-primary);
-  border: 1px solid var(--border-default);
-  transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1), border-color 0.2s ease;
-}
-
-.modui-btn--magnetic:hover {
-  border-color: var(--border-strong);
-}
-
-/* Variant 5: Slide (Clarvos / Arrow Slide) */
-.modui-btn--slide {
-  background: #0f172a;
-  color: #ffffff;
-  border-color: #1e293b;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.modui-btn--slide .modui-btn-label {
-  display: inline-block;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.modui-btn--slide .modui-btn-icon-slide {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-left: 0.25rem;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  flex: 0 0 auto;
 }
 
-.modui-btn--slide .modui-btn-slide-arrow {
-  display: inline-block;
-  font-family: inherit;
-  font-weight: 600;
-  line-height: 1;
-}
+.modui-btn-icon-leading svg,
+.modui-btn-icon-trailing svg { width: 1em; height: 1em; }
 
-.modui-btn--slide:hover {
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
-  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
-  transform: translateY(-1px);
-}
-
-.modui-btn--slide:hover .modui-btn-label {
-  transform: translateX(-2px);
-}
-
-.modui-btn--slide:hover .modui-btn-icon-slide {
-  transform: translateX(5px);
-}
-
-.modui-btn--slide:active {
-  transform: translateY(0);
-}
-
-/* Variant 6: Gradient Border */
-.modui-btn--gradient-border {
-  background: transparent;
-  color: var(--text-primary);
-  position: relative;
-  z-index: 1;
-  border: none;
-  padding: 1px;
-}
-
-.modui-btn--gradient-border::before {
-  content: '';
+/* ==========================================================================
+   Shimmer — a single light pass across the face
+   ========================================================================== */
+.modui-btn-shimmer-sweep {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(135deg, #1041ff, #52525b, #1041ff);
-  background-size: 200% 200%;
-  animation: modui-gradient-shift 3s ease infinite;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+  z-index: 1;
+  background: linear-gradient(
+    104deg,
+    transparent 36%,
+    rgba(255, 255, 255, 0.42) 48%,
+    rgba(255, 255, 255, 0.62) 52%,
+    transparent 64%
+  );
+  transform: translateX(-130%);
   pointer-events: none;
 }
 
-@keyframes modui-gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.modui-btn--shimmer:hover:not(.modui-btn--disabled) .modui-btn-shimmer-sweep {
+  animation: modui-bt-sweep 900ms var(--bt-ease);
 }
 
-.modui-btn--gradient-border .modui-btn-inner-bg {
-  display: flex;
+@keyframes modui-bt-sweep {
+  to { transform: translateX(130%); }
+}
+
+/* ==========================================================================
+   Glow — the button lights the surface under it
+   ========================================================================== */
+.modui-btn--glow::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--bt-accent);
+  filter: blur(14px);
+  opacity: 0.4;
+  transition: opacity 320ms ease, filter 320ms ease;
+}
+
+.modui-btn--glow:hover:not(.modui-btn--disabled)::after {
+  opacity: 0.85;
+  filter: blur(20px);
+}
+
+/* ==========================================================================
+   Ripple — contact spreading from the pointer
+   ========================================================================== */
+.modui-btn-ripple-effect {
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  animation: modui-bt-ripple 620ms var(--bt-ease) forwards;
+}
+
+@keyframes modui-bt-ripple {
+  to { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+
+/* ==========================================================================
+   Magnetic — the body follows the pointer, so damp the lift
+   ========================================================================== */
+.modui-btn--magnetic {
+  transition:
+    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 240ms var(--bt-ease),
+    filter 200ms ease;
+}
+
+.modui-btn--magnetic:hover:not(.modui-btn--disabled) { transform: none; }
+
+/* ==========================================================================
+   Slide — the arrow leads, the label follows
+   ========================================================================== */
+.modui-btn-icon-slide {
+  width: 0;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: width 320ms var(--bt-ease), opacity 240ms ease, transform 320ms var(--bt-ease);
+}
+
+.modui-btn--slide:hover:not(.modui-btn--disabled) .modui-btn-icon-slide {
+  width: 1.1em;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.modui-btn-slide-arrow {
+  display: inline-block;
+  font-size: 1.05em;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Gradient border — a spectrum edge around a plain body
+   ========================================================================== */
+.modui-btn--gradient-border {
+  padding: 0;
+  background: linear-gradient(118deg, #365CF5 0%, #7C5CFF 34%, #B9A8FF 62%, #FF7A59 100%);
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  box-shadow: 0 6px 18px -10px rgba(14, 19, 34, 0.5);
+  transition: background-position 700ms var(--bt-ease), transform 180ms var(--bt-ease), box-shadow 240ms ease;
+}
+
+.modui-btn--gradient-border:hover:not(.modui-btn--disabled) { background-position: 100% 50%; }
+
+.modui-btn-inner-bg {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 8px;
   width: 100%;
   height: 100%;
-  background: var(--bg-surface, #ffffff);
-  border-radius: var(--radius-pill);
-  padding: 0 1.25rem;
-  transition: background var(--transition-fast);
+  margin: 1.5px;
+  padding: 9.5px 16.5px;
+  border-radius: 9.5px;
+  background: var(--bt-surface);
+  color: var(--bt-ink);
+  transition: background 240ms ease, color 240ms ease;
 }
 
-/* Variant 7: Minimal */
+.modui-btn--gradient-border.modui-btn--sm .modui-btn-inner-bg { padding: 6.5px 12.5px; border-radius: 7.5px; }
+.modui-btn--gradient-border.modui-btn--lg .modui-btn-inner-bg { padding: 12.5px 22.5px; border-radius: 11.5px; }
+
+.modui-btn--gradient-border:hover:not(.modui-btn--disabled) .modui-btn-inner-bg {
+  background: color-mix(in srgb, var(--bt-surface) 92%, var(--bt-accent));
+}
+
+/* ==========================================================================
+   Minimal — a text control with a rule that draws itself
+   ========================================================================== */
 .modui-btn--minimal {
   background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-default);
+  color: var(--bt-ink);
+  box-shadow: none;
+  border-radius: 8px;
+  overflow: visible;
 }
 
-.modui-btn--minimal:hover {
-  border-color: var(--border-strong);
-  background: var(--bg-surface-elevated);
+.modui-btn--minimal::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 5px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: var(--bt-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 340ms var(--bt-ease);
 }
 
-/* Spinner */
+.modui-btn--minimal:hover:not(.modui-btn--disabled) {
+  transform: none;
+  background: color-mix(in srgb, var(--bt-ink) 5%, transparent);
+  box-shadow: none;
+  color: var(--bt-accent);
+}
+
+.modui-btn--minimal:hover:not(.modui-btn--disabled)::after { transform: scaleX(1); }
+
+.modui-btn--minimal:active:not(.modui-btn--disabled) {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   Loading
+   ========================================================================== */
+.modui-btn--loading { cursor: progress; }
+
 .modui-btn-spinner {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border: 1.5px solid currentColor;
-  border-right-color: transparent;
+  position: relative;
+  z-index: 2;
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
   border-radius: 50%;
-  animation: modui-spin 0.65s linear infinite;
+  border: 2px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-top-color: currentColor;
+  animation: modui-bt-spin 680ms linear infinite;
 }
 
-@keyframes modui-spin {
+@keyframes modui-bt-spin {
   to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   Dark
+   ========================================================================== */
+[data-theme="dark"] .modui-btn {
+  --bt-accent: #5C7CFF;
+  --bt-ink: #EFF1F8;
+  --bt-ink-dim: #99A1B9;
+  --bt-surface: #161C33;
+  --bt-hairline: rgba(185, 198, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.5),
+    0 8px 20px -10px color-mix(in srgb, var(--bt-accent) 70%, transparent);
+}
+
+[data-theme="dark"] .modui-btn:hover:not(.modui-btn--disabled) {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 16px 32px -14px color-mix(in srgb, var(--bt-accent) 85%, transparent);
+}
+
+[data-theme="dark"] .modui-btn--gradient-border {
+  box-shadow: 0 8px 22px -12px rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-btn,
+  .modui-btn *,
+  .modui-btn::before,
+  .modui-btn::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .modui-btn:hover:not(.modui-btn--disabled) { transform: none; }
 }

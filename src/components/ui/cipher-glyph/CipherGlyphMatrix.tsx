@@ -407,13 +407,13 @@ export const CipherGlyphMatrix: React.FC<CipherGlyphMatrixProps> = ({
           <div className="modui-cipher-hud-left">
             <span className="modui-cipher-indicator-dot" />
             <span className="modui-cipher-hud-tag">
-              CIPHER // {typeof charset === 'string' ? charset.toUpperCase() : 'CUSTOM'}
+              {typeof charset === 'string' ? charset.charAt(0).toUpperCase() + charset.slice(1) : 'Custom'} cipher
             </span>
           </div>
           <div className="modui-cipher-hud-right">
-            <span className="modui-cipher-hud-mode">{choreography.toUpperCase()}</span>
+            <span className="modui-cipher-hud-mode">{choreography}</span>
             <span className="modui-cipher-hud-entropy">
-              {isScrambling ? `DECRYPTING ${entropyProgress}%` : 'SECURE // 100%'}
+              {isScrambling ? `Decoding ${entropyProgress}%` : 'Decoded'}
             </span>
           </div>
         </div>

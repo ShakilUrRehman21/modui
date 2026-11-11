@@ -413,14 +413,14 @@ export const CausticRippleSurface: React.FC<CausticRippleSurfaceProps> = ({
       {/* 1. Underlying Clean Visual Content Layer */}
       {compact ? (
         <div className="modui-caustic-compact-content">
-          <span className="modui-caustic-compact-badge">LIQUID CAUSTIC</span>
+          <span className="modui-caustic-compact-badge">Liquid caustic</span>
           <span className="modui-caustic-compact-label">Interactive Ripple Surface</span>
           {children}
         </div>
       ) : (
         <div className="modui-caustic-content">
           <div className="modui-caustic-eyebrow">
-            <span>CLEAN INTERFACE PRINTS</span>
+            <span>Touch the water</span>
           </div>
 
           <h3 className="modui-caustic-title">{headline}</h3>
@@ -458,16 +458,16 @@ export const CausticRippleSurface: React.FC<CausticRippleSurfaceProps> = ({
           <div className="modui-caustic-hud-top">
             <div className="modui-caustic-badge">
               <span className="modui-caustic-badge-pulse" />
-              <span>LIQUID CAUSTIC REFRACTOR</span>
+              <span>Caustic surface</span>
             </div>
 
             <div className="modui-caustic-telemetry">
               <div>
-                <span>SURFACE: </span>
-                <span className="modui-caustic-telemetry-val">{variant.toUpperCase()}</span>
+                <span>Finish </span>
+                <span className="modui-caustic-telemetry-val">{variant.replace(/-/g, ' ')}</span>
               </div>
               <div>
-                <span>WAVE ENERGY: </span>
+                <span>Energy </span>
                 <span className="modui-caustic-telemetry-val">{waveActivity}%</span>
               </div>
             </div>

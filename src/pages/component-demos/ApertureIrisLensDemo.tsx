@@ -33,10 +33,10 @@ export default function ApertureIrisLensDemo({ theme }: DemoProps) {
                           showRing={apertureRing}
                           focalLength={apertureFocal}
                         />
-                        <div style={{ marginTop: '1.75rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Mechanical Iris Barrel: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>Trigonometric Blade Overlap</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
-                            Tip: Drag along the outer knurled ring to scrub aperture opening with rotary angle tracking, click f-stop step presets, or use Arrow keys.
+                        <div className="modui-stage-caption">
+                          Mechanical Iris Barrel: <span className="modui-stage-caption-value">Trigonometric Blade Overlap</span>
+                          <div className="modui-stage-caption-hint">
+                            Drag along the outer knurled ring to scrub aperture opening with rotary angle tracking, click f-stop step presets, or use Arrow keys.
                           </div>
                         </div>
                       </div>

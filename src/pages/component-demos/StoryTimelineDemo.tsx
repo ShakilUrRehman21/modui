@@ -29,9 +29,9 @@ export default function StoryTimelineDemo({ theme }: DemoProps) {
             autoPlay={storyAutoPlay}
             onStoryChange={(st) => setStoryActiveTitle(st.title)}
           />
-          <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-            Active Story: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{storyActiveTitle}</span>
-            <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+          <div className="modui-stage-caption">
+            Active Story: <span className="modui-stage-caption-value">{storyActiveTitle}</span>
+            <div className="modui-stage-caption-hint">
               Tap right half to advance, tap left half to go back. Press and hold to pause (just like Instagram). Vote in polls and tap ❤️ to send flying hearts!
             </div>
           </div>

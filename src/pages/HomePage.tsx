@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   HeroSection,
-  MetricsRibbon,
+  ComponentMarquee,
   FeaturedSection,
   StackedCardsSection,
   SandboxSection,
 } from '../components/home';
-import { useScrollReveal } from '../hooks/useScrollReveal';
 import './HomePage.css';
 
 interface HomePageProps {
@@ -15,26 +14,13 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate, theme }) => {
-  // Activate universal scroll-triggered slide-in, fade-in, and graceful fade-out
-  useScrollReveal();
-
-  // Fluid cursor tracking spotlight
-  useEffect(() => {
-    const handlePointerMove = (e: MouseEvent) => {
-      document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
-      document.documentElement.style.setProperty('--cursor-y', `${e.clientY}px`);
-    };
-    window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    return () => window.removeEventListener('pointermove', handlePointerMove);
-  }, []);
-
   return (
     <div className="modui-home">
       {/* 1. Creative Playground Hero Section */}
       <HeroSection onNavigate={onNavigate} />
 
-      {/* 2. Organized Architectural Metrics Ribbon */}
-      <MetricsRibbon />
+      {/* 2. Endless index of every component */}
+      <ComponentMarquee onNavigate={onNavigate} />
 
       {/* 3. Featured 3-Card Showcase Grid */}
       <FeaturedSection onNavigate={onNavigate} theme={theme} />

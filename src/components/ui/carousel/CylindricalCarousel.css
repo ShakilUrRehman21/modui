@@ -1,365 +1,370 @@
 /* ==========================================================================
-   ModUI CylindricalCarousel Component Stylesheet
-   Tactile 3D Inertia Projection · Depth-of-Field Blur · Architectural Finish
+   ModUI — Cylindrical Carousel
+   A turntable: the ring stands on a lit floor, the front card is in focus
+   and the ones swinging away fall out of focus the way a real lens does.
    ========================================================================== */
 
 .modui-cylindrical-viewport {
+  --cc-surface: #FFFFFF;
+  --cc-art-base: #11162B;
+  --cc-ink: #0E1322;
+  --cc-ink-dim: #5A6178;
+  --cc-ink-faint: rgba(14, 19, 34, 0.44);
+  --cc-ring: rgba(14, 19, 34, 0.08);
+  --cc-floor: rgba(14, 19, 34, 0.16);
+  --cc-chrome: rgba(255, 255, 255, 0.82);
+  --cc-ease: cubic-bezier(0.2, 0.9, 0.26, 1);
+
   position: relative;
   width: 100%;
-  height: 100%;
-  min-height: 280px;
+  min-height: 460px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  user-select: none;
   cursor: grab;
   touch-action: pan-y;
-  outline: none;
-  perspective-origin: 50% 50%;
-  transform-style: preserve-3d;
+  user-select: none;
+  overflow: hidden;
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
 }
 
-.modui-cylindrical-viewport:active {
-  cursor: grabbing;
+.modui-cylindrical-viewport:active { cursor: grabbing; }
+
+/* the floor the ring stands on */
+.modui-cylindrical-viewport::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(620px, 82%);
+  height: 86px;
+  margin: 118px 0 0 min(-310px, -41%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--cc-floor) 0%, transparent 76%);
+  filter: blur(2px);
+  pointer-events: none;
 }
 
-.modui-cylindrical-viewport:focus-visible {
-  outline: 2px solid var(--accent-primary, #365CF5);
-  outline-offset: 4px;
-  border-radius: var(--radius-xl, 1rem);
-}
-
-/* 3D Cylindrical Ring Container (Center Pivot) */
 .modui-cylindrical-ring {
   position: absolute;
-  top: 50%;
   left: 50%;
-  width: 0;
-  height: 0;
   transform-style: preserve-3d;
-  transform-origin: center center;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   will-change: transform;
 }
 
-/* Individual 3D Card */
+/* ==========================================================================
+   Cards
+   ========================================================================== */
 .modui-cylindrical-card {
   position: absolute;
-  top: 0;
-  left: 0;
-  background: var(--bg-card, #ffffff);
-  border: 1px solid var(--border-subtle, #e2e8f0);
-  border-radius: var(--radius-lg, 0.75rem);
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform-style: flat;
-  will-change: transform, opacity;
+  left: 50%;
+  top: 50%;
   display: flex;
   flex-direction: column;
+  border-radius: 16px;
+  background: var(--cc-surface);
+  box-shadow:
+    0 0 0 1px var(--cc-ring),
+    0 14px 30px -16px rgba(14, 19, 34, 0.38);
   overflow: hidden;
   cursor: pointer;
-  transform-origin: center center;
-  pointer-events: auto;
-  box-sizing: border-box;
+  backface-visibility: hidden;
+  /* cards swinging away fall out of focus */
+  opacity: 0.7;
+  filter: saturate(0.72) brightness(0.99) blur(0.5px);
   transition:
-    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.modui-cylindrical-card:hover {
-  border-color: var(--border-hover, #cbd5e1);
-  box-shadow: 0 20px 35px -8px rgba(15, 23, 42, 0.12), 0 1px 3px 0 rgba(15, 23, 42, 0.05);
+    opacity 480ms var(--cc-ease),
+    filter 480ms var(--cc-ease),
+    box-shadow 480ms var(--cc-ease);
 }
 
 .modui-cylindrical-card--active {
-  border-color: var(--accent-primary, #365CF5);
+  opacity: 1;
+  filter: none;
   box-shadow:
-    0 24px 48px -12px rgba(54, 92, 245, 0.18),
-    0 0 0 1px rgba(54, 92, 245, 0.25);
-  cursor: default;
+    0 0 0 1px color-mix(in srgb, var(--card-accent, #365CF5) 26%, transparent),
+    0 0 0 5px color-mix(in srgb, var(--card-accent, #365CF5) 9%, transparent),
+    0 26px 48px -22px rgba(14, 19, 34, 0.5);
 }
 
-/* Card Top Bar */
+/* ---------- Top meta strip ---------- */
 .modui-cylindrical-card-top {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 0.8rem 0.35rem;
-  gap: 0.4rem;
-  z-index: 2;
-  flex-shrink: 0;
+  gap: 8px;
+  min-width: 0;
 }
 
 .modui-cylindrical-badge {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 0.15rem 0.4rem;
-  border-radius: 9999px;
-  background: rgba(79, 70, 229, 0.08);
-  color: var(--accent-primary, #4f46e5);
-  border: 1px solid rgba(79, 70, 229, 0.16);
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 540;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: nowrap;
 }
 
 .modui-cylindrical-tag {
-  font-family: var(--font-sans, sans-serif);
-  font-size: 0.68rem;
-  color: var(--text-tertiary, #94a3b8);
-  font-weight: 500;
+  font-size: 10.5px;
+  font-weight: 540;
+  letter-spacing: 0.004em;
+  color: rgba(255, 255, 255, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Card Artwork / Preview Stage */
+/* ---------- Artwork panel ---------- */
 .modui-cylindrical-art {
   position: relative;
-  flex: 1;
-  min-height: 45px;
-  margin: 0.2rem 0.6rem;
-  border-radius: var(--radius-md, 0.5rem);
+  flex: 1 1 auto;
+  min-height: 0;
+  background-color: var(--cc-art-base);
   background-size: cover;
   background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid rgba(226, 232, 240, 0.6);
 }
 
 .modui-cylindrical-art--pattern {
-  background: var(--bg-surface-subtle, linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%));
+  display: grid;
+  place-items: center;
+  overflow: hidden;
 }
 
+/* a soft key light raking across the panel */
 .modui-cylindrical-art-halo {
   position: absolute;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(79, 70, 229, 0.12) 0%, transparent 70%);
+  inset: 0;
+  background:
+    radial-gradient(74% 58% at 22% 10%, rgba(255, 255, 255, 0.2) 0%, transparent 66%),
+    radial-gradient(90% 70% at 50% 120%, rgba(0, 0, 0, 0.42) 0%, transparent 70%);
   pointer-events: none;
 }
 
 .modui-cylindrical-index-label {
-  font-family: var(--font-mono, monospace);
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--text-primary, #0f172a);
-  opacity: 0.14;
-  letter-spacing: -0.04em;
+  position: relative;
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.14);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
   user-select: none;
+  transition: color 480ms var(--cc-ease), transform 620ms var(--cc-ease);
 }
 
-/* Card Body Content */
+.modui-cylindrical-card--active .modui-cylindrical-index-label {
+  color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ---------- Body ---------- */
 .modui-cylindrical-card-body {
-  padding: 0.5rem 0.8rem 0.7rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  z-index: 2;
-  background: var(--bg-card, #ffffff);
-  flex-shrink: 0;
+  flex: 0 0 auto;
+  padding: 13px 14px 15px;
+  background: var(--cc-surface);
 }
 
 .modui-cylindrical-title {
-  font-family: var(--font-sans, sans-serif);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--text-primary, #0f172a);
   margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
+  font-size: 15.5px;
+  font-weight: 620;
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+  color: var(--cc-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modui-cylindrical-subtitle {
-  font-family: var(--font-sans, sans-serif);
-  font-size: 0.7rem;
-  color: var(--text-secondary, #64748b);
-  margin: 0;
-  line-height: 1.35;
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  line-height: 1.38;
+  color: var(--cc-ink-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.modui-cylindrical-custom {
-  margin-top: 0.2rem;
-}
+.modui-cylindrical-custom { margin-top: 8px; }
 
-/* Specular Sheen Overlay */
+/* specular pass across the glass */
 .modui-cylindrical-card-sheen {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.4) 0%,
-      transparent 50%,
-      rgba(15, 23, 42, 0.02) 100%);
   border-radius: inherit;
+  background: linear-gradient(118deg, transparent 32%, rgba(255, 255, 255, 0.4) 50%, transparent 68%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 520ms ease;
 }
 
-/* Floating Tactical Controls */
+.modui-cylindrical-card--active .modui-cylindrical-card-sheen { opacity: 0.4; }
+
+/* ==========================================================================
+   Controls
+   ========================================================================== */
 .modui-cylindrical-controls {
   position: absolute;
-  bottom: 1.15rem;
+  left: 50%;
+  bottom: 34px;
+  z-index: 20;
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  padding: 0.3rem 0.55rem;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--border-subtle, #e2e8f0);
-  border-radius: 9999px;
-  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
-  z-index: 10;
-  pointer-events: auto;
+  gap: 6px;
+  padding: 5px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: var(--cc-chrome);
+  box-shadow: 0 0 0 1px var(--cc-ring), 0 10px 26px -12px rgba(14, 19, 34, 0.4);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
 }
 
 .modui-cylindrical-ctrl-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 9999px;
-  border: 1px solid var(--border-subtle, #e2e8f0);
-  background: var(--bg-surface, #ffffff);
-  color: var(--text-secondary, #64748b);
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cc-ink-dim);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background 200ms ease, color 200ms ease, transform 200ms var(--cc-ease);
 }
 
 .modui-cylindrical-ctrl-btn:hover {
-  background: var(--bg-surface-elevated, #f8fafc);
-  color: var(--text-primary, #0f172a);
-  border-color: var(--border-hover, #cbd5e1);
+  background: rgba(14, 19, 34, 0.06);
+  color: var(--cc-ink);
 }
+
+.modui-cylindrical-ctrl-btn:active { transform: scale(0.92); }
 
 .modui-cylindrical-dots {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0 0.2rem;
+  gap: 5px;
+  padding: 0 4px;
 }
 
 .modui-cylindrical-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 9999px;
-  border: none;
+  width: 6px;
+  height: 6px;
   padding: 0;
-  background: var(--border-hover, #cbd5e1);
+  border: 0;
+  border-radius: 999px;
+  background: rgba(14, 19, 34, 0.2);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 420ms var(--cc-ease), background 260ms ease;
 }
+
+.modui-cylindrical-dot:hover { background: rgba(14, 19, 34, 0.34); }
 
 .modui-cylindrical-dot--active {
-  width: 16px;
-  background: var(--accent-primary, #4f46e5);
+  width: 22px;
+  background: var(--accent-primary, #365CF5);
 }
 
-/* Drag Micro-Hint */
+.modui-cylindrical-ctrl-btn:focus-visible,
+.modui-cylindrical-dot:focus-visible {
+  outline: 2px solid var(--accent-primary, #365CF5);
+  outline-offset: 2px;
+}
+
+/* ---------- Helper line ---------- */
 .modui-cylindrical-drag-hint {
   position: absolute;
-  top: 0.85rem;
-  display: flex;
+  left: 50%;
+  bottom: 10px;
+  z-index: 15;
+  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
-  color: var(--text-tertiary, #94a3b8);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  gap: 6px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 460;
+  letter-spacing: -0.004em;
+  color: var(--cc-ink-faint);
+  white-space: nowrap;
   pointer-events: none;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(4px);
-  padding: 0.22rem 0.6rem;
-  border-radius: 9999px;
-  border: 1px solid var(--border-subtle, #e2e8f0);
-  z-index: 10;
 }
 
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .modui-cylindrical-viewport {
-    min-height: 260px;
-  }
-
-  .modui-cylindrical-drag-hint {
-    top: 0.5rem;
-    font-size: 0.625rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-  .modui-cylindrical-ring,
-  .modui-cylindrical-card {
-    transition: none !important;
-  }
-}
-
-.modui-cylindrical-viewport--autoplay .modui-cylindrical-card {
-  transition: none !important;
-}
+.modui-cylindrical-drag-hint svg { opacity: 0.7; }
 
 /* ==========================================================================
-   Dark Theme Enhancements
+   Autoplay
    ========================================================================== */
+.modui-cylindrical-viewport--autoplay { cursor: default; }
 
+/* ==========================================================================
+   Dark
+   ========================================================================== */
 [data-theme="dark"] .modui-cylindrical-viewport {
-  --bg-card: var(--bg-surface-elevated, #161822);
-  --border-subtle: var(--border-default, rgba(255, 255, 255, 0.1));
-  --border-hover: rgba(255, 255, 255, 0.22);
+  --cc-surface: #161C32;
+  --cc-art-base: #0A0E1C;
+  --cc-ink: #EFF1F8;
+  --cc-ink-dim: #99A1B9;
+  --cc-ink-faint: rgba(239, 241, 248, 0.4);
+  --cc-ring: rgba(185, 198, 255, 0.12);
+  --cc-floor: rgba(0, 0, 0, 0.56);
+  --cc-chrome: rgba(22, 28, 50, 0.84);
 }
 
 [data-theme="dark"] .modui-cylindrical-card {
-  background: var(--bg-surface-elevated, #161822);
-  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
-  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.5), 0 4px 12px -2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 1px var(--cc-ring), 0 16px 34px -18px rgba(0, 0, 0, 0.8);
 }
 
-[data-theme="dark"] .modui-cylindrical-card-body {
-  background: var(--bg-surface-elevated, #161822);
+[data-theme="dark"] .modui-cylindrical-card--active {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--card-accent, #7C95FF) 34%, transparent),
+    0 0 0 5px color-mix(in srgb, var(--card-accent, #7C95FF) 12%, transparent),
+    0 28px 52px -22px rgba(0, 0, 0, 0.9);
 }
 
+[data-theme="dark"] .modui-cylindrical-ctrl-btn:hover { background: rgba(185, 198, 255, 0.1); }
+[data-theme="dark"] .modui-cylindrical-dot { background: rgba(185, 198, 255, 0.24); }
+[data-theme="dark"] .modui-cylindrical-dot--active { background: #7C95FF; }
 [data-theme="dark"] .modui-cylindrical-card-sheen {
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      transparent 50%,
-      rgba(0, 0, 0, 0.35) 100%);
+  background: linear-gradient(118deg, transparent 32%, rgba(255, 255, 255, 0.14) 50%, transparent 68%);
 }
 
-[data-theme="dark"] .modui-cylindrical-art {
-  border-color: rgba(255, 255, 255, 0.1);
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 620px) {
+  .modui-cylindrical-viewport { min-height: 400px; }
+  .modui-cylindrical-controls { bottom: 34px; }
+  .modui-cylindrical-drag-hint { font-size: 11.5px; }
+  .modui-cylindrical-index-label { font-size: 46px; }
 }
 
-[data-theme="dark"] .modui-cylindrical-art--pattern {
-  background: linear-gradient(135deg, #1C1F2B 0%, #13151E 100%);
-}
-
-[data-theme="dark"] .modui-cylindrical-controls {
-  background: rgba(20, 23, 33, 0.92);
-  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
-  box-shadow: 0 8px 24px -2px rgba(0, 0, 0, 0.45);
-}
-
-[data-theme="dark"] .modui-cylindrical-ctrl-btn {
-  background: #191B24;
-  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
-  color: var(--text-secondary);
-}
-
-[data-theme="dark"] .modui-cylindrical-ctrl-btn:hover {
-  background: #252836;
-  color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-[data-theme="dark"] .modui-cylindrical-drag-hint {
-  background: rgba(20, 23, 33, 0.90);
-  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
-  color: var(--text-secondary);
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-cylindrical-viewport,
+  .modui-cylindrical-viewport *,
+  .modui-cylindrical-viewport *::before,
+  .modui-cylindrical-viewport *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

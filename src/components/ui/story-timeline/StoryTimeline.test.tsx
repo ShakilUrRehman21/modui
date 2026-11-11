@@ -21,7 +21,7 @@ describe('StoryTimeline component', () => {
     render(<StoryTimeline username="modui.lab" soundEnabled={false} />);
     expect(screen.getByText('modui.lab')).toBeInTheDocument();
     expect(screen.getByText('The Brass Dial Experiment')).toBeInTheDocument();
-    expect(screen.getByText('CHAPTER 01 · PROTOTYPE')).toBeInTheDocument();
+    expect(screen.getByText('Chapter 1: Prototype')).toBeInTheDocument();
   });
 
   it('renders segmented progress bars corresponding to all stories', () => {

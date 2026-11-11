@@ -347,7 +347,7 @@ export const ApertureIrisLens: React.FC<ApertureIrisLensProps> = ({
       {/* Top Lens Barrel Metadata Badge */}
       {!compact && showRing && (
         <div className="modui-aperture-hud">
-          <span className="modui-aperture-hud-item">MODUI OPTICS // {focalLength}</span>
+          <span className="modui-aperture-hud-item">{focalLength} lens</span>
           <span className="modui-aperture-hud-fstop">{currentFStop}</span>
         </div>
       )}
@@ -488,7 +488,7 @@ export const ApertureIrisLens: React.FC<ApertureIrisLensProps> = ({
             <div className="modui-aperture-default-subject">
               <div className="modui-subject-reticle" />
               <div className="modui-subject-core-pill">50mm F/1.4</div>
-              <span className="modui-subject-caption">OPTICAL APERTURE</span>
+              <span className="modui-subject-caption">Aperture</span>
             </div>
           )}
         </div>

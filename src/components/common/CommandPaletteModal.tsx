@@ -128,7 +128,8 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
             ref={inputRef}
             type="text"
             className="modui-cmdk-input"
-            placeholder="Search..."
+            placeholder="Search components and pages"
+            aria-label="Search components and pages"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -176,7 +177,7 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
             </div>
           ) : (
             <div className="modui-cmdk-empty">
-              <p>No results</p>
+              <p>Nothing matches “{query}”. Try a shorter word.</p>
             </div>
           )}
         </div>
@@ -184,7 +185,7 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
         {/* Minimal Footer */}
         <div className="modui-cmdk-footer">
           <span className="modui-cmdk-esc-hint">esc to close</span>
-          <span className="modui-cmdk-count-info">{allResults.length} results</span>
+          <span className="modui-cmdk-count-info">{allResults.length} {allResults.length === 1 ? 'result' : 'results'}</span>
         </div>
       </div>
     </div>

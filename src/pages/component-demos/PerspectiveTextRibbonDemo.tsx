@@ -30,9 +30,9 @@ export default function PerspectiveTextRibbonDemo({ theme }: DemoProps) {
                           interactiveScrub={true}
                           soundEnabled={ribbonSound}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          3D Orientation: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{ribbonOrientation.toUpperCase()}</span> ({ribbonSpeed}x speed)
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          3D Orientation: <span className="modui-stage-caption-value">{ribbonOrientation.toUpperCase()}</span> ({ribbonSpeed}x speed)
+                          <div className="modui-stage-caption-hint">
                             Drag horizontally across the ribbon to scrub with momentum fling. Use Left/Right Arrow keys to step, Space to pause.
                           </div>
                         </div>

@@ -285,7 +285,7 @@ export const CyberStreamMatrix: React.FC<CyberStreamMatrixProps> = ({
       }
 
       // 4. Render Glyphs
-      ctx.font = `600 ${fontSize}px "JetBrains Mono", "Fira Code", monospace`;
+      ctx.font = `600 ${fontSize}px "Geist Mono Variable", "JetBrains Mono", "Fira Code", monospace`;
       ctx.textBaseline = 'top';
 
       for (const col of columns) {

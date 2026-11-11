@@ -1,431 +1,444 @@
-/**
- * ApertureIrisLens.css
- * Hardware-grade mechanical camera aperture styling with pure CSS.
- * Zero external runtime style dependencies.
- */
+/* ==========================================================================
+   ModUI — Aperture Iris Lens
+   A lens barrel: anodised metal, a knurled focus ring, engraved index marks
+   and gunmetal blades closing over a black opening.
+   ========================================================================== */
 
 .modui-aperture-wrap {
-  position: relative;
+  /* barrel metal */
+  --ap-barrel-a: #4A4E57;
+  --ap-barrel-b: #22252C;
+  --ap-barrel-c: #343841;
+  --ap-chrome: #C9CDD6;
+  --ap-engrave: rgba(236, 240, 248, 0.68);
+  --ap-index: #E0523C;
+
+  /* plate */
+  --ap-plate: linear-gradient(176deg, #1A1D26 0%, #101218 100%);
+  --ap-plate-ring: rgba(255, 255, 255, 0.1);
+
+  /* blades + opening */
+  --ap-blade-a: #5A5F6B;
+  --ap-blade-b: #2E323B;
+  --ap-blade-edge: rgba(255, 255, 255, 0.3);
+  --ap-void: #06070A;
+
+  --ap-ink: #ECEFF6;
+  --ap-ink-dim: rgba(236, 239, 246, 0.56);
+  --ap-accent: #5C8CFF;
+  --ap-mono: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  --ap-ease: cubic-bezier(0.2, 0.9, 0.26, 1);
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 16px;
   width: 100%;
-  box-sizing: border-box;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 18px;
+  border-radius: 20px;
+  background: var(--ap-plate);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 1px var(--ap-plate-ring),
+    0 24px 52px -28px rgba(0, 0, 0, 0.8);
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
   user-select: none;
-  touch-action: none;
-  padding: 1.5rem 1rem;
 }
 
-.modui-aperture-wrap:focus-visible {
-  outline: 2px solid var(--accent-primary, #365CF5);
-  outline-offset: 4px;
-  border-radius: var(--radius-lg, 12px);
-}
-
-/* Compact mode for cards */
-.modui-aperture--compact {
-  padding: 0.5rem;
-}
-
-.modui-aperture--compact .modui-aperture-barrel {
-  width: 140px;
-  height: 140px;
-}
-
-.modui-aperture--compact .modui-fstop-selector {
-  display: none;
-}
-
-/* Top HUD Readout */
+/* ==========================================================================
+   Engraved header
+   ========================================================================== */
 .modui-aperture-hud {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
   width: 100%;
-  max-width: 290px;
-  margin-bottom: 0.85rem;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  padding: 0 4px;
 }
 
 .modui-aperture-hud-item {
-  color: var(--text-tertiary, #64748B);
+  font-family: var(--ap-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ap-ink-dim);
+  white-space: nowrap;
 }
 
 .modui-aperture-hud-fstop {
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(54, 92, 245, 0.1);
-  color: var(--accent-primary, #365CF5);
-  border: 1px solid rgba(54, 92, 245, 0.25);
-  box-shadow: 0 1px 4px rgba(54, 92, 245, 0.15);
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--ap-accent) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ap-accent) 34%, transparent);
+  font-family: var(--ap-mono);
+  font-size: 11.5px;
+  font-weight: 560;
+  letter-spacing: 0.04em;
+  color: var(--ap-accent);
+  white-space: nowrap;
 }
 
-/* Main Circular Lens Assembly */
+/* ==========================================================================
+   Barrel
+   ========================================================================== */
 .modui-aperture-barrel {
   position: relative;
-  width: 270px;
-  height: 270px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 300px;
   cursor: grab;
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  outline: none;
+  touch-action: none;
+  border-radius: 50%;
+  box-shadow:
+    0 10px 28px -10px rgba(0, 0, 0, 0.9),
+    0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-.modui-aperture-barrel--dragging {
-  cursor: grabbing;
-  transform: scale(0.985);
+.modui-aperture-barrel--dragging { cursor: grabbing; }
+
+.modui-aperture-barrel:focus-visible {
+  outline: 2px solid var(--ap-accent);
+  outline-offset: 4px;
 }
 
-/* Outer Knurled Grip Ring */
+/* the knurled focus ring around the outside */
 .modui-aperture-knurl-ring {
   position: absolute;
-  top: -6px;
-  left: -6px;
-  right: -6px;
-  bottom: -6px;
+  inset: 0;
   border-radius: 50%;
-  pointer-events: none;
   background: repeating-conic-gradient(
     from 0deg,
-    rgba(0, 0, 0, 0.08) 0deg 2deg,
-    transparent 2deg 4deg
+    rgba(255, 255, 255, 0.2) 0deg 0.9deg,
+    rgba(0, 0, 0, 0.48) 0.9deg 1.8deg
   );
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15), 0 4px 18px rgba(0, 0, 0, 0.08);
+  -webkit-mask: radial-gradient(circle, transparent 0 70%, #000 72% 86%, transparent 88%);
+  mask: radial-gradient(circle, transparent 0 70%, #000 72% 86%, transparent 88%);
+  pointer-events: none;
+  z-index: 3;
 }
 
-/* SVG Iris Assembly */
+/* the red index mark at the top of the barrel */
+.modui-aperture-barrel::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  width: 3px;
+  height: 11px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--ap-index);
+  box-shadow: 0 0 7px color-mix(in srgb, var(--ap-index) 80%, transparent);
+  z-index: 4;
+  pointer-events: none;
+}
+
 .modui-aperture-svg {
+  position: relative;
   width: 100%;
   height: 100%;
-  display: block;
+  z-index: 2;
   overflow: visible;
 }
 
-/* Barrel Elements Base Styles */
+/* ---------- Barrel rings ---------- */
 .modui-barrel-outer {
-  fill: #E2E8F0;
-  stroke: #CBD5E1;
-  stroke-width: 1.5;
+  fill: var(--ap-barrel-b);
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 1;
 }
 
 .modui-barrel-middle {
-  fill: #F1F5F9;
-  stroke: #E2E8F0;
+  fill: var(--ap-barrel-a);
+  stroke: rgba(0, 0, 0, 0.5);
   stroke-width: 1;
 }
 
 .modui-barrel-inner {
-  fill: #1E293B;
-  stroke: #0F172A;
+  fill: var(--ap-barrel-c);
+  stroke: rgba(0, 0, 0, 0.6);
   stroke-width: 1.5;
 }
 
+/* a polished chrome bevel at the lip of the opening */
 .modui-barrel-bezel {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.35);
-  stroke-width: 1.5;
-  pointer-events: none;
+  stroke: var(--ap-chrome);
+  stroke-width: 2;
+  opacity: 0.5;
 }
 
+/* ---------- Engraved index marks ---------- */
 .modui-barrel-tick {
-  stroke: #94A3B8;
+  stroke: var(--ap-engrave);
   stroke-width: 1;
   stroke-linecap: round;
+  opacity: 0.4;
 }
 
 .modui-barrel-tick--major {
-  stroke: #475569;
-  stroke-width: 1.8;
+  stroke-width: 2;
+  opacity: 0.9;
 }
 
+/* ---------- Opening ---------- */
 .modui-iris-aperture-bg {
-  fill: #0F172A;
+  fill: var(--ap-void);
 }
 
 .modui-aperture-opening-rim {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.25);
+  stroke: var(--ap-chrome);
   stroke-width: 1;
-  pointer-events: none;
+  opacity: 0.4;
 }
 
-/* Iris Blades Styling */
+/* ---------- Blades ---------- */
+.modui-blades-group { isolation: isolate; }
+
 .modui-aperture-blade {
-  fill: url(#blade-grad-light);
-  stroke: rgba(255, 255, 255, 0.4);
+  fill: var(--ap-blade-b);
+  stroke: var(--ap-blade-edge);
   stroke-width: 0.6;
-  transition: d 0.1s linear;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.65));
+  transition: fill 300ms ease;
 }
 
-/* Revealed Content Container */
+/* alternate blades catch the light, so the overlap reads */
+.modui-aperture-blade:nth-child(odd) { fill: var(--ap-blade-a); }
+
+/* ==========================================================================
+   What the aperture reveals
+   ========================================================================== */
 .modui-aperture-reveal-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
   pointer-events: none;
-  transition: clip-path 0.08s linear;
-  overflow: hidden;
-  z-index: 2;
+  z-index: 1;
 }
 
-/* Default Subject Content inside Aperture */
 .modui-aperture-default-subject {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #F8FAFC;
-  width: 100%;
-  height: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
-  background: radial-gradient(circle at center, #1E293B 0%, #090D16 100%);
+  gap: 5px;
 }
 
 .modui-subject-reticle {
   position: absolute;
-  width: 44px;
-  height: 44px;
-  border: 1px dashed rgba(255, 255, 255, 0.35);
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
-  pointer-events: none;
+  border: 1px dashed rgba(236, 239, 246, 0.2);
+}
+
+.modui-subject-reticle::before,
+.modui-subject-reticle::after {
+  content: '';
+  position: absolute;
+  background: rgba(236, 239, 246, 0.2);
+}
+
+.modui-subject-reticle::before {
+  left: 50%;
+  top: -10px;
+  bottom: -10px;
+  width: 1px;
+}
+
+.modui-subject-reticle::after {
+  top: 50%;
+  left: -10px;
+  right: -10px;
+  height: 1px;
 }
 
 .modui-subject-core-pill {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #38BDF8;
-  margin-bottom: 0.25rem;
-  text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+  position: relative;
+  font-family: var(--ap-mono);
+  font-size: 12.5px;
+  font-weight: 560;
+  letter-spacing: 0.07em;
+  color: var(--ap-ink);
+  text-shadow: 0 0 14px rgba(236, 239, 246, 0.35);
 }
 
 .modui-subject-caption {
-  font-size: 0.5625rem;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 600;
-}
-
-/* F-Stop Step Selector Buttons */
-.modui-fstop-selector {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: 1.25rem;
-  max-width: 320px;
-}
-
-.modui-fstop-btn {
-  padding: 0.35rem 0.65rem;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.72rem;
-  font-weight: 600;
-  border-radius: var(--radius-sm, 6px);
-  border: 1px solid var(--border-default, rgba(0, 0, 0, 0.1));
-  background: var(--bg-surface, #FFFFFF);
-  color: var(--text-secondary, #475569);
-  cursor: pointer;
-  transition: all 0.15s ease;
-  user-select: none;
-}
-
-.modui-fstop-btn:hover {
-  background: var(--bg-surface-subtle, #F1F5F9);
-  color: var(--text-primary, #0F172A);
-  border-color: var(--border-strong, rgba(0, 0, 0, 0.2));
-}
-
-.modui-fstop-btn--active {
-  background: var(--accent-primary, #365CF5);
-  color: #FFFFFF;
-  border-color: var(--accent-primary, #365CF5);
-  box-shadow: 0 2px 8px rgba(54, 92, 245, 0.35);
+  position: relative;
+  font-family: var(--ap-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--ap-ink-dim);
 }
 
 /* ==========================================================================
-   THEME VARIANTS
+   f-stop keys
    ========================================================================== */
-
-/* 1. Studio Silver (Default Light Theme) */
-.modui-aperture--studio-silver .modui-barrel-outer {
-  fill: #E2E8F0;
-  stroke: #CBD5E1;
+.modui-fstop-selector {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
 }
 
-.modui-aperture--studio-silver .modui-barrel-middle {
-  fill: #F8FAFC;
-  stroke: #E2E8F0;
+.modui-fstop-btn {
+  padding: 6px 11px;
+  border: 0;
+  border-radius: 7px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 1px 0 rgba(0, 0, 0, 0.6);
+  color: var(--ap-ink-dim);
+  font-family: var(--ap-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 180ms ease, color 180ms ease, transform 140ms var(--ap-ease);
 }
 
-.modui-aperture--studio-silver .modui-barrel-inner {
-  fill: #1E293B;
+.modui-fstop-btn:hover { color: var(--ap-ink); background: rgba(255, 255, 255, 0.14); }
+.modui-fstop-btn:active { transform: translateY(1px); }
+
+.modui-fstop-btn--active {
+  background: var(--ap-accent);
+  color: #0A1024;
+  box-shadow: 0 0 14px -2px color-mix(in srgb, var(--ap-accent) 70%, transparent);
 }
 
-.modui-aperture--studio-silver .modui-aperture-blade {
-  fill: url(#blade-grad-light);
-  stroke: rgba(255, 255, 255, 0.45);
+.modui-fstop-btn:focus-visible {
+  outline: 2px solid var(--ap-accent);
+  outline-offset: 2px;
 }
 
-/* 2. Matte Obsidian (Stealth Dark Titanium) */
-.modui-aperture--matte-obsidian {
-  color: #F8FAFC;
+/* ==========================================================================
+   Finishes
+   ========================================================================== */
+.modui-aperture--studio-silver {
+  --ap-barrel-a: #B9BDC6;
+  --ap-barrel-b: #8E939D;
+  --ap-barrel-c: #A4A9B3;
+  --ap-chrome: #FAFBFD;
+  --ap-engrave: rgba(24, 26, 32, 0.72);
+  --ap-blade-a: #6B7079;
+  --ap-blade-b: #3C4049;
+  --ap-blade-edge: rgba(255, 255, 255, 0.42);
+  --ap-plate: linear-gradient(176deg, #EDEEF2 0%, #DEE0E6 100%);
+  --ap-plate-ring: rgba(14, 19, 34, 0.1);
+  --ap-ink: #14171E;
+  --ap-ink-dim: rgba(20, 23, 30, 0.58);
+  --ap-accent: #365CF5;
 }
 
-.modui-aperture--matte-obsidian .modui-aperture-hud-item {
-  color: #94A3B8;
+.modui-aperture--studio-silver .modui-subject-core-pill { color: #ECEFF6; text-shadow: 0 0 14px rgba(236, 239, 246, 0.4); }
+.modui-aperture--studio-silver .modui-subject-caption { color: rgba(236, 239, 246, 0.5); }
+.modui-aperture--studio-silver .modui-subject-reticle { border-color: rgba(236, 239, 246, 0.2); }
+
+.modui-aperture--studio-silver .modui-fstop-btn {
+  background: linear-gradient(180deg, #FFFFFF, #E8EAEF);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 1px 0 rgba(14, 19, 34, 0.18);
+  color: rgba(20, 23, 30, 0.6);
 }
 
-.modui-aperture--matte-obsidian .modui-aperture-hud-fstop {
-  background: rgba(6, 182, 212, 0.12);
-  color: #06B6D4;
-  border-color: rgba(6, 182, 212, 0.3);
-  box-shadow: 0 1px 6px rgba(6, 182, 212, 0.2);
+.modui-aperture--studio-silver .modui-fstop-btn--active {
+  background: var(--ap-accent);
+  color: #FFFFFF;
 }
 
-.modui-aperture--matte-obsidian .modui-barrel-outer {
-  fill: #0F172A;
-  stroke: #1E293B;
+.modui-aperture--studio-silver .modui-aperture-knurl-ring {
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0.85) 0deg 0.9deg,
+    rgba(40, 44, 52, 0.4) 0.9deg 1.8deg
+  );
 }
 
-.modui-aperture--matte-obsidian .modui-barrel-middle {
-  fill: #1E293B;
-  stroke: #334155;
+.modui-aperture--classic-brass {
+  --ap-barrel-a: #B08A4A;
+  --ap-barrel-b: #6F5527;
+  --ap-barrel-c: #8E6E35;
+  --ap-chrome: #F2DCA8;
+  --ap-engrave: rgba(250, 238, 210, 0.75);
+  --ap-blade-a: #5B4D33;
+  --ap-blade-b: #2E261A;
+  --ap-plate: linear-gradient(176deg, #261D10 0%, #16100A 100%);
+  --ap-plate-ring: rgba(242, 220, 168, 0.16);
+  --ap-accent: #E0A64A;
+  --ap-index: #C8452F;
 }
 
-.modui-aperture--matte-obsidian .modui-barrel-inner {
-  fill: #020617;
-  stroke: #0F172A;
+.modui-aperture--classic-brass .modui-fstop-btn--active { background: var(--ap-accent); color: #20170B; }
+
+.modui-aperture--cyber-neon {
+  --ap-barrel-a: #123A46;
+  --ap-barrel-b: #07202A;
+  --ap-barrel-c: #0D2E38;
+  --ap-chrome: #5CEBF8;
+  --ap-engrave: rgba(92, 235, 248, 0.7);
+  --ap-blade-a: #164B58;
+  --ap-blade-b: #07232C;
+  --ap-blade-edge: rgba(92, 235, 248, 0.42);
+  --ap-plate: linear-gradient(176deg, #05161D 0%, #020B10 100%);
+  --ap-plate-ring: rgba(92, 235, 248, 0.22);
+  --ap-accent: #3FE0F0;
+  --ap-index: #FF5E7A;
 }
 
-.modui-aperture--matte-obsidian .modui-barrel-tick {
-  stroke: #475569;
+.modui-aperture--cyber-neon .modui-aperture-barrel {
+  box-shadow: 0 0 34px -6px rgba(63, 224, 240, 0.4), 0 10px 28px -10px rgba(0, 0, 0, 0.9);
 }
 
-.modui-aperture--matte-obsidian .modui-barrel-tick--major {
-  stroke: #06B6D4;
+.modui-aperture--cyber-neon .modui-fstop-btn--active { background: var(--ap-accent); color: #02161B; }
+
+/* ==========================================================================
+   Compact — catalogue thumbnail
+   ========================================================================== */
+.modui-aperture--compact {
+  max-width: 100%;
+  padding: 10px;
+  gap: 8px;
+  border-radius: 14px;
 }
 
-.modui-aperture--matte-obsidian .modui-aperture-blade {
-  fill: url(#blade-grad-obsidian);
-  stroke: rgba(255, 255, 255, 0.15);
+.modui-aperture--compact .modui-aperture-hud,
+.modui-aperture--compact .modui-fstop-selector { display: none; }
+.modui-aperture--compact .modui-aperture-barrel { max-width: 142px; }
+.modui-aperture--compact .modui-subject-core-pill { font-size: 8px; }
+.modui-aperture--compact .modui-subject-caption { display: none; }
+.modui-aperture--compact .modui-subject-reticle { width: 44px; height: 44px; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 420px) {
+  .modui-aperture-barrel { max-width: 236px; }
+  .modui-fstop-btn { padding: 5px 9px; font-size: 10px; }
 }
 
-.modui-aperture--matte-obsidian .modui-fstop-btn {
-  background: #0F172A;
-  color: #94A3B8;
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.modui-aperture--matte-obsidian .modui-fstop-btn:hover {
-  background: #1E293B;
-  color: #F8FAFC;
-}
-
-.modui-aperture--matte-obsidian .modui-fstop-btn--active {
-  background: #06B6D4;
-  color: #020617;
-  border-color: #06B6D4;
-  box-shadow: 0 2px 10px rgba(6, 182, 212, 0.4);
-}
-
-/* 3. Classic Brass (Vintage Leica Gold/Bronze) */
-.modui-aperture--classic-brass .modui-barrel-outer {
-  fill: #78350F;
-  stroke: #92400E;
-}
-
-.modui-aperture--classic-brass .modui-barrel-middle {
-  fill: #B45309;
-  stroke: #D97706;
-}
-
-.modui-aperture--classic-brass .modui-barrel-inner {
-  fill: #291507;
-  stroke: #451A03;
-}
-
-.modui-aperture--classic-brass .modui-barrel-tick {
-  stroke: #D97706;
-}
-
-.modui-aperture--classic-brass .modui-barrel-tick--major {
-  stroke: #FDE68A;
-}
-
-.modui-aperture--classic-brass .modui-aperture-blade {
-  fill: url(#blade-grad-brass);
-  stroke: rgba(254, 243, 199, 0.35);
-}
-
-.modui-aperture--classic-brass .modui-aperture-hud-fstop {
-  background: rgba(217, 119, 6, 0.15);
-  color: #D97706;
-  border-color: rgba(217, 119, 6, 0.35);
-}
-
-.modui-aperture--classic-brass .modui-fstop-btn--active {
-  background: #D97706;
-  color: #FFFBEB;
-  border-color: #D97706;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.4);
-}
-
-/* 4. Cyber Neon (Futuristic Laser Optics) */
-.modui-aperture--cyber-neon .modui-barrel-outer {
-  fill: #090D16;
-  stroke: #082F49;
-}
-
-.modui-aperture--cyber-neon .modui-barrel-middle {
-  fill: #0C1527;
-  stroke: #0284C7;
-}
-
-.modui-aperture--cyber-neon .modui-barrel-inner {
-  fill: #020617;
-  stroke: #00F5FF;
-}
-
-.modui-aperture--cyber-neon .modui-barrel-tick {
-  stroke: #0284C7;
-}
-
-.modui-aperture--cyber-neon .modui-barrel-tick--major {
-  stroke: #00F5FF;
-}
-
-.modui-aperture--cyber-neon .modui-aperture-blade {
-  fill: url(#blade-grad-cyber);
-  stroke: rgba(0, 245, 255, 0.4);
-}
-
-.modui-aperture--cyber-neon .modui-aperture-hud-fstop {
-  background: rgba(0, 245, 255, 0.15);
-  color: #00F5FF;
-  border-color: rgba(0, 245, 255, 0.4);
-  box-shadow: 0 0 10px rgba(0, 245, 255, 0.25);
-}
-
-.modui-aperture--cyber-neon .modui-fstop-btn--active {
-  background: #00F5FF;
-  color: #020617;
-  border-color: #00F5FF;
-  box-shadow: 0 0 12px rgba(0, 245, 255, 0.5);
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-aperture-wrap,
+  .modui-aperture-wrap *,
+  .modui-aperture-wrap *::before,
+  .modui-aperture-wrap *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

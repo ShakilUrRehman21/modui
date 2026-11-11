@@ -28,9 +28,9 @@ export default function NeuralGraphDemo({ theme }: DemoProps) {
                           autoPulse={neuralAutoPulse}
                           onSelectNode={(node) => setNeuralSelectedNodeTitle(node ? node.label : 'None')}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Focused Node: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{neuralSelectedNodeTitle}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          Focused Node: <span className="modui-stage-caption-value">{neuralSelectedNodeTitle}</span>
+                          <div className="modui-stage-caption-hint">
                             Drag nodes to stretch spring constraints, click nodes to fire synaptic action potentials, or drag canvas background to pan & wheel to zoom.
                           </div>
                         </div>

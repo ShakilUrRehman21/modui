@@ -1,14 +1,1 @@
-/* Modui Application Layout */
-
-/* Fixed Top Reading Progress Bar (Hairline line, zero text) */
-#modui-scroll-progress-line {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  width: 0%;
-  background: linear-gradient(90deg, var(--accent-primary, #365CF5), #60A5FA);
-  z-index: 100000;
-  pointer-events: none;
-  transition: width 0.08s ease-out;
-}
+/* App-level styles live in index.css (design tokens, interaction kit, route transitions). */

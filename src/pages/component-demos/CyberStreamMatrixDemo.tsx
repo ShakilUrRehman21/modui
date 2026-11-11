@@ -33,69 +33,17 @@ export default function CyberStreamMatrixDemo({ theme }: DemoProps) {
                           soundEnabled={matrixSound}
                           style={{ width: '100%', height: '420px', borderRadius: '12px', boxShadow: '0 12px 36px rgba(0,0,0,0.08)' }}
                         >
-                          <div
-                            style={{
-                              position: 'absolute',
-                              top: '50%',
-                              left: '50%',
-                              transform: 'translate(-50%, -50%)',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              alignItems: 'center',
-                              gap: '0.75rem',
-                              padding: '1.5rem 2rem',
-                              background: (isDark || matrixVariant !== 'studio-light')
-                                ? 'rgba(19, 20, 24, 0.88)'
-                                : 'rgba(255, 255, 255, 0.88)',
-                              backdropFilter: 'blur(12px)',
-                              borderRadius: '16px',
-                              border: (isDark || matrixVariant !== 'studio-light')
-                                ? '1px solid rgba(255, 255, 255, 0.12)'
-                                : '1px solid rgba(0, 0, 0, 0.08)',
-                              boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-                              textAlign: 'center',
-                              pointerEvents: 'none',
-                              maxWidth: '90%',
-                            }}
-                          >
-                            <div
-                              style={{
-                                fontFamily: 'var(--font-mono)',
-                                fontSize: '0.75rem',
-                                fontWeight: 700,
-                                letterSpacing: '0.14em',
-                                color: 'var(--accent-primary)',
-                              }}
-                            >
-                              STREAM GENERATIVE ENGINE
-                            </div>
-                            <div
-                              style={{
-                                fontFamily: 'var(--font-display)',
-                                fontSize: '1.25rem',
-                                fontWeight: 700,
-                                color: (isDark || matrixVariant !== 'studio-light') ? 'var(--text-primary)' : '#0F172A',
-                              }}
-                            >
-                              Hover to Repel &bull; Click to Burst
-                            </div>
-                            <p
-                              style={{
-                                fontSize: '0.8125rem',
-                                margin: 0,
-                                color: (isDark || matrixVariant !== 'studio-light') ? 'var(--text-secondary)' : '#64748B',
-                                maxWidth: '380px',
-                                lineHeight: 1.5,
-                              }}
-                            >
-                              Continuous canvas glyph rain with pointer shockwave repulsion physics, particle dissipation, and Web Audio synthesizer chirps.
+                          <div className="modui-demo-glass-card" aria-hidden="true">
+                            <div className="modui-demo-glass-card__title">Move to repel, click to burst</div>
+                            <p className="modui-demo-glass-card__text">
+                              Glyph rain that parts around your cursor and scatters on click, with optional synth chirps.
                             </p>
                           </div>
                         </CyberStreamMatrix>
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Interactive Canvas: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>60 FPS Stream Loop</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
-                            Tip: Move your cursor across the canvas to disperse glyph columns, click anywhere to trigger a particle shockwave burst, or change themes below.
+                        <div className="modui-stage-caption">
+                          Rendering: <span className="modui-stage-caption-value">60 fps canvas</span>
+                          <div className="modui-stage-caption-hint">
+                            Move your cursor across the canvas to disperse glyph columns, click anywhere to trigger a particle shockwave burst, or change themes below.
                           </div>
                         </div>
                       </div>

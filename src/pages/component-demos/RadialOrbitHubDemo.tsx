@@ -13,7 +13,7 @@ export default function RadialOrbitHubDemo({ theme }: DemoProps) {
     const [orbitMode, setOrbitMode] = useState<RadialOrbitMode>('circle');
     const [orbitVariant, setOrbitVariant] = useState<RadialOrbitVariant>(() => isDark ? 'dark' : 'glass');
     const [orbitSound, setOrbitSound] = useState(true);
-    const [orbitSelectedLabel, setOrbitSelectedLabel] = useState<string>('None (Click any node)');
+    const [orbitSelectedLabel, setOrbitSelectedLabel] = useState<string>('None yet — click a node');
 
   useEffect(() => {
     setOrbitVariant(isDark ? 'dark' : 'glass');
@@ -94,16 +94,16 @@ export default function RadialOrbitHubDemo({ theme }: DemoProps) {
                             },
                           ]}
                           radius={orbitRadius}
+                          defaultOpen
                           mode={orbitMode}
                           variant={orbitVariant}
-                          defaultOpen={false}
                           soundEnabled={orbitSound}
                           onSelect={(item) => setOrbitSelectedLabel(`${item.label} (${item.id})`)}
                         />
-                        <div style={{ marginTop: '2rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Last Activated: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{orbitSelectedLabel}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
-                            Tip: Drag the orbit ring to spin with rotational momentum, or press Tab / Enter
+                        <div className="modui-stage-caption">
+                          Last Activated: <span className="modui-stage-caption-value">{orbitSelectedLabel}</span>
+                          <div className="modui-stage-caption-hint">
+                            Drag the orbit ring to spin with rotational momentum, or press Tab / Enter
                           </div>
                         </div>
                       </div>

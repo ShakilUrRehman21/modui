@@ -33,9 +33,9 @@ export default function InfiniteCanvasGalleryDemo({ theme }: DemoProps) {
                           onItemHover={(item) => item && setCanvasActiveTitle(item.title)}
                           onItemClick={(item) => setCanvasActiveTitle(`${item.title} (Selected)`)}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Active Canvas Node: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{canvasActiveTitle}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          Active Canvas Node: <span className="modui-stage-caption-value">{canvasActiveTitle}</span>
+                          <div className="modui-stage-caption-hint">
                             Click and drag in any direction to fling the canvas with momentum. Cards wrap infinitely in 360 degrees using toroidal coordinates.
                           </div>
                         </div>

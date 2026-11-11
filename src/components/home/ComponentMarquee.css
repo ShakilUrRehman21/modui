@@ -1,0 +1,82 @@
+/* ==========================================================================
+   ModUI — Component index marquee
+   ========================================================================== */
+.modui-marquee {
+  position: relative;
+  z-index: 2;
+  border-block: 1px solid var(--border-default);
+  background: var(--bg-surface);
+  overflow: hidden;
+}
+
+.modui-marquee-viewport {
+  display: flex;
+  width: max-content;
+  padding: 1.35rem 0;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  min-width: 100%;
+}
+
+.modui-marquee-track {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  animation: modui-marquee var(--marquee-duration, 90s) linear infinite;
+}
+
+.modui-marquee:hover .modui-marquee-track,
+.modui-marquee:focus-within .modui-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes modui-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+.modui-marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-right: 2rem;
+}
+
+.modui-marquee-item a {
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  letter-spacing: var(--tracking-heading);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: color 300ms ease, opacity 300ms ease, font-variation-settings 400ms var(--ease-out-expo);
+  font-variation-settings: 'wght' 500;
+}
+
+.modui-marquee:hover .modui-marquee-item a { opacity: 0.4; }
+
+.modui-marquee .modui-marquee-item a:hover,
+.modui-marquee .modui-marquee-item a:focus-visible {
+  opacity: 1;
+  color: var(--text-primary);
+  font-variation-settings: 'wght' 720;
+}
+
+.modui-marquee-glyph {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--border-strong);
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modui-marquee-viewport { width: 100%; overflow-x: auto; }
+  .modui-marquee-track[aria-hidden] { display: none; }
+}
+
+@media (max-width: 640px) {
+  .modui-marquee-viewport { padding: 1rem 0; }
+  .modui-marquee-item a { font-size: var(--fs-lg); }
+  .modui-marquee-item { gap: 1.4rem; padding-right: 1.4rem; }
+}

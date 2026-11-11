@@ -42,10 +42,10 @@ export default function RotaryJogWheelDemo({ theme }: DemoProps) {
                           label="Master Output"
                           sublabel="LEVEL"
                         />
-                        <div style={{ marginTop: '2rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Current Output: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{rotaryValue}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
-                            Tip: Drag wheel circularly, flick with velocity to test momentum inertia, or use Arrow keys. Tap center to reset.
+                        <div className="modui-stage-caption">
+                          Current Output: <span className="modui-stage-caption-value">{rotaryValue}</span>
+                          <div className="modui-stage-caption-hint">
+                            Drag wheel circularly, flick with velocity to test momentum inertia, or use Arrow keys. Tap center to reset.
                           </div>
                         </div>
                       </div>

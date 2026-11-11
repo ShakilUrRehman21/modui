@@ -6,9 +6,9 @@
 .modui-cmdk-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.16);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(8, 11, 22, 0.22);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 999;
   display: block;
   animation: modui-fade-in 0.14s ease-out;
@@ -22,24 +22,23 @@
 .modui-cmdk-box {
   position: absolute;
   top: 68px;
-  right: max(1.25rem, calc((100vw - 1140px) / 2 + 1.25rem));
-  width: 340px;
+  right: max(1.25rem, calc((100vw - 1180px) / 2 + 1.25rem));
+  width: 380px;
   max-width: calc(100vw - 2.5rem);
   background: var(--bg-surface);
   border: 1px solid var(--border-default);
-  border-radius: 14px;
-  box-shadow: 
-    0 16px 40px -8px rgba(0, 0, 0, 0.35),
-    0 0 0 1px var(--border-subtle) inset;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
   transform-origin: top right;
-  animation: modui-popover 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: modui-popover 0.38s var(--ease-out-expo);
 }
 
 @keyframes modui-popover {
   from {
-    transform: scale(0.95) translateY(-6px);
+    transform: scale(0.94) translateY(-8px);
     opacity: 0;
+    filter: blur(4px);
   }
   to {
     transform: scale(1) translateY(0);
@@ -313,3 +312,26 @@
     width: auto;
   }
 }
+
+/* The header row already shows focus; avoid a doubled ring on the input */
+.modui-cmdk-box input:focus-visible {
+  outline: none;
+  border-radius: 0;
+}
+
+.modui-cmdk-input {
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  outline: none;
+}
+
+.modui-cmdk-input::placeholder { color: var(--text-tertiary); }
+
+.modui-cmdk-header { transition: box-shadow var(--transition-fast); }
+.modui-cmdk-header:focus-within { box-shadow: inset 0 -2px 0 var(--accent-primary); }

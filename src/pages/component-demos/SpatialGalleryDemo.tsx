@@ -35,9 +35,9 @@ export default function SpatialGalleryDemo({ theme }: DemoProps) {
                           onSelect={(item) => setSpatialActiveTitle(item.title)}
                           onItemClick={(item) => setSpatialActiveTitle(`${item.title} (Inspected)`)}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Active Spatial Node: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{spatialActiveTitle}</span>
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          Active Spatial Node: <span className="modui-stage-caption-value">{spatialActiveTitle}</span>
+                          <div className="modui-stage-caption-hint">
                             Drag horizontally or wheel scrub to orbit the 3D cylindrical ribbon. Click the active card or press Enter to inspect in high-resolution lightbox modal.
                           </div>
                         </div>

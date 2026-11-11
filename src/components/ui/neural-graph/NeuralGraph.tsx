@@ -118,15 +118,15 @@ interface ThemePalette {
 
 const THEME_PALETTES: Record<NeuralGraphVariant, ThemePalette> = {
   'studio-light': {
-    bg: '#F8F7F2',
-    gridDot: 'rgba(32, 32, 30, 0.08)',
+    bg: '#FAFBFD',
+    gridDot: 'rgba(14, 19, 34, 0.07)',
     nodeHalo: 'rgba(54, 92, 245, 0.12)',
-    edgeBase: 'rgba(32, 32, 30, 0.14)',
+    edgeBase: 'rgba(14, 19, 34, 0.34)',
     edgeActive: 'rgba(54, 92, 245, 0.85)',
     textPrimary: '#20201E',
     textSecondary: '#696963',
-    hudBg: 'rgba(255, 255, 255, 0.88)',
-    hudBorder: '#E4E1D9',
+    hudBg: 'rgba(250, 251, 253, 0.94)',
+    hudBorder: 'rgba(14, 19, 34, 0.1)',
     clusters: {
       perception: { color: '#365CF5', glow: 'rgba(54, 92, 245, 0.28)', label: 'Perception' },
       embedding: { color: '#7C3AED', glow: 'rgba(124, 58, 237, 0.28)', label: 'Embedding' },
@@ -139,7 +139,7 @@ const THEME_PALETTES: Record<NeuralGraphVariant, ThemePalette> = {
     bg: '#0F1219',
     gridDot: 'rgba(255, 255, 255, 0.07)',
     nodeHalo: 'rgba(56, 189, 248, 0.16)',
-    edgeBase: 'rgba(255, 255, 255, 0.12)',
+    edgeBase: 'rgba(185, 198, 255, 0.26)',
     edgeActive: 'rgba(56, 189, 248, 0.9)',
     textPrimary: '#F8FAFC',
     textSecondary: '#94A3B8',
@@ -157,7 +157,7 @@ const THEME_PALETTES: Record<NeuralGraphVariant, ThemePalette> = {
     bg: '#F5F2EB',
     gridDot: 'rgba(40, 36, 32, 0.09)',
     nodeHalo: 'rgba(255, 115, 94, 0.14)',
-    edgeBase: 'rgba(40, 36, 32, 0.15)',
+    edgeBase: 'rgba(40, 36, 32, 0.34)',
     edgeActive: 'rgba(255, 115, 94, 0.85)',
     textPrimary: '#282420',
     textSecondary: '#7A746B',
@@ -175,7 +175,7 @@ const THEME_PALETTES: Record<NeuralGraphVariant, ThemePalette> = {
     bg: '#0A0914',
     gridDot: 'rgba(168, 85, 247, 0.12)',
     nodeHalo: 'rgba(168, 85, 247, 0.22)',
-    edgeBase: 'rgba(255, 255, 255, 0.1)',
+    edgeBase: 'rgba(192, 132, 252, 0.3)',
     edgeActive: 'rgba(192, 132, 252, 0.95)',
     textPrimary: '#FAF5FF',
     textSecondary: '#C084FC',
@@ -540,11 +540,11 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
       cam.zoom += (cam.targetZoom - cam.zoom) * 0.15;
 
       // 1. Force-Directed Physics Simulation Step
-      const kRepulsion = 2600;
-      const kSpring = 0.038;
-      const springLength = compact ? 80 : 115;
+      const kRepulsion = 7200;
+      const kSpring = 0.03;
+      const springLength = compact ? 86 : 158;
       const damping = 0.88;
-      const centerGravity = 0.015;
+      const centerGravity = 0.011;
 
       // A. Node-Node Coulomb Repulsion
       for (let i = 0; i < nodes.length; i++) {
@@ -689,8 +689,8 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
           ctx.globalAlpha = 0.95;
         } else if (matchesFilter) {
           ctx.strokeStyle = palette.edgeBase;
-          ctx.lineWidth = Math.max(compact ? 1.5 : 1, (edge.weight || 0.8) * (compact ? 2.4 : 1.8));
-          ctx.globalAlpha = 0.85;
+          ctx.lineWidth = Math.max(compact ? 1.6 : 1.3, (edge.weight || 0.8) * (compact ? 2.6 : 2.3));
+          ctx.globalAlpha = 1;
         } else {
           ctx.strokeStyle = palette.edgeBase;
           ctx.lineWidth = 1;
@@ -783,16 +783,18 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
         // Node Outer Precision Ring
         ctx.beginPath();
         ctx.arc(0, 0, currentRadius, 0, Math.PI * 2);
-        ctx.fillStyle = variant === 'studio-light' || variant === 'warm-editorial' ? '#FFFFFF' : '#1A1D27';
+        ctx.fillStyle = nodeColor;
         ctx.fill();
-        ctx.lineWidth = isSelected ? 3.5 : isHovered ? 2.8 : 2;
-        ctx.strokeStyle = isSelected ? '#365CF5' : nodeColor;
+        ctx.lineWidth = isSelected ? 3 : isHovered ? 2.5 : 2;
+        ctx.strokeStyle = palette.bg;
         ctx.stroke();
 
         // Node Nucleus Core
         ctx.beginPath();
-        ctx.arc(0, 0, currentRadius * 0.45, 0, Math.PI * 2);
-        ctx.fillStyle = nodeColor;
+        ctx.arc(0, 0, currentRadius * 0.32, 0, Math.PI * 2);
+        ctx.fillStyle = variant === 'studio-light' || variant === 'warm-editorial'
+          ? 'rgba(255, 255, 255, 0.92)'
+          : 'rgba(255, 255, 255, 0.85)';
         ctx.fill();
 
         // Selected Pin Indicator Ring
@@ -808,26 +810,31 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
 
         // Typographic Node Label (Clean JetBrains Mono / Studio Sans)
         if (!compact || isHovered || isSelected) {
-          ctx.font = isSelected || isHovered ? '600 11px var(--font-mono, monospace)' : '500 10px var(--font-sans, sans-serif)';
+          ctx.font = isSelected || isHovered
+            ? '600 11.5px Inter, system-ui, sans-serif'
+            : '500 10.5px Inter, system-ui, sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'top';
 
-          const textY = currentRadius + 7;
+          const textY = currentRadius + 8;
           const text = node.label;
           const metrics = ctx.measureText(text);
 
           // Subtle text backing pill for readability
           ctx.fillStyle = palette.hudBg;
           ctx.beginPath();
-          const pillPadding = 4;
+          const pillPadding = 5;
           ctx.roundRect(
             -metrics.width / 2 - pillPadding,
-            textY - 2,
+            textY - 3,
             metrics.width + pillPadding * 2,
-            14,
-            4
+            17,
+            5
           );
           ctx.fill();
+          ctx.strokeStyle = palette.hudBorder;
+          ctx.lineWidth = 1;
+          ctx.stroke();
 
           ctx.fillStyle = isSelected ? '#365CF5' : isHovered ? palette.textPrimary : palette.textSecondary;
           ctx.fillText(text, 0, textY);
@@ -1005,20 +1012,20 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
         <div className="modui-neural-hud" onClick={(e) => e.stopPropagation()}>
           <div className="modui-neural-hud__brand">
             <span className="modui-neural-hud__pulse-dot" />
-            <span className="modui-neural-hud__title">SYNAPSE LATTICE // ENGINE</span>
+            <span className="modui-neural-hud__title">Synapse graph</span>
           </div>
 
           <div className="modui-neural-hud__chips">
             <div className="modui-neural-chip">
-              <span className="modui-neural-chip__key">NODES</span>
+              <span className="modui-neural-chip__key">Nodes</span>
               <span className="modui-neural-chip__val">{initialNodes.length}</span>
             </div>
             <div className="modui-neural-chip">
-              <span className="modui-neural-chip__key">SYNAPSES</span>
+              <span className="modui-neural-chip__key">Links</span>
               <span className="modui-neural-chip__val">{initialEdges.length}</span>
             </div>
             <div className="modui-neural-chip">
-              <span className="modui-neural-chip__key">PULSES</span>
+              <span className="modui-neural-chip__key">Pulses</span>
               <span className="modui-neural-chip__val">{synapsePulseCount}</span>
             </div>
           </div>
@@ -1037,7 +1044,7 @@ export const NeuralGraph: React.FC<NeuralGraphProps> = ({
                 className={`modui-neural-filter-btn ${activeClusterFilter === cluster ? 'modui-neural-filter-btn--active' : ''}`}
                 onClick={() => setActiveClusterFilter(cluster)}
               >
-                {cluster.toUpperCase()}
+                {cluster.charAt(0).toUpperCase() + cluster.slice(1)}
               </button>
             ))}
           </div>

@@ -1,446 +1,367 @@
 /* ==========================================================================
    ModUI — Magnetic Project List
-   Rauno Freiberg style high-density editorial project showcase with
-   velocity-damped 3D cursor-following floating preview card.
+   An editorial portfolio index. Large titles on hairlines; the hovered row
+   steps forward while the others recede, and a media card follows the cursor.
    ========================================================================== */
 
-/* Main Container */
 .modui-project-list {
+  --pl-bg: transparent;
+  --pl-ink: #0E1322;
+  --pl-ink-2: #5A6178;
+  --pl-ink-3: #8A90A3;
+  --pl-line: rgba(14, 19, 34, 0.1);
+  --pl-accent: var(--accent-primary, #365CF5);
+  --pl-card: #FFFFFF;
+  --pl-card-shadow: 0 2px 4px rgba(14, 19, 34, 0.06), 0 32px 64px -24px rgba(14, 19, 34, 0.45);
+  --pl-chip: rgba(14, 19, 34, 0.06);
+  --pl-title-font: var(--font-display, var(--font-sans, 'Geist Variable', 'Inter', sans-serif));
+  --pl-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
   width: 100%;
   box-sizing: border-box;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  border-radius: var(--radius-lg, 10px);
-  border: 1px solid var(--border-default, #E4E1D9);
-  background: var(--bg-surface, #FFFFFF);
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
+  color: var(--pl-ink);
+  background: var(--pl-bg);
   user-select: none;
-  transition: background-color var(--transition-normal, 260ms ease),
-              border-color var(--transition-normal, 260ms ease);
 }
 
-/* ==========================================================================
-   Variants
-   ========================================================================== */
-.modui-project-list--studio-light {
-  background: #FFFFFF;
-  border-color: var(--border-default, #E4E1D9);
-}
-
-.modui-project-list--dark-slate {
-  background: #151619;
-  border-color: #27282D;
-  color: #F8F7F2;
-}
-
+/* ---------- Variants ---------- */
 .modui-project-list--editorial-paper {
-  background: #FAF8F5;
-  border-color: #E6DFD3;
+  --pl-bg: #FBF8F2;
+  --pl-ink: #221E19;
+  --pl-ink-2: #6E665B;
+  --pl-ink-3: #9C9385;
+  --pl-line: rgba(34, 30, 25, 0.12);
+  --pl-accent: #B4532A;
+  --pl-card: #FFFDF8;
+  --pl-title-font: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  padding: 8px 24px;
+  border-radius: 20px;
 }
 
 .modui-project-list--minimal-mono {
-  background: #FFFFFF;
-  border-color: #20201E;
+  --pl-ink: #111111;
+  --pl-ink-2: #555555;
+  --pl-ink-3: #8A8A8A;
+  --pl-line: #111111;
+  --pl-accent: #111111;
+  --pl-card-shadow: 6px 6px 0 #111111;
+  --pl-title-font: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
 }
 
-/* ==========================================================================
-   Top Header Bar
-   ========================================================================== */
+.modui-project-list--dark-slate,
+[data-theme="dark"] .modui-project-list--studio-light {
+  --pl-ink: #EEF0F7;
+  --pl-ink-2: #A2A9BF;
+  --pl-ink-3: #6E7690;
+  --pl-line: rgba(185, 198, 255, 0.12);
+  --pl-accent: #7C95FF;
+  --pl-card: #141A2D;
+  --pl-card-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 32px 64px -24px rgba(0, 0, 0, 0.9);
+  --pl-chip: rgba(185, 198, 255, 0.1);
+}
+
+/* ---------- Header ---------- */
 .modui-project-list__header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border-subtle, #EFECE5);
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-top-left-radius: var(--radius-lg, 10px);
-  border-top-right-radius: var(--radius-lg, 10px);
-  z-index: 5;
-}
-
-.modui-project-list--dark-slate .modui-project-list__header {
-  background: rgba(21, 22, 25, 0.85);
-  border-bottom-color: #27282D;
+  gap: 16px;
+  padding: 4px 0 16px;
+  border-bottom: 1px solid var(--pl-line);
 }
 
 .modui-project-list__brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.modui-project-list__badge {
-  font-family: var(--font-mono, monospace);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 3px 8px;
-  border-radius: var(--radius-xs, 4px);
-  background: var(--accent-primary, #365CF5);
-  color: #FFFFFF;
-}
-
-.modui-project-list__count {
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-tertiary, #8E8D86);
-}
-
-.modui-project-list__hint {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono, monospace);
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-tertiary, #8E8D86);
-  letter-spacing: 0.06em;
-}
-
-/* ==========================================================================
-   Project Rows
-   ========================================================================== */
-.modui-project-list__rows {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.modui-project-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 24px;
-  border-bottom: 1px solid var(--border-subtle, #EFECE5);
-  cursor: pointer;
-  outline: none;
-  transition: background-color var(--transition-fast, 160ms ease),
-              padding var(--transition-fast, 160ms ease),
-              transform var(--transition-fast, 160ms ease);
-}
-
-.modui-project-list--dark-slate .modui-project-row {
-  border-bottom-color: #24252A;
-}
-
-.modui-project-row:last-child {
-  border-bottom: none;
-  border-bottom-left-radius: var(--radius-lg, 10px);
-  border-bottom-right-radius: var(--radius-lg, 10px);
-}
-
-.modui-project-row:hover,
-.modui-project-row:focus-visible {
-  background-color: var(--bg-surface-subtle, #F8F7F2);
-  padding-left: 28px;
-}
-
-.modui-project-list--dark-slate .modui-project-row:hover,
-.modui-project-list--dark-slate .modui-project-row:focus-visible {
-  background-color: #1F2025;
-}
-
-.modui-project-row.is-active {
-  background-color: var(--bg-surface-subtle, #F8F7F2);
-}
-
-.modui-project-list--dark-slate .modui-project-row.is-active {
-  background-color: #1F2025;
-}
-
-.modui-project-row.is-selected {
-  border-left: 3px solid var(--accent-primary, #365CF5);
-}
-
-/* Left Column */
-.modui-project-row__left {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-}
-
-.modui-project-row__index {
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-tertiary, #8E8D86);
-  min-width: 18px;
-  transition: color var(--transition-fast, 160ms ease);
-}
-
-.modui-project-row:hover .modui-project-row__index {
-  color: var(--accent-primary, #365CF5);
-}
-
-.modui-project-row__title-wrap {
   display: flex;
   align-items: baseline;
   gap: 10px;
 }
 
+.modui-project-list__badge {
+  font-size: 15px;
+  font-weight: 620;
+  letter-spacing: -0.015em;
+  color: var(--pl-ink);
+  background: none;
+  padding: 0;
+  border: 0;
+}
+
+.modui-project-list__count {
+  font-size: 13px;
+  color: var(--pl-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.modui-project-list__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--pl-ink-3);
+}
+
+/* ---------- Rows ---------- */
+.modui-project-list__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.modui-project-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--pl-line);
+  cursor: pointer;
+  outline: none;
+  transition: opacity 400ms var(--pl-ease);
+}
+
+/* when the list is hovered, rows that are not active recede */
+.modui-project-list__rows:hover .modui-project-row:not(.is-active) { opacity: 0.38; }
+
+.modui-project-row:focus-visible {
+  outline: 2px solid var(--pl-accent);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+.modui-project-row__left {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  min-width: 0;
+  transition: transform 520ms var(--pl-ease);
+}
+
+.modui-project-row.is-active .modui-project-row__left { transform: translateX(14px); }
+
+.modui-project-row__index {
+  flex-shrink: 0;
+  width: 22px;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--pl-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.modui-project-row__title-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  min-width: 0;
+}
+
 .modui-project-row__title {
   margin: 0;
-  font-family: var(--font-display, sans-serif);
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--text-primary, #20201E);
-  transition: color var(--transition-fast, 160ms ease);
+  font-family: var(--pl-title-font);
+  font-size: clamp(20px, 2.4vw, 30px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--pl-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 300ms ease;
 }
 
-.modui-project-list--dark-slate .modui-project-row__title {
-  color: #F8F7F2;
-}
-
-.modui-project-row:hover .modui-project-row__title {
-  color: var(--accent-primary, #365CF5);
-}
+.modui-project-row.is-active .modui-project-row__title { color: var(--pl-accent); }
 
 .modui-project-row__client {
-  font-family: var(--font-sans, sans-serif);
-  font-size: 12px;
-  color: var(--text-secondary, #696963);
+  font-size: 14px;
+  color: var(--pl-ink-3);
+  white-space: nowrap;
 }
 
-.modui-project-list--dark-slate .modui-project-row__client {
-  color: #8E8D86;
-}
-
-/* Right Column */
 .modui-project-row__right {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
+  flex-shrink: 0;
 }
 
 .modui-project-row__category {
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  color: var(--text-secondary, #696963);
-}
-
-.modui-project-list--dark-slate .modui-project-row__category {
-  color: #A3A39C;
+  font-size: 13px;
+  color: var(--pl-ink-2);
+  white-space: nowrap;
 }
 
 .modui-project-row__year {
-  font-family: var(--font-mono, monospace);
-  font-size: 10px;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: var(--radius-pill, 9999px);
-  background: var(--bg-surface-subtle, #F2EFEB);
-  color: var(--text-primary, #20201E);
-  border: 1px solid var(--border-subtle, #EFECE5);
-  transition: all var(--transition-fast, 160ms ease);
-}
-
-.modui-project-list--dark-slate .modui-project-row__year {
-  background: #27282D;
-  border-color: #363840;
-  color: #F8F7F2;
-}
-
-.modui-project-row:hover .modui-project-row__year {
-  background: var(--accent-primary, #365CF5);
-  border-color: var(--accent-primary, #365CF5);
-  color: #FFFFFF;
+  font-family: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--pl-ink-3);
+  font-variant-numeric: tabular-nums;
 }
 
 .modui-project-row__arrow {
-  color: var(--text-tertiary, #8E8D86);
-  transition: transform var(--transition-fast, 160ms ease),
-              color var(--transition-fast, 160ms ease);
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--pl-line);
+  color: var(--pl-ink-2);
+  transition: transform 520ms var(--pl-ease), background-color 300ms ease, color 300ms ease, border-color 300ms ease;
 }
 
-.modui-project-row:hover .modui-project-row__arrow {
-  transform: translate(2px, -2px);
-  color: var(--accent-primary, #365CF5);
+.modui-project-row.is-active .modui-project-row__arrow {
+  transform: rotate(45deg);
+  background: var(--pl-accent);
+  border-color: var(--pl-accent);
+  color: #FFFFFF;
 }
 
-/* ==========================================================================
-   Velocity-Damped 3D Cursor-Following Floating Card
-   ========================================================================== */
+/* ---------- Floating media card ---------- */
 .modui-floating-card {
   position: absolute;
-  pointer-events: none;
   z-index: 100;
   width: 290px;
-  border-radius: var(--radius-lg, 12px);
-  background: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 
-    0 24px 48px -8px rgba(32, 32, 30, 0.22),
-    0 10px 20px -4px rgba(32, 32, 30, 0.12),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
   overflow: hidden;
+  border-radius: 16px;
+  background: var(--pl-card);
+  box-shadow: var(--pl-card-shadow);
   opacity: 0;
   will-change: transform, left, top;
-  transition: opacity 180ms ease,
-              transform 100ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 220ms ease, transform 160ms var(--pl-ease);
 }
 
-.modui-project-list--dark-slate .modui-floating-card {
-  background: #1D1E22;
-  border-color: #33353B;
-  box-shadow: 
-    0 24px 48px -8px rgba(0, 0, 0, 0.6),
-    0 10px 20px -4px rgba(0, 0, 0, 0.4);
-}
+.modui-floating-card.is-visible { opacity: 1; }
 
-.modui-floating-card.is-visible {
-  opacity: 1;
-}
-
-/* Card Artwork Area */
 .modui-floating-card__media {
   position: relative;
-  width: 100%;
-  height: 140px;
+  height: 150px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .modui-floating-card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  transform: scale(1.06);
 }
 
 .modui-floating-card__art-placeholder {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 14px;
   color: #FFFFFF;
 }
 
 .modui-floating-card__art-chip {
-  font-family: var(--font-mono, monospace);
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 3px 8px;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 560;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
 }
 
 .modui-floating-card__art-year {
-  font-family: var(--font-mono, monospace);
-  font-size: 20px;
-  font-weight: 800;
-  opacity: 0.6;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  opacity: 0.85;
 }
 
 .modui-floating-card__glare {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.22) 0%, transparent 40%);
   pointer-events: none;
 }
 
-/* Card Content Area */
-.modui-floating-card__content {
-  padding: 12px 14px 14px 14px;
-}
+.modui-floating-card__content { padding: 14px 16px 16px; }
 
 .modui-floating-card__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .modui-floating-card__tag {
-  font-family: var(--font-mono, monospace);
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent-primary, #365CF5);
+  font-size: 12px;
+  font-weight: 560;
+  color: var(--pl-accent);
 }
 
 .modui-floating-card__index {
-  font-family: var(--font-mono, monospace);
-  font-size: 9px;
-  color: var(--text-tertiary, #8E8D86);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  color: var(--pl-ink-3);
 }
 
 .modui-floating-card__title {
-  margin: 0 0 4px 0;
-  font-family: var(--font-display, sans-serif);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-primary, #20201E);
-}
-
-.modui-project-list--dark-slate .modui-floating-card__title {
-  color: #F8F7F2;
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 620;
+  letter-spacing: -0.02em;
+  color: var(--pl-ink);
 }
 
 .modui-floating-card__desc {
-  margin: 0 0 8px 0;
-  font-size: 11px;
-  line-height: 1.35;
-  color: var(--text-secondary, #696963);
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--pl-ink-2);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Dark mode theme adaptation */
-[data-theme="dark"] .modui-compact-bg-row {
-  background: var(--bg-surface-subtle, #1C1D24);
-  border-color: var(--border-default, rgba(255, 255, 255, 0.12));
-}
-
-[data-theme="dark"] .modui-compact-floating-card {
-  background: var(--bg-surface, #131418);
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 18px 36px -6px rgba(0, 0, 0, 0.7);
-}
-
-[data-theme="dark"] .modui-floating-card {
-  background: #191B22;
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 24px 48px -8px rgba(0, 0, 0, 0.7);
-}
-
 .modui-floating-card__pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 6px;
+  margin-top: 10px;
 }
 
 .modui-floating-card__pill {
-  font-family: var(--font-mono, monospace);
-  font-size: 8.5px;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: var(--radius-xs, 4px);
-  background: var(--bg-surface-subtle, #F2EFEB);
-  color: var(--text-secondary, #696963);
+  font-size: 11px;
+  font-weight: 540;
+  padding: 3px 9px;
+  border-radius: 999px;
+  color: var(--pl-ink-2);
+  background: var(--pl-chip);
 }
 
-.modui-project-list--dark-slate .modui-floating-card__pill {
-  background: #27282D;
-  color: #A3A39C;
+.modui-project-list--minimal-mono .modui-floating-card,
+.modui-project-list--minimal-mono .modui-project-row__arrow { border-radius: 0; }
+.modui-project-list--minimal-mono .modui-floating-card { border: 1px solid #111; }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 640px) {
+  .modui-project-row { padding: 16px 0; gap: 12px; }
+  .modui-project-row__left { gap: 12px; }
+  .modui-project-row__client,
+  .modui-project-row__category,
+  .modui-project-list__hint { display: none; }
+  .modui-project-row__arrow { width: 30px; height: 30px; }
+  .modui-project-row.is-active .modui-project-row__left { transform: translateX(6px); }
+  .modui-floating-card { display: none !important; }
+}
+
+/* Image placeholders while photos load */
+.modui-floating-card img {
+  color: transparent;
+  background-color: #E9ECF6;
+  background-image: linear-gradient(135deg, #E6EBFB 0%, #EEE8FF 55%, #F4EEF3 100%);
 }
 
 /* ==========================================================================
-   Compact Mode (Tailored for Explorer Catalogue Cards on /components)
-   User requested: "make sure its card is shown well"
+   Compact mode (catalogue thumbnail) — unchanged
    ========================================================================== */
 .modui-project-list--compact {
   width: 100%;
@@ -498,7 +419,7 @@
 }
 
 .modui-compact-bg-idx {
-  font-family: var(--font-mono, monospace);
+  font-family: var(--font-mono, 'Geist Mono Variable', 'JetBrains Mono', ui-monospace, monospace);
   font-weight: 700;
   color: var(--accent-primary, #365CF5);
   font-size: 9.5px;
@@ -511,7 +432,7 @@
 }
 
 .modui-compact-bg-tag {
-  font-family: var(--font-mono, monospace);
+  font-family: var(--font-mono, 'Geist Mono Variable', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 8.5px;
   color: var(--text-tertiary, #8E8D86);
 }
@@ -584,7 +505,7 @@
 }
 
 .modui-compact-card-chip {
-  font-family: var(--font-mono, monospace);
+  font-family: var(--font-mono, 'Geist Mono Variable', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -597,7 +518,7 @@
 }
 
 .modui-compact-card-spec {
-  font-family: var(--font-mono, monospace);
+  font-family: var(--font-mono, 'Geist Mono Variable', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 9px;
   opacity: 0.8;
   font-weight: 600;
@@ -631,7 +552,7 @@
 }
 
 .modui-compact-card-pill {
-  font-family: var(--font-mono, monospace);
+  font-family: var(--font-mono, 'Geist Mono Variable', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 7.5px;
   font-weight: 600;
   padding: 2px 5px;
@@ -640,24 +561,15 @@
   color: var(--text-primary, #20201E);
 }
 
-/* ==========================================================================
-   Responsive Adaptations
-   ========================================================================== */
-@media (max-width: 640px) {
-  .modui-project-row {
-    padding: 14px 16px;
-  }
 
-  .modui-project-row__title {
-    font-size: 15px;
-  }
-
-  .modui-project-row__category,
-  .modui-project-row__client {
-    display: none;
-  }
-
-  .modui-floating-card {
-    display: none !important;
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .modui-project-list,
+  .modui-project-list *,
+  .modui-project-list *::before,
+  .modui-project-list *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

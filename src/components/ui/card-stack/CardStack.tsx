@@ -227,6 +227,7 @@ export const CardStack: React.FC<CardStackProps> = ({
             <div
               key={item.id}
               className={`modui-card-stack-item ${isTop ? 'modui-card-stack-item--top' : ''} ${isTop && isFlinging ? 'modui-card-stack-item--flinging' : ''}`}
+              data-tint={idx % 4}
               style={{
                 zIndex: items.length - relativeOffset,
                 '--stack-offset': relativeOffset,
@@ -238,7 +239,7 @@ export const CardStack: React.FC<CardStackProps> = ({
             >
               <div className="modui-card-stack-header">
                 <span className="modui-card-stack-badge">
-                  {item.category || 'FEATURE'}
+                  {item.category || 'Feature'}
                 </span>
                 <span className="modui-card-stack-counter" aria-hidden="true">
                   {cardIndexFormatted} / {String(items.length).padStart(2, '0')}

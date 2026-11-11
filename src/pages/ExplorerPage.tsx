@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useLayoutEffect } from 'react';
 import { COMPONENT_REGISTRY, COMPONENT_CATEGORIES } from '../registry/components';
 import { AnimatedButton } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
@@ -47,6 +47,48 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'All');
 
+  const searchRef = useRef<HTMLInputElement>(null);
+  const pillsRef = useRef<HTMLDivElement>(null);
+  const [pillIndicator, setPillIndicator] = useState({ x: 0, y: 0, w: 0, h: 0, ready: false });
+
+  // Sliding highlight behind the active category
+  useLayoutEffect(() => {
+    const measure = () => {
+      const wrap = pillsRef.current;
+      const active = wrap?.querySelector<HTMLElement>('.modui-category-pill--active');
+      if (!wrap || !active) return;
+      setPillIndicator({
+        x: active.offsetLeft,
+        y: active.offsetTop,
+        w: active.offsetWidth,
+        h: active.offsetHeight,
+        ready: true,
+      });
+    };
+    measure();
+    if (document.fonts?.ready) document.fonts.ready.then(measure).catch(() => {});
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [selectedCategory]);
+
+  // Press "/" anywhere to jump to search
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      const typing = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
+      if (e.key === '/' && !typing) {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+      if (e.key === 'Escape' && target === searchRef.current) {
+        setSearchQuery('');
+        searchRef.current?.blur();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   const isDark = theme ? theme === 'dark' : (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark');
 
   const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -56,19 +98,20 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
     const y = e.clientY - rect.top;
     const cx = rect.width / 2;
     const cy = rect.height / 2;
-    const rotX = ((y - cy) / cy) * -4;
-    const rotY = ((x - cx) / cx) * 4;
-    card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(2px)`;
+    const rotX = ((y - cy) / cy) * -2.5;
+    const rotY = ((x - cx) / cx) * 2.5;
+    card.style.transform = `perspective(1200px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-4px)`;
     const glare = card.querySelector('.modui-card-glare') as HTMLElement;
     if (glare) {
       glare.style.opacity = '1';
-      glare.style.background = `radial-gradient(circle at ${(x / rect.width) * 100}% ${(y / rect.height) * 100}%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 65%)`;
+      glare.style.setProperty('--gx', `${(x / rect.width) * 100}%`);
+      glare.style.setProperty('--gy', `${(y / rect.height) * 100}%`);
     }
   };
 
   const handleCardMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
-    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+    card.style.transform = '';
     const glare = card.querySelector('.modui-card-glare') as HTMLElement;
     if (glare) {
       glare.style.opacity = '0';
@@ -99,21 +142,28 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
       <div className="modui-container">
         {/* Header */}
         <div className="modui-explorer-header">
-          <div className="modui-eyebrow">MODULE CATALOGUE</div>
-          <h1 className="modui-explorer-title">Explore Components</h1>
+          <h1 className="modui-explorer-title">
+            Components <span className="modui-explorer-count">{COMPONENT_REGISTRY.length}</span>
+          </h1>
           <p className="modui-explorer-subtitle">
-            Browse our curated collection of modular React components.
-            Inspect live variations and open dedicated code tabs to copy TSX, CSS, and usage examples.
+            Every preview below is the real component, running live. Open one to try its variants
+            and copy the .tsx, .css and a usage example.
           </p>
         </div>
 
         {/* Search & Filter Toolbar */}
         <div className="modui-explorer-toolbar">
           <div className="modui-explorer-search">
+            <svg className="modui-explorer-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7.5" />
+              <line x1="21" y1="21" x2="16.5" y2="16.5" />
+            </svg>
             <input
-              type="text"
+              ref={searchRef}
+              type="search"
+              aria-label="Search components"
               className="modui-search-input-field"
-              placeholder="Search components..."
+              placeholder="Search by name, tag or category"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -126,14 +176,26 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                 Clear
               </button>
             )}
+            {!searchQuery && <kbd className="modui-explorer-kbd" aria-hidden="true">/</kbd>}
           </div>
 
-          <div className="modui-explorer-pills">
+          <div className="modui-explorer-pills" ref={pillsRef} role="group" aria-label="Filter by category">
+            <span
+              className="modui-pill-indicator"
+              aria-hidden="true"
+              style={{
+                transform: `translate(${pillIndicator.x}px, ${pillIndicator.y}px)`,
+                width: pillIndicator.w,
+                height: pillIndicator.h,
+                opacity: pillIndicator.ready ? 1 : 0,
+              }}
+            />
             <button
               className={`modui-category-pill ${selectedCategory === 'All' ? 'modui-category-pill--active' : ''}`}
+              aria-pressed={selectedCategory === 'All'}
               onClick={() => setSelectedCategory('All')}
             >
-              All ({COMPONENT_REGISTRY.length})
+              All <span className="modui-pill-count">{COMPONENT_REGISTRY.length}</span>
             </button>
             {COMPONENT_CATEGORIES.map((cat) => {
               const count = COMPONENT_REGISTRY.filter((c) => c.category === cat).length;
@@ -142,9 +204,10 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                 <button
                   key={cat}
                   className={`modui-category-pill ${selectedCategory === cat ? 'modui-category-pill--active' : ''}`}
+                  aria-pressed={selectedCategory === cat}
                   onClick={() => setSelectedCategory(cat)}
                 >
-                  {cat} ({count})
+                  {cat} <span className="modui-pill-count">{count}</span>
                 </button>
               );
             })}
@@ -153,11 +216,11 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
 
         {/* Visual Component Cards Grid (No Boring Table) */}
         {filteredComponents.length > 0 ? (
-          <div className="modui-featured-grid" style={{ marginTop: '2.5rem', marginBottom: '6rem' }}>
+          <div className="modui-featured-grid modui-stagger" key={selectedCategory}>
             {filteredComponents.map((comp) => (
               <div
                 key={comp.id}
-                className="modui-featured-card"
+                className="modui-featured-card modui-spotlight"
                 onMouseMove={handleCardMouseMove}
                 onMouseLeave={handleCardMouseLeave}
                 onClick={() => {
@@ -205,8 +268,8 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       <div style={{ fontSize: '1.45rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
                         <KineticText text="Interactive Wave" interactiveWave={true} />
                       </div>
-                      <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', background: 'rgba(54, 92, 245, 0.08)', padding: '0.2rem 0.6rem', border: '1px solid rgba(54, 92, 245, 0.18)', borderRadius: '999px' }}>
-                        HOVER OVER CHARACTERS
+                      <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent-primary)', background: 'rgba(54, 92, 245, 0.08)', padding: '0.2rem 0.6rem', border: '1px solid rgba(54, 92, 245, 0.18)', borderRadius: '999px' }}>
+                        Hover the letters
                       </span>
                     </div>
                   )}
@@ -217,7 +280,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       flexDirection: 'column',
                       alignItems: 'center',
                       gap: '0.45rem',
-                      background: isDark ? '#14151C' : '#FFFFFF',
+                      background: isDark ? 'var(--bg-surface-elevated)' : '#FFFFFF',
                       padding: '0.85rem 1.4rem',
                       borderRadius: '12px',
                       border: isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid var(--border-default)',
@@ -231,8 +294,8 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                           +24.8%
                         </span>
                       </div>
-                      <span style={{ fontSize: '0.65rem', fontWeight: 600, color: isDark ? '#9DA3AE' : 'var(--text-tertiary)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em' }}>
-                        REVENUE METRIC // 60 FPS
+                      <span style={{ fontSize: '0.65rem', fontWeight: 600, color: isDark ? '#9DA3AE' : 'var(--text-tertiary)', letterSpacing: '0' }}>
+                        Monthly revenue
                       </span>
                     </div>
                   )}
@@ -490,7 +553,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <ChromaticPrismCard
                         variant={isDark ? 'obsidian-prism' : 'sapphire-crystal'}
-                        category="QUARTZ // 01"
+                        category="Quartz 01"
                         serialNumber="SPECIMEN 01"
                         compact={true}
                         soundEnabled={false}
@@ -639,7 +702,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   {comp.slug === 'cipher-glyph-matrix' && (
                     <div style={{ width: '100%', height: '185px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', overflow: 'hidden', padding: '12px' }}>
                       <CipherGlyphMatrix
-                        text={['CIPHER // NEXUS', 'QUANTUM // DECRYPT']}
+                        text={['NEXUS_CIPHER', 'QUANTUM_KEY']}
                         charset="katakana"
                         choreography="wave"
                         variant={isDark ? 'matrix-emerald' : 'cyber-cyan'}
@@ -704,7 +767,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
 
                   <div className="modui-card-action-bar">
                     <span className="modui-card-cta-link" style={{ marginLeft: 'auto' }}>
-                      <span>Inspect Component</span>
+                      <span>Open component</span>
                       <svg className="modui-card-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12" />
                         <polyline points="12 5 19 12 12 19" />
@@ -717,16 +780,16 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
           </div>
         ) : (
           <div className="modui-empty-state">
-            <p>No components found matching "{searchQuery}".</p>
+            <p className="modui-empty-title">No components match “{searchQuery}”.</p>
+            <p className="modui-empty-hint">Try a shorter word, or search by a tag like “3d”, “audio” or “gallery”.</p>
             <button
-              className="modui-category-pill modui-category-pill--active"
-              style={{ marginTop: '1rem' }}
+              className="modui-secondary-btn"
               onClick={() => {
                 setSearchQuery('');
                 setSelectedCategory('All');
               }}
             >
-              Clear filters
+              Clear search and filters
             </button>
           </div>
         )}

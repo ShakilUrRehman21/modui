@@ -639,6 +639,7 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
                   className="modui-card-img"
                   loading="lazy"
                   draggable={false}
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
                 <span className="modui-card-tag-badge">{item.tag}</span>
               </div>
@@ -732,8 +733,8 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
           {showMinimap && (
             <div className="modui-radar-minimap" aria-hidden="true">
               <div className="modui-radar-header">
-                <span>RADAR</span>
-                <span className="modui-radar-spec">TOROID</span>
+                <span>Map</span>
+                <span className="modui-radar-spec">Loops</span>
               </div>
               <div className="modui-radar-field">
                 <div
@@ -753,7 +754,7 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
         <div className="modui-compact-canvas-overlay" aria-hidden="true">
           <div className="modui-compact-radar-chip">
             <span className="modui-coords-pulse-dot" />
-            <span>360° SPATIAL GRID</span>
+            <span>Endless canvas</span>
           </div>
           <div className="modui-compact-action-hint">
             <span>Drag to Pan</span>
@@ -838,7 +839,7 @@ export const InfiniteCanvasGallery: React.FC<InfiniteCanvasGalleryProps> = ({
                 src={inspected.imageUrl}
                 alt={inspected.title}
                 className="modui-inspector-img"
-              />
+               onError={(e) => { e.currentTarget.style.display = 'none'; }} />
 
               <button
                 type="button"

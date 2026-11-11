@@ -48,10 +48,10 @@ export interface CylindricalCarouselProps extends React.HTMLAttributes<HTMLDivEl
 export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
   items,
   radius = 280,
-  cardWidth = 190,
-  cardHeight = 260,
+  cardWidth = 196,
+  cardHeight = 272,
   tiltAngle = -4,
-  perspective = 1000,
+  perspective = 1400,
   autoplay = false,
   autoplaySpeed = 8,
   friction = 0.93,
@@ -383,6 +383,7 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
           marginLeft: `-${halfWidth}px`,
           marginTop: `-${halfHeight}px`,
           transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
+          '--card-accent': item.color || '#365CF5',
         } as React.CSSProperties,
       };
     });
@@ -455,8 +456,8 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
               <div
                 className="modui-cylindrical-art modui-cylindrical-art--pattern"
                 style={{
-                  background: item.color
-                    ? `linear-gradient(135deg, ${item.color}15, ${item.color}35)`
+                  backgroundImage: item.color
+                    ? `linear-gradient(152deg, ${item.color}00 0%, ${item.color}5C 46%, ${item.color}14 100%)`
                     : undefined,
                 }}
               >
@@ -530,7 +531,7 @@ export const CylindricalCarousel: React.FC<CylindricalCarouselProps> = ({
               <polyline points="8 17 3 12 8 7" />
               <polyline points="16 17 21 12 16 7" />
             </svg>
-            <span>Drag to rotate · Click card to focus</span>
+            <span>Drag to rotate, click a card to focus</span>
           </div>
         )
       }

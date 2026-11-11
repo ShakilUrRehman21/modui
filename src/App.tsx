@@ -11,6 +11,7 @@ import DocsPage from './pages/DocsPage';
 import CommandPaletteModal from './components/common/CommandPaletteModal';
 import { Analytics } from '@vercel/analytics/react';
 import { updatePageSeo } from './lib/seo';
+import { initReveal, initPointerEffects } from './lib/interactions';
 
 export function App() {
   // Clean HTML5 Routing state
@@ -38,14 +39,13 @@ export function App() {
     });
     lenisRef.current = lenis;
 
+    const bar = document.getElementById('modui-scroll-progress-line');
     const updateScrollProgress = (scrollY?: number) => {
       const currentY = typeof scrollY === 'number' ? scrollY : window.scrollY;
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalScroll <= 0) return;
-      const progress = (currentY / totalScroll) * 100;
-      const bar = document.getElementById('modui-scroll-progress-line');
+      const progress = totalScroll > 0 ? currentY / totalScroll : 0;
       if (bar) {
-        bar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+        bar.style.transform = `scaleX(${Math.min(1, Math.max(0, progress)).toFixed(4)})`;
       }
     };
 
@@ -65,6 +65,16 @@ export function App() {
       window.removeEventListener('scroll', handleWindowScroll);
       lenis.destroy();
       lenisRef.current = null;
+    };
+  }, []);
+
+  // App-wide interaction kit: reveal-once, cursor spotlight, magnetic buttons
+  useEffect(() => {
+    const stopReveal = initReveal();
+    const stopPointer = initPointerEffects();
+    return () => {
+      stopReveal();
+      stopPointer();
     };
   }, []);
 
@@ -107,7 +117,7 @@ export function App() {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
     setTimeout(() => {
       document.documentElement.classList.remove('theme-transition');
-    }, 280);
+    }, 320);
   };
 
   // Migrate legacy hash URLs on mount if present
@@ -255,8 +265,10 @@ export function App() {
         onToggleTheme={toggleTheme}
       />
 
-      <main style={{ flex: 1 }}>
-        {renderCurrentView()}
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div className="modui-route" key={currentPath.split('?')[0]}>
+          {renderCurrentView()}
+        </div>
       </main>
 
       <Footer onNavigate={navigate} />

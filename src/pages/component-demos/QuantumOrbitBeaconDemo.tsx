@@ -30,9 +30,9 @@ export default function QuantumOrbitBeaconDemo({ theme }: DemoProps) {
                           showTelemetry={beaconShowTelemetry}
                           onStateChange={setBeaconState}
                         />
-                        <div style={{ marginTop: '1.25rem', fontSize: '0.8125rem', fontFamily: 'var(--font-mono)', color: 'var(--text-tertiary)', textAlign: 'center' }}>
-                          Quantum State: <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{beaconState.toUpperCase()}</span> ({beaconSpeed}x speed)
-                          <div style={{ fontSize: '0.75rem', opacity: 0.75, marginTop: '0.25rem' }}>
+                        <div className="modui-stage-caption">
+                          Quantum State: <span className="modui-stage-caption-value">{beaconState.toUpperCase()}</span> ({beaconSpeed}x speed)
+                          <div className="modui-stage-caption-hint">
                             Move cursor over beacon to tilt 3D perspective plane. Click state buttons or use controls below.
                           </div>
                         </div>

@@ -303,11 +303,11 @@ export const MagneticProjectList: React.FC<MagneticProjectListProps> = ({
           {/* Top Header / Metadata Bar */}
           <div className="modui-project-list__header">
             <div className="modui-project-list__brand">
-              <span className="modui-project-list__badge">SELECTED WORK</span>
-              <span className="modui-project-list__count">({projects.length} CASE STUDIES)</span>
+              <span className="modui-project-list__badge">Selected work</span>
+              <span className="modui-project-list__count">{projects.length} projects</span>
             </div>
             <div className="modui-project-list__hint">
-              <span>HOVER TO INSPECT</span>
+              <span>Hover to preview</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -389,7 +389,7 @@ export const MagneticProjectList: React.FC<MagneticProjectListProps> = ({
               <div className="modui-floating-card__content">
                 <div className="modui-floating-card__header">
                   <span className="modui-floating-card__tag">{activeProject.category}</span>
-                  <span className="modui-floating-card__index">SPECIMEN #{activeProject.index}</span>
+                  <span className="modui-floating-card__index">Project {activeProject.index}</span>
                 </div>
                 <h4 className="modui-floating-card__title">{activeProject.title}</h4>
                 <p className="modui-floating-card__desc">{activeProject.description}</p>

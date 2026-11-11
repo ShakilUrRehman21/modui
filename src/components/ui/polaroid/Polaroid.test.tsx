@@ -21,8 +21,8 @@ describe('Polaroid Component', () => {
     const root = container.querySelector('.modui-polaroid');
     expect(root).toBeInTheDocument();
     expect(root).toHaveClass('modui-polaroid--studio-classic');
-    expect(screen.getByText('POLAROID SX-70')).toBeInTheDocument();
-    expect(screen.getByText('STUDIO ARCHIVE')).toBeInTheDocument();
+    expect(screen.getByText('SX-70')).toBeInTheDocument();
+    expect(screen.getByText('Studio archive')).toBeInTheDocument();
   });
 
   it('renders all default Polaroid cards with captions and tags', () => {
@@ -142,6 +142,6 @@ describe('Polaroid Component', () => {
     const { container } = render(<Polaroid compact soundEnabled={false} />);
     const root = container.querySelector('.modui-polaroid');
     expect(root).toHaveClass('modui-polaroid--compact');
-    expect(screen.queryByText('POLAROID SX-70')).not.toBeInTheDocument();
+    expect(screen.queryByText('SX-70')).not.toBeInTheDocument();
   });
 });

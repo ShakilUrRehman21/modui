@@ -60,19 +60,44 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
       <div className="modui-container">
         <div className="modui-sandbox-grid">
           {/* Left Column: Architecture Blueprint & Quick Install */}
-          <div className="modui-sandbox-left modui-reveal modui-slide-left">
-            <div className="modui-eyebrow">DOCUMENTATION & INTEGRATION // ARCHITECTURE</div>
-            <h2 className="modui-sandbox-title">
-              Direct integration. Zero boilerplate.
+          <div className="modui-sandbox-left modui-reveal">
+            <h2 className="modui-section-title modui-sandbox-title">
+              From browsing to shipping in three steps.
             </h2>
-            <p className="modui-sandbox-desc">
-              All ModUI modules are self-contained and engineered to plug cleanly into any existing Next.js, Vite, or Remix repository.
+            <p className="modui-section-lede modui-sandbox-desc">
+              Every component is self-contained, so it drops into any Next.js, Vite or Remix project.
+              A couple of components use two small peer packages — install them once.
             </p>
+
+            {/* 3-Step Copy & Own Workflow */}
+            <div className="modui-integration-steps">
+              <div className="modui-step-row">
+                <div className="modui-step-number">01</div>
+                <div className="modui-step-text">
+                  <strong className="modui-step-label">Pick a component.</strong>{' '}
+                  <span className="modui-step-desc">Open any card in the catalogue to try its variants live.</span>
+                </div>
+              </div>
+              <div className="modui-step-row">
+                <div className="modui-step-number">02</div>
+                <div className="modui-step-text">
+                  <strong className="modui-step-label">Copy the source.</strong>{' '}
+                  <span className="modui-step-desc">Grab the .tsx, the .css and a usage example from the tabs.</span>
+                </div>
+              </div>
+              <div className="modui-step-row">
+                <div className="modui-step-number">03</div>
+                <div className="modui-step-text">
+                  <strong className="modui-step-label">Make it yours.</strong>{' '}
+                  <span className="modui-step-desc">Paste both files into your repo and adjust the tokens.</span>
+                </div>
+              </div>
+            </div>
 
             {/* Zero-CLI Integration Workflow */}
             <div className="modui-install-terminal-box">
               <div className="modui-install-pkg-tabs">
-                <span className="modui-terminal-badge">React Peer Deps</span>
+                <span className="modui-terminal-badge">Peer packages</span>
                 {(['npm', 'pnpm', 'bun', 'yarn'] as const).map((pm) => (
                   <button
                     key={pm}
@@ -108,7 +133,7 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
                   }
                 >
                   {cliCopied ? (
-                    <span style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>Copied</span>
+                    <span className="modui-terminal-copied">Copied</span>
                   ) : (
                     <span>Copy</span>
                   )}
@@ -116,74 +141,21 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
               </div>
             </div>
 
-            {/* 3-Step Copy & Own Workflow */}
-            <div className="modui-integration-steps">
-              <div className="modui-step-row">
-                <div className="modui-step-number">01</div>
-                <div className="modui-step-text">
-                  <strong className="modui-step-label">Select Component:</strong>{' '}
-                  <span className="modui-step-desc">Browse our catalogue and click any module card to inspect live variations.</span>
-                </div>
-              </div>
-              <div className="modui-step-row">
-                <div className="modui-step-number">02</div>
-                <div className="modui-step-text">
-                  <strong className="modui-step-label">Copy Source Code:</strong>{' '}
-                  <span className="modui-step-desc">Switch between the dedicated TSX, CSS, and Usage tabs to copy clean code.</span>
-                </div>
-              </div>
-              <div className="modui-step-row">
-                <div className="modui-step-number">03</div>
-                <div className="modui-step-text">
-                  <strong className="modui-step-label">Own & Customize:</strong>{' '}
-                  <span className="modui-step-desc">Paste files into your repository and tailor design tokens directly.</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Engineering Principles */}
-            <div className="modui-engineering-pills">
-              <div className="modui-eng-pill">
-                <span className="modui-eng-bullet" />
-                <span>Zero vendor lock-in</span>
-              </div>
-              <div className="modui-eng-pill">
-                <span className="modui-eng-bullet" />
-                <span>100% TypeScript typed</span>
-              </div>
-              <div className="modui-eng-pill">
-                <span className="modui-eng-bullet" />
-                <span>Standard CSS custom properties</span>
-              </div>
-            </div>
-
-            <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+            <div className="modui-sandbox-actions">
               <button
                 onClick={() => onNavigate('/docs')}
-                className="modui-cta-btn"
-              >
-                <span>Read Full Documentation</span>
-                <span style={{ marginLeft: '0.4rem' }}>→</span>
-              </button>
-              <button
-                onClick={() => onNavigate('/components')}
                 className="modui-secondary-btn"
+                data-magnetic
               >
-                <span>Browse Components</span>
+                <span>Read the docs</span>
               </button>
             </div>
           </div>
 
           {/* Right Column: Code Terminal & File Tabs */}
-          <div className="modui-sandbox-right modui-reveal modui-slide-right">
+          <div className="modui-sandbox-right modui-reveal modui-delay-2">
             <div className="modui-sandbox-console-card">
               <div className="modui-console-tabs-bar">
-                <div className="modui-console-window-dots">
-                  <span className="modui-console-dot modui-console-dot--red" />
-                  <span className="modui-console-dot modui-console-dot--yellow" />
-                  <span className="modui-console-dot modui-console-dot--green" />
-                </div>
-
                 <div className="modui-console-file-tabs">
                   <button
                     type="button"
@@ -215,7 +187,7 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
                 >
                   {bottomCopied ? (
                     <>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#365CF5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                       <span>Copied</span>
@@ -226,13 +198,13 @@ export const SandboxSection: React.FC<SandboxSectionProps> = ({ onNavigate }) =>
                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                       </svg>
-                      <span>Copy Code</span>
+                      <span>Copy</span>
                     </>
                   )}
                 </button>
               </div>
 
-              <pre className="modui-console-pre">
+              <pre className="modui-console-pre" key={bottomActiveTab}>
                 <code>{getBottomCode()}</code>
               </pre>
             </div>

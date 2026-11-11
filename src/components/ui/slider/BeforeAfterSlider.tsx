@@ -223,8 +223,8 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
         <div className="modui-slider-blueprint-vector" />
       </div>
       <div className="modui-slider-scene-tag modui-slider-scene-tag--before">
-        <span>RAW_WIREFRAME</span>
-        <span className="modui-slider-scene-sub">INPUT MESH</span>
+        <span>Wireframe</span>
+        <span className="modui-slider-scene-sub">Input mesh</span>
       </div>
     </div>
   );
@@ -236,8 +236,8 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
         <div className="modui-slider-caustic-beam" />
       </div>
       <div className="modui-slider-scene-tag modui-slider-scene-tag--after">
-        <span>SPECTRAL_RENDER</span>
-        <span className="modui-slider-scene-sub">VOLUMETRIC 3D</span>
+        <span>Final render</span>
+        <span className="modui-slider-scene-sub">Volumetric light</span>
       </div>
     </div>
   );

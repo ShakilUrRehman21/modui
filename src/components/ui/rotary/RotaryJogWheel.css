@@ -248,7 +248,7 @@
   border-radius: 50%;
   background: #CBD5E1;
   margin-bottom: 0.2rem;
-  transition: all var(--transition-fast);
+  transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast), filter var(--transition-fast);
 }
 
 .modui-rotary-center-led--active {
@@ -473,3 +473,26 @@
   color: #F4F4F6;
 }
 
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .modui-rotary-wrapper,
+  .modui-rotary-wrapper *,
+  .modui-rotary-wrapper *::before,
+  .modui-rotary-wrapper *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   v2 label system — quiet sentence-case labels in the UI face.
+   Monospace is reserved for numbers and codes.
+   ========================================================================== */
+.modui-rotary-label,
+.modui-rotary-sublabel {
+  font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  text-transform: none;
+  letter-spacing: -0.005em;
+  font-weight: 550;
+}
