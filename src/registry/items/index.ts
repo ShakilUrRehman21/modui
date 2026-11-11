@@ -28,6 +28,7 @@ import { pageTurnBookItem } from './page-turn-book';
 import { pointCloudMorpherItem } from './point-cloud-morpher';
 import { perspectiveTextRibbonItem } from './perspective-text-ribbon';
 import { quantumOrbitBeaconItem } from './quantum-orbit-beacon';
+import { cipherGlyphMatrixItem } from './cipher-glyph-matrix';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -59,4 +60,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   pointCloudMorpherItem,
   perspectiveTextRibbonItem,
   quantumOrbitBeaconItem,
+  cipherGlyphMatrixItem,
 ];

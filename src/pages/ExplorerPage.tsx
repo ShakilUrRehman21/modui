@@ -29,6 +29,7 @@ import { PageTurnBook } from '../components/ui/page-turn';
 import { PointCloudMorpher } from '../components/ui/point-cloud';
 import { PerspectiveTextRibbon } from '../components/ui/perspective-text';
 import { QuantumOrbitBeacon } from '../components/ui/quantum-orbit-beacon';
+import { CipherGlyphMatrix } from '../components/ui/cipher-glyph';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -631,6 +632,22 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         soundEnabled={false}
                         interactive={true}
                         showTelemetry={true}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'cipher-glyph-matrix' && (
+                    <div style={{ width: '100%', height: '185px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', overflow: 'hidden', padding: '12px' }}>
+                      <CipherGlyphMatrix
+                        text={['CIPHER // NEXUS', 'QUANTUM // DECRYPT']}
+                        charset="katakana"
+                        choreography="wave"
+                        variant={isDark ? 'matrix-emerald' : 'cyber-cyan'}
+                        theme={theme}
+                        compact={true}
+                        speed={45}
+                        soundEnabled={false}
+                        scrambleOnHover={true}
                       />
                     </div>
                   )}
