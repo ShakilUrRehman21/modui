@@ -155,7 +155,6 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({
               <span className={`modui-status-tag modui-status-tag--${component.status}`}>
                 {component.status === 'published' ? 'Stable' : 'In progress'}
               </span>
-              {component.version && <span className="modui-version-tag">v{component.version}</span>}
             </div>
             <h1 className="modui-detail-title">{component.name}</h1>
             <p className="modui-detail-desc">{component.description}</p>

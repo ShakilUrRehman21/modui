@@ -668,7 +668,10 @@
 .modui-infinite-gallery--compact {
   min-height: 0;
   height: 100%;
-  border-radius: 14px;
+  width: 100%;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .modui-infinite-gallery--compact .modui-gallery-card { width: 124px; border-radius: 9px; }

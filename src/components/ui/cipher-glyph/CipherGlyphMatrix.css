@@ -5,12 +5,12 @@
    ========================================================================== */
 
 .modui-cipher-container {
-  --cg-panel: linear-gradient(176deg, #11161F 0%, #090C13 100%);
-  --cg-panel-ring: rgba(255, 255, 255, 0.1);
-  --cg-rule: rgba(255, 255, 255, 0.12);
-  --cg-resolved: #E9EEF5;
-  --cg-phosphor: #3FE0F0;
-  --cg-dim: rgba(233, 238, 245, 0.46);
+  --cg-panel: linear-gradient(176deg, #FFFFFF 0%, #F5F7FB 100%);
+  --cg-panel-ring: rgba(14, 19, 34, 0.08);
+  --cg-rule: rgba(14, 19, 34, 0.08);
+  --cg-resolved: #0E1322;
+  --cg-phosphor: #2563EB;
+  --cg-dim: rgba(14, 19, 34, 0.5);
   --cg-mono: var(--font-mono, 'Geist Mono Variable', ui-monospace, monospace);
   --cg-ease: cubic-bezier(0.2, 0.9, 0.26, 1);
 
@@ -21,14 +21,39 @@
   border-radius: 16px;
   background: var(--cg-panel);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
     0 0 0 1px var(--cg-panel-ring),
-    0 22px 50px -26px rgba(0, 0, 0, 0.8);
+    0 20px 48px -24px rgba(14, 19, 34, 0.12);
   overflow: hidden;
   font-family: var(--cg-mono);
 }
 
 .modui-cipher-container--bordered {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 0 0 1px color-mix(in srgb, var(--cg-phosphor) 28%, transparent),
+    0 0 28px -10px color-mix(in srgb, var(--cg-phosphor) 35%, transparent),
+    0 20px 48px -24px rgba(14, 19, 34, 0.12);
+}
+
+/* Dark mode theme overrides */
+.modui-cipher--theme-dark,
+[data-theme="dark"] .modui-cipher--theme-auto,
+[data-theme="dark"] .modui-cipher-container {
+  --cg-panel: linear-gradient(176deg, #11161F 0%, #090C13 100%);
+  --cg-panel-ring: rgba(255, 255, 255, 0.1);
+  --cg-rule: rgba(255, 255, 255, 0.12);
+  --cg-resolved: #E9EEF5;
+  --cg-phosphor: #3FE0F0;
+  --cg-dim: rgba(233, 238, 245, 0.46);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 0 0 1px var(--cg-panel-ring),
+    0 22px 50px -26px rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="dark"] .modui-cipher-container--bordered,
+.modui-cipher--theme-dark.modui-cipher-container--bordered {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
     0 0 0 1px color-mix(in srgb, var(--cg-phosphor) 28%, transparent),
@@ -44,17 +69,29 @@
   z-index: 1;
   pointer-events: none;
   background:
+    radial-gradient(90% 70% at 50% 54%, color-mix(in srgb, var(--cg-phosphor) 8%, transparent) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, rgba(14, 19, 34, 0.02) 0 1px, transparent 1px 3px);
+}
+
+[data-theme="dark"] .modui-cipher-container::before,
+.modui-cipher--theme-dark::before {
+  background:
     radial-gradient(90% 70% at 50% 54%, color-mix(in srgb, var(--cg-phosphor) 10%, transparent) 0%, transparent 70%),
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 3px);
 }
 
-/* a soft corner vignette, like glass */
+/* a soft corner vignette */
 .modui-cipher-container::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 50%, transparent 60%, rgba(14, 19, 34, 0.04) 100%);
+}
+
+[data-theme="dark"] .modui-cipher-container::after,
+.modui-cipher--theme-dark::after {
   background: radial-gradient(120% 100% at 50% 50%, transparent 54%, rgba(0, 0, 0, 0.5) 100%);
 }
 
@@ -232,27 +269,69 @@
 }
 
 /* ==========================================================================
-   Light panel — the slab lifts off a bright page
+   Light panel overrides
    ========================================================================== */
-.modui-cipher--theme-light {
-  --cg-panel: linear-gradient(176deg, #1A2030 0%, #10141D 100%);
-  --cg-panel-ring: rgba(14, 19, 34, 0.14);
+.modui-cipher--theme-light,
+:root:not([data-theme="dark"]) .modui-cipher--theme-auto {
+  --cg-panel: linear-gradient(176deg, #FFFFFF 0%, #F5F7FB 100%);
+  --cg-panel-ring: rgba(14, 19, 34, 0.08);
+  --cg-rule: rgba(14, 19, 34, 0.08);
+  --cg-resolved: #0E1322;
+  --cg-phosphor: #2563EB;
+  --cg-dim: rgba(14, 19, 34, 0.5);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
     0 0 0 1px var(--cg-panel-ring),
-    0 24px 52px -26px rgba(14, 19, 34, 0.5);
+    0 20px 48px -24px rgba(14, 19, 34, 0.12);
+}
+
+.modui-cipher--theme-light .modui-cipher-hud,
+:root:not([data-theme="dark"]) .modui-cipher--theme-auto .modui-cipher-hud {
+  background: rgba(14, 19, 34, 0.02);
+}
+
+.modui-cipher--theme-light .modui-cipher-hud-mode,
+:root:not([data-theme="dark"]) .modui-cipher--theme-auto .modui-cipher-hud-mode {
+  background: rgba(14, 19, 34, 0.04);
+  color: var(--cg-dim);
+}
+
+.modui-cipher--theme-light .modui-cipher-char.is-resolved,
+:root:not([data-theme="dark"]) .modui-cipher--theme-auto .modui-cipher-char.is-resolved {
+  color: var(--cg-resolved);
+  text-shadow: none;
+}
+
+.modui-cipher--theme-light .modui-cipher-char.is-scrambling,
+:root:not([data-theme="dark"]) .modui-cipher--theme-auto .modui-cipher-char.is-scrambling {
+  color: var(--cg-phosphor);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--cg-phosphor) 35%, transparent);
+}
+
+.modui-cipher--theme-light .modui-cipher-step-dot,
+:root:not([data-theme="dark"]) .modui-cipher--theme-auto .modui-cipher-step-dot {
+  background: rgba(14, 19, 34, 0.16);
 }
 
 /* ==========================================================================
-   Compact — catalogue thumbnail
+   Compact — catalogue thumbnail (single main box, no inner borders)
    ========================================================================== */
 .modui-cipher--compact {
-  border-radius: 12px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.modui-cipher--compact::before,
+.modui-cipher--compact::after { display: none; }
 .modui-cipher--compact .modui-cipher-hud { display: none; }
-.modui-cipher--compact .modui-cipher-stream { padding: 22px 12px; }
-.modui-cipher--compact .modui-cipher-char { font-size: 15px; letter-spacing: 0.03em; }
+.modui-cipher--compact .modui-cipher-stream { padding: 0; }
+.modui-cipher--compact .modui-cipher-char { font-size: 22px; letter-spacing: 0.06em; font-weight: 700; }
 .modui-cipher--compact .modui-cipher-stepper { display: none; }
 
 /* ==========================================================================

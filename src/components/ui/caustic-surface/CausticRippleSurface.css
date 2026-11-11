@@ -215,8 +215,26 @@
 .modui-caustic-surface--crystal-lake { --cs-accent: #4FD2E8; }
 
 .modui-caustic-surface--porcelain {
-  --cs-pool: radial-gradient(110% 86% at 50% 8%, #1C3350 0%, #122540 48%, #091525 100%);
-  --cs-accent: #8FB6FF;
+  --cs-pool: radial-gradient(110% 86% at 50% 8%, #E0F2FE 0%, #BAE6FD 48%, #7DD3FC 100%);
+  --cs-ring: rgba(14, 19, 34, 0.08);
+  --cs-ink: #0E1322;
+  --cs-ink-dim: rgba(14, 19, 34, 0.6);
+  --cs-accent: #0284C7;
+}
+
+.modui-caustic-surface--porcelain::after {
+  background:
+    radial-gradient(56% 40% at 50% -4%, rgba(255, 255, 255, 0.65) 0%, transparent 70%),
+    radial-gradient(124% 100% at 50% 50%, transparent 54%, rgba(14, 19, 34, 0.1) 100%);
+}
+
+.modui-caustic-surface--porcelain .modui-caustic-compact-content {
+  background: linear-gradient(0deg, rgba(240, 249, 255, 0.88) 0%, transparent 100%);
+}
+
+.modui-caustic-surface--porcelain .modui-caustic-compact-title {
+  color: #0E1322;
+  text-shadow: none;
 }
 
 .modui-caustic-surface--amber-spring {
@@ -230,12 +248,14 @@
 }
 
 /* ==========================================================================
-   Compact
+   Compact (single main box, no inner borders)
    ========================================================================== */
 .modui-caustic-surface--compact {
   min-height: 0;
   height: 100%;
-  border-radius: 14px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .modui-caustic-surface--compact .modui-caustic-hud,

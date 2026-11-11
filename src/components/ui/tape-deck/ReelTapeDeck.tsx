@@ -684,93 +684,94 @@ export const ReelTapeDeck: React.FC<ReelTapeDeckProps> = ({
 
       {/* 2. Main Tape Bay: Dual Spools & Head Block */}
       <div className="modui-tape-bay">
-        {/* Dynamic SVG Tape Ribbon Bridge */}
-        <svg className="modui-tape-ribbon-svg" aria-hidden="true" viewBox="0 0 600 240" preserveAspectRatio="none">
-          {/* Real-time Tape Ribbon Path linking supply reel, tension arm, heads, and take-up reel */}
-          <path
-            d={`M ${150 + leftPackRadius * 0.7} ${120 + leftPackRadius * 0.7} 
-               Q 230 190, 270 195 
-               L 330 195 
-               Q 370 190, ${450 - rightPackRadius * 0.7} ${120 + rightPackRadius * 0.7}`}
-            className={`modui-tape-path ${transportState === 'play' ? 'modui-tape-path--running' : ''}`}
-          />
-        </svg>
-
-        {/* Left Spool: Supply Reel */}
-        <div
-          className={`modui-tape-reel modui-tape-reel--left ${isDraggingReel ? 'modui-tape-reel--dragging' : ''}`}
-          style={{ transform: `rotate(${reelDisplayAngles.left}deg)` }}
-          onPointerDown={(e) => handleReelPointerDown(e, 'left')}
-          onPointerMove={handleReelPointerMove}
-          onPointerUp={handleReelPointerUp}
-          title="Supply Reel (Drag to manual scrub)"
-          role="slider"
-          aria-label="Supply Tape Reel"
-          aria-valuenow={Math.round((1 - progressRatio) * 100)}
-          tabIndex={0}
-        >
-          {/* Reel Outer Rim Flange */}
-          <div className="modui-tape-reel__flange">
-            {/* Magnetic Tape Ribbon Wound Pack */}
-            <div
-              className="modui-tape-reel__pack"
-              style={{ width: `${leftPackRadius * 2}%`, height: `${leftPackRadius * 2}%` }}
+        <div className="modui-tape-bay__stage">
+          {/* Dynamic SVG Tape Ribbon Bridge */}
+          <svg className="modui-tape-ribbon-svg" aria-hidden="true" viewBox="0 0 580 220" preserveAspectRatio="none">
+            {/* Real-time Tape Ribbon Path linking supply reel, tension arm, heads, and take-up reel */}
+            <path
+              d={compact
+                ? `M ${55 + leftPackRadius * 0.4} ${62 + leftPackRadius * 0.3} Q 135 98, 155 100 L 165 100 Q 185 98, ${265 - rightPackRadius * 0.4} ${62 + rightPackRadius * 0.3}`
+                : `M ${82 + leftPackRadius * 0.8} ${96 + leftPackRadius * 0.6} Q 200 180, 245 188 L 335 188 Q 380 180, ${498 - rightPackRadius * 0.8} ${96 + rightPackRadius * 0.6}`}
+              className={`modui-tape-path ${transportState === 'play' ? 'modui-tape-path--running' : ''}`}
             />
-            {/* 3 Anodized CNC Spoke Cutouts */}
-            <div className="modui-tape-reel__spoke modui-tape-reel__spoke--1" />
-            <div className="modui-tape-reel__spoke modui-tape-reel__spoke--2" />
-            <div className="modui-tape-reel__spoke modui-tape-reel__spoke--3" />
-            {/* Center Spindle & Metal Locking Knob */}
-            <div className="modui-tape-reel__hub">
-              <div className="modui-tape-reel__center-pin" />
+          </svg>
+
+          {/* Left Spool: Supply Reel */}
+          <div
+            className={`modui-tape-reel modui-tape-reel--left ${isDraggingReel ? 'modui-tape-reel--dragging' : ''}`}
+            style={{ transform: `rotate(${reelDisplayAngles.left}deg)` }}
+            onPointerDown={(e) => handleReelPointerDown(e, 'left')}
+            onPointerMove={handleReelPointerMove}
+            onPointerUp={handleReelPointerUp}
+            title="Supply Reel (Drag to manual scrub)"
+            role="slider"
+            aria-label="Supply Tape Reel"
+            aria-valuenow={Math.round((1 - progressRatio) * 100)}
+            tabIndex={0}
+          >
+            {/* Reel Outer Rim Flange */}
+            <div className="modui-tape-reel__flange">
+              {/* Magnetic Tape Ribbon Wound Pack */}
+              <div
+                className="modui-tape-reel__pack"
+                style={{ width: `${leftPackRadius * 2}%`, height: `${leftPackRadius * 2}%` }}
+              />
+              {/* 3 Anodized CNC Spoke Cutouts */}
+              <div className="modui-tape-reel__spoke modui-tape-reel__spoke--1" />
+              <div className="modui-tape-reel__spoke modui-tape-reel__spoke--2" />
+              <div className="modui-tape-reel__spoke modui-tape-reel__spoke--3" />
+              {/* Center Spindle & Metal Locking Knob */}
+              <div className="modui-tape-reel__hub">
+                <div className="modui-tape-reel__center-pin" />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Center Head Block & Mechanical Roller Assembly */}
-        <div className="modui-tape-heads">
-          <div className="modui-tape-heads__plate">
-            {/* Tension Guide Rollers */}
-            <div className={`modui-tape-roller modui-tape-roller--left ${transportState === 'play' ? 'modui-tape-roller--spinning' : ''}`} />
-            {/* Magnetic Head Housing */}
-            <div className="modui-tape-head-unit">
-              <div className="modui-tape-head modui-tape-head--erase" title="Erase Head" />
-              <div className="modui-tape-head modui-tape-head--record" title="Record Head" />
-              <div className="modui-tape-head modui-tape-head--play" title="Playback Head" />
+          {/* Center Head Block & Mechanical Roller Assembly */}
+          <div className="modui-tape-heads">
+            <div className="modui-tape-heads__plate">
+              {/* Tension Guide Rollers */}
+              <div className={`modui-tape-roller modui-tape-roller--left ${transportState === 'play' ? 'modui-tape-roller--spinning' : ''}`} />
+              {/* Magnetic Head Housing */}
+              <div className="modui-tape-head-unit">
+                <div className="modui-tape-head modui-tape-head--erase" title="Erase Head" />
+                <div className="modui-tape-head modui-tape-head--record" title="Record Head" />
+                <div className="modui-tape-head modui-tape-head--play" title="Playback Head" />
+              </div>
+              {/* Capstan Shaft & Rubber Pinch Roller */}
+              <div className={`modui-tape-capstan ${transportState === 'play' ? 'modui-tape-capstan--engaged' : ''}`}>
+                <div className="modui-tape-capstan__shaft" />
+                <div className="modui-tape-capstan__roller" />
+              </div>
+              <div className={`modui-tape-roller modui-tape-roller--right ${transportState === 'play' ? 'modui-tape-roller--spinning' : ''}`} />
             </div>
-            {/* Capstan Shaft & Rubber Pinch Roller */}
-            <div className={`modui-tape-capstan ${transportState === 'play' ? 'modui-tape-capstan--engaged' : ''}`}>
-              <div className="modui-tape-capstan__shaft" />
-              <div className="modui-tape-capstan__roller" />
-            </div>
-            <div className={`modui-tape-roller modui-tape-roller--right ${transportState === 'play' ? 'modui-tape-roller--spinning' : ''}`} />
+            <div className="modui-tape-heads__label">Tape head</div>
           </div>
-          <div className="modui-tape-heads__label">Tape head</div>
-        </div>
 
-        {/* Right Spool: Take-Up Reel */}
-        <div
-          className={`modui-tape-reel modui-tape-reel--right ${isDraggingReel ? 'modui-tape-reel--dragging' : ''}`}
-          style={{ transform: `rotate(${reelDisplayAngles.right}deg)` }}
-          onPointerDown={(e) => handleReelPointerDown(e, 'right')}
-          onPointerMove={handleReelPointerMove}
-          onPointerUp={handleReelPointerUp}
-          title="Take-Up Reel (Drag to manual scrub)"
-          role="slider"
-          aria-label="Take-Up Tape Reel"
-          aria-valuenow={Math.round(progressRatio * 100)}
-          tabIndex={0}
-        >
-          <div className="modui-tape-reel__flange">
-            <div
-              className="modui-tape-reel__pack"
-              style={{ width: `${rightPackRadius * 2}%`, height: `${rightPackRadius * 2}%` }}
-            />
-            <div className="modui-tape-reel__spoke modui-tape-reel__spoke--1" />
-            <div className="modui-tape-reel__spoke modui-tape-reel__spoke--2" />
-            <div className="modui-tape-reel__spoke modui-tape-reel__spoke--3" />
-            <div className="modui-tape-reel__hub">
-              <div className="modui-tape-reel__center-pin" />
+          {/* Right Spool: Take-Up Reel */}
+          <div
+            className={`modui-tape-reel modui-tape-reel--right ${isDraggingReel ? 'modui-tape-reel--dragging' : ''}`}
+            style={{ transform: `rotate(${reelDisplayAngles.right}deg)` }}
+            onPointerDown={(e) => handleReelPointerDown(e, 'right')}
+            onPointerMove={handleReelPointerMove}
+            onPointerUp={handleReelPointerUp}
+            title="Take-Up Reel (Drag to manual scrub)"
+            role="slider"
+            aria-label="Take-Up Tape Reel"
+            aria-valuenow={Math.round(progressRatio * 100)}
+            tabIndex={0}
+          >
+            <div className="modui-tape-reel__flange">
+              <div
+                className="modui-tape-reel__pack"
+                style={{ width: `${rightPackRadius * 2}%`, height: `${rightPackRadius * 2}%` }}
+              />
+              <div className="modui-tape-reel__spoke modui-tape-reel__spoke--1" />
+              <div className="modui-tape-reel__spoke modui-tape-reel__spoke--2" />
+              <div className="modui-tape-reel__spoke modui-tape-reel__spoke--3" />
+              <div className="modui-tape-reel__hub">
+                <div className="modui-tape-reel__center-pin" />
+              </div>
             </div>
           </div>
         </div>

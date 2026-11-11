@@ -56,16 +56,36 @@
 
 .modui-matrix--emerald { --mx-phosphor: #3DE88A; }
 .modui-matrix--studio-light {
-  --mx-bezel: linear-gradient(170deg, #3A3E48 0%, #23262D 56%, #2E323A 100%);
-  --mx-bezel-ring: rgba(14, 19, 34, 0.18);
-  --mx-phosphor: #16A34A;
+  --mx-bezel: linear-gradient(170deg, #FFFFFF 0%, #EEF2F8 56%, #E2E8F4 100%);
+  --mx-bezel-ring: rgba(14, 19, 34, 0.08);
+  --mx-screen: #F8F9FC;
+  --mx-phosphor: #2563EB;
+}
+
+.modui-matrix--studio-light .modui-matrix-canvas {
+  box-shadow: inset 0 0 0 1px rgba(14, 19, 34, 0.06), inset 0 2px 10px rgba(14, 19, 34, 0.04);
 }
 
 /* on a bright screen the scanlines and vignette have to back right off */
 .modui-matrix--studio-light .modui-matrix-overlay {
   background:
-    radial-gradient(130% 110% at 50% 50%, transparent 54%, rgba(14, 19, 34, 0.18) 100%),
-    repeating-linear-gradient(0deg, rgba(14, 19, 34, 0.05) 0 1px, transparent 1px 3px);
+    radial-gradient(130% 110% at 50% 50%, transparent 60%, rgba(14, 19, 34, 0.06) 100%),
+    repeating-linear-gradient(0deg, rgba(14, 19, 34, 0.02) 0 1px, transparent 1px 3px);
+}
+
+/* Thumbnail embed inside single card box */
+.modui-card-preview-surface .modui-matrix-container,
+.modui-card-preview-stage .modui-matrix-container {
+  min-height: 0;
+  height: 100%;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.modui-card-preview-surface .modui-matrix-canvas,
+.modui-card-preview-stage .modui-matrix-canvas {
+  border-radius: 0;
 }
 
 .modui-matrix--dark-obsidian {

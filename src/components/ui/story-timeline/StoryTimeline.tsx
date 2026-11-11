@@ -435,7 +435,19 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({
   };
 
   // Light themes wash each story's dark artwork with paper so dark text stays readable
-  const surfaceFor = (gradient: string) => gradient;
+  const surfaceFor = (gradient: string, storyId?: string) => {
+    if (variant === 'editorial-paper') {
+      switch (storyId) {
+        case 'story-1': return 'linear-gradient(150deg, #FFFDF8 0%, #F8F3E6 50%, #EFE5D0 100%)';
+        case 'story-2': return 'linear-gradient(150deg, #F5F9FF 0%, #E5EFFF 50%, #D0E3FF 100%)';
+        case 'story-3': return 'linear-gradient(150deg, #F2FDF6 0%, #DDFBE7 50%, #BEF5D0 100%)';
+        case 'story-4': return 'linear-gradient(150deg, #FBF6FE 0%, #F4E8FD 50%, #EBD5FA 100%)';
+        case 'story-5': return 'linear-gradient(150deg, #FFF5F7 0%, #FFE2E8 50%, #FCCDD7 100%)';
+        default: return 'linear-gradient(150deg, #FAF7F2 0%, #F2ECE0 50%, #E8DFCF 100%)';
+      }
+    }
+    return gradient;
+  };
 
   return (
     <div
@@ -472,7 +484,7 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({
       <div
         className="story-phone-frame"
         style={{
-          background: surfaceFor(currentStory.gradient),
+          background: surfaceFor(currentStory.gradient, currentStory.id),
           '--story-accent': currentStory.accentColor,
         } as React.CSSProperties}
         onPointerDown={handlePointerDown}

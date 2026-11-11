@@ -7,8 +7,8 @@
 .modui-quantum-beacon {
   --qb-card: #FFFFFF;
   --qb-card-ring: rgba(14, 19, 34, 0.08);
-  --qb-well: radial-gradient(90% 85% at 50% 42%, #1B2234 0%, #111624 48%, #080B14 100%);
-  --qb-well-ring: rgba(255, 255, 255, 0.09);
+  --qb-well: radial-gradient(90% 85% at 50% 42%, #FFFFFF 0%, #F4F7FC 52%, #E5EDFA 100%);
+  --qb-well-ring: rgba(14, 19, 34, 0.08);
   --qb-ink: #0E1322;
   --qb-ink-dim: #5A6178;
   --qb-hairline: rgba(14, 19, 34, 0.09);
@@ -24,7 +24,7 @@
   margin: 0 auto;
   border-radius: 20px;
   background: var(--qb-card);
-  box-shadow: 0 0 0 1px var(--qb-card-ring), 0 22px 50px -28px rgba(14, 19, 34, 0.4);
+  box-shadow: 0 0 0 1px var(--qb-card-ring), 0 20px 48px -24px rgba(14, 19, 34, 0.12);
   overflow: hidden;
   font-family: var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif);
 }
@@ -40,7 +40,7 @@
   height: 258px;
   flex-shrink: 0;
   background: var(--qb-well);
-  box-shadow: inset 0 0 0 1px var(--qb-well-ring), inset 0 2px 16px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 0 0 1px var(--qb-well-ring), inset 0 2px 14px rgba(14, 19, 34, 0.04);
   overflow: hidden;
 }
 
@@ -50,8 +50,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 28px),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 28px);
+    repeating-linear-gradient(0deg, rgba(14, 19, 34, 0.035) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(14, 19, 34, 0.035) 0 1px, transparent 1px 28px);
   pointer-events: none;
 }
 
@@ -218,30 +218,55 @@
    ========================================================================== */
 .modui-quantum-beacon--theme-dark,
 [data-theme="dark"] .modui-quantum-beacon--theme-auto,
-[data-theme="dark"] .modui-quantum-beacon--theme-light {
+[data-theme="dark"] .modui-quantum-beacon {
   --qb-card: #131A2E;
   --qb-card-ring: rgba(185, 198, 255, 0.12);
+  --qb-well: radial-gradient(90% 85% at 50% 42%, #1B2234 0%, #111624 48%, #080B14 100%);
+  --qb-well-ring: rgba(255, 255, 255, 0.09);
   --qb-ink: #EFF1F8;
   --qb-ink-dim: #99A1B9;
   --qb-hairline: rgba(185, 198, 255, 0.12);
   box-shadow: 0 0 0 1px var(--qb-card-ring), 0 24px 54px -28px rgba(0, 0, 0, 0.85);
 }
 
+[data-theme="dark"] .modui-quantum-beacon .modui-quantum-beacon-stage,
+.modui-quantum-beacon--theme-dark .modui-quantum-beacon-stage {
+  box-shadow: inset 0 0 0 1px var(--qb-well-ring), inset 0 2px 16px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .modui-quantum-beacon .modui-quantum-beacon-stage::before,
+.modui-quantum-beacon--theme-dark .modui-quantum-beacon-stage::before {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 28px);
+}
+
 /* ==========================================================================
-   Compact — catalogue thumbnail
+   Compact — catalogue thumbnail (single main box, no inner borders)
    ========================================================================== */
 .modui-quantum-beacon--compact {
   max-width: 100%;
-  border-radius: 14px;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.modui-quantum-beacon--compact .modui-quantum-beacon-stage { height: 136px; }
-.modui-quantum-beacon--compact .modui-quantum-beacon-stage::after { width: 110px; height: 110px; margin: -55px 0 0 -55px; }
-.modui-quantum-beacon--compact .modui-quantum-beacon-glow { width: 160px; height: 160px; margin: -80px 0 0 -80px; }
-.modui-quantum-beacon--compact .modui-quantum-beacon-controls { display: none; }
-.modui-quantum-beacon--compact .modui-quantum-beacon-telemetry { padding: 11px; gap: 7px; }
-.modui-quantum-beacon--compact .modui-quantum-beacon-label { font-size: 13px; }
-.modui-quantum-beacon--compact .modui-quantum-beacon-sublabel { font-size: 10px; }
+.modui-quantum-beacon--compact .modui-quantum-beacon-stage {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  box-shadow: none;
+}
+.modui-quantum-beacon--compact .modui-quantum-beacon-stage::before { display: none; }
+.modui-quantum-beacon--compact .modui-quantum-beacon-stage::after { width: 130px; height: 130px; margin: -65px 0 0 -65px; }
+.modui-quantum-beacon--compact .modui-quantum-beacon-glow { width: 170px; height: 170px; margin: -85px 0 0 -85px; }
+.modui-quantum-beacon--compact .modui-quantum-beacon-controls,
+.modui-quantum-beacon--compact .modui-quantum-beacon-telemetry { display: none; }
 
 /* ==========================================================================
    Responsive

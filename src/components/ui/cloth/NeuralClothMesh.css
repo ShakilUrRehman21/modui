@@ -115,7 +115,23 @@
 }
 
 /* ---------- Finishes ---------- */
-.modui-cloth-mesh--studio-silk { --cm-accent: #9FB4FF; }
+.modui-cloth-mesh--studio-silk {
+  --cm-stage: radial-gradient(110% 90% at 50% 10%, #FFFFFF 0%, #F5F7FB 48%, #E5EDFA 100%);
+  --cm-ring: rgba(14, 19, 34, 0.08);
+  --cm-ink: #0E1322;
+  --cm-ink-dim: rgba(14, 19, 34, 0.6);
+  --cm-accent: #365CF5;
+}
+
+.modui-cloth-mesh--studio-silk .modui-cloth-mesh__overlay {
+  background:
+    radial-gradient(60% 46% at 50% -6%, rgba(54, 92, 245, 0.08) 0%, transparent 70%),
+    radial-gradient(44% 12% at 50% 96%, rgba(14, 19, 34, 0.06) 0%, transparent 72%);
+}
+
+.modui-cloth-mesh--studio-silk .modui-cloth-mesh__vignette {
+  background: radial-gradient(124% 100% at 50% 50%, transparent 50%, rgba(14, 19, 34, 0.04) 100%);
+}
 
 .modui-cloth-mesh--emerald-aurora {
   --cm-stage: radial-gradient(110% 90% at 50% 10%, #0F2E29 0%, #091C19 48%, #040D0C 100%);
@@ -144,11 +160,13 @@
   --cm-accent: #C8CEDC;
 }
 
-/* ---------- Compact ---------- */
+/* ---------- Compact (single main box, no inner borders) ---------- */
 .modui-cloth-mesh--compact {
   min-height: 0;
   height: 100%;
-  border-radius: 14px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .modui-cloth-mesh--compact .modui-cloth-mesh__content { padding: 12px; gap: 5px; }

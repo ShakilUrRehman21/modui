@@ -511,7 +511,10 @@
 .modui-filmstrip-compact {
   --fs-frame-w: 118px;
   padding: 10px;
-  border-radius: 14px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  width: 100%;
 }
 
 .modui-filmstrip-compact .modui-filmstrip-header { display: none; }

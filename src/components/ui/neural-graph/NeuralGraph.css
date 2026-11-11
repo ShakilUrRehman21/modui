@@ -420,7 +420,10 @@
 .modui-neural-graph--compact {
   min-height: 0;
   height: 100%;
-  border-radius: 14px;
+  width: 100%;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .modui-neural-graph--compact .modui-neural-hud,

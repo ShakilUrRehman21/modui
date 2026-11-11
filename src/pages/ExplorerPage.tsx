@@ -233,75 +233,79 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                 {/* 1. Hero Live Component Preview Canvas */}
                 <div className="modui-card-preview-stage">
                   {comp.slug === 'animated-button' && (
-                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
-                      <AnimatedButton variant="shimmer" size="sm">
-                        Shimmer
-                      </AnimatedButton>
-                      <AnimatedButton variant="glow" size="sm">
-                        Glow
-                      </AnimatedButton>
-                      <AnimatedButton variant="slide" size="sm">
-                        Slide
-                      </AnimatedButton>
+                    <div className="modui-card-preview-viewport">
+                      <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+                        <AnimatedButton variant="shimmer" size="sm">
+                          Shimmer
+                        </AnimatedButton>
+                        <AnimatedButton variant="glow" size="sm">
+                          Glow
+                        </AnimatedButton>
+                        <AnimatedButton variant="slide" size="sm">
+                          Slide
+                        </AnimatedButton>
+                      </div>
                     </div>
                   )}
 
                   {comp.slug === 'badge' && (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, auto)', gap: '0.65rem', justifyContent: 'center', alignItems: 'center' }}>
-                      <Badge variant="accent" dot pulse>
-                        Live Pulse
-                      </Badge>
-                      <Badge variant="success" dot>
-                        Operational
-                      </Badge>
-                      <Badge variant="cyan">
-                        v2.4 Ready
-                      </Badge>
-                      <Badge variant="warning" dot>
-                        Syncing
-                      </Badge>
+                    <div className="modui-card-preview-viewport">
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, auto)', gap: '0.65rem', justifyContent: 'center', alignItems: 'center' }}>
+                        <Badge variant="accent" dot pulse>
+                          Live Pulse
+                        </Badge>
+                        <Badge variant="success" dot>
+                          Operational
+                        </Badge>
+                        <Badge variant="cyan">
+                          v2.4 Ready
+                        </Badge>
+                        <Badge variant="warning" dot>
+                          Syncing
+                        </Badge>
+                      </div>
                     </div>
                   )}
 
                   {comp.slug === 'kinetic-text' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', textAlign: 'center', width: '100%', pointerEvents: 'auto' }}>
-                      <div style={{ fontSize: '1.45rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
-                        <KineticText text="Interactive Wave" interactiveWave={true} />
+                    <div className="modui-card-preview-viewport">
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', textAlign: 'center', width: '100%', pointerEvents: 'auto' }}>
+                        <div style={{ fontSize: '1.45rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
+                          <KineticText text="Interactive Wave" interactiveWave={true} />
+                        </div>
+                        <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent-primary)', background: 'rgba(54, 92, 245, 0.08)', padding: '0.2rem 0.6rem', border: '1px solid rgba(54, 92, 245, 0.18)', borderRadius: '999px' }}>
+                          Hover the letters
+                        </span>
                       </div>
-                      <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--accent-primary)', background: 'rgba(54, 92, 245, 0.08)', padding: '0.2rem 0.6rem', border: '1px solid rgba(54, 92, 245, 0.18)', borderRadius: '999px' }}>
-                        Hover the letters
-                      </span>
                     </div>
                   )}
 
                   {comp.slug === 'number-ticker' && (
-                    <div style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: '0.45rem',
-                      background: isDark ? 'var(--bg-surface-elevated)' : '#FFFFFF',
-                      padding: '0.85rem 1.4rem',
-                      borderRadius: '12px',
-                      border: isDark ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid var(--border-default)',
-                      boxShadow: isDark ? '0 4px 20px rgba(0, 0, 0, 0.4)' : 'var(--shadow-sm)'
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.65rem' }}>
-                        <div style={{ fontSize: '2.1rem', fontWeight: 800, color: isDark ? '#F4F4F6' : 'var(--text-primary)', fontFamily: 'var(--font-mono)', letterSpacing: '-0.03em' }}>
-                          <NumberTicker value={1420} prefix="$" suffix="/mo" />
+                    <div className="modui-card-preview-viewport">
+                      <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        textAlign: 'center',
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.65rem' }}>
+                          <div style={{ fontSize: '2.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', letterSpacing: '-0.035em' }}>
+                            <NumberTicker value={1420} prefix="$" suffix="/mo" />
+                          </div>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#10B981', background: 'rgba(16, 185, 129, 0.12)', padding: '0.15rem 0.55rem', borderRadius: '999px', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
+                            +24.8%
+                          </span>
                         </div>
-                        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#10B981', background: 'rgba(16, 185, 129, 0.12)', padding: '0.15rem 0.5rem', borderRadius: '999px', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
-                          +24.8%
+                        <span style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--text-secondary)', letterSpacing: '0.02em', textTransform: 'uppercase' }}>
+                          Monthly revenue
                         </span>
                       </div>
-                      <span style={{ fontSize: '0.65rem', fontWeight: 600, color: isDark ? '#9DA3AE' : 'var(--text-tertiary)', letterSpacing: '0' }}>
-                        Monthly revenue
-                      </span>
                     </div>
                   )}
 
                   {comp.slug === 'cylindrical-carousel' && (
-                    <div style={{ width: '280px', height: '170px', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <CylindricalCarousel
                         items={[
                           { id: '1', title: 'Spatial Studio', tag: 'Core', color: '#365CF5', badge: 'v2.1' },
@@ -319,13 +323,13 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         showDragHint={false}
                         autoplay={true}
                         autoplaySpeed={12}
-                        style={{ minHeight: '170px', height: '170px' }}
+                        style={{ minHeight: '172px', height: '172px', width: '100%' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'floating-dock' && (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-viewport">
                       <FloatingDock
                         items={[
                           {
@@ -388,7 +392,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'radial-orbit-hub' && (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '160px', height: '160px', flexShrink: 0 }}>
+                    <div className="modui-card-preview-viewport">
                       <RadialOrbitHub
                         items={[
                           {
@@ -443,7 +447,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'fluid-elastic-accordion' && (
-                    <div style={{ width: '100%', maxWidth: '300px', height: '155px', overflow: 'hidden', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface" style={{ padding: '8px' }}>
                       <FluidElasticAccordion
                         items={[
                           { id: '1', number: '01', title: 'Spatial', subtitle: 'WebGL 3D', color: '#365CF5', tag: 'Core' },
@@ -456,27 +460,26 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         trigger="hover"
                         soundEnabled={false}
                         expandedRatio={2.2}
-                        style={{ height: '145px', minHeight: '145px', width: '100%', borderRadius: '8px' }}
+                        style={{ height: '100%', minHeight: '156px', width: '100%', borderRadius: '8px' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'before-after-slider' && (
-                    <div style={{ width: '100%', maxWidth: '280px', height: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <BeforeAfterSlider
-                        aspectRatio="16 / 10"
                         variant={isDark ? 'dark' : 'light'}
                         mode="drag"
                         soundEnabled={false}
                         initialPosition={50}
                         showLabels={true}
-                        style={{ width: '100%', maxHeight: '160px', borderRadius: '8px', boxShadow: '0 4px 16px rgba(15, 23, 42, 0.08)' }}
+                        style={{ width: '100%', height: '100%' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'rotary-jog-wheel' && (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '160px', height: '160px', flexShrink: 0 }}>
+                    <div className="modui-card-preview-viewport">
                       <RotaryJogWheel
                         size="md"
                         defaultValue={58}
@@ -491,7 +494,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'cyber-stream-matrix' && (
-                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', borderRadius: '8px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <CyberStreamMatrix
                         variant={isDark ? 'dark-obsidian' : 'studio-light'}
                         charset="hex"
@@ -505,7 +508,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'caustic-ripple-surface' && (
-                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', borderRadius: '8px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <CausticRippleSurface
                         variant={isDark ? 'dark-obsidian' : 'porcelain'}
                         compact={true}
@@ -521,7 +524,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'neural-cloth-mesh' && (
-                    <div style={{ width: '100%', maxWidth: '280px', height: '175px', borderRadius: '8px', overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <NeuralClothMesh
                         variant={isDark ? 'dark-obsidian' : 'studio-silk'}
                         renderMode="wireframe"
@@ -536,7 +539,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'aperture-iris-lens' && (
-                    <div style={{ width: '160px', height: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                    <div className="modui-card-preview-viewport">
                       <ApertureIrisLens
                         variant={isDark ? 'matte-obsidian' : 'studio-silver'}
                         bladesCount={9}
@@ -550,7 +553,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'chromatic-prism-card' && (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <ChromaticPrismCard
                         variant={isDark ? 'obsidian-prism' : 'sapphire-crystal'}
                         category="Quartz 01"
@@ -563,7 +566,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'filmstrip-gallery' && (
-                    <div style={{ width: '100%', maxWidth: '300px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <FilmstripGallery
                         variant={isDark ? 'cinema-dark' : 'studio-light'}
                         compact={true}
@@ -573,7 +576,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'card-stack' && (
-                    <div style={{ width: '100%', maxWidth: '280px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <CardStack
                         variant={isDark ? 'cinema-dark' : 'studio-light'}
                         compact={true}
@@ -583,8 +586,8 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'timeline-roadmap' && (
-                    <div style={{ width: '100%', maxWidth: '300px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
-                      <div style={{ width: '310px', transform: 'scale(0.88)', transformOrigin: 'center center' }}>
+                    <div className="modui-card-preview-surface" style={{ padding: '8px' }}>
+                      <div style={{ width: '310px', transform: 'scale(0.85)', transformOrigin: 'center center' }}>
                         <TimelineRoadmap
                           variant={isDark ? 'cinema-dark' : 'studio-light'}
                           compact={true}
@@ -595,19 +598,19 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'reel-tape-deck' && (
-                    <div style={{ width: '100%', maxWidth: '310px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <ReelTapeDeck
                         variant={isDark ? 'dark-slate' : 'studio-light'}
                         compact={true}
                         soundEnabled={false}
                         autoPlay={true}
-                        style={{ width: '100%' }}
+                        style={{ width: '100%', height: '100%' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'story-timeline' && (
-                    <div style={{ width: '100%', maxWidth: '280px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <StoryTimeline
                         variant={isDark ? 'instagram-dark' : 'editorial-paper'}
                         compact={true}
@@ -618,7 +621,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'polaroid' && (
-                    <div style={{ width: '100%', maxWidth: '280px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-viewport">
                       <Polaroid
                         compact={true}
                         soundEnabled={false}
@@ -628,7 +631,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'spatial-gallery' && (
-                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <SpatialGallery
                         compact={true}
                         soundEnabled={false}
@@ -641,7 +644,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'page-turn-book' && (
-                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <PageTurnBook
                         compact={true}
                         variant={isDark ? 'dark-obsidian' : 'studio-editorial'}
@@ -654,7 +657,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'point-cloud-morpher' && (
-                    <div style={{ width: '100%', height: '185px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', overflow: 'hidden' }}>
+                    <div className="modui-card-preview-surface">
                       <PointCloudMorpher
                         compact={true}
                         theme={theme}
@@ -670,7 +673,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'perspective-text-ribbon' && (
-                    <div style={{ width: '100%', height: '185px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', overflow: 'hidden' }}>
+                    <div className="modui-card-preview-surface">
                       <PerspectiveTextRibbon
                         compact={true}
                         theme={theme}
@@ -685,7 +688,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'quantum-orbit-beacon' && (
-                    <div style={{ width: '100%', height: '185px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', overflow: 'hidden' }}>
+                    <div className="modui-card-preview-surface">
                       <QuantumOrbitBeacon
                         compact={true}
                         theme={theme}
@@ -694,29 +697,32 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         speed={1.0}
                         soundEnabled={false}
                         interactive={true}
-                        showTelemetry={true}
+                        showTelemetry={false}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'cipher-glyph-matrix' && (
-                    <div style={{ width: '100%', height: '185px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', overflow: 'hidden', padding: '12px' }}>
+                    <div className="modui-card-preview-surface">
                       <CipherGlyphMatrix
-                        text={['NEXUS_CIPHER', 'QUANTUM_KEY']}
+                        text={['QUANTUM_CIPHER', 'SYNAPSE_MATRIX', 'NEURAL_ENCRYPT']}
                         charset="katakana"
                         choreography="wave"
                         variant={isDark ? 'matrix-emerald' : 'cyber-cyan'}
                         theme={theme}
                         compact={true}
-                        speed={45}
+                        bordered={false}
+                        showHud={false}
+                        speed={40}
                         soundEnabled={false}
                         scrambleOnHover={true}
+                        style={{ width: '100%', height: '100%' }}
                       />
                     </div>
                   )}
 
                   {comp.slug === 'infinite-canvas-gallery' && (
-                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <InfiniteCanvasGallery
                         compact={true}
                         soundEnabled={false}
@@ -726,7 +732,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'magnetic-project-list' && (
-                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <MagneticProjectList
                         compact={true}
                         soundEnabled={false}
@@ -736,7 +742,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                   )}
 
                   {comp.slug === 'neural-graph' && (
-                    <div style={{ width: '100%', maxWidth: '300px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative' }}>
+                    <div className="modui-card-preview-surface">
                       <NeuralGraph
                         variant={isDark ? 'dark-slate' : 'studio-light'}
                         compact={true}
@@ -750,6 +756,12 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
 
                 {/* 2. Structured Card Information */}
                 <div className="modui-card-content">
+                  <div className="modui-card-meta-row">
+                    <span className="modui-card-category-badge">{comp.category}</span>
+                    {comp.tags?.[0] && (
+                      <span className="modui-card-tag-pill">{comp.tags[0]}</span>
+                    )}
+                  </div>
                   <h3 className="modui-card-title">
                     <a
                       href={`/components/${comp.slug}`}

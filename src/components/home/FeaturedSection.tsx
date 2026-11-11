@@ -129,7 +129,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, th
 
                   {/* InfiniteCanvasGallery Live Stage */}
                   {comp.slug === 'infinite-canvas-gallery' && (
-                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <InfiniteCanvasGallery
                         compact={true}
                         soundEnabled={false}
@@ -140,7 +140,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, th
 
                   {/* MagneticProjectList Live Stage */}
                   {comp.slug === 'magnetic-project-list' && (
-                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <MagneticProjectList
                         compact={true}
                         soundEnabled={false}
@@ -151,7 +151,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({ onNavigate, th
 
                   {/* SpatialGallery Live Stage */}
                   {comp.slug === 'spatial-gallery' && (
-                    <div style={{ width: '100%', maxWidth: '290px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div className="modui-card-preview-surface">
                       <SpatialGallery
                         compact={true}
                         soundEnabled={false}

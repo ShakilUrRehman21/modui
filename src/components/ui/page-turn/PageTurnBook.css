@@ -491,8 +491,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--paper-bg);
-  border: 1px solid var(--paper-border);
+  background: var(--bk-paper);
+  border: 1px solid var(--bk-paper-edge);
   box-sizing: border-box;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -619,18 +619,33 @@
    Compact — catalogue thumbnail
    ========================================================================== */
 .modui-page-turn--compact {
-  --book-height: 176px;
+  --book-height: 172px !important;
   max-width: 100%;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
-.modui-page-turn--compact .modui-book-tabletop { padding: 12px 10px 14px; border-radius: 14px; }
-.modui-page-turn--compact .modui-page-surface { padding: 14px 15px 12px; }
-.modui-page-turn--compact .modui-page-title { font-size: 14px; }
-.modui-page-turn--compact .modui-page-subtitle { font-size: 10px; margin-top: 3px; }
-.modui-page-turn--compact .modui-page-prose { font-size: 9px; line-height: 1.6; margin-top: 8px; }
+.modui-page-turn--compact .modui-book-tabletop {
+  padding: 8px 6px 10px;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.modui-page-turn--compact .modui-page-surface { padding: 10px 10px 8px; }
+.modui-page-turn--compact .modui-page-title { font-size: 11.5px; line-height: 1.25; margin-bottom: 2px; }
+.modui-page-turn--compact .modui-page-subtitle { font-size: 8.5px; margin-top: 1px; }
+.modui-page-turn--compact .modui-page-prose {
+  font-size: 8px;
+  line-height: 1.45;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .modui-page-turn--compact .modui-page-quote { display: none; }
-.modui-page-turn--compact .modui-page-footer { bottom: 9px; left: 15px; right: 15px; }
-.modui-page-turn--compact .modui-page-folio { font-size: 8px; }
+.modui-page-turn--compact .modui-page-footer { bottom: 6px; left: 8px; right: 8px; }
+.modui-page-turn--compact .modui-page-folio { font-size: 7.5px; }
 .modui-page-turn--compact .modui-book-toolbar { display: none; }
 .modui-page-turn--compact .modui-corner-curl { display: none; }
 
@@ -638,15 +653,15 @@
    Responsive
    ========================================================================== */
 @media (max-width: 768px) {
-  .modui-page-turn-book { --book-height: 400px; }
-  .modui-book-tabletop { padding: 16px 12px 18px; }
-  .modui-page-surface { padding: 24px 22px 20px; }
-  .modui-page-title { font-size: 20px; }
-  .modui-page-subtitle { font-size: 12.5px; }
-  .modui-page-prose { font-size: 13px; line-height: 1.66; margin-top: 14px; }
-  .modui-page-quote { font-size: 12.5px; margin-top: 14px; padding-left: 20px; }
-  .modui-page-footer { bottom: 14px; left: 22px; right: 22px; }
-  .modui-book-toolbar { flex-wrap: wrap; justify-content: center; border-radius: 16px; }
+  .modui-page-turn-book:not(.modui-page-turn--compact) { --book-height: 400px; }
+  .modui-page-turn-book:not(.modui-page-turn--compact) .modui-book-tabletop { padding: 16px 12px 18px; }
+  .modui-page-turn-book:not(.modui-page-turn--compact) .modui-page-surface { padding: 24px 22px 20px; }
+  .modui-page-turn-book:not(.modui-page-turn--compact) .modui-page-title { font-size: 20px; }
+  .modui-page-turn-book:not(.modui-page-turn--compact) .modui-page-subtitle { font-size: 12.5px; }
+  .modui-page-turn-book:not(.modui-page-turn--compact) .modui-page-prose { font-size: 13px; line-height: 1.66; margin-top: 14px; }
+  .modui-page-turn-book:not(.modui-page-turn--compact) .modui-page-quote { font-size: 12.5px; margin-top: 14px; padding-left: 20px; }
+  .modui-page-turn-book:not(.modui-page-turn--compact) .modui-page-footer { bottom: 14px; left: 22px; right: 22px; }
+  .modui-page-turn-book:not(.modui-page-turn--compact) .modui-book-toolbar { flex-wrap: wrap; justify-content: center; border-radius: 16px; }
   .modui-book-viewport { box-shadow: 0 20px 40px -20px rgba(62, 48, 32, 0.5); }
 }
 

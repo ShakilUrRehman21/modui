@@ -95,7 +95,7 @@
   mix-blend-mode: screen;
 }
 
-/* Live stage */
+/* Live stage — single outer card container */
 .modui-card-stage {
   position: relative;
   height: 240px;
@@ -103,12 +103,34 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 1rem;
+  padding: 0;
   background-color: var(--preview-stage-bg);
   background-image: radial-gradient(var(--preview-dot) 1px, transparent 1px);
   background-size: 16px 16px;
   border-bottom: 1px solid var(--border-subtle);
   cursor: default;
+}
+
+.modui-card-preview-surface {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+[data-theme="dark"] .modui-card-preview-surface {
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .modui-card-item .modui-card-stage > div {

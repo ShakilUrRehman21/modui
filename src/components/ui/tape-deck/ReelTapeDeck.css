@@ -169,9 +169,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 22px 28px;
+  justify-content: center;
+  padding: 22px 24px;
   min-height: 236px;
   border-radius: 12px;
   background: var(--td-recess);
@@ -180,6 +179,17 @@
     inset 0 0 0 1px var(--td-recess-ring),
     0 1px 0 var(--td-edge-hi);
   overflow: hidden;
+}
+
+.modui-tape-bay__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 580px;
+  height: 100%;
+  margin: 0 auto;
 }
 
 /* a faint warm wash from the bay lamp */
@@ -426,16 +436,15 @@
    Console row — meters, counter, track
    ========================================================================== */
 .modui-tape-console {
-  display: flex;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
   gap: 12px;
-  flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .modui-tape-vu-container {
   display: flex;
   gap: 10px;
-  flex: 1 1 320px;
   min-width: 0;
 }
 
@@ -564,7 +573,6 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  flex: 1 1 320px;
   min-width: 0;
   padding: 10px 12px;
   border-radius: 8px;
@@ -888,19 +896,28 @@
 }
 
 /* ==========================================================================
-   Compact — catalogue thumbnail
+   Compact — catalogue thumbnail (single main box, no inner borders)
    ========================================================================== */
 .modui-reel-deck--compact {
-  gap: 9px;
-  padding: 10px;
-  border-radius: 13px;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .modui-reel-deck--compact .modui-tape-header,
 .modui-reel-deck--compact .modui-tape-console,
 .modui-reel-deck--compact .modui-tape-transport { display: none; }
 
-.modui-reel-deck--compact .modui-tape-bay { min-height: 118px; padding: 12px 14px; }
+.modui-reel-deck--compact .modui-tape-bay { min-height: 118px; padding: 10px 12px; }
+.modui-reel-deck--compact .modui-tape-bay__stage { max-width: 290px; }
 .modui-reel-deck--compact .modui-tape-reel { width: 86px; height: 86px; }
 .modui-reel-deck--compact .modui-tape-reel__spoke { width: 17px; height: 25px; margin: -12.5px 0 0 -8.5px; }
 .modui-reel-deck--compact .modui-tape-reel__spoke--1 { transform: rotate(0deg) translateY(-26px); }
@@ -989,9 +1006,11 @@
   .modui-tape-brand__model { display: none; }
 }
 
+@media (max-width: 680px) {
+  .modui-tape-console { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 480px) {
-  .modui-tape-vu-container { flex: 1 1 100%; }
-  .modui-tape-telemetry { flex: 1 1 100%; }
   .modui-tape-heads { display: none; }
 }
 

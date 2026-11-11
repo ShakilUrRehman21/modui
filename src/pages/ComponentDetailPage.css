@@ -71,8 +71,7 @@
   margin-bottom: 1rem;
 }
 
-.modui-status-tag,
-.modui-version-tag {
+.modui-status-tag {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -96,7 +95,7 @@
 
 .modui-status-tag--in-progress::before { background: var(--color-coral); }
 
-.modui-version-tag { font-family: var(--font-mono); }
+
 
 .modui-detail-title {
   font-size: var(--fs-display);

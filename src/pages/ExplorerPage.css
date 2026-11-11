@@ -240,14 +240,15 @@
   mix-blend-mode: screen;
 }
 
+/* Standardized Card Preview Stage (Single outer card box — no nested box) */
 .modui-card-preview-stage {
   position: relative;
-  height: 220px;
+  height: 216px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 1rem;
+  padding: 0;
   background-color: var(--preview-stage-bg);
   background-image: radial-gradient(var(--preview-dot) 1px, transparent 1px);
   background-size: 16px 16px;
@@ -256,11 +257,34 @@
   user-select: none;
 }
 
+.modui-card-preview-viewport,
+.modui-card-preview-surface {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+[data-theme="dark"] .modui-card-preview-surface {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
 .modui-featured-card .modui-card-preview-stage > div {
   transition: transform 600ms var(--ease-out-expo);
 }
 
-.modui-featured-card:hover .modui-card-preview-stage > div { transform: scale(1.04); }
+.modui-featured-card:hover .modui-card-preview-stage > div { transform: scale(1.03); }
 
 @keyframes modui-pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
@@ -273,6 +297,42 @@
   flex-direction: column;
   flex: 1;
   padding: 1.15rem 1.3rem 1.15rem;
+}
+
+.modui-card-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.modui-card-category-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 560;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent-border);
+  padding: 0.12rem 0.45rem;
+  border-radius: 4px;
+}
+
+.modui-card-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
 }
 
 .modui-card-title {
@@ -361,5 +421,17 @@
 
 @media (max-width: 640px) {
   .modui-explorer-wrap { padding-top: calc(var(--nav-height) + 2.5rem); padding-bottom: 4rem; }
-  .modui-featured-grid { grid-template-columns: minmax(0, 1fr); }
+  .modui-featured-grid { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .modui-card-preview-stage { height: 190px; padding: 0.75rem; }
+  .modui-card-preview-viewport,
+  .modui-card-preview-surface {
+    height: 156px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modui-card-content { padding: 1rem; }
+  .modui-card-title { font-size: 1.05rem; }
+  .modui-card-description { font-size: 0.8125rem; }
 }
