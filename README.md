@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-123%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-215%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,15 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (25 Primitives)
+## Published Modules (30 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Cipher Glyph Matrix** | Typography & Motion | High-velocity cryptographic typography scrambler and decoder featuring progressive wavefront algorithms, variable cryptographic charsets (Katakana, Hex, Binary, Runic), procedural audio tick DSP, and full Light/Dark mode styling | `src/components/ui/cipher-glyph` |
+| **Quantum Orbit Beacon** | Status & Indicators | Multi-state orbital telemetry beacon featuring multi-ring counter-rotating particle orbits, pulsing event horizons, 4 live state presets, and synthetic quantum resonance haptics | `src/components/ui/quantum-orbit-beacon` |
+| **3D Perspective Text Ribbon** | Typography & Motion | Continuous 3D kinetic typography ribbon curving through perspective space with interactive pointer tilt, 4 curated styling finishes, and synthetic typewriter chatter haptics | `src/components/ui/perspective-text` |
+| **3D Point Cloud Mesh Morpher** | 3D & Showcase | Mathematical particle sculpture featuring 6 procedural geometries (Torus, Sphere, Mobius, Klein, Helix, Wave), spring-damped morphing transitions, and synthesized audio resonant chimes | `src/components/ui/point-cloud` |
+| **3D Page Turn Book** | 3D & Showcase | Tactile 3D dual-page book featuring realistic paper curl geometry, dynamic subsurface shadows, interactive drag-to-flip, and synthesized binaural page rustle acoustics | `src/components/ui/page-turn` |
 | **Spatial Gallery** | 3D & Showcase | 3D cylindrical spatial ribbon showcase with real-time ground mirror reflections, specular active glare, touch/drag scrubbing with deadzone protection, wheel scrub, procedural Web Audio acoustic clicks, and high-resolution inspection modal | `src/components/ui/spatial-gallery` |
 | **Infinite Canvas Gallery** | 3D & Showcase | 360° infinite draggable media canvas with momentum fling physics, continuous friction decay, toroidal seamless coordinate wrapping, live mini-radar HUD, and Web Audio acoustic micro-haptics | `src/components/ui/infinite-canvas-gallery` |
 | **Magnetic Project List** | 3D & Showcase | High-density editorial case study index with velocity-damped 3D cursor-following floating preview card, dynamic tilt physics, deliverable chips, and synthesized Web Audio micro-haptic ticks | `src/components/ui/magnetic-project-list` |
