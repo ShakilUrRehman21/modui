@@ -10,7 +10,8 @@ import ComponentDetailPage from './pages/ComponentDetailPage';
 import DocsPage from './pages/DocsPage';
 import CommandPaletteModal from './components/common/CommandPaletteModal';
 import { Analytics } from '@vercel/analytics/react';
-import { updatePageSeo } from './lib/seo';
+import { updatePageSeo, generateComponentJsonLd } from './lib/seo';
+import { COMPONENT_REGISTRY } from './registry/components';
 import { initReveal, initPointerEffects } from './lib/interactions';
 
 export function App() {
@@ -192,6 +193,27 @@ export function App() {
           'open source ui',
         ],
       });
+    } else if (cleanPath.startsWith('/components/')) {
+      // Every component URL used to inherit the homepage title, description and
+      // canonical, which told Google the page was a duplicate of '/'.
+      const slug = cleanPath.replace('/components/', '').replace(/\/$/, '');
+      const item = COMPONENT_REGISTRY.find((entry) => entry.slug === slug);
+
+      if (item) {
+        const shortDescription =
+          item.description.length > 158
+            ? `${item.description.slice(0, 155).trimEnd()}\u2026`
+            : item.description;
+
+        updatePageSeo({
+          title: `${item.name} — React Component | ModUI`,
+          description: shortDescription,
+          canonicalPath: `/components/${item.slug}`,
+          ogType: 'article',
+          keywords: [...(item.tags || []), 'react component', 'typescript', 'copy paste ui'],
+          jsonLd: generateComponentJsonLd(item),
+        });
+      }
     } else if (cleanPath.startsWith('/docs')) {
       updatePageSeo({
         title: 'Documentation & Architecture Guide — ModUI',
