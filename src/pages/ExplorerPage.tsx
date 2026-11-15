@@ -30,6 +30,7 @@ import { PointCloudMorpher } from '../components/ui/point-cloud';
 import { PerspectiveTextRibbon } from '../components/ui/perspective-text';
 import { QuantumOrbitBeacon } from '../components/ui/quantum-orbit-beacon';
 import { CipherGlyphMatrix } from '../components/ui/cipher-glyph';
+import { MagneticRollSplitText } from '../components/ui/magnetic-roll-split';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -717,6 +718,22 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         soundEnabled={false}
                         scrambleOnHover={true}
                         style={{ width: '100%', height: '100%' }}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'magnetic-roll-split-text' && (
+                    <div className="modui-card-preview-surface">
+                      <MagneticRollSplitText
+                        text={['RESONANCE', 'PRECISION', 'KINETIC UI']}
+                        variant={isDark ? 'editorial-dark' : 'studio-light'}
+                        theme={theme}
+                        choreography="wave"
+                        compact={true}
+                        speed={420}
+                        stagger={30}
+                        soundEnabled={false}
+                        trigger="hover"
                       />
                     </div>
                   )}

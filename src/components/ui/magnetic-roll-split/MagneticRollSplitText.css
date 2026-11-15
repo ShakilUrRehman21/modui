@@ -1,0 +1,244 @@
+/* ==========================================================================
+   ModUI — Magnetic 3D Tumbling Split-Roll Text
+   Physical character drum array inspired by vintage mechanical split-flap
+   departure boards and luxury editorial kinetic typography.
+   ========================================================================== */
+
+.modui-split-roll-root {
+  /* Default Design Tokens (Porcelain & Cobalt) */
+  --sr-ink: #0E1322;
+  --sr-ink-dim: #5A6178;
+  --sr-accent: #365CF5;
+  --sr-font-size: clamp(34px, 5.5vw, 64px);
+  --sr-line-height: 1.15;
+  --sr-drum-duration: 440ms;
+  --sr-drum-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display, var(--font-sans, 'Geist Variable', 'Inter', -apple-system, sans-serif));
+  font-size: var(--sr-font-size);
+  font-weight: 750;
+  line-height: var(--sr-line-height);
+  letter-spacing: -0.025em;
+  color: var(--sr-ink);
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.modui-split-roll-root:focus-visible {
+  outline: 2px solid var(--sr-accent);
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+/* Screen reader announcement text */
+.modui-split-sr-text {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Text Container wrapping words and glyphs */
+.modui-split-phrase {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.32em;
+  row-gap: 0.15em;
+}
+
+/* Individual word grouping to preserve natural wrapping */
+.modui-split-word {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* Individual character 3D barrel viewport */
+.modui-split-cell {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  line-height: var(--sr-line-height);
+  padding: 0 1px;
+}
+
+/* Sizer in normal document flow sets natural proportional width */
+.modui-split-sizer {
+  display: block;
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+  line-height: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  padding: 0 2px;
+}
+
+/* Tumbling 3D drum reel: absolute overlay matching exact sizer dimensions */
+.modui-split-drum {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  transition: transform var(--sr-drum-duration) var(--sr-drum-ease);
+  will-change: transform;
+}
+
+/* Face states */
+.modui-split-face {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: var(--sr-ink);
+  flex-shrink: 0;
+  backface-visibility: hidden;
+  padding: 0 2px;
+}
+
+/* Duplicate face revealed on roll */
+.modui-split-face--duplicate {
+  color: var(--sr-accent);
+}
+
+/* Direction: UP (default) */
+.modui-split-drum--up {
+  transform: translateY(0%);
+}
+
+.modui-split-drum--up.is-rolled {
+  transform: translateY(-50%);
+}
+
+/* Direction: DOWN */
+.modui-split-drum--down {
+  transform: translateY(-50%);
+}
+
+.modui-split-drum--down.is-rolled {
+  transform: translateY(0%);
+}
+
+/* ==========================================================================
+   Curated Theme Variants
+   ========================================================================== */
+
+/* 1. Studio Light (Porcelain & Cobalt) */
+.modui-split--studio-light {
+  --sr-ink: #0E1322;
+  --sr-ink-dim: #5A6178;
+  --sr-accent: #365CF5;
+}
+
+/* 2. Editorial Dark (Obsidian Titanium) */
+.modui-split--editorial-dark {
+  --sr-ink: #EEF2FF;
+  --sr-ink-dim: #8E9AB6;
+  --sr-accent: #5275FF;
+}
+
+/* 3. Solenoid Amber (Mechanical Departure Board) */
+.modui-split--solenoid-amber {
+  --sr-ink: #F5EADA;
+  --sr-ink-dim: #998772;
+  --sr-accent: #F59E0B;
+}
+
+.modui-split--solenoid-amber .modui-split-cell {
+  background: #171513;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.25), 0 2px 6px rgba(0, 0, 0, 0.4);
+  margin: 0 2px;
+  padding: 0 3px;
+}
+
+.modui-split--solenoid-amber .modui-split-face {
+  font-family: var(--font-mono, monospace);
+  color: #F5EADA;
+}
+
+.modui-split--solenoid-amber .modui-split-face--duplicate {
+  color: #F59E0B;
+}
+
+.modui-split--solenoid-amber .modui-split-cell::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(245, 158, 11, 0.2);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* 4. Cyber Cobalt (Electric Phosphor) */
+.modui-split--cyber-cobalt {
+  --sr-ink: #E0F2FE;
+  --sr-ink-dim: #38BDF8;
+  --sr-accent: #06B6D4;
+}
+
+.modui-split--cyber-cobalt .modui-split-face--duplicate {
+  color: #38BDF8;
+  text-shadow: 0 0 14px rgba(56, 189, 248, 0.65);
+}
+
+/* Dark mode theme token mapping */
+[data-theme="dark"] .modui-split--studio-light {
+  --sr-ink: #EEF2FF;
+  --sr-ink-dim: #8E9AB6;
+  --sr-accent: #5275FF;
+}
+
+/* ==========================================================================
+   Compact Mode (Catalog & Card Previews)
+   ========================================================================== */
+.modui-split--compact {
+  --sr-font-size: 26px;
+  width: 100%;
+  height: 100%;
+}
+
+/* Card stage preview integration */
+.modui-card-preview-surface .modui-split-roll-root,
+.modui-card-preview-stage .modui-split-roll-root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+/* ==========================================================================
+   Reduced Motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .modui-split-drum {
+    transition-duration: 0.01ms !important;
+  }
+}

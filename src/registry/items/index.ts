@@ -29,6 +29,7 @@ import { pointCloudMorpherItem } from './point-cloud-morpher';
 import { perspectiveTextRibbonItem } from './perspective-text-ribbon';
 import { quantumOrbitBeaconItem } from './quantum-orbit-beacon';
 import { cipherGlyphMatrixItem } from './cipher-glyph-matrix';
+import { magneticRollSplitTextItem } from './magnetic-roll-split-text';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -61,4 +62,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   perspectiveTextRibbonItem,
   quantumOrbitBeaconItem,
   cipherGlyphMatrixItem,
+  magneticRollSplitTextItem,
 ];
