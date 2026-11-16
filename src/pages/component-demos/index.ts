@@ -36,6 +36,7 @@ export const COMPONENT_DEMOS: Record<string, React.LazyExoticComponent<React.Com
   'neural-graph': React.lazy(() => import('./NeuralGraphDemo')),
   'cipher-glyph-matrix': React.lazy(() => import('./CipherGlyphMatrixDemo')),
   'magnetic-roll-split-text': React.lazy(() => import('./MagneticRollSplitTextDemo')),
+  'tactile-step-wizard': React.lazy(() => import('./TactileStepWizardDemo')),
 };
 
 export default COMPONENT_DEMOS;

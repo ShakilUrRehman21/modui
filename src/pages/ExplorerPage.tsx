@@ -31,6 +31,7 @@ import { PerspectiveTextRibbon } from '../components/ui/perspective-text';
 import { QuantumOrbitBeacon } from '../components/ui/quantum-orbit-beacon';
 import { CipherGlyphMatrix } from '../components/ui/cipher-glyph';
 import { MagneticRollSplitText } from '../components/ui/magnetic-roll-split';
+import { TactileStepWizard } from '../components/ui/tactile-step-wizard';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -735,6 +736,52 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         soundEnabled={false}
                         trigger="hover"
                       />
+                    </div>
+                  )}
+
+                  {comp.slug === 'tactile-step-wizard' && (
+                    <div className="modui-card-preview-surface" style={{ padding: '8px 12px', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ width: '100%', maxWidth: '320px' }}>
+                        <TactileStepWizard
+                          steps={[
+                            {
+                              id: '1',
+                              title: 'Config',
+                              content: (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <span style={{ fontSize: '10px', fontWeight: 600, color: 'var(--text-secondary)' }}>Region & Cluster</span>
+                                    <span style={{ fontSize: '9px', fontFamily: 'var(--font-mono)', color: '#10B981', fontWeight: 600 }}>● Active</span>
+                                  </div>
+                                  <div style={{ padding: '5px 8px', borderRadius: '6px', background: isDark ? 'rgba(255,255,255,0.06)' : '#FFFFFF', border: '1px solid var(--border-default)', fontSize: '11px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <span>us-east (Virginia)</span>
+                                    <span style={{ fontSize: '9.5px', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>12ms</span>
+                                  </div>
+                                </div>
+                              ),
+                            },
+                            {
+                              id: '2',
+                              title: 'Cluster',
+                              content: (
+                                <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Edge node verified.</div>
+                              ),
+                            },
+                            {
+                              id: '3',
+                              title: 'Deploy',
+                            },
+                          ]}
+                          variant={isDark ? 'editorial' : 'studio'}
+                          theme={theme}
+                          compact={true}
+                          bordered={false}
+                          orientation="horizontal"
+                          linear={false}
+                          soundEnabled={false}
+                          defaultStep={0}
+                        />
+                      </div>
                     </div>
                   )}
 

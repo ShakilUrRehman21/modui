@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-223%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-232%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (31 Primitives)
+## Published Modules (32 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Tactile Step Wizard** | Buttons and Actions | Production-grade multi-step form & onboarding wizard orchestrator featuring connected progress track nodes, step validation, fluid slide transitions, keyboard shortcuts (Enter to advance, Cmd/Ctrl+Backspace to return), and acoustic haptics | `src/components/ui/tactile-step-wizard` |
 | **Magnetic Roll Split Text** | Typography & Motion | Tactile 3D tumbling character drum array inspired by vintage mechanical split-flap departure boards and luxury editorial typography, featuring staggered spring choreographies, duplicate face color inversions, and synthesized solenoid acoustics | `src/components/ui/magnetic-roll-split` |
 | **Cipher Glyph Matrix** | Typography & Motion | High-velocity cryptographic typography scrambler and decoder featuring progressive wavefront algorithms, variable cryptographic charsets (Katakana, Hex, Binary, Runic), procedural audio tick DSP, and full Light/Dark mode styling | `src/components/ui/cipher-glyph` |
 | **Quantum Orbit Beacon** | Status & Indicators | Multi-state orbital telemetry beacon featuring multi-ring counter-rotating particle orbits, pulsing event horizons, 4 live state presets, and synthetic quantum resonance haptics | `src/components/ui/quantum-orbit-beacon` |
