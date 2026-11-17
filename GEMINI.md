@@ -20,6 +20,12 @@ The following candidates have been rejected by the user and **must never be prop
 11. Variable Font Morphing Axis (`VariableFontMorpher`)
 12. Holographic 3D Tilt Card / Credit Card (`HolographicTiltCard` / `InteractiveTiltCard`)
 13. Adaptive 3D Device Viewport Mockup (`AdaptiveDeviceViewport`)
+14. Dynamic Query Filter Pill Bar (`DynamicFacetFilter`)
+15. Tactile Industrial Safety Switch (`TactileSafetySwitch`)
+16. Omni Command Bar (`OmniCommandBar`)
+17. Tactile Toast Stack (`TactileToastStack`)
+18. Fluid File Dropzone (`TactileFileDropzone`)
+19. Dashboard KPI Metric Card (`MetricStatCard`)
 
 ## 3. Architecture & Project Constraints
 - **Zero External Style Dependencies**: Pure standard CSS custom properties and native React 19 APIs. No Tailwind classes inside component source code.

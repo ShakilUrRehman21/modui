@@ -37,6 +37,7 @@ export const COMPONENT_DEMOS: Record<string, React.LazyExoticComponent<React.Com
   'cipher-glyph-matrix': React.lazy(() => import('./CipherGlyphMatrixDemo')),
   'magnetic-roll-split-text': React.lazy(() => import('./MagneticRollSplitTextDemo')),
   'tactile-step-wizard': React.lazy(() => import('./TactileStepWizardDemo')),
+  'magnetic-spotlight-reveal': React.lazy(() => import('./MagneticSpotlightRevealDemo')),
 };
 
 export default COMPONENT_DEMOS;

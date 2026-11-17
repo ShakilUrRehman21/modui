@@ -31,6 +31,7 @@ import { quantumOrbitBeaconItem } from './quantum-orbit-beacon';
 import { cipherGlyphMatrixItem } from './cipher-glyph-matrix';
 import { magneticRollSplitTextItem } from './magnetic-roll-split-text';
 import { tactileStepWizardItem } from './tactile-step-wizard';
+import { magneticSpotlightRevealItem } from './magnetic-spotlight-reveal';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -65,4 +66,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   cipherGlyphMatrixItem,
   magneticRollSplitTextItem,
   tactileStepWizardItem,
+  magneticSpotlightRevealItem,
 ];
