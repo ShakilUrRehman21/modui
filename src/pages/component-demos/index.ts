@@ -38,6 +38,7 @@ export const COMPONENT_DEMOS: Record<string, React.LazyExoticComponent<React.Com
   'magnetic-roll-split-text': React.lazy(() => import('./MagneticRollSplitTextDemo')),
   'tactile-step-wizard': React.lazy(() => import('./TactileStepWizardDemo')),
   'magnetic-spotlight-reveal': React.lazy(() => import('./MagneticSpotlightRevealDemo')),
+  'terminal-code-diff': React.lazy(() => import('./TerminalCodeDiffDemo')),
 };
 
 export default COMPONENT_DEMOS;

@@ -1,0 +1,370 @@
+/* ==========================================================================
+   ModUI — Interactive Terminal & Code Diff Inspector (Primitive #34)
+   Developer landing page centerpiece with multi-file tabs & diff mode.
+   Strictly Zero Audio Assets, Zero Runtime Style Dependencies.
+   ========================================================================== */
+
+.modui-terminal-chassis {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  background-color: var(--modui-term-bg, #090d16);
+  border: 1px solid var(--modui-term-border, #1e293b);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 12px;
+  color: var(--modui-term-text, #e2e8f0);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  user-select: text;
+}
+
+.modui-terminal-chassis:focus-within {
+  border-color: var(--modui-term-focus, #38bdf8);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2), 0 20px 48px rgba(0, 0, 0, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   Titlebar
+   -------------------------------------------------------------------------- */
+.modui-terminal-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background-color: var(--modui-term-titlebar-bg, #0f172a);
+  border-bottom: 1px solid var(--modui-term-border, #1e293b);
+  gap: 12px;
+  user-select: none;
+}
+
+/* Traffic Lights */
+.modui-terminal-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.modui-terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.85;
+  transition: opacity 0.15s ease;
+}
+
+.modui-terminal-titlebar:hover .modui-terminal-dot {
+  opacity: 1;
+}
+
+.modui-dot-red {
+  background-color: #ef4444;
+}
+
+.modui-dot-yellow {
+  background-color: #f59e0b;
+}
+
+.modui-dot-green {
+  background-color: #10b981;
+}
+
+/* Tabs */
+.modui-terminal-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.modui-terminal-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.modui-terminal-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--modui-term-tab-color, #94a3b8);
+  background-color: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.modui-terminal-tab-btn:hover {
+  color: var(--modui-term-tab-hover, #f8fafc);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.modui-terminal-tab-btn:focus-visible {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+}
+
+.modui-terminal-tab-btn.is-active {
+  background-color: var(--modui-term-tab-active-bg, #1e293b);
+  color: var(--modui-term-tab-active-color, #38bdf8);
+  border-color: var(--modui-term-border, #334155);
+}
+
+.modui-terminal-tab-btn.is-diff-tab.is-active {
+  color: #34d399;
+}
+
+.modui-terminal-tab-badge {
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background-color: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+}
+
+/* Copy Action Button */
+.modui-terminal-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.modui-terminal-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  background-color: var(--modui-term-btn-bg, #1e293b);
+  border: 1px solid var(--modui-term-border, #334155);
+  color: var(--modui-term-tab-color, #94a3b8);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modui-terminal-copy-btn:hover {
+  color: #f8fafc;
+  border-color: #475569;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.modui-terminal-copy-btn:focus-visible {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+}
+
+.modui-terminal-copy-btn.is-copied {
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.5);
+  background-color: rgba(16, 185, 129, 0.15);
+  transform: scale(1.03);
+}
+
+.modui-terminal-copy-icon {
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Terminal Body & Code Lines
+   -------------------------------------------------------------------------- */
+.modui-terminal-body {
+  padding: 16px 18px;
+  line-height: 1.65;
+  overflow-x: auto;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.modui-code-line {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background-color 0.12s ease;
+  white-space: pre;
+}
+
+.modui-code-line:hover {
+  background-color: rgba(56, 189, 248, 0.08);
+}
+
+.modui-line-num {
+  color: #475569;
+  user-select: none;
+  width: 22px;
+  text-align: right;
+  flex-shrink: 0;
+  font-size: 11px;
+}
+
+.modui-line-tokens {
+  flex: 1;
+}
+
+/* Diff Line Modes */
+.modui-code-line.modui-line--added {
+  background-color: rgba(16, 185, 129, 0.12);
+  border-left: 2px solid #10b981;
+}
+
+.modui-code-line.modui-line--added .modui-line-num {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.modui-code-line.modui-line--removed {
+  background-color: rgba(239, 68, 68, 0.12);
+  border-left: 2px solid #ef4444;
+  opacity: 0.72;
+}
+
+.modui-code-line.modui-line--removed .modui-line-num {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+.modui-code-line.modui-line--removed .modui-line-tokens {
+  text-decoration: line-through;
+}
+
+/* --------------------------------------------------------------------------
+   Syntax Token Highlighting
+   -------------------------------------------------------------------------- */
+.modui-tok-keyword {
+  color: #f43f5e;
+  font-weight: 600;
+}
+
+.modui-tok-func {
+  color: #38bdf8;
+}
+
+.modui-tok-string {
+  color: #34d399;
+}
+
+.modui-tok-comment {
+  color: #64748b;
+  font-style: italic;
+}
+
+.modui-tok-variable {
+  color: #a78bfa;
+}
+
+.modui-tok-punctuation {
+  color: #94a3b8;
+}
+
+.modui-tok-plain {
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   Visual Finish Variants
+   -------------------------------------------------------------------------- */
+/* Studio Dark (Standard Vercel/Supabase slate) */
+.modui-terminal--studio-dark {
+  --modui-term-bg: #090d16;
+  --modui-term-titlebar-bg: #0f172a;
+  --modui-term-border: #1e293b;
+  --modui-term-tab-active-color: #38bdf8;
+}
+
+/* Cyber Terminal (Retro green phosphor aura) */
+.modui-terminal--cyber-terminal {
+  --modui-term-bg: #050a08;
+  --modui-term-titlebar-bg: #08140f;
+  --modui-term-border: #133827;
+  --modui-term-text: #6ee7b7;
+  --modui-term-tab-active-color: #10b981;
+  box-shadow: 0 16px 40px rgba(16, 185, 129, 0.15);
+}
+
+.modui-terminal--cyber-terminal .modui-tok-func {
+  color: #10b981;
+}
+
+.modui-terminal--cyber-terminal .modui-tok-string {
+  color: #a7f3d0;
+}
+
+/* Clean Light (Crisp Porcelain IDE) */
+.modui-terminal--clean-light {
+  --modui-term-bg: #ffffff;
+  --modui-term-titlebar-bg: #f8fafc;
+  --modui-term-border: #e2e8f0;
+  --modui-term-text: #0f172a;
+  --modui-term-tab-color: #64748b;
+  --modui-term-tab-hover: #0f172a;
+  --modui-term-tab-active-bg: #ffffff;
+  --modui-term-tab-active-color: #2563eb;
+  --modui-term-btn-bg: #f1f5f9;
+  box-shadow: 0 12px 32px rgba(14, 19, 34, 0.08);
+}
+
+.modui-terminal--clean-light .modui-line-num {
+  color: #94a3b8;
+}
+
+/* Midnight Pro (OLED True Black) */
+.modui-terminal--midnight-pro {
+  --modui-term-bg: #000000;
+  --modui-term-titlebar-bg: #0a0a0c;
+  --modui-term-border: rgba(255, 255, 255, 0.12);
+  --modui-term-tab-active-color: #818cf8;
+}
+
+/* --------------------------------------------------------------------------
+   Compact mode for Catalog Explorer Card
+   -------------------------------------------------------------------------- */
+.modui-terminal--compact {
+  max-width: 100%;
+  font-size: 11px;
+}
+
+.modui-terminal--compact .modui-terminal-titlebar {
+  padding: 8px 10px;
+}
+
+.modui-terminal--compact .modui-terminal-tab-btn {
+  padding: 2px 7px;
+  font-size: 10px;
+}
+
+.modui-terminal--compact .modui-terminal-copy-btn {
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+.modui-terminal--compact .modui-terminal-body {
+  padding: 10px 12px;
+  max-height: 130px;
+  line-height: 1.5;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .modui-terminal-chassis,
+  .modui-terminal-tab-btn,
+  .modui-terminal-copy-btn,
+  .modui-code-line {
+    transition: none !important;
+  }
+}

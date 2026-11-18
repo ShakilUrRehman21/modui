@@ -33,6 +33,7 @@ import { CipherGlyphMatrix } from '../components/ui/cipher-glyph';
 import { MagneticRollSplitText } from '../components/ui/magnetic-roll-split';
 import { TactileStepWizard } from '../components/ui/tactile-step-wizard';
 import { MagneticSpotlightReveal } from '../components/ui/magnetic-spotlight';
+import { TerminalCodeDiff } from '../components/ui/terminal-diff';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -800,6 +801,28 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                     >
                       <div style={{ width: '100%', maxWidth: '360px' }}>
                         <MagneticSpotlightReveal compact={true} radius={55} />
+                      </div>
+                    </div>
+                  )}
+
+                  {comp.slug === 'terminal-code-diff' && (
+                    <div
+                      className="modui-card-preview-surface"
+                      style={{
+                        padding: '10px 12px',
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <div style={{ width: '100%', maxWidth: '350px' }}>
+                        <TerminalCodeDiff
+                          compact={true}
+                          soundEnabled={false}
+                          variant={isDark ? 'studio-dark' : 'clean-light'}
+                        />
                       </div>
                     </div>
                   )}
