@@ -34,6 +34,7 @@ import { MagneticRollSplitText } from '../components/ui/magnetic-roll-split';
 import { TactileStepWizard } from '../components/ui/tactile-step-wizard';
 import { MagneticSpotlightReveal } from '../components/ui/magnetic-spotlight';
 import { TerminalCodeDiff } from '../components/ui/terminal-diff';
+import { FlipClockCountdown } from '../components/ui/flip-clock';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -824,6 +825,27 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                           variant={isDark ? 'studio-dark' : 'clean-light'}
                         />
                       </div>
+                    </div>
+                  )}
+
+                  {comp.slug === 'flip-clock-countdown' && (
+                    <div
+                      className="modui-card-preview-surface"
+                      style={{
+                        padding: '10px 12px',
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <FlipClockCountdown
+                        size="sm"
+                        showDays={false}
+                        soundEnabled={false}
+                        variant={isDark ? 'dark-monolith' : 'clean-porcelain'}
+                      />
                     </div>
                   )}
 

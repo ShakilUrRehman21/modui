@@ -26,7 +26,11 @@ The following candidates have been rejected by the user and **must never be prop
 17. Tactile Toast Stack (`TactileToastStack`)
 18. Fluid File Dropzone (`TactileFileDropzone`)
 19. Dashboard KPI Metric Card (`MetricStatCard`)
-
+20. Velocity Magnetic Cursor Follower (`MagneticCursorFollower` / `VelocityActionPill`)
+21. Interactive Node Graph Pipeline (`NodePipelineCanvas`)
+22. Interactive API Request & Response Playground (`ApiPlaygroundInspector`)
+23. Infrastructure Heartbeat & SLA Status Grid (`SystemStatusMatrix`)
+24. Kinetic Brand Marquee & Telemetry Ticker (`KineticMarqueeTicker`)
 ## 3. Architecture & Project Constraints
 - **Zero External Style Dependencies**: Pure standard CSS custom properties and native React 19 APIs. No Tailwind classes inside component source code.
 - **Zero External Audio Assets**: All acoustic haptics must use native Web Audio API oscillators.

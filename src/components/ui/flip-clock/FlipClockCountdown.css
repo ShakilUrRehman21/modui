@@ -1,0 +1,409 @@
+/* ==========================================================================
+   ModUI — FlipClockCountdown Primitive (#35)
+   3D Mechanical Split-Flap Event Countdown & Precision Clock
+   ========================================================================== */
+
+.modui-flip-clock-root {
+  --modui-flip-bg: #151720;
+  --modui-flip-leaf-bottom: #12131b;
+  --modui-flip-text: #f3f5fa;
+  --modui-flip-border: #232736;
+  --modui-flip-divider: rgba(0, 0, 0, 0.75);
+  --modui-flip-divider-highlight: rgba(255, 255, 255, 0.1);
+  --modui-flip-hinge: #2f3448;
+  --modui-flip-label: #858d9f;
+  --modui-flip-colon: #495066;
+  --modui-flip-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --modui-flip-card-width: 76px;
+  --modui-flip-card-height: 92px;
+  --modui-flip-font-size: 46px;
+  --modui-flip-radius: 8px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.modui-flip-clock-root * {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   VARIANTS
+   ========================================================================== */
+
+/* Dark Monolith (Default Studio Finish) */
+.modui-flip-variant-dark-monolith {
+  --modui-flip-bg: #151720;
+  --modui-flip-leaf-bottom: #111219;
+  --modui-flip-text: #f3f5fa;
+  --modui-flip-border: #232736;
+  --modui-flip-divider: rgba(0, 0, 0, 0.85);
+  --modui-flip-divider-highlight: rgba(255, 255, 255, 0.08);
+  --modui-flip-hinge: #32374b;
+  --modui-flip-label: #858d9f;
+  --modui-flip-colon: #495066;
+  --modui-flip-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Brass Vintage (Warm Ivory & Antique Brass Axle) */
+.modui-flip-variant-brass-vintage {
+  --modui-flip-bg: #f5f0e6;
+  --modui-flip-leaf-bottom: #ebe4d5;
+  --modui-flip-text: #2a231b;
+  --modui-flip-border: #d8cbb8;
+  --modui-flip-divider: rgba(60, 45, 25, 0.45);
+  --modui-flip-divider-highlight: rgba(255, 255, 255, 0.5);
+  --modui-flip-hinge: #b8934b;
+  --modui-flip-label: #7c6d5b;
+  --modui-flip-colon: #998369;
+  --modui-flip-shadow: 0 8px 24px rgba(70, 50, 30, 0.18);
+}
+
+/* Clean Porcelain (Bright Architectural Minimalist) */
+.modui-flip-variant-clean-porcelain {
+  --modui-flip-bg: #ffffff;
+  --modui-flip-leaf-bottom: #f8fafc;
+  --modui-flip-text: #0f172a;
+  --modui-flip-border: #e2e8f0;
+  --modui-flip-divider: rgba(0, 0, 0, 0.2);
+  --modui-flip-divider-highlight: rgba(255, 255, 255, 0.9);
+  --modui-flip-hinge: #cbd5e1;
+  --modui-flip-label: #64748b;
+  --modui-flip-colon: #94a3b8;
+  --modui-flip-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Cyber Terminal (Phosphor Emerald Console) */
+.modui-flip-variant-cyber-terminal {
+  --modui-flip-bg: #09120e;
+  --modui-flip-leaf-bottom: #060d09;
+  --modui-flip-text: #10b981;
+  --modui-flip-border: #143526;
+  --modui-flip-divider: rgba(0, 0, 0, 0.9);
+  --modui-flip-divider-highlight: rgba(16, 185, 129, 0.15);
+  --modui-flip-hinge: #047857;
+  --modui-flip-label: #059669;
+  --modui-flip-colon: #047857;
+  --modui-flip-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
+}
+
+/* ==========================================================================
+   SIZES
+   ========================================================================== */
+
+.modui-flip-size-sm {
+  --modui-flip-card-width: 54px;
+  --modui-flip-card-height: 66px;
+  --modui-flip-font-size: 32px;
+  --modui-flip-radius: 6px;
+  gap: 10px;
+}
+
+.modui-flip-size-md {
+  --modui-flip-card-width: 76px;
+  --modui-flip-card-height: 92px;
+  --modui-flip-font-size: 46px;
+  --modui-flip-radius: 8px;
+  gap: 16px;
+}
+
+.modui-flip-size-lg {
+  --modui-flip-card-width: 98px;
+  --modui-flip-card-height: 120px;
+  --modui-flip-font-size: 62px;
+  --modui-flip-radius: 12px;
+  gap: 22px;
+}
+
+/* ==========================================================================
+   FLIP GROUP & UNIT
+   ========================================================================== */
+
+.modui-flip-unit-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.modui-flip-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--modui-flip-label);
+  text-align: center;
+}
+
+.modui-flip-size-sm .modui-flip-label {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.modui-flip-size-lg .modui-flip-label {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+
+/* ==========================================================================
+   SPLIT-FLAP CARD 3D CONTAINER
+   ========================================================================== */
+
+.modui-flip-card-container {
+  position: relative;
+  width: var(--modui-flip-card-width);
+  height: var(--modui-flip-card-height);
+  perspective: 500px;
+  -webkit-perspective: 500px;
+  box-shadow: var(--modui-flip-shadow);
+  border-radius: var(--modui-flip-radius);
+}
+
+/* The leaves / flap panels */
+.modui-flip-leaf {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  background-color: var(--modui-flip-bg);
+  border: 1px solid var(--modui-flip-border);
+  box-sizing: border-box;
+}
+
+.modui-flip-leaf-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--modui-flip-card-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--modui-flip-font-size);
+  font-weight: 800;
+  color: var(--modui-flip-text);
+  line-height: var(--modui-flip-card-height);
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+/* Upper static leaf (shows next value top half) */
+.modui-flip-leaf-upper-static {
+  top: 0;
+  border-top-left-radius: var(--modui-flip-radius);
+  border-top-right-radius: var(--modui-flip-radius);
+  border-bottom: 1px solid var(--modui-flip-divider);
+  z-index: 1;
+}
+
+.modui-flip-leaf-upper-static .modui-flip-leaf-content {
+  top: 0;
+}
+
+/* Lower static leaf (shows previous value bottom half) */
+.modui-flip-leaf-lower-static {
+  bottom: 0;
+  background-color: var(--modui-flip-leaf-bottom);
+  border-bottom-left-radius: var(--modui-flip-radius);
+  border-bottom-right-radius: var(--modui-flip-radius);
+  border-top: 1px solid var(--modui-flip-divider-highlight);
+  z-index: 1;
+}
+
+.modui-flip-leaf-lower-static .modui-flip-leaf-content {
+  bottom: 0;
+}
+
+/* Upper flipping leaf (folds down from 0 to -90 deg) */
+.modui-flip-leaf-upper-flap {
+  top: 0;
+  border-top-left-radius: var(--modui-flip-radius);
+  border-top-right-radius: var(--modui-flip-radius);
+  border-bottom: 1px solid var(--modui-flip-divider);
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  z-index: 3;
+}
+
+.modui-flip-leaf-upper-flap .modui-flip-leaf-content {
+  top: 0;
+}
+
+/* Lower flipping leaf (flips from +90 to 0 deg) */
+.modui-flip-leaf-lower-flap {
+  bottom: 0;
+  background-color: var(--modui-flip-leaf-bottom);
+  border-bottom-left-radius: var(--modui-flip-radius);
+  border-bottom-right-radius: var(--modui-flip-radius);
+  border-top: 1px solid var(--modui-flip-divider-highlight);
+  transform-origin: top center;
+  transform: rotateX(90deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  z-index: 2;
+}
+
+.modui-flip-leaf-lower-flap .modui-flip-leaf-content {
+  bottom: 0;
+}
+
+/* ==========================================================================
+   ANIMATING STATES & KEYFRAMES
+   ========================================================================== */
+
+.modui-flip-animating .modui-flip-leaf-upper-flap {
+  animation: modui-flip-upper 0.28s cubic-bezier(0.4, 0, 0.7, 1) forwards;
+}
+
+.modui-flip-animating .modui-flip-leaf-lower-flap {
+  animation: modui-flip-lower 0.28s 0.25s cubic-bezier(0.18, 0.9, 0.32, 1.1) forwards;
+}
+
+@keyframes modui-flip-upper {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes modui-flip-lower {
+  0% {
+    transform: rotateX(90deg);
+  }
+  75% {
+    transform: rotateX(-4deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+/* Drop shadow overlays during flap motion */
+.modui-flip-overlay-shadow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.modui-flip-animating .modui-flip-leaf-upper-flap .modui-flip-overlay-shadow {
+  background: linear-gradient(to bottom, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
+  animation: modui-shadow-fade-in 0.28s ease-in forwards;
+}
+
+.modui-flip-animating .modui-flip-leaf-lower-flap .modui-flip-overlay-shadow {
+  background: linear-gradient(to top, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
+  animation: modui-shadow-fade-out 0.28s 0.25s ease-out forwards;
+}
+
+@keyframes modui-shadow-fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes modui-shadow-fade-out {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ==========================================================================
+   MECHANICAL HINGE CUTOUTS & AXLE DIVIDER
+   ========================================================================== */
+
+.modui-flip-divider-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--modui-flip-divider);
+  transform: translateY(-50%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.modui-flip-hinge-pin {
+  position: absolute;
+  top: 50%;
+  width: 5px;
+  height: 8px;
+  background-color: var(--modui-flip-hinge);
+  transform: translateY(-50%);
+  z-index: 6;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.modui-flip-hinge-pin-left {
+  left: -2px;
+}
+
+.modui-flip-hinge-pin-right {
+  right: -2px;
+}
+
+/* ==========================================================================
+   COLON SEPARATOR
+   ========================================================================== */
+
+.modui-flip-colon-separator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  height: var(--modui-flip-card-height);
+  padding: 0 2px;
+  color: var(--modui-flip-colon);
+  margin-top: -18px; /* account for label height offset */
+}
+
+.modui-flip-size-sm .modui-flip-colon-separator {
+  gap: 8px;
+  margin-top: -14px;
+}
+
+.modui-flip-size-lg .modui-flip-colon-separator {
+  gap: 16px;
+  margin-top: -22px;
+}
+
+.modui-flip-colon-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+  box-shadow: 0 0 4px currentColor;
+}
+
+.modui-flip-size-sm .modui-flip-colon-dot {
+  width: 4px;
+  height: 4px;
+}
+
+.modui-flip-size-lg .modui-flip-colon-dot {
+  width: 8px;
+  height: 8px;
+}
+
+/* ==========================================================================
+   RESPONSIVE WRAPPER
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .modui-flip-clock-root {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+}

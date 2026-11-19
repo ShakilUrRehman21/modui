@@ -33,6 +33,7 @@ import { magneticRollSplitTextItem } from './magnetic-roll-split-text';
 import { tactileStepWizardItem } from './tactile-step-wizard';
 import { magneticSpotlightRevealItem } from './magnetic-spotlight-reveal';
 import { terminalCodeDiffItem } from './terminal-code-diff';
+import { flipClockCountdownItem } from './flip-clock-countdown';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -69,4 +70,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   tactileStepWizardItem,
   magneticSpotlightRevealItem,
   terminalCodeDiffItem,
+  flipClockCountdownItem,
 ];
