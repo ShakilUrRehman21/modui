@@ -166,4 +166,13 @@ describe('InteractiveSignaturePad component (Primitive #36)', () => {
     });
     expect(ref.current?.isEmpty()).toBe(true);
   });
+
+  it('renders in compact mode with pre-drawn default signature for catalog preview', () => {
+    const { container } = render(
+      <InteractiveSignaturePad compact={true} defaultSignature={true} />
+    );
+    const root = container.querySelector('.modui-signature-root');
+    expect(root).toHaveClass('modui-signature-compact');
+    expect(screen.getByText(/recorded/)).toBeInTheDocument();
+  });
 });

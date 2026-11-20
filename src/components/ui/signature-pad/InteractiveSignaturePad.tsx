@@ -59,6 +59,10 @@ export interface InteractiveSignaturePadProps
   variant?: SignatureVariant;
   /** Scale sizing preset (default: 'md') */
   size?: SignatureSize;
+  /** Compact card embed mode scaled for catalog grid cards */
+  compact?: boolean;
+  /** Pre-populate with a sample executive vector signature (defaults to true in compact mode) */
+  defaultSignature?: boolean;
   /** Initial or default ink stroke color */
   strokeColor?: string;
   /** Palette of selectable ink colors */
@@ -131,6 +135,53 @@ function playPenFriction() {
 }
 
 /**
+ * Generate a smooth parametric vector cursive signature for mock preview cards.
+ */
+function generateSampleSignature(
+  width: number,
+  height: number,
+  color: string
+): Stroke[] {
+  const now = Date.now();
+  const w = Math.max(160, width);
+  const h = Math.max(60, height);
+
+  const pts1: Point[] = [
+    { x: Math.round(w * 0.14), y: Math.round(h * 0.72), time: now },
+    { x: Math.round(w * 0.17), y: Math.round(h * 0.45), time: now + 40 },
+    { x: Math.round(w * 0.20), y: Math.round(h * 0.22), time: now + 80 },
+    { x: Math.round(w * 0.22), y: Math.round(h * 0.24), time: now + 110 },
+    { x: Math.round(w * 0.24), y: Math.round(h * 0.48), time: now + 150 },
+    { x: Math.round(w * 0.26), y: Math.round(h * 0.76), time: now + 200 },
+    { x: Math.round(w * 0.18), y: Math.round(h * 0.52), time: now + 250 },
+    { x: Math.round(w * 0.28), y: Math.round(h * 0.50), time: now + 290 },
+    { x: Math.round(w * 0.32), y: Math.round(h * 0.42), time: now + 330 },
+    { x: Math.round(w * 0.36), y: Math.round(h * 0.65), time: now + 380 },
+    { x: Math.round(w * 0.40), y: Math.round(h * 0.44), time: now + 420 },
+    { x: Math.round(w * 0.44), y: Math.round(h * 0.62), time: now + 460 },
+    { x: Math.round(w * 0.48), y: Math.round(h * 0.38), time: now + 500 },
+    { x: Math.round(w * 0.52), y: Math.round(h * 0.68), time: now + 550 },
+    { x: Math.round(w * 0.58), y: Math.round(h * 0.28), time: now + 600 },
+    { x: Math.round(w * 0.64), y: Math.round(h * 0.60), time: now + 650 },
+    { x: Math.round(w * 0.72), y: Math.round(h * 0.48), time: now + 700 },
+    { x: Math.round(w * 0.78), y: Math.round(h * 0.52), time: now + 740 },
+  ];
+
+  const pts2: Point[] = [
+    { x: Math.round(w * 0.22), y: Math.round(h * 0.82), time: now + 800 },
+    { x: Math.round(w * 0.35), y: Math.round(h * 0.86), time: now + 850 },
+    { x: Math.round(w * 0.52), y: Math.round(h * 0.85), time: now + 900 },
+    { x: Math.round(w * 0.72), y: Math.round(h * 0.80), time: now + 950 },
+    { x: Math.round(w * 0.82), y: Math.round(h * 0.74), time: now + 990 },
+  ];
+
+  return [
+    { points: pts1, color },
+    { points: pts2, color },
+  ];
+}
+
+/**
  * ModUI InteractiveSignaturePad Primitive (#36)
  * Studio-Grade Vector Ink Signature Canvas with Velocity Tapering & Literal PNG Export
  */
@@ -141,6 +192,8 @@ export const InteractiveSignaturePad = forwardRef<
   {
     variant = 'executive-dark',
     size = 'md',
+    compact = false,
+    defaultSignature = false,
     strokeColor,
     colors = DEFAULT_COLORS,
     minWidth = 1.6,
@@ -162,6 +215,7 @@ export const InteractiveSignaturePad = forwardRef<
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hasInitializedRef = useRef<boolean>(false);
   const [activeColor, setActiveColor] = useState<string>(
     strokeColor || (variant === 'porcelain-clean' ? '#0f172a' : colors[0])
   );
@@ -196,8 +250,8 @@ export const InteractiveSignaturePad = forwardRef<
 
     const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
     const rect = canvas.parentElement.getBoundingClientRect();
-    const width = Math.round(rect.width || 580);
-    const height = Math.round(rect.height || 220);
+    const width = Math.round(rect.width || (compact ? 340 : 580));
+    const height = Math.round(rect.height || (compact ? 94 : 220));
 
     canvas.width = width * dpr;
     canvas.height = height * dpr;
@@ -211,9 +265,21 @@ export const InteractiveSignaturePad = forwardRef<
       ctx.lineJoin = 'round';
     }
 
+    // Auto-populate default signature if requested or in compact preview
+    if (
+      !hasInitializedRef.current &&
+      (defaultSignature || (compact && defaultSignature !== false)) &&
+      strokesRef.current.length === 0
+    ) {
+      hasInitializedRef.current = true;
+      const initialStrokes = generateSampleSignature(width, height, activeColor);
+      strokesRef.current = initialStrokes;
+      setStrokeCount(initialStrokes.length);
+    }
+
     // Redraw existing strokes
     redrawAllStrokes();
-  }, []);
+  }, [compact, defaultSignature, activeColor]);
 
   useEffect(() => {
     resizeCanvas();
@@ -513,7 +579,9 @@ export const InteractiveSignaturePad = forwardRef<
   return (
     <div
       ref={containerRef}
-      className={`modui-signature-root modui-signature-variant-${variant} modui-signature-size-${size} ${className}`}
+      className={`modui-signature-root modui-signature-variant-${variant} modui-signature-size-${size} ${
+        compact ? 'modui-signature-compact' : ''
+      } ${className}`}
       style={style}
       {...rest}
     >

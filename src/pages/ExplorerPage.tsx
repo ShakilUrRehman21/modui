@@ -854,7 +854,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                     <div
                       className="modui-card-preview-surface"
                       style={{
-                        padding: '10px 12px',
+                        padding: '12px 14px',
                         width: '100%',
                         height: '100%',
                         display: 'flex',
@@ -864,7 +864,8 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                     >
                       <div style={{ width: '100%', maxWidth: '340px' }}>
                         <InteractiveSignaturePad
-                          size="sm"
+                          compact={true}
+                          defaultSignature={true}
                           soundEnabled={false}
                           showPalette={false}
                           variant={isDark ? 'executive-dark' : 'porcelain-clean'}
