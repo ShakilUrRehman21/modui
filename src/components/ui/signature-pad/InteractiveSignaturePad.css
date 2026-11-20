@@ -1,0 +1,361 @@
+/* ==========================================================================
+   ModUI — InteractiveSignaturePad Primitive (#36)
+   Studio-Grade Vector Ink Signature Canvas with Velocity Tapering & Literal PNG Export
+   ========================================================================== */
+
+.modui-signature-root {
+  --modui-sig-bg: #12141c;
+  --modui-sig-surface: #0d0f17;
+  --modui-sig-border: #1e2230;
+  --modui-sig-baseline: rgba(255, 255, 255, 0.12);
+  --modui-sig-text: #f1f3f9;
+  --modui-sig-muted: #8b92a5;
+  --modui-sig-accent: #3b82f6;
+  --modui-sig-accent-hover: #2563eb;
+  --modui-sig-btn-bg: rgba(255, 255, 255, 0.05);
+  --modui-sig-btn-hover: rgba(255, 255, 255, 0.1);
+  --modui-sig-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --modui-sig-width: 580px;
+  --modui-sig-height: 220px;
+  --modui-sig-radius: 12px;
+
+  width: 100%;
+  max-width: var(--modui-sig-width);
+  background: var(--modui-sig-bg);
+  border: 1px solid var(--modui-sig-border);
+  border-radius: var(--modui-sig-radius);
+  overflow: hidden;
+  box-shadow: var(--modui-sig-shadow);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.modui-signature-root * {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   VARIANTS
+   ========================================================================== */
+
+/* Executive Dark (Default Studio Finish) */
+.modui-signature-variant-executive-dark {
+  --modui-sig-bg: #12141c;
+  --modui-sig-surface: #0c0e15;
+  --modui-sig-border: #1e2230;
+  --modui-sig-baseline: rgba(255, 255, 255, 0.12);
+  --modui-sig-text: #f1f3f9;
+  --modui-sig-muted: #8b92a5;
+  --modui-sig-accent: #3b82f6;
+  --modui-sig-accent-hover: #2563eb;
+  --modui-sig-btn-bg: rgba(255, 255, 255, 0.05);
+  --modui-sig-btn-hover: rgba(255, 255, 255, 0.1);
+  --modui-sig-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* Parchment Legal (Authentic Bond Paper & Royal Navy Ink) */
+.modui-signature-variant-parchment-legal {
+  --modui-sig-bg: #f8f5ee;
+  --modui-sig-surface: #fbf9f4;
+  --modui-sig-border: #e3d9c7;
+  --modui-sig-baseline: rgba(140, 115, 80, 0.28);
+  --modui-sig-text: #26211a;
+  --modui-sig-muted: #7d7263;
+  --modui-sig-accent: #1e3a8a;
+  --modui-sig-accent-hover: #172554;
+  --modui-sig-btn-bg: rgba(0, 0, 0, 0.04);
+  --modui-sig-btn-hover: rgba(0, 0, 0, 0.08);
+  --modui-sig-shadow: 0 10px 28px rgba(70, 50, 20, 0.1);
+}
+
+/* Porcelain Clean (Architectural Minimalist) */
+.modui-signature-variant-porcelain-clean {
+  --modui-sig-bg: #ffffff;
+  --modui-sig-surface: #f8fafc;
+  --modui-sig-border: #e2e8f0;
+  --modui-sig-baseline: rgba(15, 23, 42, 0.15);
+  --modui-sig-text: #0f172a;
+  --modui-sig-muted: #64748b;
+  --modui-sig-accent: #0f172a;
+  --modui-sig-accent-hover: #334155;
+  --modui-sig-btn-bg: #f1f5f9;
+  --modui-sig-btn-hover: #e2e8f0;
+  --modui-sig-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+}
+
+/* Cyber Matrix (Phosphor Terminal Console) */
+.modui-signature-variant-cyber-matrix {
+  --modui-sig-bg: #09120e;
+  --modui-sig-surface: #050b08;
+  --modui-sig-border: #143526;
+  --modui-sig-baseline: rgba(16, 185, 129, 0.2);
+  --modui-sig-text: #10b981;
+  --modui-sig-muted: #059669;
+  --modui-sig-accent: #10b981;
+  --modui-sig-accent-hover: #059669;
+  --modui-sig-btn-bg: rgba(16, 185, 129, 0.1);
+  --modui-sig-btn-hover: rgba(16, 185, 129, 0.2);
+  --modui-sig-shadow: 0 12px 32px rgba(16, 185, 129, 0.15);
+}
+
+/* ==========================================================================
+   SIZES
+   ========================================================================== */
+
+.modui-signature-size-sm {
+  --modui-sig-width: 460px;
+  --modui-sig-height: 160px;
+  --modui-sig-radius: 8px;
+}
+
+.modui-signature-size-md {
+  --modui-sig-width: 580px;
+  --modui-sig-height: 220px;
+  --modui-sig-radius: 12px;
+}
+
+.modui-signature-size-lg {
+  --modui-sig-width: 720px;
+  --modui-sig-height: 280px;
+  --modui-sig-radius: 14px;
+}
+
+/* ==========================================================================
+   HEADER TOOLBAR
+   ========================================================================== */
+
+.modui-sig-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--modui-sig-border);
+}
+
+.modui-sig-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modui-sig-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--modui-sig-text);
+}
+
+.modui-sig-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--modui-sig-accent);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  letter-spacing: 0.04em;
+}
+
+.modui-sig-palette {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modui-sig-color-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  outline: none;
+}
+
+.modui-sig-color-swatch:hover {
+  transform: scale(1.15);
+}
+
+.modui-sig-color-swatch:focus-visible {
+  ring: 2px solid var(--modui-sig-accent);
+}
+
+.modui-sig-color-swatch.active {
+  transform: scale(1.25);
+  border-color: var(--modui-sig-text);
+  box-shadow: 0 0 8px currentColor;
+}
+
+/* ==========================================================================
+   CANVAS STAGE & LEGAL BASELINE
+   ========================================================================== */
+
+.modui-sig-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: var(--modui-sig-height);
+  background: var(--modui-sig-surface);
+  cursor: crosshair;
+  touch-action: none; /* Prevents scroll while drawing on mobile / tablets */
+}
+
+.modui-sig-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.modui-sig-baseline-guide {
+  position: absolute;
+  bottom: 42px;
+  left: 36px;
+  right: 36px;
+  border-bottom: 1.5px dashed var(--modui-sig-baseline);
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 5px;
+}
+
+.modui-sig-x-mark {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--modui-sig-muted);
+  opacity: 0.7;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modui-sig-legal-hint {
+  font-size: 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--modui-sig-muted);
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   FOOTER ACTIONS & METRICS
+   ========================================================================== */
+
+.modui-sig-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  background: rgba(0, 0, 0, 0.15);
+  border-top: 1px solid var(--modui-sig-border);
+  gap: 12px;
+}
+
+.modui-sig-meta {
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--modui-sig-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modui-sig-stroke-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--modui-sig-muted);
+  display: inline-block;
+}
+
+.modui-sig-stroke-dot.has-ink {
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.modui-sig-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modui-sig-btn {
+  background: var(--modui-sig-btn-bg);
+  color: var(--modui-sig-text);
+  border: 1px solid var(--modui-sig-border);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.modui-sig-btn:hover:not(:disabled) {
+  background: var(--modui-sig-btn-hover);
+  border-color: var(--modui-sig-muted);
+}
+
+.modui-sig-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.modui-sig-btn-primary {
+  background: var(--modui-sig-accent);
+  color: #ffffff;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.modui-sig-btn-primary:hover:not(:disabled) {
+  background: var(--modui-sig-accent-hover);
+  transform: translateY(-1px);
+}
+
+.modui-sig-btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   FEEDBACK TOAST (INLINE POPUP)
+   ========================================================================== */
+
+.modui-sig-feedback-toast {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(16, 185, 129, 0.95);
+  color: #ffffff;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  animation: modui-toast-pop 0.25s ease-out;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes modui-toast-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

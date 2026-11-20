@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-254%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-262%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (35 Primitives)
+## Published Modules (36 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Interactive Signature Pad** | Buttons and Actions | Studio-grade vector ink signature canvas with velocity-responsive stroke tapering, legal baseline guide, undo/redo stroke history, executive ink palette, and literal PNG image export with whitespace trimming | `src/components/ui/signature-pad` |
 | **Flip Clock Countdown** | 3D & Showcase | 3D mechanical split-flap event countdown timer and precision clock featuring authentic folding leaf physics, realistic center axle hinge pins, perspective drop shadows, and synthesized Web Audio acoustic clacks | `src/components/ui/flip-clock` |
 | **Terminal Code Diff Inspector** | 3D & Showcase | Developer landing page centerpiece featuring macOS traffic lights, multi-file code tabs, line hover highlighting, before/after diff reduction view (+/-), and working one-click copy with acoustic micro-haptics | `src/components/ui/terminal-diff` |
 | **Magnetic Spotlight & Portal Reveal** | 3D & Showcase | Cursor-following fluid aperture mask that reveals vivid underlying product mockups or colored graphics through a dark schematic layer, featuring electric glowing border ring, zero latency lockstep tracking, and smooth return physics | `src/components/ui/magnetic-spotlight` |

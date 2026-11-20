@@ -34,6 +34,7 @@ import { tactileStepWizardItem } from './tactile-step-wizard';
 import { magneticSpotlightRevealItem } from './magnetic-spotlight-reveal';
 import { terminalCodeDiffItem } from './terminal-code-diff';
 import { flipClockCountdownItem } from './flip-clock-countdown';
+import { interactiveSignaturePadItem } from './interactive-signature-pad';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -71,4 +72,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   magneticSpotlightRevealItem,
   terminalCodeDiffItem,
   flipClockCountdownItem,
+  interactiveSignaturePadItem,
 ];

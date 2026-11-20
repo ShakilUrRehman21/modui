@@ -40,6 +40,7 @@ export const COMPONENT_DEMOS: Record<string, React.LazyExoticComponent<React.Com
   'magnetic-spotlight-reveal': React.lazy(() => import('./MagneticSpotlightRevealDemo')),
   'terminal-code-diff': React.lazy(() => import('./TerminalCodeDiffDemo')),
   'flip-clock-countdown': React.lazy(() => import('./FlipClockCountdownDemo')),
+  'interactive-signature-pad': React.lazy(() => import('./InteractiveSignaturePadDemo')),
 };
 
 export default COMPONENT_DEMOS;

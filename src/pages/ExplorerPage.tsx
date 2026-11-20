@@ -35,6 +35,7 @@ import { TactileStepWizard } from '../components/ui/tactile-step-wizard';
 import { MagneticSpotlightReveal } from '../components/ui/magnetic-spotlight';
 import { TerminalCodeDiff } from '../components/ui/terminal-diff';
 import { FlipClockCountdown } from '../components/ui/flip-clock';
+import { InteractiveSignaturePad } from '../components/ui/signature-pad';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -846,6 +847,29 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         soundEnabled={false}
                         variant={isDark ? 'dark-monolith' : 'clean-porcelain'}
                       />
+                    </div>
+                  )}
+
+                  {comp.slug === 'interactive-signature-pad' && (
+                    <div
+                      className="modui-card-preview-surface"
+                      style={{
+                        padding: '10px 12px',
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <div style={{ width: '100%', maxWidth: '340px' }}>
+                        <InteractiveSignaturePad
+                          size="sm"
+                          soundEnabled={false}
+                          showPalette={false}
+                          variant={isDark ? 'executive-dark' : 'porcelain-clean'}
+                        />
+                      </div>
                     </div>
                   )}
 
