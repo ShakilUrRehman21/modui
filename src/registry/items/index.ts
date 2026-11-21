@@ -35,6 +35,7 @@ import { magneticSpotlightRevealItem } from './magnetic-spotlight-reveal';
 import { terminalCodeDiffItem } from './terminal-code-diff';
 import { flipClockCountdownItem } from './flip-clock-countdown';
 import { interactiveSignaturePadItem } from './interactive-signature-pad';
+import { spatialHexahedronDeckItem } from './spatial-hexahedron-deck';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -73,4 +74,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   terminalCodeDiffItem,
   flipClockCountdownItem,
   interactiveSignaturePadItem,
+  spatialHexahedronDeckItem,
 ];

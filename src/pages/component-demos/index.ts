@@ -41,6 +41,7 @@ export const COMPONENT_DEMOS: Record<string, React.LazyExoticComponent<React.Com
   'terminal-code-diff': React.lazy(() => import('./TerminalCodeDiffDemo')),
   'flip-clock-countdown': React.lazy(() => import('./FlipClockCountdownDemo')),
   'interactive-signature-pad': React.lazy(() => import('./InteractiveSignaturePadDemo')),
+  'spatial-hexahedron-deck': React.lazy(() => import('./SpatialHexahedronDeckDemo')),
 };
 
 export default COMPONENT_DEMOS;

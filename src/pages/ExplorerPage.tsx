@@ -36,6 +36,7 @@ import { MagneticSpotlightReveal } from '../components/ui/magnetic-spotlight';
 import { TerminalCodeDiff } from '../components/ui/terminal-diff';
 import { FlipClockCountdown } from '../components/ui/flip-clock';
 import { InteractiveSignaturePad } from '../components/ui/signature-pad';
+import { SpatialHexahedronDeck } from '../components/ui/spatial-hexahedron-deck';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -871,6 +872,30 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                           variant={isDark ? 'executive-dark' : 'porcelain-clean'}
                         />
                       </div>
+                    </div>
+                  )}
+
+                  {comp.slug === 'spatial-hexahedron-deck' && (
+                    <div
+                      className="modui-card-preview-surface"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <SpatialHexahedronDeck
+                        compact={true}
+                        cubeSize={104}
+                        showFaceNav={false}
+                        autoRotate={true}
+                        soundEnabled={false}
+                        interactive={false}
+                        variant={isDark ? 'cyber-obsidian' : 'clean-porcelain'}
+                      />
                     </div>
                   )}
 

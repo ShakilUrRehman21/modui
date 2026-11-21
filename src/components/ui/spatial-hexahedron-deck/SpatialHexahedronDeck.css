@@ -1,0 +1,396 @@
+/**
+ * ModUI — SpatialHexahedronDeck.css
+ * Zero external CSS dependencies. Pure standard CSS custom properties.
+ */
+
+:root {
+  --modui-shd-perspective: 1200px;
+  --modui-shd-size: 220px;
+  --modui-shd-half-size: 110px;
+  --modui-shd-explode-dist: 185px;
+  --modui-shd-transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --modui-shd-face-transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Root Chassis */
+.modui-shd-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  user-select: none;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+}
+
+/* 3D Perspective Viewport */
+.modui-shd-viewport {
+  perspective: var(--modui-shd-perspective);
+  width: 100%;
+  height: calc(var(--modui-shd-size) * 1.6);
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  position: relative;
+  touch-action: none;
+}
+
+.modui-shd-viewport.modui-shd-interactive {
+  cursor: grab;
+}
+
+.modui-shd-viewport.modui-shd-dragging {
+  cursor: grabbing;
+}
+
+/* 3D Hexahedron Anchor */
+.modui-shd-cube {
+  position: relative;
+  width: var(--modui-shd-size);
+  height: var(--modui-shd-size);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.modui-shd-cube.modui-shd-animating {
+  transition: var(--modui-shd-transition);
+}
+
+/* Ground shadow disc */
+.modui-shd-shadow {
+  position: absolute;
+  width: calc(var(--modui-shd-size) * 1.3);
+  height: calc(var(--modui-shd-size) * 0.4);
+  bottom: calc(var(--modui-shd-size) * -0.3);
+  left: 50%;
+  transform: translateX(-50%) rotateX(80deg);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.15) 45%, transparent 70%);
+  pointer-events: none;
+  filter: blur(8px);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.modui-shd-cube.modui-shd-exploded ~ .modui-shd-shadow {
+  transform: translateX(-50%) rotateX(80deg) scale(1.4);
+  opacity: 0.6;
+}
+
+/* Faces Base */
+.modui-shd-face {
+  position: absolute;
+  width: var(--modui-shd-size);
+  height: var(--modui-shd-size);
+  box-sizing: border-box;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  border-radius: 14px;
+  border: 1px solid var(--modui-shd-border);
+  background: var(--modui-shd-face-bg);
+  color: var(--modui-shd-text);
+  box-shadow: var(--modui-shd-face-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: var(--modui-shd-face-transition);
+  backface-visibility: visible;
+  overflow: hidden;
+}
+
+.modui-shd-face::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Face Geometry (Normal state) */
+.modui-shd-face-front {
+  transform: rotateY(0deg) translateZ(var(--modui-shd-half-size));
+}
+.modui-shd-face-right {
+  transform: rotateY(90deg) translateZ(var(--modui-shd-half-size));
+}
+.modui-shd-face-back {
+  transform: rotateY(180deg) translateZ(var(--modui-shd-half-size));
+}
+.modui-shd-face-left {
+  transform: rotateY(-90deg) translateZ(var(--modui-shd-half-size));
+}
+.modui-shd-face-top {
+  transform: rotateX(90deg) translateZ(var(--modui-shd-half-size));
+}
+.modui-shd-face-bottom {
+  transform: rotateX(-90deg) translateZ(var(--modui-shd-half-size));
+}
+
+/* Face Geometry (Exploded state) */
+.modui-shd-cube.modui-shd-exploded .modui-shd-face-front {
+  transform: rotateY(0deg) translateZ(var(--modui-shd-explode-dist));
+}
+.modui-shd-cube.modui-shd-exploded .modui-shd-face-right {
+  transform: rotateY(90deg) translateZ(var(--modui-shd-explode-dist));
+}
+.modui-shd-cube.modui-shd-exploded .modui-shd-face-back {
+  transform: rotateY(180deg) translateZ(var(--modui-shd-explode-dist));
+}
+.modui-shd-cube.modui-shd-exploded .modui-shd-face-left {
+  transform: rotateY(-90deg) translateZ(var(--modui-shd-explode-dist));
+}
+.modui-shd-cube.modui-shd-exploded .modui-shd-face-top {
+  transform: rotateX(90deg) translateZ(var(--modui-shd-explode-dist));
+}
+.modui-shd-cube.modui-shd-exploded .modui-shd-face-bottom {
+  transform: rotateX(-90deg) translateZ(var(--modui-shd-explode-dist));
+}
+
+/* Active Highlight Face */
+.modui-shd-face.modui-shd-face-active {
+  border-color: var(--modui-shd-accent);
+  box-shadow: 0 0 28px var(--modui-shd-accent-glow), var(--modui-shd-face-shadow);
+}
+
+/* Face Header & Content Elements */
+.modui-shd-face-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.modui-shd-badge {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--modui-shd-badge-bg);
+  color: var(--modui-shd-badge-text);
+  border: 1px solid var(--modui-shd-badge-border);
+}
+
+.modui-shd-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--modui-shd-icon-bg);
+  color: var(--modui-shd-accent);
+}
+
+.modui-shd-face-body {
+  margin: auto 0;
+}
+
+.modui-shd-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  margin: 0;
+  color: var(--modui-shd-title-color);
+}
+
+.modui-shd-subtitle {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--modui-shd-accent);
+  margin-top: 3px;
+}
+
+.modui-shd-desc {
+  font-size: 11px;
+  color: var(--modui-shd-desc-color);
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+.modui-shd-face-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  color: var(--modui-shd-meta-color);
+  border-top: 1px solid var(--modui-shd-divider);
+  padding-top: 6px;
+  margin-top: 6px;
+}
+
+/* Face Quick Navigation Bar */
+.modui-shd-nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.25rem;
+  z-index: 10;
+}
+
+.modui-shd-nav-btn {
+  background: var(--modui-shd-nav-btn-bg);
+  border: 1px solid var(--modui-shd-nav-btn-border);
+  color: var(--modui-shd-nav-btn-text);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modui-shd-nav-btn:hover {
+  border-color: var(--modui-shd-accent);
+  color: var(--modui-shd-text);
+  transform: translateY(-1px);
+}
+
+.modui-shd-nav-btn.modui-shd-nav-active {
+  background: var(--modui-shd-accent-subtle);
+  border-color: var(--modui-shd-accent);
+  color: var(--modui-shd-accent);
+  box-shadow: 0 0 12px var(--modui-shd-accent-glow);
+}
+
+.modui-shd-nav-explode-btn {
+  background: var(--modui-shd-accent);
+  border-color: var(--modui-shd-accent);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.modui-shd-nav-explode-btn:hover {
+  opacity: 0.92;
+  color: #ffffff;
+}
+
+/* Compact mode for card preview */
+.modui-shd-compact .modui-shd-viewport {
+  height: 180px;
+  min-height: 180px;
+}
+
+.modui-shd-compact .modui-shd-face {
+  padding: 0.75rem 0.65rem;
+  border-radius: 10px;
+}
+
+.modui-shd-compact .modui-shd-title {
+  font-size: 13px;
+}
+
+.modui-shd-compact .modui-shd-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 10px;
+}
+
+/* ==========================================================
+   THEME VARIANTS
+   ========================================================== */
+
+/* 1. Cyber Obsidian (Default dark) */
+.modui-shd-variant-cyber-obsidian {
+  --modui-shd-face-bg: rgba(14, 18, 28, 0.92);
+  --modui-shd-border: rgba(59, 130, 246, 0.35);
+  --modui-shd-text: #f1f5f9;
+  --modui-shd-title-color: #ffffff;
+  --modui-shd-desc-color: #94a3b8;
+  --modui-shd-accent: #3b82f6;
+  --modui-shd-accent-glow: rgba(59, 130, 246, 0.3);
+  --modui-shd-accent-subtle: rgba(59, 130, 246, 0.15);
+  --modui-shd-badge-bg: rgba(59, 130, 246, 0.15);
+  --modui-shd-badge-border: rgba(59, 130, 246, 0.35);
+  --modui-shd-badge-text: #60a5fa;
+  --modui-shd-icon-bg: rgba(59, 130, 246, 0.12);
+  --modui-shd-divider: rgba(255, 255, 255, 0.08);
+  --modui-shd-meta-color: #64748b;
+  --modui-shd-face-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), inset 0 0 16px rgba(59, 130, 246, 0.08);
+  --modui-shd-nav-btn-bg: rgba(255, 255, 255, 0.05);
+  --modui-shd-nav-btn-border: rgba(255, 255, 255, 0.1);
+  --modui-shd-nav-btn-text: #94a3b8;
+}
+
+/* 2. Clean Porcelain (Refined light) */
+.modui-shd-variant-clean-porcelain {
+  --modui-shd-face-bg: rgba(255, 255, 255, 0.94);
+  --modui-shd-border: rgba(203, 213, 225, 0.85);
+  --modui-shd-text: #0f172a;
+  --modui-shd-title-color: #0f172a;
+  --modui-shd-desc-color: #64748b;
+  --modui-shd-accent: #2563eb;
+  --modui-shd-accent-glow: rgba(37, 99, 235, 0.2);
+  --modui-shd-accent-subtle: rgba(37, 99, 235, 0.08);
+  --modui-shd-badge-bg: rgba(37, 99, 235, 0.08);
+  --modui-shd-badge-border: rgba(37, 99, 235, 0.25);
+  --modui-shd-badge-text: #1d4ed8;
+  --modui-shd-icon-bg: rgba(37, 99, 235, 0.08);
+  --modui-shd-divider: rgba(0, 0, 0, 0.06);
+  --modui-shd-meta-color: #94a3b8;
+  --modui-shd-face-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), inset 0 0 12px rgba(255, 255, 255, 0.8);
+  --modui-shd-nav-btn-bg: #f8fafc;
+  --modui-shd-nav-btn-border: #e2e8f0;
+  --modui-shd-nav-btn-text: #475569;
+}
+
+/* 3. Titanium Steel (Industrial grey) */
+.modui-shd-variant-titanium-steel {
+  --modui-shd-face-bg: rgba(28, 30, 36, 0.94);
+  --modui-shd-border: rgba(148, 163, 184, 0.3);
+  --modui-shd-text: #f8fafc;
+  --modui-shd-title-color: #f8fafc;
+  --modui-shd-desc-color: #a1a1aa;
+  --modui-shd-accent: #10b981;
+  --modui-shd-accent-glow: rgba(16, 185, 129, 0.25);
+  --modui-shd-accent-subtle: rgba(16, 185, 129, 0.12);
+  --modui-shd-badge-bg: rgba(16, 185, 129, 0.12);
+  --modui-shd-badge-border: rgba(16, 185, 129, 0.3);
+  --modui-shd-badge-text: #34d399;
+  --modui-shd-icon-bg: rgba(16, 185, 129, 0.12);
+  --modui-shd-divider: rgba(255, 255, 255, 0.08);
+  --modui-shd-meta-color: #71717a;
+  --modui-shd-face-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), inset 0 0 16px rgba(255, 255, 255, 0.05);
+  --modui-shd-nav-btn-bg: rgba(255, 255, 255, 0.04);
+  --modui-shd-nav-btn-border: rgba(255, 255, 255, 0.1);
+  --modui-shd-nav-btn-text: #a1a1aa;
+}
+
+/* 4. Aurora Violet (Deep vibrant space) */
+.modui-shd-variant-aurora-violet {
+  --modui-shd-face-bg: rgba(19, 14, 34, 0.92);
+  --modui-shd-border: rgba(168, 85, 247, 0.35);
+  --modui-shd-text: #faf5ff;
+  --modui-shd-title-color: #ffffff;
+  --modui-shd-desc-color: #d8b4fe;
+  --modui-shd-accent: #a855f7;
+  --modui-shd-accent-glow: rgba(168, 85, 247, 0.3);
+  --modui-shd-accent-subtle: rgba(168, 85, 247, 0.15);
+  --modui-shd-badge-bg: rgba(168, 85, 247, 0.15);
+  --modui-shd-badge-border: rgba(168, 85, 247, 0.35);
+  --modui-shd-badge-text: #c084fc;
+  --modui-shd-icon-bg: rgba(168, 85, 247, 0.12);
+  --modui-shd-divider: rgba(255, 255, 255, 0.08);
+  --modui-shd-meta-color: #9333ea;
+  --modui-shd-face-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), inset 0 0 20px rgba(168, 85, 247, 0.1);
+  --modui-shd-nav-btn-bg: rgba(168, 85, 247, 0.06);
+  --modui-shd-nav-btn-border: rgba(168, 85, 247, 0.2);
+  --modui-shd-nav-btn-text: #d8b4fe;
+}

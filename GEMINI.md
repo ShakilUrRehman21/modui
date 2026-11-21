@@ -31,8 +31,20 @@ The following candidates have been rejected by the user and **must never be prop
 22. Interactive API Request & Response Playground (`ApiPlaygroundInspector`)
 23. Infrastructure Heartbeat & SLA Status Grid (`SystemStatusMatrix`)
 24. Kinetic Brand Marquee & Telemetry Ticker (`KineticMarqueeTicker`)
+25. Precision Graduated Metric Ruler Scrubber (`PrecisionRulerSlider` / `TactileMetricRuler`)
+26. Metallic Foil Scratch-Off Voucher & Secret PIN (`TactileScratchReveal`)
+27. IDE File Tree & Codebase Explorer (`InteractiveDirectoryTree`)
+28. Perforated Thermal Receipt & Checkout Invoice (`TactileThermalReceipt` / `ThermalReceiptPrinter`)
+29. 3D Tactile Keycap Switch & Hotkey Demonstrator (`MechanicalKeycapMatrix`)
+30. Optical Laser Barcode & QR Decoder (`InteractiveBarcodeScanner`)
 ## 3. Architecture & Project Constraints
 - **Zero External Style Dependencies**: Pure standard CSS custom properties and native React 19 APIs. No Tailwind classes inside component source code.
 - **Zero External Audio Assets**: All acoustic haptics must use native Web Audio API oscillators.
 - **Naming Rule**: NEVER mention or use "ModUI 2.0" anywhere.
 - **Git Push Rule**: Never push to remote repository without explicit user command ("push").
+
+## 4. Approved Queue for Future Primitives
+- **Primitive #38 Candidates (Approved by user to suggest next)**:
+  1. `TactileColorPalettePicker` (Interactive Chromatic HSL Harmonizer & Token Studio)
+  2. `InteractiveLiveAvatarStack` (Multiplayer Live Presence & Elastic Peer Capsule Stack)
+
