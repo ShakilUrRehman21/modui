@@ -36,6 +36,7 @@ import { terminalCodeDiffItem } from './terminal-code-diff';
 import { flipClockCountdownItem } from './flip-clock-countdown';
 import { interactiveSignaturePadItem } from './interactive-signature-pad';
 import { spatialHexahedronDeckItem } from './spatial-hexahedron-deck';
+import { interactiveLiveAvatarStackItem } from './interactive-live-avatar-stack';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -75,4 +76,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   flipClockCountdownItem,
   interactiveSignaturePadItem,
   spatialHexahedronDeckItem,
+  interactiveLiveAvatarStackItem,
 ];

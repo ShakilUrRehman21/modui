@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-272%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-280%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (37 Primitives)
+## Published Modules (38 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Interactive Live Avatar Stack** | Status & Indicators | Multiplayer live presence and elastic peer capsule stack featuring overlapping avatar bubbles with spring expansion on hover, live pulsating status rings, rich hover inspection tooltips, overflow counters, and synthesized chime haptics | `src/components/ui/live-avatar-stack` |
 | **Spatial Hexahedron Deck** | 3D & Showcase | 3D navigable isometric cube product stage in hardware-accelerated CSS 3D space with continuous pointer drag, momentum inertia damping, 6-face capability inspection, 1-click directional face snaps, and multi-angle exploded view | `src/components/ui/spatial-hexahedron-deck` |
 | **Interactive Signature Pad** | Buttons and Actions | Studio-grade vector ink signature canvas with velocity-responsive stroke tapering, legal baseline guide, undo/redo stroke history, executive ink palette, and literal PNG image export with whitespace trimming | `src/components/ui/signature-pad` |
 | **Flip Clock Countdown** | 3D & Showcase | 3D mechanical split-flap event countdown timer and precision clock featuring authentic folding leaf physics, realistic center axle hinge pins, perspective drop shadows, and synthesized Web Audio acoustic clacks | `src/components/ui/flip-clock` |

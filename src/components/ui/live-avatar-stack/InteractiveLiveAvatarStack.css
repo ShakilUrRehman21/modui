@@ -1,0 +1,388 @@
+/**
+ * ModUI — InteractiveLiveAvatarStack.css
+ * Zero external CSS dependencies. Pure standard CSS custom properties.
+ */
+
+:root {
+  --modui-las-size: 44px;
+  --modui-las-overlap: -14px;
+  --modui-las-spread-gap: 6px;
+  --modui-las-border-width: 3px;
+  --modui-las-transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --modui-las-tooltip-transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Root Container */
+.modui-las-root {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  user-select: none;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+}
+
+/* Outer Capsule Frame */
+.modui-las-capsule {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--modui-las-capsule-border);
+  background: var(--modui-las-capsule-bg);
+  box-shadow: var(--modui-las-capsule-shadow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Avatars Stack Track */
+.modui-las-track {
+  display: flex;
+  align-items: center;
+}
+
+/* Individual Avatar Item */
+.modui-las-item {
+  position: relative;
+  margin-left: var(--modui-las-overlap);
+  transition: var(--modui-las-transition);
+  cursor: pointer;
+  outline: none;
+}
+
+.modui-las-item:first-child {
+  margin-left: 0;
+}
+
+/* Expanded state on stack hover */
+.modui-las-expanded .modui-las-item,
+.modui-las-track:hover .modui-las-item {
+  margin-left: var(--modui-las-spread-gap);
+}
+
+.modui-las-expanded .modui-las-item:first-child,
+.modui-las-track:hover .modui-las-item:first-child {
+  margin-left: 0;
+}
+
+/* Avatar Bubble */
+.modui-las-bubble {
+  width: var(--modui-las-size);
+  height: var(--modui-las-size);
+  border-radius: 50%;
+  border: var(--modui-las-border-width) solid var(--modui-las-border-color);
+  background: var(--modui-las-bubble-bg);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--modui-las-size) * 0.34);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease, border-color 0.2s ease;
+}
+
+.modui-las-bubble img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Individual Item Hover Lift */
+.modui-las-item:hover .modui-las-bubble,
+.modui-las-item:focus-visible .modui-las-bubble {
+  transform: translateY(-6px) scale(1.1);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+  border-color: var(--modui-las-hover-ring);
+  z-index: 10;
+}
+
+/* Status Indicator Dot */
+.modui-las-status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: calc(var(--modui-las-size) * 0.28);
+  height: calc(var(--modui-las-size) * 0.28);
+  border-radius: 50%;
+  border: 2px solid var(--modui-las-border-color);
+  box-sizing: border-box;
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+
+.modui-las-item:hover .modui-las-status-dot {
+  transform: translateY(-6px) scale(1.1);
+  z-index: 12;
+}
+
+/* Status variants */
+.modui-las-status-online {
+  background: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+}
+
+.modui-las-status-idle {
+  background: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+}
+
+.modui-las-status-presenting {
+  background: #8b5cf6;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.9);
+  animation: modui-las-present-pulse 1.8s infinite ease-in-out;
+}
+
+.modui-las-status-offline {
+  background: #64748b;
+}
+
+@keyframes modui-las-present-pulse {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(139, 92, 246, 0.7);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(139, 92, 246, 1);
+    transform: scale(1.15);
+  }
+}
+
+/* Overflow +N Counter Bubble */
+.modui-las-overflow-btn {
+  width: var(--modui-las-size);
+  height: var(--modui-las-size);
+  border-radius: 50%;
+  border: var(--modui-las-border-width) solid var(--modui-las-border-color);
+  background: var(--modui-las-overflow-bg);
+  color: var(--modui-las-overflow-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--modui-las-size) * 0.32);
+  font-weight: 700;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  margin-left: var(--modui-las-overlap);
+  cursor: pointer;
+  outline: none;
+  transition: var(--modui-las-transition);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modui-las-track:hover .modui-las-overflow-btn,
+.modui-las-expanded .modui-las-overflow-btn {
+  margin-left: var(--modui-las-spread-gap);
+}
+
+.modui-las-overflow-btn:hover,
+.modui-las-overflow-btn:focus-visible {
+  transform: translateY(-4px) scale(1.08);
+  border-color: var(--modui-las-hover-ring);
+  color: var(--modui-las-hover-ring);
+}
+
+/* Action Invite Button */
+.modui-las-invite-btn {
+  width: var(--modui-las-size);
+  height: var(--modui-las-size);
+  border-radius: 50%;
+  border: 1.5px dashed var(--modui-las-invite-border);
+  background: transparent;
+  color: var(--modui-las-invite-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.modui-las-invite-btn:hover,
+.modui-las-invite-btn:focus-visible {
+  border-color: var(--modui-las-hover-ring);
+  color: var(--modui-las-hover-ring);
+  background: var(--modui-las-invite-hover-bg);
+  transform: scale(1.08);
+}
+
+/* Rich Tooltip Popover */
+.modui-las-tooltip {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: var(--modui-las-tooltip-bg);
+  border: 1px solid var(--modui-las-tooltip-border);
+  color: var(--modui-las-tooltip-text);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  transition: var(--modui-las-tooltip-transition);
+  z-index: 50;
+}
+
+.modui-las-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--modui-las-tooltip-bg) transparent transparent transparent;
+}
+
+.modui-las-item:hover .modui-las-tooltip,
+.modui-las-item:focus-visible .modui-las-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.modui-las-tooltip-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modui-las-tooltip-role {
+  font-size: 10.5px;
+  color: var(--modui-las-tooltip-muted);
+  margin-top: 2px;
+}
+
+.modui-las-tooltip-activity {
+  font-size: 10px;
+  color: #34d399;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono, monospace);
+}
+
+.modui-las-tooltip-latency {
+  font-size: 9.5px;
+  color: var(--modui-las-tooltip-muted);
+  margin-left: auto;
+}
+
+/* ==========================================================
+   SIZE PRESETS
+   ========================================================== */
+.modui-las-size-sm {
+  --modui-las-size: 32px;
+  --modui-las-overlap: -10px;
+  --modui-las-spread-gap: 4px;
+  --modui-las-border-width: 2px;
+}
+
+.modui-las-size-md {
+  --modui-las-size: 44px;
+  --modui-las-overlap: -14px;
+  --modui-las-spread-gap: 6px;
+  --modui-las-border-width: 3px;
+}
+
+.modui-las-size-lg {
+  --modui-las-size: 56px;
+  --modui-las-overlap: -18px;
+  --modui-las-spread-gap: 8px;
+  --modui-las-border-width: 3.5px;
+}
+
+/* ==========================================================
+   THEME VARIANTS
+   ========================================================== */
+
+/* 1. Studio Glass (Default Dark) */
+.modui-las-variant-studio-glass {
+  --modui-las-capsule-bg: rgba(18, 20, 28, 0.78);
+  --modui-las-capsule-border: rgba(255, 255, 255, 0.12);
+  --modui-las-capsule-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --modui-las-border-color: #12141c;
+  --modui-las-bubble-bg: #1e2230;
+  --modui-las-hover-ring: #3b82f6;
+  --modui-las-overflow-bg: #1e2230;
+  --modui-las-overflow-text: #94a3b8;
+  --modui-las-invite-border: rgba(255, 255, 255, 0.25);
+  --modui-las-invite-color: #94a3b8;
+  --modui-las-invite-hover-bg: rgba(59, 130, 246, 0.12);
+  --modui-las-tooltip-bg: #171a24;
+  --modui-las-tooltip-border: rgba(255, 255, 255, 0.14);
+  --modui-las-tooltip-text: #f1f5f9;
+  --modui-las-tooltip-muted: #94a3b8;
+}
+
+/* 2. Clean Porcelain (Refined Light) */
+.modui-las-variant-clean-porcelain {
+  --modui-las-capsule-bg: rgba(255, 255, 255, 0.92);
+  --modui-las-capsule-border: rgba(226, 232, 240, 0.9);
+  --modui-las-capsule-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --modui-las-border-color: #ffffff;
+  --modui-las-bubble-bg: #f1f5f9;
+  --modui-las-hover-ring: #2563eb;
+  --modui-las-overflow-bg: #f8fafc;
+  --modui-las-overflow-text: #475569;
+  --modui-las-invite-border: #cbd5e1;
+  --modui-las-invite-color: #64748b;
+  --modui-las-invite-hover-bg: rgba(37, 99, 235, 0.06);
+  --modui-las-tooltip-bg: #0f172a;
+  --modui-las-tooltip-border: #334155;
+  --modui-las-tooltip-text: #ffffff;
+  --modui-las-tooltip-muted: #94a3b8;
+}
+
+/* 3. Cyber Neon (High-Contrast Phosphor) */
+.modui-las-variant-cyber-neon {
+  --modui-las-capsule-bg: rgba(10, 14, 22, 0.9);
+  --modui-las-capsule-border: rgba(16, 185, 129, 0.3);
+  --modui-las-capsule-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), 0 0 16px rgba(16, 185, 129, 0.12);
+  --modui-las-border-color: #0a0e16;
+  --modui-las-bubble-bg: #141c2b;
+  --modui-las-hover-ring: #10b981;
+  --modui-las-overflow-bg: #141c2b;
+  --modui-las-overflow-text: #34d399;
+  --modui-las-invite-border: rgba(16, 185, 129, 0.4);
+  --modui-las-invite-color: #34d399;
+  --modui-las-invite-hover-bg: rgba(16, 185, 129, 0.15);
+  --modui-las-tooltip-bg: #0f172a;
+  --modui-las-tooltip-border: rgba(16, 185, 129, 0.35);
+  --modui-las-tooltip-text: #f0fdf4;
+  --modui-las-tooltip-muted: #6ee7b7;
+}
+
+/* 4. Warm Editorial (Bronze & Amber) */
+.modui-las-variant-warm-editorial {
+  --modui-las-capsule-bg: rgba(28, 25, 23, 0.85);
+  --modui-las-capsule-border: rgba(217, 119, 6, 0.25);
+  --modui-las-capsule-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --modui-las-border-color: #1c1917;
+  --modui-las-bubble-bg: #292524;
+  --modui-las-hover-ring: #f59e0b;
+  --modui-las-overflow-bg: #292524;
+  --modui-las-overflow-text: #fbbf24;
+  --modui-las-invite-border: rgba(245, 158, 11, 0.35);
+  --modui-las-invite-color: #fbbf24;
+  --modui-las-invite-hover-bg: rgba(245, 158, 11, 0.12);
+  --modui-las-tooltip-bg: #292524;
+  --modui-las-tooltip-border: rgba(245, 158, 11, 0.3);
+  --modui-las-tooltip-text: #fffbeb;
+  --modui-las-tooltip-muted: #d97706;
+}
+
+/* Compact Mode */
+.modui-las-compact .modui-las-capsule {
+  padding: 4px 8px;
+}

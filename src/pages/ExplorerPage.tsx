@@ -37,6 +37,7 @@ import { TerminalCodeDiff } from '../components/ui/terminal-diff';
 import { FlipClockCountdown } from '../components/ui/flip-clock';
 import { InteractiveSignaturePad } from '../components/ui/signature-pad';
 import { SpatialHexahedronDeck } from '../components/ui/spatial-hexahedron-deck';
+import { InteractiveLiveAvatarStack } from '../components/ui/live-avatar-stack';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -895,6 +896,30 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         soundEnabled={false}
                         interactive={false}
                         variant={isDark ? 'cyber-obsidian' : 'clean-porcelain'}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'interactive-live-avatar-stack' && (
+                    <div
+                      className="modui-card-preview-surface"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '12px',
+                      }}
+                    >
+                      <InteractiveLiveAvatarStack
+                        compact={true}
+                        size="md"
+                        maxVisible={4}
+                        showTooltips={false}
+                        showInviteButton={true}
+                        soundEnabled={false}
+                        variant={isDark ? 'studio-glass' : 'clean-porcelain'}
                       />
                     </div>
                   )}

@@ -42,6 +42,7 @@ export const COMPONENT_DEMOS: Record<string, React.LazyExoticComponent<React.Com
   'flip-clock-countdown': React.lazy(() => import('./FlipClockCountdownDemo')),
   'interactive-signature-pad': React.lazy(() => import('./InteractiveSignaturePadDemo')),
   'spatial-hexahedron-deck': React.lazy(() => import('./SpatialHexahedronDeckDemo')),
+  'interactive-live-avatar-stack': React.lazy(() => import('./InteractiveLiveAvatarStackDemo')),
 };
 
 export default COMPONENT_DEMOS;

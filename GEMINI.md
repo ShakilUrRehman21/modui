@@ -44,7 +44,7 @@ The following candidates have been rejected by the user and **must never be prop
 - **Git Push Rule**: Never push to remote repository without explicit user command ("push").
 
 ## 4. Approved Queue for Future Primitives
-- **Primitive #38 Candidates (Approved by user to suggest next)**:
+- **Primitive #39 Candidates (Approved by user to suggest next)**:
   1. `TactileColorPalettePicker` (Interactive Chromatic HSL Harmonizer & Token Studio)
-  2. `InteractiveLiveAvatarStack` (Multiplayer Live Presence & Elastic Peer Capsule Stack)
+  2. `TactileOtpVerificationInput` (Hardware Token OTP / PIN Verification Matrix)
 
