@@ -146,38 +146,97 @@ function generateSampleSignature(
   const w = Math.max(160, width);
   const h = Math.max(60, height);
 
-  const pts1: Point[] = [
-    { x: Math.round(w * 0.14), y: Math.round(h * 0.72), time: now },
-    { x: Math.round(w * 0.17), y: Math.round(h * 0.45), time: now + 40 },
-    { x: Math.round(w * 0.20), y: Math.round(h * 0.22), time: now + 80 },
-    { x: Math.round(w * 0.22), y: Math.round(h * 0.24), time: now + 110 },
-    { x: Math.round(w * 0.24), y: Math.round(h * 0.48), time: now + 150 },
-    { x: Math.round(w * 0.26), y: Math.round(h * 0.76), time: now + 200 },
-    { x: Math.round(w * 0.18), y: Math.round(h * 0.52), time: now + 250 },
-    { x: Math.round(w * 0.28), y: Math.round(h * 0.50), time: now + 290 },
-    { x: Math.round(w * 0.32), y: Math.round(h * 0.42), time: now + 330 },
-    { x: Math.round(w * 0.36), y: Math.round(h * 0.65), time: now + 380 },
-    { x: Math.round(w * 0.40), y: Math.round(h * 0.44), time: now + 420 },
-    { x: Math.round(w * 0.44), y: Math.round(h * 0.62), time: now + 460 },
-    { x: Math.round(w * 0.48), y: Math.round(h * 0.38), time: now + 500 },
-    { x: Math.round(w * 0.52), y: Math.round(h * 0.68), time: now + 550 },
-    { x: Math.round(w * 0.58), y: Math.round(h * 0.28), time: now + 600 },
-    { x: Math.round(w * 0.64), y: Math.round(h * 0.60), time: now + 650 },
-    { x: Math.round(w * 0.72), y: Math.round(h * 0.48), time: now + 700 },
-    { x: Math.round(w * 0.78), y: Math.round(h * 0.52), time: now + 740 },
+  // Key control points for the main cursive signature
+  const keyPoints1 = [
+    { x: 0.14, y: 0.65, dt: 0 },
+    { x: 0.16, y: 0.46, dt: 30 },
+    { x: 0.19, y: 0.24, dt: 65 },
+    { x: 0.22, y: 0.14, dt: 105 },
+    { x: 0.24, y: 0.18, dt: 140 },
+    { x: 0.23, y: 0.35, dt: 180 },
+    { x: 0.20, y: 0.54, dt: 220 },
+    { x: 0.19, y: 0.70, dt: 260 },
+    { x: 0.22, y: 0.76, dt: 295 },
+    { x: 0.26, y: 0.72, dt: 330 },
+    { x: 0.29, y: 0.58, dt: 365 },
+    { x: 0.33, y: 0.48, dt: 400 },
+    { x: 0.36, y: 0.60, dt: 435 },
+    { x: 0.39, y: 0.48, dt: 470 },
+    { x: 0.42, y: 0.60, dt: 505 },
+    { x: 0.46, y: 0.35, dt: 545 },
+    { x: 0.49, y: 0.18, dt: 585 },
+    { x: 0.51, y: 0.19, dt: 620 },
+    { x: 0.50, y: 0.40, dt: 660 },
+    { x: 0.49, y: 0.60, dt: 700 },
+    { x: 0.53, y: 0.50, dt: 735 },
+    { x: 0.56, y: 0.60, dt: 770 },
+    { x: 0.60, y: 0.46, dt: 805 },
+    { x: 0.64, y: 0.58, dt: 840 },
+    { x: 0.69, y: 0.44, dt: 880 },
+    { x: 0.75, y: 0.34, dt: 925 },
+    { x: 0.81, y: 0.28, dt: 970 },
   ];
 
-  const pts2: Point[] = [
-    { x: Math.round(w * 0.22), y: Math.round(h * 0.82), time: now + 800 },
-    { x: Math.round(w * 0.35), y: Math.round(h * 0.86), time: now + 850 },
-    { x: Math.round(w * 0.52), y: Math.round(h * 0.85), time: now + 900 },
-    { x: Math.round(w * 0.72), y: Math.round(h * 0.80), time: now + 950 },
-    { x: Math.round(w * 0.82), y: Math.round(h * 0.74), time: now + 990 },
+  // Key control points for the dynamic underscore flourish
+  const keyPoints2 = [
+    { x: 0.20, y: 0.72, dt: 1050 },
+    { x: 0.32, y: 0.76, dt: 1090 },
+    { x: 0.46, y: 0.77, dt: 1130 },
+    { x: 0.60, y: 0.75, dt: 1170 },
+    { x: 0.74, y: 0.70, dt: 1210 },
+    { x: 0.84, y: 0.63, dt: 1250 },
   ];
+
+  // Catmull-Rom spline interpolation to generate smooth calligraphic trajectory
+  function interpolatePoints(
+    kps: { x: number; y: number; dt: number }[],
+    stepsPerSegment = 4
+  ): Point[] {
+    const result: Point[] = [];
+    for (let i = 0; i < kps.length - 1; i++) {
+      const p0 = kps[Math.max(0, i - 1)];
+      const p1 = kps[i];
+      const p2 = kps[i + 1];
+      const p3 = kps[Math.min(kps.length - 1, i + 2)];
+
+      for (let s = 0; s < stepsPerSegment; s++) {
+        const t = s / stepsPerSegment;
+        const t2 = t * t;
+        const t3 = t2 * t;
+
+        const qx =
+          0.5 *
+          (2 * p1.x +
+            (-p0.x + p2.x) * t +
+            (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 +
+            (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3);
+        const qy =
+          0.5 *
+          (2 * p1.y +
+            (-p0.y + p2.y) * t +
+            (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 +
+            (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3);
+        const time = now + Math.round(p1.dt + (p2.dt - p1.dt) * t);
+
+        result.push({
+          x: Math.round(qx * w),
+          y: Math.round(qy * h),
+          time,
+        });
+      }
+    }
+    const last = kps[kps.length - 1];
+    result.push({
+      x: Math.round(last.x * w),
+      y: Math.round(last.y * h),
+      time: now + last.dt,
+    });
+    return result;
+  }
 
   return [
-    { points: pts1, color },
-    { points: pts2, color },
+    { points: interpolatePoints(keyPoints1, 4), color },
+    { points: interpolatePoints(keyPoints2, 5), color },
   ];
 }
 

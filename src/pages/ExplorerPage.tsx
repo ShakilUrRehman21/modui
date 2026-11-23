@@ -825,6 +825,7 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       <div style={{ width: '100%', maxWidth: '350px' }}>
                         <TerminalCodeDiff
                           compact={true}
+                          defaultTabId="diff"
                           soundEnabled={false}
                           variant={isDark ? 'studio-dark' : 'clean-light'}
                         />

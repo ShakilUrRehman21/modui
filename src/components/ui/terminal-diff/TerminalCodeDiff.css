@@ -336,27 +336,49 @@
    -------------------------------------------------------------------------- */
 .modui-terminal--compact {
   max-width: 100%;
-  font-size: 11px;
+  font-size: 10.5px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
 }
 
 .modui-terminal--compact .modui-terminal-titlebar {
-  padding: 8px 10px;
+  padding: 6px 10px;
+  gap: 8px;
+}
+
+.modui-terminal--compact .modui-terminal-dots {
+  gap: 4px;
+}
+
+.modui-terminal--compact .modui-terminal-dot {
+  width: 7.5px;
+  height: 7.5px;
+}
+
+.modui-terminal--compact .modui-terminal-tabs {
+  gap: 3px;
+  overflow: hidden;
 }
 
 .modui-terminal--compact .modui-terminal-tab-btn {
-  padding: 2px 7px;
-  font-size: 10px;
+  padding: 2px 6px;
+  font-size: 9.5px;
+  gap: 3px;
 }
 
 .modui-terminal--compact .modui-terminal-copy-btn {
   padding: 2px 6px;
-  font-size: 10px;
+  font-size: 9.5px;
 }
 
 .modui-terminal--compact .modui-terminal-body {
-  padding: 10px 12px;
-  max-height: 130px;
+  padding: 8px 10px;
+  max-height: 140px;
   line-height: 1.5;
+  overflow: hidden;
+}
+
+.modui-terminal--compact .modui-code-text {
+  white-space: nowrap;
 }
 
 /* Reduced Motion */

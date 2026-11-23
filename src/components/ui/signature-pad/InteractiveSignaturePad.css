@@ -129,16 +129,18 @@
 
 .modui-signature-compact {
   --modui-sig-width: 100%;
-  --modui-sig-height: 94px;
-  --modui-sig-radius: 8px;
+  --modui-sig-height: 108px;
+  --modui-sig-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
 }
 
 .modui-signature-compact .modui-sig-header {
-  padding: 6px 12px;
+  padding: 6px 14px;
 }
 
 .modui-signature-compact .modui-sig-title {
-  font-size: 11px;
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
 }
 
 .modui-signature-compact .modui-sig-badge {
@@ -147,32 +149,33 @@
 }
 
 .modui-signature-compact .modui-sig-baseline-guide {
-  bottom: 22px;
+  bottom: 12px;
   left: 18px;
   right: 18px;
   padding-bottom: 2px;
+  opacity: 0.45;
 }
 
 .modui-signature-compact .modui-sig-x-mark {
-  font-size: 10px;
+  font-size: 9.5px;
 }
 
 .modui-signature-compact .modui-sig-legal-hint {
-  font-size: 9px;
+  font-size: 8.5px;
 }
 
 .modui-signature-compact .modui-sig-footer {
-  padding: 6px 12px;
+  padding: 6px 14px;
+  justify-content: space-between;
 }
 
 .modui-signature-compact .modui-sig-meta {
-  font-size: 10px;
+  font-size: 9.5px;
 }
 
-.modui-signature-compact .modui-sig-btn {
-  padding: 3px 8px;
-  font-size: 10px;
-  gap: 4px;
+/* Hide cramped action buttons in compact preview to keep the card pristine */
+.modui-signature-compact .modui-sig-actions {
+  display: none !important;
 }
 
 /* ==========================================================================
