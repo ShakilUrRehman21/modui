@@ -1,0 +1,348 @@
+/**
+ * ModUI — TactileColorPalettePicker.css
+ * Zero external CSS dependencies. Pure standard CSS custom properties.
+ */
+
+:root {
+  --modui-cpp-wheel-size: 220px;
+  --modui-cpp-puck-size: 22px;
+  --modui-cpp-sat-size: 14px;
+  --modui-cpp-transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Root Chassis */
+.modui-cpp-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  user-select: none;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Chassis Card */
+.modui-cpp-card {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid var(--modui-cpp-border);
+  background: var(--modui-cpp-bg);
+  box-shadow: var(--modui-cpp-shadow);
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  box-sizing: border-box;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Wheel Canvas Wrapper */
+.modui-cpp-wheel-wrapper {
+  position: relative;
+  width: var(--modui-cpp-wheel-size);
+  height: var(--modui-cpp-wheel-size);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.modui-cpp-canvas {
+  width: var(--modui-cpp-wheel-size);
+  height: var(--modui-cpp-wheel-size);
+  border-radius: 50%;
+  display: block;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* Central Draggable Puck */
+.modui-cpp-puck {
+  position: absolute;
+  width: var(--modui-cpp-puck-size);
+  height: var(--modui-cpp-puck-size);
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 0 4px rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: transform 0.04s ease-out, box-shadow 0.15s ease;
+  z-index: 10;
+}
+
+.modui-cpp-wheel-wrapper:active .modui-cpp-puck {
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+/* Satellite Harmony Pins */
+.modui-cpp-satellite {
+  position: absolute;
+  width: var(--modui-cpp-sat-size);
+  height: var(--modui-cpp-sat-size);
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.85;
+  transition: all 0.08s ease-out;
+  z-index: 5;
+}
+
+/* Harmony Segmented Nav */
+.modui-cpp-harmonies {
+  display: flex;
+  gap: 4px;
+  background: var(--modui-cpp-controls-bg);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--modui-cpp-border-subtle);
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.modui-cpp-harmony-btn {
+  background: transparent;
+  border: none;
+  color: var(--modui-cpp-text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 9px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.modui-cpp-harmony-btn:hover {
+  color: var(--modui-cpp-text);
+}
+
+.modui-cpp-harmony-btn.active {
+  background: var(--modui-cpp-accent);
+  color: #ffffff;
+  box-shadow: 0 2px 8px var(--modui-cpp-accent-glow);
+}
+
+/* Palette Swatches Bar */
+.modui-cpp-swatches {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.modui-cpp-swatch {
+  flex: 1;
+  min-height: 58px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.modui-cpp-swatch:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.modui-cpp-swatch-role {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+.modui-cpp-swatch-hex {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  margin-top: 1px;
+}
+
+/* Telemetry Readout & Copy Row */
+.modui-cpp-telemetry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 11.5px;
+  color: var(--modui-cpp-text-muted);
+  border-top: 1px solid var(--modui-cpp-border-subtle);
+  padding-top: 10px;
+}
+
+.modui-cpp-wcag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--modui-cpp-badge-bg);
+  color: var(--modui-cpp-badge-text);
+  border: 1px solid var(--modui-cpp-badge-border);
+}
+
+.modui-cpp-copy-btn {
+  background: transparent;
+  border: none;
+  color: var(--modui-cpp-accent);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.modui-cpp-copy-btn:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+/* Compact Mode for Explorer Cards */
+.modui-cpp-compact {
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modui-cpp-compact .modui-cpp-card {
+  padding: 0 !important;
+  gap: 10px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  max-width: 260px;
+}
+
+.modui-cpp-compact .modui-cpp-wheel-wrapper {
+  --modui-cpp-wheel-size: 104px;
+  --modui-cpp-puck-size: 13px;
+  --modui-cpp-sat-size: 8px;
+}
+
+.modui-cpp-compact .modui-cpp-canvas {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.modui-cpp-compact .modui-cpp-harmonies,
+.modui-cpp-compact .modui-cpp-telemetry {
+  display: none !important;
+}
+
+.modui-cpp-compact .modui-cpp-swatches {
+  gap: 5px;
+  width: 100%;
+  max-width: 240px;
+}
+
+.modui-cpp-compact .modui-cpp-swatch {
+  min-height: 26px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.modui-cpp-compact .modui-cpp-swatch-role {
+  font-size: 8px;
+  line-height: 1;
+}
+
+.modui-cpp-compact .modui-cpp-swatch-hex {
+  font-size: 8.5px;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+/* ==========================================================
+   THEME VARIANTS
+   ========================================================== */
+
+/* 1. Studio Obsidian (Default dark) */
+.modui-cpp-variant-studio-obsidian {
+  --modui-cpp-bg: rgba(14, 17, 26, 0.92);
+  --modui-cpp-border: rgba(255, 255, 255, 0.12);
+  --modui-cpp-border-subtle: rgba(255, 255, 255, 0.08);
+  --modui-cpp-text: #f1f5f9;
+  --modui-cpp-text-muted: #94a3b8;
+  --modui-cpp-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  --modui-cpp-controls-bg: rgba(255, 255, 255, 0.04);
+  --modui-cpp-accent: #3b82f6;
+  --modui-cpp-accent-glow: rgba(59, 130, 246, 0.4);
+  --modui-cpp-badge-bg: rgba(16, 185, 129, 0.15);
+  --modui-cpp-badge-border: rgba(16, 185, 129, 0.3);
+  --modui-cpp-badge-text: #34d399;
+}
+
+/* 2. Clean Porcelain (Refined light) */
+.modui-cpp-variant-clean-porcelain {
+  --modui-cpp-bg: rgba(255, 255, 255, 0.95);
+  --modui-cpp-border: rgba(226, 232, 240, 0.9);
+  --modui-cpp-border-subtle: rgba(226, 232, 240, 0.6);
+  --modui-cpp-text: #0f172a;
+  --modui-cpp-text-muted: #64748b;
+  --modui-cpp-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --modui-cpp-controls-bg: #f8fafc;
+  --modui-cpp-accent: #2563eb;
+  --modui-cpp-accent-glow: rgba(37, 99, 235, 0.2);
+  --modui-cpp-badge-bg: rgba(37, 99, 235, 0.08);
+  --modui-cpp-badge-border: rgba(37, 99, 235, 0.2);
+  --modui-cpp-badge-text: #1d4ed8;
+}
+
+/* 3. Cyber Matrix (High-contrast emerald) */
+.modui-cpp-variant-cyber-matrix {
+  --modui-cpp-bg: rgba(10, 14, 20, 0.94);
+  --modui-cpp-border: rgba(16, 185, 129, 0.3);
+  --modui-cpp-border-subtle: rgba(16, 185, 129, 0.15);
+  --modui-cpp-text: #f0fdf4;
+  --modui-cpp-text-muted: #6ee7b7;
+  --modui-cpp-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 16px rgba(16, 185, 129, 0.1);
+  --modui-cpp-controls-bg: rgba(16, 185, 129, 0.06);
+  --modui-cpp-accent: #10b981;
+  --modui-cpp-accent-glow: rgba(16, 185, 129, 0.4);
+  --modui-cpp-badge-bg: rgba(16, 185, 129, 0.15);
+  --modui-cpp-badge-border: rgba(16, 185, 129, 0.35);
+  --modui-cpp-badge-text: #34d399;
+}
+
+/* 4. Warm Editorial (Ivory & amber) */
+.modui-cpp-variant-warm-editorial {
+  --modui-cpp-bg: rgba(28, 25, 23, 0.92);
+  --modui-cpp-border: rgba(217, 119, 6, 0.25);
+  --modui-cpp-border-subtle: rgba(217, 119, 6, 0.12);
+  --modui-cpp-text: #fffbeb;
+  --modui-cpp-text-muted: #d97706;
+  --modui-cpp-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+  --modui-cpp-controls-bg: rgba(245, 158, 11, 0.06);
+  --modui-cpp-accent: #f59e0b;
+  --modui-cpp-accent-glow: rgba(245, 158, 11, 0.35);
+  --modui-cpp-badge-bg: rgba(245, 158, 11, 0.15);
+  --modui-cpp-badge-border: rgba(245, 158, 11, 0.3);
+  --modui-cpp-badge-text: #fbbf24;
+}

@@ -37,6 +37,7 @@ import { flipClockCountdownItem } from './flip-clock-countdown';
 import { interactiveSignaturePadItem } from './interactive-signature-pad';
 import { spatialHexahedronDeckItem } from './spatial-hexahedron-deck';
 import { interactiveLiveAvatarStackItem } from './interactive-live-avatar-stack';
+import { tactileColorPalettePickerItem } from './tactile-color-palette-picker';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -77,4 +78,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   interactiveSignaturePadItem,
   spatialHexahedronDeckItem,
   interactiveLiveAvatarStackItem,
+  tactileColorPalettePickerItem,
 ];

@@ -37,6 +37,8 @@ The following candidates have been rejected by the user and **must never be prop
 28. Perforated Thermal Receipt & Checkout Invoice (`TactileThermalReceipt` / `ThermalReceiptPrinter`)
 29. 3D Tactile Keycap Switch & Hotkey Demonstrator (`MechanicalKeycapMatrix`)
 30. Optical Laser Barcode & QR Decoder (`InteractiveBarcodeScanner`)
+31. Hardware Token OTP / PIN Verification Matrix (`TactileOtpVerificationInput`)
+32. Physics-Driven Particle Celebration Cannon (`TactileCelebrationBurst`)
 ## 3. Architecture & Project Constraints
 - **Zero External Style Dependencies**: Pure standard CSS custom properties and native React 19 APIs. No Tailwind classes inside component source code.
 - **Zero External Audio Assets**: All acoustic haptics must use native Web Audio API oscillators.
@@ -44,7 +46,5 @@ The following candidates have been rejected by the user and **must never be prop
 - **Git Push Rule**: Never push to remote repository without explicit user command ("push").
 
 ## 4. Approved Queue for Future Primitives
-- **Primitive #39 Candidates (Approved by user to suggest next)**:
-  1. `TactileColorPalettePicker` (Interactive Chromatic HSL Harmonizer & Token Studio)
-  2. `TactileOtpVerificationInput` (Hardware Token OTP / PIN Verification Matrix)
+*(Empty queue — generate fresh candidates compliant with 32-item blacklist)*
 

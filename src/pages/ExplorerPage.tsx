@@ -38,6 +38,7 @@ import { FlipClockCountdown } from '../components/ui/flip-clock';
 import { InteractiveSignaturePad } from '../components/ui/signature-pad';
 import { SpatialHexahedronDeck } from '../components/ui/spatial-hexahedron-deck';
 import { InteractiveLiveAvatarStack } from '../components/ui/live-avatar-stack';
+import { TactileColorPalettePicker } from '../components/ui/color-palette-picker';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -920,6 +921,26 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         showInviteButton={true}
                         soundEnabled={false}
                         variant={isDark ? 'studio-glass' : 'clean-porcelain'}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'tactile-color-palette-picker' && (
+                    <div
+                      className="modui-card-preview-surface"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '8px',
+                      }}
+                    >
+                      <TactileColorPalettePicker
+                        compact={true}
+                        soundEnabled={false}
+                        variant={isDark ? 'studio-obsidian' : 'clean-porcelain'}
                       />
                     </div>
                   )}

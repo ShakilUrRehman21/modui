@@ -43,6 +43,7 @@ export const COMPONENT_DEMOS: Record<string, React.LazyExoticComponent<React.Com
   'interactive-signature-pad': React.lazy(() => import('./InteractiveSignaturePadDemo')),
   'spatial-hexahedron-deck': React.lazy(() => import('./SpatialHexahedronDeckDemo')),
   'interactive-live-avatar-stack': React.lazy(() => import('./InteractiveLiveAvatarStackDemo')),
+  'tactile-color-palette-picker': React.lazy(() => import('./TactileColorPalettePickerDemo')),
 };
 
 export default COMPONENT_DEMOS;
