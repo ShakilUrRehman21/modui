@@ -1,0 +1,582 @@
+/* -----------------------------------------------------------------------------
+ * InteractiveSentimentRatingPill.css
+ * Standard CSS Custom Properties & Zero External Runtime Dependencies
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --senti-pill-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  --senti-pill-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* =============================================================================
+   CONTAINER & VARIANTS
+   ============================================================================= */
+
+.senti-rating-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  font-family: var(--senti-pill-font-sans);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.senti-rating-container *,
+.senti-rating-container *::before,
+.senti-rating-container *::after {
+  box-sizing: border-box;
+}
+
+/* Variant: Studio Obsidian (Default) */
+.senti-variant-studio-obsidian {
+  --senti-bg: rgba(13, 18, 30, 0.92);
+  --senti-card-border: rgba(255, 255, 255, 0.08);
+  --senti-track-bg: rgba(255, 255, 255, 0.04);
+  --senti-track-border: rgba(255, 255, 255, 0.08);
+  --senti-text-main: #f8fafc;
+  --senti-text-muted: #94a3b8;
+  --senti-text-subtle: #64748b;
+  --senti-avatar-bg: rgba(15, 23, 42, 0.8);
+  --senti-tag-bg: rgba(255, 255, 255, 0.05);
+  --senti-tag-border: rgba(255, 255, 255, 0.09);
+  --senti-tag-active-bg: rgba(56, 189, 248, 0.15);
+  --senti-tag-active-border: rgba(56, 189, 248, 0.4);
+  --senti-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Variant: Clean Porcelain */
+.senti-variant-clean-porcelain {
+  --senti-bg: #ffffff;
+  --senti-card-border: rgba(0, 0, 0, 0.09);
+  --senti-track-bg: rgba(0, 0, 0, 0.035);
+  --senti-track-border: rgba(0, 0, 0, 0.07);
+  --senti-text-main: #0f172a;
+  --senti-text-muted: #475569;
+  --senti-text-subtle: #94a3b8;
+  --senti-avatar-bg: #f8fafc;
+  --senti-tag-bg: rgba(0, 0, 0, 0.04);
+  --senti-tag-border: rgba(0, 0, 0, 0.08);
+  --senti-tag-active-bg: rgba(14, 165, 233, 0.12);
+  --senti-tag-active-border: rgba(14, 165, 233, 0.35);
+  --senti-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+/* Variant: Cyber Neon */
+.senti-variant-cyber-neon {
+  --senti-bg: #07090e;
+  --senti-card-border: rgba(56, 189, 248, 0.25);
+  --senti-track-bg: rgba(56, 189, 248, 0.04);
+  --senti-track-border: rgba(56, 189, 248, 0.2);
+  --senti-text-main: #00f0ff;
+  --senti-text-muted: #7dd3fc;
+  --senti-text-subtle: #0284c7;
+  --senti-avatar-bg: #020617;
+  --senti-tag-bg: rgba(56, 189, 248, 0.06);
+  --senti-tag-border: rgba(56, 189, 248, 0.25);
+  --senti-tag-active-bg: rgba(0, 240, 255, 0.2);
+  --senti-tag-active-border: #00f0ff;
+  --senti-shadow: 0 0 35px rgba(0, 240, 255, 0.15);
+}
+
+/* Variant: Warm Editorial */
+.senti-variant-warm-editorial {
+  --senti-bg: #1c1917;
+  --senti-card-border: rgba(245, 158, 11, 0.2);
+  --senti-track-bg: rgba(255, 255, 255, 0.035);
+  --senti-track-border: rgba(245, 158, 11, 0.15);
+  --senti-text-main: #fef3c7;
+  --senti-text-muted: #d97706;
+  --senti-text-subtle: #78350f;
+  --senti-avatar-bg: #292524;
+  --senti-tag-bg: rgba(245, 158, 11, 0.05);
+  --senti-tag-border: rgba(245, 158, 11, 0.2);
+  --senti-tag-active-bg: rgba(245, 158, 11, 0.2);
+  --senti-tag-active-border: #f59e0b;
+  --senti-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* =============================================================================
+   SIZES
+   ============================================================================= */
+
+.senti-size-sm {
+  --senti-width: 360px;
+  --senti-avatar-size: 58px;
+  --senti-avatar-font: 28px;
+  --senti-track-height: 40px;
+  --senti-btn-font: 13px;
+  --senti-title-size: 1.05rem;
+  --senti-pad: 1.25rem;
+}
+
+.senti-size-md {
+  --senti-width: 480px;
+  --senti-avatar-size: 78px;
+  --senti-avatar-font: 38px;
+  --senti-track-height: 48px;
+  --senti-btn-font: 14px;
+  --senti-title-size: 1.25rem;
+  --senti-pad: 1.75rem;
+}
+
+.senti-size-lg {
+  --senti-width: 580px;
+  --senti-avatar-size: 96px;
+  --senti-avatar-font: 48px;
+  --senti-track-height: 56px;
+  --senti-btn-font: 16px;
+  --senti-title-size: 1.45rem;
+  --senti-pad: 2.25rem;
+}
+
+/* Card Surface */
+.senti-rating-card {
+  width: 100%;
+  max-width: var(--senti-width);
+  background: var(--senti-bg);
+  border: 1px solid var(--senti-card-border);
+  border-radius: 20px;
+  padding: var(--senti-pad);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: var(--senti-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =============================================================================
+   SQUASH & STRETCH AVATAR
+   ============================================================================= */
+
+.senti-avatar-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.senti-avatar-halo {
+  position: absolute;
+  width: calc(var(--senti-avatar-size) + 32px);
+  height: calc(var(--senti-avatar-size) + 32px);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--active-tier-color) 0%, transparent 70%);
+  opacity: 0.22;
+  filter: blur(14px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, background 0.35s ease;
+}
+
+.senti-avatar-circle {
+  width: var(--senti-avatar-size);
+  height: var(--senti-avatar-size);
+  border-radius: 50%;
+  background: var(--senti-avatar-bg);
+  border: 2px solid var(--active-tier-color);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--active-tier-color) 35%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--senti-avatar-font);
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  transform-origin: center bottom;
+}
+
+/* Micro-squash and stretch animation trigger class */
+.senti-avatar-bounce {
+  animation: senti-squash-stretch 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes senti-squash-stretch {
+  0% {
+    transform: scale(1, 1);
+  }
+  28% {
+    transform: scale(1.3, 0.76);
+  }
+  55% {
+    transform: scale(0.88, 1.22);
+  }
+  80% {
+    transform: scale(1.08, 0.94);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* =============================================================================
+   HEADLINE & SUBTITLE TELEMETRY
+   ============================================================================= */
+
+.senti-header-group {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.senti-title {
+  font-size: var(--senti-title-size);
+  font-weight: 700;
+  color: var(--senti-text-main);
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.senti-category-badge {
+  font-family: var(--senti-pill-font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--active-tier-color) 16%, transparent);
+  color: var(--active-tier-color);
+  border: 1px solid color-mix(in srgb, var(--active-tier-color) 30%, transparent);
+}
+
+.senti-sub {
+  font-size: 0.85rem;
+  color: var(--senti-text-muted);
+  max-width: 380px;
+  line-height: 1.45;
+  transition: color 0.2s ease;
+}
+
+/* =============================================================================
+   FLUID ELASTIC PILL SCRUBBER TRACK
+   ============================================================================= */
+
+.senti-track-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.senti-pill-track {
+  width: 100%;
+  position: relative;
+  background: var(--senti-track-bg);
+  border: 1px solid var(--senti-track-border);
+  border-radius: 16px;
+  padding: 5px;
+  display: flex;
+  gap: 4px;
+  touch-action: none;
+  overflow: hidden;
+}
+
+/* Sliding active pill indicator */
+.senti-indicator-slider {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  border-radius: 11px;
+  background: var(--active-tier-color);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--active-tier-color) 45%, transparent);
+  transition: left 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              width 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.24s ease,
+              box-shadow 0.24s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.senti-segment-btn {
+  flex: 1;
+  height: var(--senti-track-height);
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  padding: 0 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  outline: none;
+  color: var(--senti-text-muted);
+  transition: color 0.15s ease, transform 0.15s ease;
+  user-select: none;
+}
+
+.senti-segment-btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--senti-text-main);
+}
+
+.senti-segment-btn:hover:not(.senti-segment-active) {
+  color: var(--senti-text-main);
+}
+
+.senti-segment-active {
+  color: #000000;
+  font-weight: 700;
+}
+
+/* Segment text */
+.senti-segment-num {
+  font-family: var(--senti-pill-font-mono);
+  font-size: var(--senti-btn-font);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.senti-segment-label {
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 3px;
+  opacity: 0.85;
+}
+
+/* =============================================================================
+   CSAT TELEMETRY STATS ROW
+   ============================================================================= */
+
+.senti-telemetry-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--senti-card-border);
+  font-family: var(--senti-pill-font-mono);
+  font-size: 0.74rem;
+  color: var(--senti-text-subtle);
+}
+
+.senti-telemetry-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.senti-telemetry-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--active-tier-color);
+  box-shadow: 0 0 6px var(--active-tier-color);
+}
+
+.senti-telemetry-val {
+  color: var(--senti-text-main);
+  font-weight: 600;
+}
+
+/* =============================================================================
+   QUALITATIVE FEEDBACK EXPANSION DRAWER
+   ============================================================================= */
+
+.senti-drawer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-top: 0.6rem;
+  animation: senti-drawer-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes senti-drawer-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.senti-drawer-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--senti-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.senti-tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+
+.senti-tag-pill {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  background: var(--senti-tag-bg);
+  border: 1px solid var(--senti-tag-border);
+  color: var(--senti-text-muted);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.16s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.senti-tag-pill:hover {
+  border-color: var(--active-tier-color);
+  color: var(--senti-text-main);
+}
+
+.senti-tag-pill.senti-tag-selected {
+  background: var(--senti-tag-active-bg);
+  border-color: var(--senti-tag-active-border);
+  color: var(--senti-text-main);
+  font-weight: 600;
+}
+
+.senti-note-input {
+  width: 100%;
+  background: var(--senti-track-bg);
+  border: 1px solid var(--senti-track-border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-family: var(--senti-pill-font-sans);
+  font-size: 0.82rem;
+  color: var(--senti-text-main);
+  outline: none;
+  resize: none;
+  min-height: 54px;
+  transition: border-color 0.2s ease;
+}
+
+.senti-note-input:focus {
+  border-color: var(--active-tier-color);
+}
+
+.senti-submit-btn {
+  width: 100%;
+  padding: 9px 16px;
+  border-radius: 10px;
+  background: var(--active-tier-color);
+  color: #000000;
+  border: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.senti-submit-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.senti-submit-btn:active {
+  transform: translateY(0);
+}
+
+.senti-feedback-toast {
+  font-size: 0.75rem;
+  font-family: var(--senti-pill-font-mono);
+  color: var(--active-tier-color);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* =============================================================================
+   COMPACT EXPLORER CARD MODE
+   ============================================================================= */
+
+.senti-compact {
+  width: 100%;
+  max-width: 320px;
+}
+
+.senti-compact .senti-rating-card {
+  padding: 12px 14px;
+  gap: 10px;
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+.senti-compact .senti-avatar-circle {
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+}
+
+.senti-compact .senti-avatar-halo {
+  width: 60px;
+  height: 60px;
+}
+
+.senti-compact .senti-title {
+  font-size: 0.95rem;
+}
+
+.senti-compact .senti-sub {
+  font-size: 0.72rem;
+}
+
+.senti-compact .senti-track-wrapper {
+  padding: 0;
+}
+
+.senti-compact .senti-pill-track {
+  padding: 3px;
+  border-radius: 10px;
+}
+
+.senti-compact .senti-segment-btn {
+  height: 32px;
+  border-radius: 7px;
+}
+
+.senti-compact .senti-indicator-slider {
+  top: 3px;
+  bottom: 3px;
+  border-radius: 7px;
+}
+
+.senti-compact .senti-segment-num {
+  font-size: 11px;
+}
+
+.senti-compact .senti-segment-label {
+  display: none;
+}
+
+.senti-compact .senti-telemetry-row {
+  font-size: 0.65rem;
+  padding-top: 0.25rem;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .senti-avatar-circle,
+  .senti-indicator-slider,
+  .senti-avatar-bounce,
+  .senti-drawer {
+    animation: none !important;
+    transition: none !important;
+  }
+}

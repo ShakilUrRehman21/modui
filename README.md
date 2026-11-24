@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-288%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-296%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (39 Primitives)
+## Published Modules (40 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Interactive Sentiment Rating Pill** | Buttons and Actions | Tactile customer sentiment and CSAT/NPS feedback scrubber featuring fluid elastic track transitions, expressive squash-and-stretch avatar emojis, temperature-responsive aura glow, qualitative tags drawer, and synthesized pentatonic musical chime arpeggios | `src/components/ui/sentiment-rating-pill` |
 | **Tactile Color Palette Picker** | Buttons and Actions | Interactive chromatic token studio and mathematical color harmony generator featuring high-precision polar wheel scrubbing, live WCAG AA/AAA contrast telemetry, CSS custom property tokens, and synthesized micro-detent acoustics | `src/components/ui/color-palette-picker` |
 | **Interactive Live Avatar Stack** | Status & Indicators | Multiplayer live presence and elastic peer capsule stack featuring overlapping avatar bubbles with spring expansion on hover, live pulsating status rings, rich hover inspection tooltips, overflow counters, and synthesized chime haptics | `src/components/ui/live-avatar-stack` |
 | **Spatial Hexahedron Deck** | 3D & Showcase | 3D navigable isometric cube product stage in hardware-accelerated CSS 3D space with continuous pointer drag, momentum inertia damping, 6-face capability inspection, 1-click directional face snaps, and multi-angle exploded view | `src/components/ui/spatial-hexahedron-deck` |

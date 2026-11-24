@@ -39,6 +39,11 @@ The following candidates have been rejected by the user and **must never be prop
 30. Optical Laser Barcode & QR Decoder (`InteractiveBarcodeScanner`)
 31. Hardware Token OTP / PIN Verification Matrix (`TactileOtpVerificationInput`)
 32. Physics-Driven Particle Celebration Cannon (`TactileCelebrationBurst`)
+33. Enterprise RBAC Access Control & Permission Grid (`InteractiveRbacRoleMatrix` / `TactilePermissionMatrix`)
+34. Multi-Pool Cloud Storage & Resource Quota Allocation Console (`TactileQuotaAllocationBar` / `InteractiveStorageMeter`)
+35. Visual Quartz & Cron Job Schedule Orchestrator (`InteractiveCronScheduleBuilder` / `TactileCronBuilder`)
+36. Interactive 52-Week Activity & Commit Density Matrix (`InteractiveActivityCommitMatrix` / `InteractiveHeatmapGrid`)
+37. Precision Radial Performance Telemetry Gauge Dial (`PrecisionCircularGaugeDial` / `InteractiveGaugeDial`)
 ## 3. Architecture & Project Constraints
 - **Zero External Style Dependencies**: Pure standard CSS custom properties and native React 19 APIs. No Tailwind classes inside component source code.
 - **Zero External Audio Assets**: All acoustic haptics must use native Web Audio API oscillators.
@@ -46,5 +51,5 @@ The following candidates have been rejected by the user and **must never be prop
 - **Git Push Rule**: Never push to remote repository without explicit user command ("push").
 
 ## 4. Approved Queue for Future Primitives
-*(Empty queue — generate fresh candidates compliant with 32-item blacklist)*
+*(Empty queue — generate fresh candidates compliant with 37-item blacklist)*
 
