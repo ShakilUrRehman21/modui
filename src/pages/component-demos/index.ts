@@ -45,6 +45,7 @@ export const COMPONENT_DEMOS: Record<string, React.LazyExoticComponent<React.Com
   'interactive-live-avatar-stack': React.lazy(() => import('./InteractiveLiveAvatarStackDemo')),
   'tactile-color-palette-picker': React.lazy(() => import('./TactileColorPalettePickerDemo')),
   'interactive-sentiment-rating-pill': React.lazy(() => import('./InteractiveSentimentRatingPillDemo')),
+  'interactive-reaction-pill-bar': React.lazy(() => import('./InteractiveReactionPillBarDemo')),
 };
 
 export default COMPONENT_DEMOS;

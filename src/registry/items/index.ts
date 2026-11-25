@@ -39,6 +39,7 @@ import { spatialHexahedronDeckItem } from './spatial-hexahedron-deck';
 import { interactiveLiveAvatarStackItem } from './interactive-live-avatar-stack';
 import { tactileColorPalettePickerItem } from './tactile-color-palette-picker';
 import { interactiveSentimentRatingPillItem } from './interactive-sentiment-rating-pill';
+import { interactiveReactionPillBarItem } from './interactive-reaction-pill-bar';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -81,4 +82,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   interactiveLiveAvatarStackItem,
   tactileColorPalettePickerItem,
   interactiveSentimentRatingPillItem,
+  interactiveReactionPillBarItem,
 ];

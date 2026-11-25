@@ -44,6 +44,9 @@ The following candidates have been rejected by the user and **must never be prop
 35. Visual Quartz & Cron Job Schedule Orchestrator (`InteractiveCronScheduleBuilder` / `TactileCronBuilder`)
 36. Interactive 52-Week Activity & Commit Density Matrix (`InteractiveActivityCommitMatrix` / `InteractiveHeatmapGrid`)
 37. Precision Radial Performance Telemetry Gauge Dial (`PrecisionCircularGaugeDial` / `InteractiveGaugeDial`)
+38. Dual-Thumb Range & Distribution Histogram Slider (`TactileDualRangeHistogram`)
+39. Cryptographic Password & Entropy Strength Input (`TactilePasswordStrengthInput`)
+40. Elastic Multi-Tag & Recipient Chip Composer (`TactileTagTokenInput`)
 ## 3. Architecture & Project Constraints
 - **Zero External Style Dependencies**: Pure standard CSS custom properties and native React 19 APIs. No Tailwind classes inside component source code.
 - **Zero External Audio Assets**: All acoustic haptics must use native Web Audio API oscillators.
@@ -51,5 +54,5 @@ The following candidates have been rejected by the user and **must never be prop
 - **Git Push Rule**: Never push to remote repository without explicit user command ("push").
 
 ## 4. Approved Queue for Future Primitives
-*(Empty queue — generate fresh candidates compliant with 37-item blacklist)*
+*(Empty queue — generate fresh candidates compliant with 40-item blacklist)*
 

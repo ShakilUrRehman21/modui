@@ -1,0 +1,417 @@
+/* -----------------------------------------------------------------------------
+ * InteractiveReactionPillBar.css
+ * Pure Standard CSS Custom Properties & Zero External Runtime Dependencies
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --react-pill-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  --react-pill-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.react-dock-root {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: var(--react-pill-font-sans);
+  position: relative;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.react-dock-root *,
+.react-dock-root *::before,
+.react-dock-root *::after {
+  box-sizing: border-box;
+}
+
+/* =============================================================================
+   VARIANTS
+   ============================================================================= */
+
+.react-variant-studio-obsidian {
+  --react-surface: rgba(13, 18, 30, 0.92);
+  --react-border: rgba(255, 255, 255, 0.1);
+  --react-pill-bg: rgba(255, 255, 255, 0.05);
+  --react-pill-hover-bg: rgba(255, 255, 255, 0.09);
+  --react-pill-border: rgba(255, 255, 255, 0.1);
+  --react-pill-active-bg: rgba(56, 189, 248, 0.16);
+  --react-pill-active-border: rgba(56, 189, 248, 0.55);
+  --react-pill-active-text: #38bdf8;
+  --react-text-main: #f8fafc;
+  --react-text-muted: #94a3b8;
+  --react-popover-bg: rgba(15, 23, 42, 0.98);
+  --react-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+.react-variant-clean-porcelain {
+  --react-surface: #ffffff;
+  --react-border: rgba(15, 23, 42, 0.09);
+  --react-pill-bg: #f1f5f9;
+  --react-pill-hover-bg: #e2e8f0;
+  --react-pill-border: rgba(15, 23, 42, 0.08);
+  --react-pill-active-bg: rgba(2, 132, 199, 0.12);
+  --react-pill-active-border: rgba(2, 132, 199, 0.48);
+  --react-pill-active-text: #0284c7;
+  --react-text-main: #0f172a;
+  --react-text-muted: #64748b;
+  --react-popover-bg: #ffffff;
+  --react-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+}
+
+.react-variant-cyber-neon {
+  --react-surface: #060911;
+  --react-border: rgba(0, 240, 255, 0.25);
+  --react-pill-bg: rgba(0, 240, 255, 0.05);
+  --react-pill-hover-bg: rgba(0, 240, 255, 0.12);
+  --react-pill-border: rgba(0, 240, 255, 0.22);
+  --react-pill-active-bg: rgba(0, 240, 255, 0.2);
+  --react-pill-active-border: #00f0ff;
+  --react-pill-active-text: #00f0ff;
+  --react-text-main: #e0f2fe;
+  --react-text-muted: #7dd3fc;
+  --react-popover-bg: #030712;
+  --react-shadow: 0 0 32px rgba(0, 240, 255, 0.16);
+}
+
+.react-variant-warm-editorial {
+  --react-surface: #1c1917;
+  --react-border: rgba(245, 158, 11, 0.22);
+  --react-pill-bg: rgba(245, 158, 11, 0.06);
+  --react-pill-hover-bg: rgba(245, 158, 11, 0.14);
+  --react-pill-border: rgba(245, 158, 11, 0.18);
+  --react-pill-active-bg: rgba(245, 158, 11, 0.22);
+  --react-pill-active-border: #f59e0b;
+  --react-pill-active-text: #fbbf24;
+  --react-text-main: #fef3c7;
+  --react-text-muted: #d6d3d1;
+  --react-popover-bg: #292524;
+  --react-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+/* =============================================================================
+   SIZES
+   ============================================================================= */
+
+.react-size-sm {
+  --react-pill-h: 28px;
+  --react-pill-px: 9px;
+  --react-emoji-size: 13px;
+  --react-count-size: 11px;
+  --react-gap: 5px;
+}
+
+.react-size-md {
+  --react-pill-h: 34px;
+  --react-pill-px: 12px;
+  --react-emoji-size: 16px;
+  --react-count-size: 12.5px;
+  --react-gap: 7px;
+}
+
+.react-size-lg {
+  --react-pill-h: 42px;
+  --react-pill-px: 15px;
+  --react-emoji-size: 20px;
+  --react-count-size: 14px;
+  --react-gap: 9px;
+}
+
+/* =============================================================================
+   BAR SURFACE & PILLS
+   ============================================================================= */
+
+.react-dock-surface {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--react-gap);
+  background: var(--react-surface);
+  border: 1px solid var(--react-border);
+  border-radius: 16px;
+  padding: 10px 12px;
+  box-shadow: var(--react-shadow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  position: relative;
+}
+
+.react-dock-surface--frameless {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.react-pill-btn {
+  position: relative;
+  height: var(--react-pill-h);
+  padding: 0 var(--react-pill-px);
+  border-radius: 999px;
+  border: 1px solid var(--react-pill-border);
+  background: var(--react-pill-bg);
+  color: var(--react-text-main);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  outline: none;
+  transition:
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.2s ease,
+    color 0.16s ease;
+}
+
+.react-pill-btn:hover:not(:disabled) {
+  background: var(--react-pill-hover-bg);
+  border-color: var(--react-pill-active-border);
+  transform: translateY(-2px);
+}
+
+.react-pill-btn:active:not(:disabled) {
+  transform: scale(0.93);
+}
+
+.react-pill-btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--react-pill-active-text);
+}
+
+.react-pill-btn:disabled {
+  cursor: default;
+  opacity: 0.78;
+}
+
+.react-pill-btn--active {
+  background: var(--react-pill-active-bg);
+  border-color: var(--react-pill-active-border);
+  color: var(--react-pill-active-text);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--react-pill-active-text) 22%, transparent);
+}
+
+.react-pill-btn--pop {
+  animation: react-pill-bounce 0.34s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes react-pill-bounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18, 0.9); }
+  72% { transform: scale(0.95, 1.08); }
+  100% { transform: scale(1); }
+}
+
+.react-pill-emoji {
+  font-size: var(--react-emoji-size);
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-pill-count {
+  font-family: var(--react-pill-font-mono);
+  font-size: var(--react-count-size);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.react-pill-count--tick {
+  animation: react-count-roll 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes react-count-roll {
+  from {
+    opacity: 0.35;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floating micro emoji pop on activate */
+.react-spark-emoji {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  font-size: 13px;
+  pointer-events: none;
+  animation: react-spark-float 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 6;
+}
+
+@keyframes react-spark-float {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -22px) scale(1.25);
+  }
+}
+
+/* =============================================================================
+   HOVER TOOLTIP
+   ============================================================================= */
+
+.react-pill-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--react-popover-bg);
+  border: 1px solid var(--react-border);
+  color: var(--react-text-main);
+  font-size: 11px;
+  line-height: 1.3;
+  padding: 5px 9px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: var(--react-shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 20;
+}
+
+.react-pill-btn:hover .react-pill-tooltip,
+.react-pill-btn:focus-visible .react-pill-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* =============================================================================
+   ADD REACTION TRIGGER & POPOVER
+   ============================================================================= */
+
+.react-add-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.react-add-btn {
+  width: var(--react-pill-h);
+  height: var(--react-pill-h);
+  border-radius: 50%;
+  border: 1px dashed var(--react-pill-border);
+  background: transparent;
+  color: var(--react-text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--react-emoji-size) + 1px);
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.react-add-btn:hover:not(:disabled),
+.react-add-btn[aria-expanded='true'] {
+  border-style: solid;
+  border-color: var(--react-pill-active-border);
+  color: var(--react-pill-active-text);
+  background: var(--react-pill-active-bg);
+  transform: scale(1.06);
+}
+
+.react-add-btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--react-pill-active-text);
+}
+
+.react-popover {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  background: var(--react-popover-bg);
+  border: 1px solid var(--react-border);
+  border-radius: 14px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: var(--react-shadow);
+  z-index: 30;
+  animation: react-popover-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes react-popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.react-popover-pick {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-size: 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.14s ease;
+}
+
+.react-popover-pick:hover {
+  background: var(--react-pill-hover-bg);
+  transform: scale(1.2);
+}
+
+/* =============================================================================
+   COMPACT EXPLORER CARD MODE
+   ============================================================================= */
+
+.react-compact .react-dock-surface {
+  padding: 8px 10px;
+  border-radius: 14px;
+  box-shadow: none;
+  gap: 5px;
+}
+
+.react-compact .react-pill-btn {
+  height: 28px;
+  padding: 0 9px;
+  gap: 4px;
+}
+
+.react-compact .react-pill-emoji {
+  font-size: 13px;
+}
+
+.react-compact .react-pill-count {
+  font-size: 11px;
+}
+
+.react-compact .react-add-btn {
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .react-pill-btn,
+  .react-pill-btn--pop,
+  .react-pill-count--tick,
+  .react-spark-emoji,
+  .react-popover {
+    animation: none !important;
+    transition: none !important;
+  }
+}

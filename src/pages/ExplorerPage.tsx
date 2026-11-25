@@ -40,6 +40,7 @@ import { SpatialHexahedronDeck } from '../components/ui/spatial-hexahedron-deck'
 import { InteractiveLiveAvatarStack } from '../components/ui/live-avatar-stack';
 import { TactileColorPalettePicker } from '../components/ui/color-palette-picker';
 import { InteractiveSentimentRatingPill } from '../components/ui/sentiment-rating-pill';
+import { InteractiveReactionPillBar } from '../components/ui/reaction-pill-bar';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -963,6 +964,27 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         compact={true}
                         defaultValue={5}
                         soundEnabled={false}
+                        variant={isDark ? 'studio-obsidian' : 'clean-porcelain'}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'interactive-reaction-pill-bar' && (
+                    <div
+                      className="modui-card-preview-surface"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '12px',
+                      }}
+                    >
+                      <InteractiveReactionPillBar
+                        compact={true}
+                        soundEnabled={false}
+                        showTooltips={false}
                         variant={isDark ? 'studio-obsidian' : 'clean-porcelain'}
                       />
                     </div>
