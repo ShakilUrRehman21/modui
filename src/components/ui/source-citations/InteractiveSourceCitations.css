@@ -1,0 +1,432 @@
+/* -----------------------------------------------------------------------------
+ * InteractiveSourceCitations.css
+ * Pure Standard CSS Custom Properties & Zero External Runtime Dependencies
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --cite-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  --cite-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.cite-root {
+  width: 100%;
+  font-family: var(--cite-font-sans);
+  box-sizing: border-box;
+  outline: none;
+}
+
+.cite-root *,
+.cite-root *::before,
+.cite-root *::after {
+  box-sizing: border-box;
+}
+
+/* =============================================================================
+   VARIANTS
+   ============================================================================= */
+
+.cite-variant-studio-obsidian {
+  --cite-bg: rgba(13, 18, 30, 0.94);
+  --cite-card-border: rgba(255, 255, 255, 0.09);
+  --cite-drawer-bg: rgba(255, 255, 255, 0.04);
+  --cite-drawer-border: rgba(255, 255, 255, 0.08);
+  --cite-text-main: #f8fafc;
+  --cite-text-muted: #94a3b8;
+  --cite-accent: #38bdf8;
+  --cite-accent-bg: rgba(56, 189, 248, 0.14);
+  --cite-accent-border: rgba(56, 189, 248, 0.35);
+  --cite-green: #10b981;
+  --cite-green-bg: rgba(16, 185, 129, 0.14);
+  --cite-shadow: 0 16px 38px rgba(0, 0, 0, 0.42);
+}
+
+.cite-variant-clean-porcelain {
+  --cite-bg: #ffffff;
+  --cite-card-border: rgba(15, 23, 42, 0.1);
+  --cite-drawer-bg: #f8fafc;
+  --cite-drawer-border: rgba(15, 23, 42, 0.08);
+  --cite-text-main: #0f172a;
+  --cite-text-muted: #475569;
+  --cite-accent: #0284c7;
+  --cite-accent-bg: rgba(2, 132, 199, 0.1);
+  --cite-accent-border: rgba(2, 132, 199, 0.32);
+  --cite-green: #059669;
+  --cite-green-bg: rgba(5, 150, 105, 0.1);
+  --cite-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.cite-variant-cyber-neon {
+  --cite-bg: #060911;
+  --cite-card-border: rgba(0, 240, 255, 0.24);
+  --cite-drawer-bg: rgba(0, 240, 255, 0.045);
+  --cite-drawer-border: rgba(0, 240, 255, 0.2);
+  --cite-text-main: #e0f2fe;
+  --cite-text-muted: #7dd3fc;
+  --cite-accent: #00f0ff;
+  --cite-accent-bg: rgba(0, 240, 255, 0.16);
+  --cite-accent-border: rgba(0, 240, 255, 0.48);
+  --cite-green: #34d399;
+  --cite-green-bg: rgba(52, 211, 153, 0.14);
+  --cite-shadow: 0 0 34px rgba(0, 240, 255, 0.15);
+}
+
+.cite-variant-warm-editorial {
+  --cite-bg: #1c1917;
+  --cite-card-border: rgba(245, 158, 11, 0.22);
+  --cite-drawer-bg: rgba(245, 158, 11, 0.05);
+  --cite-drawer-border: rgba(245, 158, 11, 0.18);
+  --cite-text-main: #fef3c7;
+  --cite-text-muted: #d6d3d1;
+  --cite-accent: #f59e0b;
+  --cite-accent-bg: rgba(245, 158, 11, 0.16);
+  --cite-accent-border: rgba(245, 158, 11, 0.42);
+  --cite-green: #34d399;
+  --cite-green-bg: rgba(52, 211, 153, 0.14);
+  --cite-shadow: 0 16px 38px rgba(0, 0, 0, 0.45);
+}
+
+/* =============================================================================
+   SIZES
+   ============================================================================= */
+
+.cite-size-sm {
+  --cite-max-w: 440px;
+  --cite-pad: 1rem;
+  --cite-body-font: 0.84rem;
+  --cite-quote-font: 0.78rem;
+}
+
+.cite-size-md {
+  --cite-max-w: 560px;
+  --cite-pad: 1.35rem;
+  --cite-body-font: 0.94rem;
+  --cite-quote-font: 0.84rem;
+}
+
+.cite-size-lg {
+  --cite-max-w: 660px;
+  --cite-pad: 1.7rem;
+  --cite-body-font: 1.04rem;
+  --cite-quote-font: 0.9rem;
+}
+
+/* =============================================================================
+   CARD & ANSWER PROSE
+   ============================================================================= */
+
+.cite-card {
+  width: 100%;
+  max-width: var(--cite-max-w);
+  margin: 0 auto;
+  background: var(--cite-bg);
+  border: 1px solid var(--cite-card-border);
+  border-radius: 18px;
+  padding: var(--cite-pad);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--cite-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.cite-top-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cite-grounding-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--cite-font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--cite-green-bg);
+  color: var(--cite-green);
+}
+
+.cite-grounding-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cite-green);
+  box-shadow: 0 0 6px var(--cite-green);
+}
+
+.cite-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cite-step-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid var(--cite-drawer-border);
+  background: var(--cite-drawer-bg);
+  color: var(--cite-text-main);
+  font-size: 13px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.cite-step-btn:hover {
+  border-color: var(--cite-accent);
+  color: var(--cite-accent);
+}
+
+.cite-step-btn:focus-visible {
+  outline: 2px solid var(--cite-accent);
+  outline-offset: 1px;
+}
+
+.cite-answer {
+  font-size: var(--cite-body-font);
+  line-height: 1.65;
+  color: var(--cite-text-main);
+}
+
+.cite-inline-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--cite-font-mono);
+  font-size: 0.72em;
+  font-weight: 700;
+  padding: 1px 6px;
+  margin: 0 2px;
+  border-radius: 6px;
+  background: var(--cite-accent-bg);
+  color: var(--cite-accent);
+  border: 1px solid var(--cite-accent-border);
+  cursor: pointer;
+  vertical-align: middle;
+  transition: all 0.16s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cite-inline-chip:hover {
+  transform: translateY(-1px);
+}
+
+.cite-inline-chip:focus-visible {
+  outline: 2px solid var(--cite-accent);
+  outline-offset: 2px;
+}
+
+.cite-inline-chip--active {
+  background: var(--cite-accent);
+  color: #000000;
+  border-color: var(--cite-accent);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--cite-accent) 40%, transparent);
+  transform: scale(1.06);
+}
+
+/* =============================================================================
+   SOURCE VERIFICATION DRAWER
+   ============================================================================= */
+
+.cite-drawer {
+  background: var(--cite-drawer-bg);
+  border: 1px solid var(--cite-drawer-border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: cite-drawer-swap 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cite-drawer-swap {
+  from {
+    opacity: 0.4;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cite-source-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cite-source-identity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cite-source-index {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--cite-accent);
+  color: #000000;
+  font-family: var(--cite-font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cite-source-domain {
+  font-family: var(--cite-font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--cite-accent);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cite-source-domain:hover {
+  text-decoration: underline;
+}
+
+.cite-confidence-badge {
+  font-family: var(--cite-font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--cite-green);
+}
+
+.cite-source-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--cite-text-main);
+}
+
+.cite-quote {
+  font-size: var(--cite-quote-font);
+  line-height: 1.5;
+  color: var(--cite-text-muted);
+  border-left: 2.5px solid var(--cite-accent);
+  padding-left: 10px;
+  margin: 0;
+}
+
+/* Source strip tabs */
+.cite-source-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cite-strip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--cite-drawer-border);
+  background: var(--cite-drawer-bg);
+  color: var(--cite-text-muted);
+  font-family: var(--cite-font-mono);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cite-strip-btn:hover {
+  border-color: var(--cite-accent-border);
+  color: var(--cite-text-main);
+}
+
+.cite-strip-btn--active {
+  background: var(--cite-accent-bg);
+  border-color: var(--cite-accent);
+  color: var(--cite-accent);
+  font-weight: 700;
+}
+
+/* =============================================================================
+   COMPACT EXPLORER CARD MODE
+   ============================================================================= */
+
+.cite-compact .cite-card {
+  padding: 10px 12px;
+  gap: 6px;
+  border-radius: 14px;
+  box-shadow: none;
+  max-width: 340px;
+}
+
+.cite-compact .cite-grounding-pill {
+  font-size: 0.62rem;
+  padding: 2px 7px;
+}
+
+.cite-compact .cite-answer {
+  font-size: 0.72rem;
+  line-height: 1.38;
+}
+
+.cite-compact .cite-drawer {
+  padding: 7px 10px;
+  gap: 4px;
+  border-radius: 10px;
+}
+
+.cite-compact .cite-source-index {
+  width: 17px;
+  height: 17px;
+  font-size: 0.64rem;
+}
+
+.cite-compact .cite-source-domain,
+.cite-compact .cite-confidence-badge {
+  font-size: 0.66rem;
+}
+
+.cite-compact .cite-source-title,
+.cite-compact .cite-source-strip,
+.cite-compact .cite-stepper {
+  display: none;
+}
+
+.cite-compact .cite-quote {
+  font-size: 0.68rem;
+  line-height: 1.32;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .cite-compact .cite-top-meta {
+    display: none;
+  }
+  .cite-compact .cite-quote {
+    -webkit-line-clamp: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cite-inline-chip,
+  .cite-drawer {
+    animation: none !important;
+    transition: none !important;
+  }
+}

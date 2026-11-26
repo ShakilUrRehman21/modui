@@ -47,6 +47,18 @@ The following candidates have been rejected by the user and **must never be prop
 38. Dual-Thumb Range & Distribution Histogram Slider (`TactileDualRangeHistogram`)
 39. Cryptographic Password & Entropy Strength Input (`TactilePasswordStrengthInput`)
 40. Elastic Multi-Tag & Recipient Chip Composer (`TactileTagTokenInput`)
+41. Expandable AI Reasoning & Tool-Execution Trace (`InteractiveAIThoughtStream`)
+42. Precision Date & Range Picker Calendar (`TactileDateRangeCalendar`)
+43. Gesture-Driven Inbox Swipe Action Row (`TactileSwipeActionRow`)
+44. Horizontal Slide-to-Confirm Guard (`TactileSlideToConfirm`)
+45. Floating Multi-Select Contextual Action Bar (`InteractiveSelectionActionBar`)
+46. Physics-Driven Draggable Bottom Sheet (`TactileDraggableSheet`)
+47. Multi-Point Mesh Gradient Studio (`TactileMeshGradientStudio`)
+48. SaaS Notification Bell & Activity Center (`InteractiveActivityBellCenter`)
+49. Draggable Sticker & Sticky-Note Pinboard (`TactileStickerPinboard`)
+50. Conversational AI Voice Agent Orb (`InteractiveVoiceAgentOrb`)
+51. Multiplayer Spatial Pin & Cursor Canvas (`InteractiveMultiplayerPinCanvas`)
+- **Zero Repeat Rule**: Once a candidate is rejected or passed over in a batch, add it to the blacklist and NEVER propose or re-suggest it again.
 ## 3. Architecture & Project Constraints
 - **Zero External Style Dependencies**: Pure standard CSS custom properties and native React 19 APIs. No Tailwind classes inside component source code.
 - **Zero External Audio Assets**: All acoustic haptics must use native Web Audio API oscillators.
@@ -54,5 +66,5 @@ The following candidates have been rejected by the user and **must never be prop
 - **Git Push Rule**: Never push to remote repository without explicit user command ("push").
 
 ## 4. Approved Queue for Future Primitives
-*(Empty queue — generate fresh candidates compliant with 40-item blacklist)*
+*(Empty queue — generate fresh candidates compliant with 51-item blacklist)*
 

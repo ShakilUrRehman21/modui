@@ -41,6 +41,7 @@ import { InteractiveLiveAvatarStack } from '../components/ui/live-avatar-stack';
 import { TactileColorPalettePicker } from '../components/ui/color-palette-picker';
 import { InteractiveSentimentRatingPill } from '../components/ui/sentiment-rating-pill';
 import { InteractiveReactionPillBar } from '../components/ui/reaction-pill-bar';
+import { InteractiveSourceCitations } from '../components/ui/source-citations';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -985,6 +986,26 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                         compact={true}
                         soundEnabled={false}
                         showTooltips={false}
+                        variant={isDark ? 'studio-obsidian' : 'clean-porcelain'}
+                      />
+                    </div>
+                  )}
+
+                  {comp.slug === 'interactive-source-citations' && (
+                    <div
+                      className="modui-card-preview-surface"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '8px 12px',
+                      }}
+                    >
+                      <InteractiveSourceCitations
+                        compact={true}
+                        soundEnabled={false}
                         variant={isDark ? 'studio-obsidian' : 'clean-porcelain'}
                       />
                     </div>
