@@ -9,7 +9,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 [![React](https://img.shields.io/badge/React-19.0-61dafb.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6.svg?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg?logo=vite)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-309%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-315%20Passing-green.svg?logo=vitest)](https://vitest.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -24,10 +24,11 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 ---
 
-## Published Modules (42 Primitives)
+## Published Modules (43 Primitives)
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
+| **Prismatic Border Beam Button** | Buttons and Actions | Flagship SaaS hero CTA featuring an orbiting `@property` conic-gradient prismatic energy beam, cursor-reactive specular glass spotlight, 3D magnetic tilt, radial click pulse rings, and synthesized Web Audio crystal chimes | `src/components/ui/prismatic-border-beam-button` |
 | **Interactive Source Citations** | Status & Indicators | AI search and RAG-grounded citation inspector featuring clickable inline grounding chips, live verbatim quote drawer, domain trust links, confidence scoring, keyboard stepping, and Web Audio crystal detent ticks | `src/components/ui/source-citations` |
 | **Interactive Reaction Pill Bar** | Buttons and Actions | Multiplayer emoji reaction dock featuring spring-bounce toggle pills, rolling tabular counters, floating micro-spark activations, quick-add emoji popover, hover reactor tooltips, and ascending Web Audio marimba pop acoustics | `src/components/ui/reaction-pill-bar` |
 | **Interactive Sentiment Rating Pill** | Buttons and Actions | Tactile customer sentiment and CSAT/NPS feedback scrubber featuring fluid elastic track transitions, expressive squash-and-stretch avatar emojis, temperature-responsive aura glow, qualitative tags drawer, and synthesized pentatonic musical chime arpeggios | `src/components/ui/sentiment-rating-pill` |

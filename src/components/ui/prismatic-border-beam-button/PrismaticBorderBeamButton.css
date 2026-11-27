@@ -1,0 +1,273 @@
+/* -----------------------------------------------------------------------------
+ * PrismaticBorderBeamButton.css
+ * Pure Standard CSS Custom Properties & @property Conic Beam
+ * Zero External Runtime Style Dependencies
+ * -------------------------------------------------------------------------- */
+
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+:root {
+  --beam-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+}
+
+.beam-btn-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  perspective: 700px;
+}
+
+.beam-btn-root {
+  position: relative;
+  display: inline-flex;
+  padding: 1.5px;
+  border-radius: 999px;
+  border: none;
+  background: conic-gradient(
+    from var(--beam-angle),
+    var(--beam-track) 0deg,
+    var(--beam-track) 225deg,
+    var(--beam-c1) 265deg,
+    var(--beam-c2) 305deg,
+    var(--beam-c3) 340deg,
+    var(--beam-track) 360deg
+  );
+  animation: beam-orbit var(--beam-duration, 3.2s) linear infinite;
+  cursor: pointer;
+  outline: none;
+  font-family: var(--beam-font-sans);
+  box-shadow: var(--beam-outer-shadow);
+  transform-style: preserve-3d;
+  transition:
+    transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease,
+    opacity 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@keyframes beam-orbit {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+/* =============================================================================
+   VARIANTS
+   ============================================================================= */
+
+.beam-variant-obsidian-prism {
+  --beam-track: rgba(255, 255, 255, 0.12);
+  --beam-c1: #38bdf8;
+  --beam-c2: #a855f7;
+  --beam-c3: #f472b6;
+  --beam-surface: linear-gradient(180deg, #131b2e 0%, #070b14 100%);
+  --beam-text: #f8fafc;
+  --beam-specular: rgba(255, 255, 255, 0.14);
+  --beam-inner-rim: rgba(255, 255, 255, 0.16);
+  --beam-outer-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 24px rgba(56, 189, 248, 0.18);
+  --beam-hover-shadow: 0 14px 36px rgba(0, 0, 0, 0.55), 0 0 38px rgba(168, 85, 247, 0.34);
+}
+
+.beam-variant-porcelain-aurora {
+  --beam-track: rgba(15, 23, 42, 0.12);
+  --beam-c1: #0284c7;
+  --beam-c2: #6366f1;
+  --beam-c3: #10b981;
+  --beam-surface: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  --beam-text: #0f172a;
+  --beam-specular: rgba(2, 132, 199, 0.12);
+  --beam-inner-rim: rgba(255, 255, 255, 0.9);
+  --beam-outer-shadow: 0 8px 24px rgba(15, 23, 42, 0.1), 0 0 20px rgba(99, 102, 241, 0.16);
+  --beam-hover-shadow: 0 12px 32px rgba(15, 23, 42, 0.15), 0 0 30px rgba(2, 132, 199, 0.28);
+}
+
+.beam-variant-cyber-flare {
+  --beam-track: rgba(0, 240, 255, 0.16);
+  --beam-c1: #00f0ff;
+  --beam-c2: #34d399;
+  --beam-c3: #22d3ee;
+  --beam-surface: linear-gradient(180deg, #09101d 0%, #03060c 100%);
+  --beam-text: #e0f2fe;
+  --beam-specular: rgba(0, 240, 255, 0.16);
+  --beam-inner-rim: rgba(0, 240, 255, 0.22);
+  --beam-outer-shadow: 0 0 26px rgba(0, 240, 255, 0.22);
+  --beam-hover-shadow: 0 0 42px rgba(0, 240, 255, 0.42);
+}
+
+.beam-variant-solar-gold {
+  --beam-track: rgba(245, 158, 11, 0.18);
+  --beam-c1: #fbbf24;
+  --beam-c2: #f97316;
+  --beam-c3: #fef08a;
+  --beam-surface: linear-gradient(180deg, #241c15 0%, #140f0b 100%);
+  --beam-text: #fef3c7;
+  --beam-specular: rgba(251, 191, 36, 0.16);
+  --beam-inner-rim: rgba(254, 240, 138, 0.2);
+  --beam-outer-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 24px rgba(245, 158, 11, 0.2);
+  --beam-hover-shadow: 0 14px 36px rgba(0, 0, 0, 0.6), 0 0 38px rgba(251, 191, 36, 0.36);
+}
+
+/* =============================================================================
+   SIZES
+   ============================================================================= */
+
+.beam-size-sm {
+  --beam-px: 16px;
+  --beam-py: 8px;
+  --beam-font-size: 0.82rem;
+  --beam-gap: 7px;
+}
+
+.beam-size-md {
+  --beam-px: 24px;
+  --beam-py: 12px;
+  --beam-font-size: 0.92rem;
+  --beam-gap: 9px;
+}
+
+.beam-size-lg {
+  --beam-px: 32px;
+  --beam-py: 15px;
+  --beam-font-size: 1.02rem;
+  --beam-gap: 11px;
+}
+
+/* =============================================================================
+   INNER CAPSULE & INTERACTIONS
+   ============================================================================= */
+
+.beam-btn-inner {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--beam-gap);
+  padding: var(--beam-py) var(--beam-px);
+  border-radius: 999px;
+  background: var(--beam-surface);
+  color: var(--beam-text);
+  font-size: var(--beam-font-size);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 var(--beam-inner-rim);
+}
+
+.beam-spotlight-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    110px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+    var(--beam-specular),
+    transparent 70%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.beam-btn-root:hover:not(:disabled) .beam-spotlight-layer {
+  opacity: 1;
+}
+
+.beam-btn-root:hover:not(:disabled) {
+  box-shadow: var(--beam-hover-shadow);
+}
+
+.beam-btn-root:active:not(:disabled) {
+  transform: scale(0.96) !important;
+}
+
+.beam-btn-root:focus-visible {
+  box-shadow: 0 0 0 3px var(--beam-c1), var(--beam-hover-shadow);
+}
+
+.beam-btn-root:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  animation-play-state: paused;
+}
+
+.beam-btn-root--loading {
+  --beam-duration: 1.1s;
+  cursor: wait;
+}
+
+.beam-leading-icon,
+.beam-trailing-icon,
+.beam-label {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+}
+
+.beam-trailing-icon {
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.beam-btn-root:hover:not(:disabled) .beam-trailing-icon {
+  transform: translateX(3px);
+}
+
+.beam-spinner {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--beam-text) 25%, transparent);
+  border-top-color: var(--beam-c1);
+  animation: beam-spin 0.7s linear infinite;
+}
+
+@keyframes beam-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulse ring on click or imperative trigger */
+.beam-pulse-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 999px;
+  border: 1.5px solid var(--beam-c1);
+  pointer-events: none;
+  animation: beam-ring-out 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes beam-ring-out {
+  0% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.22, 1.45);
+  }
+}
+
+/* =============================================================================
+   COMPACT EXPLORER CARD MODE
+   ============================================================================= */
+
+.beam-compact .beam-btn-inner {
+  padding: 10px 20px;
+  font-size: 0.86rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam-btn-root,
+  .beam-spinner,
+  .beam-pulse-ring {
+    animation: none !important;
+    transition: none !important;
+  }
+}

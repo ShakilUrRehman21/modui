@@ -205,6 +205,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://modui.online/components/prismatic-border-beam-button</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://modui.online/components/quantum-orbit-beacon</loc>
     <lastmod>2026-11-10</lastmod>
     <changefreq>monthly</changefreq>

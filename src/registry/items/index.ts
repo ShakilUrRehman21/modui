@@ -41,6 +41,7 @@ import { tactileColorPalettePickerItem } from './tactile-color-palette-picker';
 import { interactiveSentimentRatingPillItem } from './interactive-sentiment-rating-pill';
 import { interactiveReactionPillBarItem } from './interactive-reaction-pill-bar';
 import { interactiveSourceCitationsItem } from './interactive-source-citations';
+import { prismaticBorderBeamButtonItem } from './prismatic-border-beam-button';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -85,4 +86,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   interactiveSentimentRatingPillItem,
   interactiveReactionPillBarItem,
   interactiveSourceCitationsItem,
+  prismaticBorderBeamButtonItem,
 ];

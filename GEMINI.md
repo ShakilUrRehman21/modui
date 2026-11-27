@@ -58,6 +58,18 @@ The following candidates have been rejected by the user and **must never be prop
 49. Draggable Sticker & Sticky-Note Pinboard (`TactileStickerPinboard`)
 50. Conversational AI Voice Agent Orb (`InteractiveVoiceAgentOrb`)
 51. Multiplayer Spatial Pin & Cursor Canvas (`InteractiveMultiplayerPinCanvas`)
+52. AI Model & Reasoning Effort Selector (`InteractiveModelEffortSelector`)
+53. Inline AI Prompt Variable Slot Composer (`InteractivePromptSlotComposer`)
+54. Autonomous Agent Approval Gate Capsule (`InteractiveAgentApprovalCapsule`)
+55. Multi-Band Graphic Equalizer Console (`InteractiveGraphicEQ`)
+56. Drag-and-Drop Priority Reorderable Queue (`InteractiveReorderableQueue`)
+57. Click-to-Zoom Product Hotspot Inspector (`InteractiveHotspotInspector`)
+58. AI Prompt & Context Attachment Composer (`InteractiveAIComposerBar`)
+59. Meeting & Demo Time-Slot Picker (`InteractiveTimeSlotPicker`)
+60. Multi-Tenant Workspace Breadcrumb Switcher (`InteractiveWorkspaceBreadcrumb`)
+61. Press-and-Hold Liquid Confirm Button (`TactileHoldConfirmButton`)
+62. Split Action Mode-Switcher Button (`InteractiveSplitActionButton`)
+63. Multi-Phase Async State Button (`InteractiveAsyncStateButton`)
 - **Zero Repeat Rule**: Once a candidate is rejected or passed over in a batch, add it to the blacklist and NEVER propose or re-suggest it again.
 ## 3. Architecture & Project Constraints
 - **Zero External Style Dependencies**: Pure standard CSS custom properties and native React 19 APIs. No Tailwind classes inside component source code.
@@ -66,5 +78,5 @@ The following candidates have been rejected by the user and **must never be prop
 - **Git Push Rule**: Never push to remote repository without explicit user command ("push").
 
 ## 4. Approved Queue for Future Primitives
-*(Empty queue — generate fresh candidates compliant with 51-item blacklist)*
+*(Empty queue — generate fresh candidates compliant with 63-item blacklist)*
 
