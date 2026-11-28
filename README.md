@@ -28,7 +28,7 @@ ModUI is an open-source collection of production-grade, highly interactive React
 
 | Component | Category | Highlights | Source Directory |
 | :--- | :--- | :--- | :--- |
-| **Interactive Popout Image Folder** | 3D & Showcase | 3D tactile image folder inspired by React Bits & Apple Finder where hovering or clicking parts the front pocket to fan out photo cards, and clicking any image opens a full-screen lightbox viewer | `src/components/ui/popout-folder` |
+| **Interactive Popout Image Folder** | 3D & Interactive Showcase | 3D tactile image folder inspired by React Bits & Apple Finder where hovering or clicking parts the front pocket to fan out photo cards, and clicking any image opens a full-screen lightbox viewer | `src/components/ui/popout-folder` |
 | **Prismatic Border Beam Button** | Buttons and Actions | Flagship SaaS hero CTA featuring an orbiting `@property` conic-gradient prismatic energy beam, cursor-reactive specular glass spotlight, 3D magnetic tilt, radial click pulse rings, and synthesized Web Audio crystal chimes | `src/components/ui/prismatic-border-beam-button` |
 | **Interactive Source Citations** | Status & Indicators | AI search and RAG-grounded citation inspector featuring clickable inline grounding chips, live verbatim quote drawer, domain trust links, confidence scoring, keyboard stepping, and Web Audio crystal detent ticks | `src/components/ui/source-citations` |
 | **Interactive Reaction Pill Bar** | Buttons and Actions | Multiplayer emoji reaction dock featuring spring-bounce toggle pills, rolling tabular counters, floating micro-spark activations, quick-add emoji popover, hover reactor tooltips, and ascending Web Audio marimba pop acoustics | `src/components/ui/reaction-pill-bar` |

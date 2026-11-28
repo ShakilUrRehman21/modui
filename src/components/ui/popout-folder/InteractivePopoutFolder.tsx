@@ -6,6 +6,7 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
+import { createPortal } from 'react-dom';
 import './InteractivePopoutFolder.css';
 
 export type PopoutFolderVariant =
@@ -251,61 +252,64 @@ export const InteractivePopoutFolder = forwardRef<
         </div>
       </div>
 
-      {activeImage && (
-        <div
-          className="pfolder-lightbox-backdrop"
-          role="dialog"
-          aria-modal="true"
-          aria-label={activeImage.title}
-          onClick={handleCloseLightbox}
-        >
+      {activeImage &&
+        typeof document !== 'undefined' &&
+        createPortal(
           <div
-            className="pfolder-lightbox-dialog"
-            onClick={(e) => e.stopPropagation()}
+            className="pfolder-lightbox-backdrop"
+            role="dialog"
+            aria-modal="true"
+            aria-label={activeImage.title}
+            onClick={handleCloseLightbox}
           >
-            <div className="pfolder-lightbox-media">
-              <img src={activeImage.src} alt={activeImage.title} />
+            <div
+              className="pfolder-lightbox-dialog"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="pfolder-lightbox-media">
+                <img src={activeImage.src} alt={activeImage.title} />
 
-              {images.length > 1 && (
-                <>
-                  <button
-                    type="button"
-                    className="pfolder-lightbox-nav pfolder-lightbox-prev"
-                    onClick={() => stepImage(-1)}
-                    aria-label="Previous image"
-                  >
-                    &lsaquo;
-                  </button>
-                  <button
-                    type="button"
-                    className="pfolder-lightbox-nav pfolder-lightbox-next"
-                    onClick={() => stepImage(1)}
-                    aria-label="Next image"
-                  >
-                    &rsaquo;
-                  </button>
-                </>
-              )}
-            </div>
-
-            <div className="pfolder-lightbox-bar">
-              <div>
-                <div className="pfolder-lightbox-title">{activeImage.title}</div>
-                <div className="pfolder-lightbox-sub">
-                  {activeImage.subtitle || `Image ${(activeImageIndex ?? 0) + 1} of ${images.length}`}
-                </div>
+                {images.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      className="pfolder-lightbox-nav pfolder-lightbox-prev"
+                      onClick={() => stepImage(-1)}
+                      aria-label="Previous image"
+                    >
+                      &lsaquo;
+                    </button>
+                    <button
+                      type="button"
+                      className="pfolder-lightbox-nav pfolder-lightbox-next"
+                      onClick={() => stepImage(1)}
+                      aria-label="Next image"
+                    >
+                      &rsaquo;
+                    </button>
+                  </>
+                )}
               </div>
-              <button
-                type="button"
-                className="pfolder-lightbox-close"
-                onClick={handleCloseLightbox}
-              >
-                Close
-              </button>
+
+              <div className="pfolder-lightbox-bar">
+                <div>
+                  <div className="pfolder-lightbox-title">{activeImage.title}</div>
+                  <div className="pfolder-lightbox-sub">
+                    {activeImage.subtitle || `Image ${(activeImageIndex ?? 0) + 1} of ${images.length}`}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="pfolder-lightbox-close"
+                  onClick={handleCloseLightbox}
+                >
+                  Close
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 });

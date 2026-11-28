@@ -8,7 +8,7 @@ export const interactivePopoutFolderItem: ComponentRegistryItem = {
   name: 'Interactive Popout Image Folder',
   description:
     '3D tactile image folder inspired by React Bits and Apple Finder. Hovering or clicking parts the front pocket in 3D perspective to fan out photo cards, and clicking any image opens a full-screen lightbox viewer with keyboard navigation and Web Audio haptics.',
-  category: '3D & Showcase',
+  category: '3D & Interactive Showcase',
   tags: [
     'folder',
     'images',
