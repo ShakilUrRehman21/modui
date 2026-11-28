@@ -70,6 +70,16 @@ The following candidates have been rejected by the user and **must never be prop
 61. Press-and-Hold Liquid Confirm Button (`TactileHoldConfirmButton`)
 62. Split Action Mode-Switcher Button (`InteractiveSplitActionButton`)
 63. Multi-Phase Async State Button (`InteractiveAsyncStateButton`)
+64. Dynamic Island Morphing Action Pill (`KineticMorphExpandButton`)
+65. SVG Gooey Metaball Magnetic Button (`GooeyLiquidMagneticButton`)
+66. Token-by-Token AI Stream Prose Renderer (`KineticAIStreamRenderer`)
+67. Frosted Privacy & API Secret Spoiler Shield (`TactilePrivacySpoilerShield`)
+68. Kinetic Copy-to-Clipboard Action Pill (`KineticCopyClipboardPill`)
+69. Hyperspace Warp Tunnel Launch Button (`WarpTunnelLaunchButton`)
+70. Curved Arc-Fan Card Showcase (`KineticArcCardFan`)
+71. Liquid Ferrofluid Iridescent Button (`IridescentMercuryButton`)
+72. Animated Bi-Directional Integration Beam (`AnimatedIntegrationBeam`)
+73. Horizontal / Vertical Hover-Expand Gallery (`HoverExpandGallery`)
 - **Zero Repeat Rule**: Once a candidate is rejected or passed over in a batch, add it to the blacklist and NEVER propose or re-suggest it again.
 ## 3. Architecture & Project Constraints
 - **Zero External Style Dependencies**: Pure standard CSS custom properties and native React 19 APIs. No Tailwind classes inside component source code.
@@ -78,5 +88,5 @@ The following candidates have been rejected by the user and **must never be prop
 - **Git Push Rule**: Never push to remote repository without explicit user command ("push").
 
 ## 4. Approved Queue for Future Primitives
-*(Empty queue — generate fresh candidates compliant with 63-item blacklist)*
+*(Empty queue — generate fresh candidates compliant with 73-item blacklist)*
 

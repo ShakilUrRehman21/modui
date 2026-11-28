@@ -42,6 +42,7 @@ import { interactiveSentimentRatingPillItem } from './interactive-sentiment-rati
 import { interactiveReactionPillBarItem } from './interactive-reaction-pill-bar';
 import { interactiveSourceCitationsItem } from './interactive-source-citations';
 import { prismaticBorderBeamButtonItem } from './prismatic-border-beam-button';
+import { interactivePopoutFolderItem } from './interactive-popout-folder';
 
 export const allRegistryItems: ComponentRegistryItem[] = [
   animatedButtonItem,
@@ -87,4 +88,5 @@ export const allRegistryItems: ComponentRegistryItem[] = [
   interactiveReactionPillBarItem,
   interactiveSourceCitationsItem,
   prismaticBorderBeamButtonItem,
+  interactivePopoutFolderItem,
 ];

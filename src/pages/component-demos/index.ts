@@ -48,6 +48,7 @@ export const COMPONENT_DEMOS: Record<string, React.LazyExoticComponent<React.Com
   'interactive-reaction-pill-bar': React.lazy(() => import('./InteractiveReactionPillBarDemo')),
   'interactive-source-citations': React.lazy(() => import('./InteractiveSourceCitationsDemo')),
   'prismatic-border-beam-button': React.lazy(() => import('./PrismaticBorderBeamButtonDemo')),
+  'interactive-popout-folder': React.lazy(() => import('./InteractivePopoutFolderDemo')),
 };
 
 export default COMPONENT_DEMOS;

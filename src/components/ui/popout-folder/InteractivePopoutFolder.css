@@ -1,0 +1,468 @@
+/* -----------------------------------------------------------------------------
+ * InteractivePopoutFolder.css
+ * 3D Tactile Image Folder with Fanned Photo Cards & Lightbox Viewer
+ * Pure Standard CSS Custom Properties & Zero External Style Dependencies
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --pfolder-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  --pfolder-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.pfolder-root {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--pfolder-font-sans);
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pfolder-root *,
+.pfolder-root *::before,
+.pfolder-root *::after {
+  box-sizing: border-box;
+}
+
+/* =============================================================================
+   VARIANTS
+   ============================================================================= */
+
+.pfolder-variant-cobalt-studio {
+  --pf-back: linear-gradient(180deg, #1d4ed8 0%, #1e3a8a 100%);
+  --pf-tab: #1d4ed8;
+  --pf-front: linear-gradient(165deg, #38bdf8 0%, #2563eb 65%, #1d4ed8 100%);
+  --pf-border: rgba(255, 255, 255, 0.28);
+  --pf-text: #ffffff;
+  --pf-sub: rgba(255, 255, 255, 0.78);
+  --pf-shadow: 0 18px 38px rgba(37, 99, 235, 0.34);
+}
+
+.pfolder-variant-obsidian-glass {
+  --pf-back: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  --pf-tab: #1e293b;
+  --pf-front: linear-gradient(165deg, rgba(30, 41, 59, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%);
+  --pf-border: rgba(56, 189, 248, 0.35);
+  --pf-text: #f8fafc;
+  --pf-sub: #94a3b8;
+  --pf-shadow: 0 18px 38px rgba(0, 0, 0, 0.5);
+}
+
+.pfolder-variant-porcelain-frost {
+  --pf-back: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%);
+  --pf-tab: #cbd5e1;
+  --pf-front: linear-gradient(165deg, #ffffff 0%, #e2e8f0 100%);
+  --pf-border: rgba(15, 23, 42, 0.14);
+  --pf-text: #0f172a;
+  --pf-sub: #475569;
+  --pf-shadow: 0 16px 34px rgba(15, 23, 42, 0.14);
+}
+
+.pfolder-variant-amber-archive {
+  --pf-back: linear-gradient(180deg, #b45309 0%, #78350f 100%);
+  --pf-tab: #b45309;
+  --pf-front: linear-gradient(165deg, #fbbf24 0%, #d97706 70%, #b45309 100%);
+  --pf-border: rgba(254, 243, 199, 0.34);
+  --pf-text: #1c1917;
+  --pf-sub: rgba(28, 25, 23, 0.78);
+  --pf-shadow: 0 18px 38px rgba(217, 119, 6, 0.3);
+}
+
+/* =============================================================================
+   SIZES
+   ============================================================================= */
+
+.pfolder-size-sm {
+  --pf-w: 170px;
+  --pf-h: 124px;
+  --pf-img-w: 98px;
+  --pf-img-h: 82px;
+  --pf-fan-y: -48px;
+  --pf-fan-x: 42px;
+  --pf-top-pad: 48px;
+}
+
+.pfolder-size-md {
+  --pf-w: 224px;
+  --pf-h: 158px;
+  --pf-img-w: 132px;
+  --pf-img-h: 108px;
+  --pf-fan-y: -68px;
+  --pf-fan-x: 58px;
+  --pf-top-pad: 68px;
+}
+
+.pfolder-size-lg {
+  --pf-w: 276px;
+  --pf-h: 192px;
+  --pf-img-w: 162px;
+  --pf-img-h: 132px;
+  --pf-fan-y: -84px;
+  --pf-fan-x: 72px;
+  --pf-top-pad: 84px;
+}
+
+/* =============================================================================
+   3D FOLDER POCKET & FANNED IMAGES
+   ============================================================================= */
+
+.pfolder-stage {
+  padding-top: var(--pf-top-pad);
+  padding-left: 36px;
+  padding-right: 36px;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pfolder-shell {
+  position: relative;
+  width: var(--pf-w);
+  height: var(--pf-h);
+  perspective: 900px;
+  cursor: pointer;
+  outline: none;
+}
+
+.pfolder-shell:focus-visible .pfolder-front {
+  box-shadow: 0 0 0 3px #38bdf8, var(--pf-shadow);
+}
+
+.pfolder-tab {
+  position: absolute;
+  top: -13px;
+  left: 0;
+  width: 38%;
+  height: 18px;
+  border-radius: 10px 10px 0 0;
+  background: var(--pf-tab);
+  border-top: 1px solid var(--pf-border);
+  border-left: 1px solid var(--pf-border);
+  border-right: 1px solid var(--pf-border);
+}
+
+.pfolder-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 0 16px 16px 16px;
+  background: var(--pf-back);
+  border: 1px solid var(--pf-border);
+  box-shadow: var(--pf-shadow);
+}
+
+/* Fanned Image Cards inside the pocket */
+.pfolder-cards-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.pfolder-photo-card {
+  position: absolute;
+  top: 14px;
+  width: var(--pf-img-w);
+  height: var(--pf-img-h);
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  background: #0f172a;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease,
+    border-color 0.2s ease;
+  outline: none;
+}
+
+.pfolder-photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.pfolder-photo-card:hover img {
+  transform: scale(1.08);
+}
+
+.pfolder-photo-card:focus-visible {
+  box-shadow: 0 0 0 3px #38bdf8, 0 12px 26px rgba(0, 0, 0, 0.45);
+}
+
+.pfolder-photo-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px 7px 5px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.78));
+  color: #ffffff;
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.pfolder-shell:hover .pfolder-photo-caption,
+.pfolder-shell--open .pfolder-photo-caption {
+  opacity: 1;
+}
+
+/* Resting stacked positions */
+.pfolder-photo-0 {
+  transform: translate(-4px, 2px) rotate(-3deg);
+  z-index: 1;
+}
+.pfolder-photo-1 {
+  transform: translate(0px, 0px) rotate(1deg);
+  z-index: 2;
+}
+.pfolder-photo-2 {
+  transform: translate(4px, 3px) rotate(4deg);
+  z-index: 3;
+}
+
+/* Fanned out open positions */
+.pfolder-shell:hover .pfolder-photo-0,
+.pfolder-shell--open .pfolder-photo-0 {
+  transform: translate(calc(var(--pf-fan-x) * -1), calc(var(--pf-fan-y) * 0.86)) rotate(-13deg);
+}
+
+.pfolder-shell:hover .pfolder-photo-1,
+.pfolder-shell--open .pfolder-photo-1 {
+  transform: translate(0px, var(--pf-fan-y)) rotate(1deg) scale(1.04);
+}
+
+.pfolder-shell:hover .pfolder-photo-2,
+.pfolder-shell--open .pfolder-photo-2 {
+  transform: translate(var(--pf-fan-x), calc(var(--pf-fan-y) * 0.84)) rotate(13deg);
+}
+
+.pfolder-shell:hover .pfolder-photo-card:hover,
+.pfolder-shell--open .pfolder-photo-card:hover {
+  z-index: 10;
+  border-color: #38bdf8;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Front Folder Pocket Flap */
+.pfolder-front {
+  position: absolute;
+  inset: 14px 0 0 0;
+  border-radius: 14px 14px 16px 16px;
+  background: var(--pf-front);
+  border: 1px solid var(--pf-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 8px 22px rgba(0, 0, 0, 0.25);
+  transform-origin: bottom center;
+  transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 4;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.pfolder-shell:hover .pfolder-front,
+.pfolder-shell--open .pfolder-front {
+  transform: rotateX(-28deg);
+}
+
+.pfolder-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--pf-text);
+  letter-spacing: -0.015em;
+}
+
+.pfolder-meta {
+  font-family: var(--pfolder-font-mono);
+  font-size: 0.68rem;
+  color: var(--pf-sub);
+}
+
+/* =============================================================================
+   LIGHTBOX IMAGE VIEWER MODAL
+   ============================================================================= */
+
+.pfolder-lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 17, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: pfolder-fade-in 0.2s ease;
+}
+
+@keyframes pfolder-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.pfolder-lightbox-dialog {
+  width: 100%;
+  max-width: 760px;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.65);
+  animation: pfolder-zoom-in 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pfolder-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.93) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.pfolder-lightbox-media {
+  position: relative;
+  width: 100%;
+  max-height: 68vh;
+  background: #050811;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pfolder-lightbox-media img {
+  width: 100%;
+  max-height: 68vh;
+  object-fit: contain;
+  display: block;
+}
+
+.pfolder-lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 23, 42, 0.78);
+  color: #ffffff;
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.pfolder-lightbox-nav:hover {
+  background: #38bdf8;
+  color: #000000;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.pfolder-lightbox-prev { left: 14px; }
+.pfolder-lightbox-next { right: 14px; }
+
+.pfolder-lightbox-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pfolder-lightbox-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.pfolder-lightbox-sub {
+  font-family: var(--pfolder-font-mono);
+  font-size: 0.74rem;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.pfolder-lightbox-close {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pfolder-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* =============================================================================
+   COMPACT EXPLORER CARD MODE
+   ============================================================================= */
+
+.pfolder-compact .pfolder-stage {
+  padding-top: 42px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 4px;
+}
+
+.pfolder-compact.pfolder-size-sm {
+  --pf-w: 158px;
+  --pf-h: 108px;
+  --pf-img-w: 88px;
+  --pf-img-h: 72px;
+  --pf-fan-y: -40px;
+  --pf-fan-x: 38px;
+  --pf-top-pad: 42px;
+}
+
+.pfolder-compact .pfolder-front {
+  padding: 10px 12px;
+}
+
+.pfolder-compact .pfolder-title {
+  font-size: 0.78rem;
+}
+
+.pfolder-compact .pfolder-meta {
+  font-size: 0.62rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pfolder-photo-card,
+  .pfolder-front,
+  .pfolder-lightbox-backdrop,
+  .pfolder-lightbox-dialog {
+    animation: none !important;
+    transition: none !important;
+  }
+}

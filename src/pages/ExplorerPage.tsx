@@ -43,6 +43,7 @@ import { InteractiveSentimentRatingPill } from '../components/ui/sentiment-ratin
 import { InteractiveReactionPillBar } from '../components/ui/reaction-pill-bar';
 import { InteractiveSourceCitations } from '../components/ui/source-citations';
 import { PrismaticBorderBeamButton } from '../components/ui/prismatic-border-beam-button';
+import { InteractivePopoutFolder } from '../components/ui/popout-folder';
 import { trackPreviewOpen } from '../lib/analytics';
 import './ExplorerPage.css';
 
@@ -1031,6 +1032,28 @@ export const ExplorerPage: React.FC<ExplorerPageProps> = ({
                       >
                         Launch Workspace
                       </PrismaticBorderBeamButton>
+                    </div>
+                  )}
+
+                  {comp.slug === 'interactive-popout-folder' && (
+                    <div
+                      className="modui-card-preview-surface"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '6px 12px',
+                      }}
+                    >
+                      <InteractivePopoutFolder
+                        compact={true}
+                        size="sm"
+                        defaultOpen={true}
+                        soundEnabled={false}
+                        variant={isDark ? 'obsidian-glass' : 'cobalt-studio'}
+                      />
                     </div>
                   )}
 
